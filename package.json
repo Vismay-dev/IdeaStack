@@ -1,0 +1,33 @@
+{
+  "name": "ideastack",
+  "version": "1.0.0",
+  "description": "STEM Project Platform",
+  "main": "app.js",
+  "scripts": {
+    "build": "cd client && npm install && npm run build",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "Vismay Suramwar",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.1.2",
+    "nodemailer": "^6.7.2",
+    "nodemon": "^2.0.13"
+  },
+  "engines": {
+    "node": "16.13.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vismay-dev/IdeaStack-Prelaunch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Vismay-dev/IdeaStack-Prelaunch/issues"
+  },
+  "homepage": "https://github.com/Vismay-dev/IdeaStack-Prelaunch#readme"
+}
