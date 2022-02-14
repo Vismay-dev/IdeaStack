@@ -367,7 +367,7 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
           <div onClick = { ()=> {
               window.open('atpstem.com','_blank')
            }
-          }className="col-span-1 sm:col-span-1 lg:col-span-1 py-12 px-5 flex hover:cursor-pointer hover:shadow-md hover:shadow-indigo-200 justify-center items-center bg-white shadow-xl rounded-md border-t-2 border-gray-300">
+          }className="col-span-1 sm:col-span-1 lg:col-span-1 py-12 px-5 flex hover:cursor-pointer hover:shadow-lg hover:shadow-indigo-300 justify-center items-center bg-white shadow-xl rounded-md border-t-2 border-gray-300">
             <img src={atp} alt="" className="max-h-32 bottom-1 relative" />
           </div>
 
