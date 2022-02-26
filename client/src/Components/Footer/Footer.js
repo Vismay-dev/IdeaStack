@@ -1,9 +1,12 @@
 import logo from '../NavMenu/logo2.jpg'
+import {useLocation} from 'react-router-dom'
 
 const Footer = () => {
 
+    const location = useLocation()
+
     return (
-        <footer className="px-4 lg:py-10 sm:py-3 pt-0 pb-3 dark:bg-blue-900 opacity-80 dark:text-gray-100 mt-96 md:-mb-80 -mb-96 relative lg:top-32 md:top-36 top-64">
+        <footer className={`px-4 lg:py-10 sm:py-3 pt-0 pb-3 dark:bg-blue-900 opacity-80 dark:text-gray-100 ${location.pathname==='/home'?'mt-96':'mt-40'} md:-mb-80 -mb-102 relative lg:top-36 md:top-36 top-64`}>
         <div className="container flex flex-wrap items-center justify-center mx-auto space-y-4 sm:justify-between sm:space-y-0">
             <div className="flex flex-row pr-3 relative lg:top-0 sm:-top-3 top-0 lg:right-0 right-44  lg:mx-0 mx-auto space-x-4 sm:space-x-8">
                 <img src = {logo} className='w-36 rounded-lg shadow-md lg:mr-16 mr-60  shadow-gray-900 lg:visible invisible' style = {{'width':'144px', 'height':'80px'}}></img>

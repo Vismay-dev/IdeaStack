@@ -5,8 +5,28 @@ const cors = require('cors')
 const RoutesAPI = require('./server/routes/RoutesAPI')
 const path = require('path')
 const dotenv = require('dotenv')
+const http = require('http').createServer(app)
+const jwt = require('jsonwebtoken')
+const User = require('./server/models/studentUser')
+const cloudinary = require('cloudinary')
 
 dotenv.config()
+
+app.use(cors())
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+})
+
+const io = require('socket.io')(http, {
+    cors: {
+      origin: process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com:3000':'http://localhost:3000',
+      methods: ["GET", "POST"]
+    }
+  }) 
+
 
 mongoose.connect(process.env.MONGODB,{useUnifiedTopology:true,useNewUrlParser:true },
     ).then(()=> {
@@ -17,19 +37,25 @@ mongoose.connection.on('error', function (err) { console.log(err) });
 
 app.use(express.json())
 
-app.use(cors())
+
+io.on('connection', (socket) => {
+   
+})
 
 const port = process.env.PORT||4000;
 
 app.use('/api/user',RoutesAPI)
 
+
 if(process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
+    app.use('*', express.static('client/build'));     
+
     app.get('*', (req,res)=> {
         res.sendFile(path.resolve(__dirname,'client','build','index.html'))
     })
 }
 
-app.listen(port,()=> {
+http.listen(port,()=> {
     console.log(`- Successfully connected to server at port ${port}`)
 })

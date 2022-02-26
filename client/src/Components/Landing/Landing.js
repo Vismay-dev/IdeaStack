@@ -4,32 +4,41 @@ import team from './images/team.jpg'
 import atp from './images/atplogo.png'
 import Contact from './Contact'
 
+import { useEffect } from 'react'
+
 import {GrNetwork, GrUserExpert} from 'react-icons/gr'
 import {GiArchiveResearch} from 'react-icons/gi'
 import {FaUserTie} from 'react-icons/fa'
 
+import AOS from 'aos';
+import "aos/dist/aos.css";
+
+
 const Landing = () => {
+
+  useEffect(() => {
+    AOS.init({
+      duration : 1200
+    });
+  }, []);
 
     return (
         <>
         <div class="pt-44 lg:pb-12 pb-0 overflow-hidden bg-gradient-to-r from-gray-200 to-blue-200">
-      <div class=" sm:left-14 left-16 xl:px-14 xs2:px-20 px-4 xl:left-12 xl:bottom-0 bottom-4 relative container mx-auto flex flex-wrap flex-col md:flex-row items-center">
+      <div  class=" sm:left-14 left-16 xl:px-14 xs2:px-20 px-4 xl:left-12 xl:bottom-0 bottom-4 relative container mx-auto flex flex-wrap flex-col md:flex-row items-center">
         <div class="flex flex-col xl:w-2/5 lg:w-3/5 relative xl:-right-6 xl:bottom-2 lg:-bottom-5 lg:right-72 md:right-6 sm:right-40 right-16 bottom-5 md:pl-0 sm:pl-8 pl-0 sm:w-full w-full mx-auto justify-center items-start text-left">
           <p class="uppercase font-medium sm:text-base text-sm  text-center lg:right-0 md:right-16 sm:-right-12 sm:left-20 md:-left-10 lg:-left-0 right-0 mx-auto  top-5 -mt-10   relative md:w-full w-80">IdeaStack™ - Developing Platform</p>
           <h1 class="relative my-4 mb-7 md:-ml-12 text-center mx-auto lg:text-7xl md:text-7xl  xl:-ml-20 lg:-ml-12 sm:text-6xl text-5xl sm:left-20 -left-1 font-bold leading-tight">
             Coming <span class = " text-blue-700">Soon!</span> 
           </h1>
-          <p class="leading-normal font-medium mx-auto xl:text-2xl lg:-right-1 lg:left-0 md:right-9  sm:-right-24 sm:left-20 md:-left-10 xs:right-3 right-0   xs:w-96 md:w-3/4  lg:w-full md:text-xl sm:text-xl w-80 text-lg mb-12 mt-2 relative text-center">
+          <p class="leading-normal font-medium mx-auto xl:text-xl lg:-right-1 lg:left-0 md:right-9  sm:-right-24 sm:left-20 md:-left-10 xs:right-3 right-0   xs:w-96 md:w-3/4  lg:w-full md:text-xl sm:text-xl w-80 text-lg mb-12 mt-6 relative text-center">
           Networking and Consultancy Platform to Help Students Plan and Launch STEM Projects
           </p>
-          <button onClick={()=> {window.scrollTo({
-                top:710,
-                left:0,
-                behavior:'smooth'
-              })}}
-class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  relative xs:-mb-4 bottom-4  bg-white text-gray-800 font-bold rounded-lg  my-4 sm:py-4 py-3 hover:cursor-pointer z-20 md:px-6 sm:px-8 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+          <a
+          href = '#about'
+class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  relative xs:-mb-4 bottom-8  bg-white text-gray-800 font-bold rounded-lg  my-4 sm:py-4 py-3 hover:cursor-pointer z-20 md:px-6 sm:px-8 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
             Learn More
-          </button>
+          </a>
         </div>
         <div class="w-full md:w-3/5 py-6 text-center  ">
           <img class="left-1/2 -mt-96 bottom-32 absolute w-3/4 z-0 -right-20 transform filter brightness-95 xl:visible invisible rotate-180 contrast-90" src={net} />
@@ -66,9 +75,10 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
 
 
 
-    <section class="bg-white border-b py-2">
-      <div class="max-w-5xl  mx-auto m-8">
-        <h1 class="w-full my-2 text-5xl font-bold leading-tight sm:mb-5 md:mb-8 mb-1 text-center text-gray-800">
+    <section class="bg-white border-b py-2" >
+      <div class="max-w-5xl  mx-auto m-8" data-aos={"fade-up"} data-aos-once='true'>
+        <p id = 'about' class = 'relative bottom-14' />
+        <h1  class="w-full my-2 text-5xl font-bold leading-tight sm:mb-5 md:mb-8 mb-1 text-center text-gray-800">
           About Us
         </h1>
         <div class="w-full mb-4">
@@ -254,15 +264,16 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
         </div>
       </div>
     </section>
-    <section class="bg-white border-b py-8">
-      <div class="container mx-auto flex flex-wrap pt-4 pb-12">
+    <p class = 'relative bottom-14' id = 'features'/>
+    <section class="bg-white border-b py-8" >
+      <div class="container mx-auto flex flex-wrap pt-4 pb-12" >
         <h1 class="w-full my-2 text-5xl font-bold leading-tight mb-7 text-center text-gray-800">
           Features & Services
         </h1>
         <div class="w-full mb-4">
           <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
         </div>
-        <div class="w-full lg:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
+        <div data-aos={"fade-up"} data-aos-once='true' class="w-full lg:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
           <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow-xl pt-7">
             <a class="flex flex-wrap no-underline hover:no-underline text-center">
               <p class="w-full text-gray-600 text-xs md:text-sm px-6 mb-2">
@@ -282,7 +293,7 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
             </div>
           </div>
         </div>
-        <div class="w-full lg:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
+        <div data-aos={"fade-up"} data-aos-once='true' class="w-full lg:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
           <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow-xl pt-7">
             <a class="flex flex-wrap no-underline hover:no-underline text-center">
               <p class="w-full text-gray-600 text-xs md:text-sm px-6 mb-2">
@@ -302,7 +313,7 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
             </div>
           </div>
         </div>
-        <div class="w-full lg:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
+        <div data-aos={"fade-up"} data-aos-once='true' class="w-full lg:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
           <div class="flex-1 bg-white rounded-md rounded-b-none overflow-hidden shadow-lg shadow-yellow-600 pt-7 text-center border-2 border-b-1 border-gold">
             <a class="flex flex-wrap no-underline hover:no-underline">
               <p class="w-full text-gray-600 text-xs md:text-sm px-6 mb-2">
@@ -346,8 +357,9 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
         </g>
       </g>
     </svg>
+    <p id = 'partners' class = 'relative bottom-52'/>
         <div class = "h-auto md:pb-10 pb-20 xs:pt-6 xs3:pt-6 pt-10  px-4">
-        <h1 class="w-full my-2 lg:-top-28 lg:-mb-12 md:-top-20 md:-mb-6 -top-11 mb-1 relative text-5xl font-bold leading-tight  text-center text-gray-800">
+        <h1  class="w-full my-2 lg:-top-28 lg:-mb-12 md:-top-20 md:-mb-6 -top-11 mb-1 relative text-5xl font-bold leading-tight  text-center text-gray-800">
           Our Trusted Partner
         </h1>
 {/* {lg:w-5/12 md:w-7/12 sm:w-8/12} */}
@@ -361,11 +373,11 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
             </div></a> */}
             {/* <div class = "md:col-span-1 col-span-3 bg-white h-72 shadow-xl border-t-2 border-midnight rounded-lg"></div> */}
         {/* </div> */}
-        <div className="grid grid-cols-1 xs3:w-80 w-72 mx-auto xs3:h-72 h-64 gap-6">
+        <div data-aos={"fade-up"} data-aos-once='true' className="grid grid-cols-1 xs3:w-80 w-72 mx-auto xs3:h-72 h-64 gap-6">
 
           {/* ::Partner 1 -> ALL */}
           <div onClick = { ()=> {
-              window.open('atpstem.com','_blank')
+              window.open('https://atpstem.com','_blank')
            }
           }className="col-span-1 sm:col-span-1 lg:col-span-1 py-12 px-5 flex hover:cursor-pointer hover:shadow-lg hover:shadow-indigo-300 justify-center items-center bg-white shadow-xl rounded-md border-t-2 border-gray-300">
             <img src={atp} alt="" className="max-h-32 bottom-1 relative" />
@@ -378,8 +390,7 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
 
         </div>
 
-
-        <Contact class = "-mt-4 mb-2 relative"/>
+        <Contact  class = "-mt-4 mb-2 relative"/>
 
 
     </>

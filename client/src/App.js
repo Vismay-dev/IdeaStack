@@ -3,7 +3,9 @@ import NavBar from "./Components/NavMenu/NavBar"
 import Footer from "./Components/Footer/Footer";
 import { useEffect, useState } from "react";
 import RiseLoader from "react-spinners/RiseLoader"
-
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import userContext from './context/userContext'
+import axios from "axios";
 
 function App() {
 
@@ -12,15 +14,44 @@ function App() {
     setLoading(true)
     setTimeout(()=> {
       setLoading(false)
-    },4000)
+    },3000)
   },[])
+
+  const location = useLocation()
+
+  const [user, setUser] = useState({
+    firstName : '',
+    lastName: '',
+    email: '',
+    password: '',
+    country: '',
+    age: 0,
+    city: '',
+    school: '',
+    interests:[],
+    projects:[]
+  })
+
+  const logIn = (userInfo) => {
+    setUser(userInfo)
+  }
+
+  useEffect(() => {
+    if(sessionStorage.getItem('token')!==null){
+      axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/getUser':'http://localhost:4000/api/user/getUser',
+      {token: sessionStorage.getItem('token')}).then(res=> {
+        setUser(res.data)
+      })
+  }
+},[user])
  
 
 
   return (
-    <div class = ' w-screen bg-gradient-to-r from-gray-200 to-blue-200 relative z-0 h-screen'>
+    <userContext.Provider value = {{user:user, setUser:setUser}}>
+    <div class = {` w-screen bg-gradient-to-r from-gray-200 to-blue-200 relative z-0 ${location.pathname === '/home' || loading ? 'h-screen':'h-max'}`}>
                 {!loading?<>
-                  <NavBar/>
+                  <NavBar loginFunc = {logIn}/>
                   <MainContent class = "-z-10"/>
                   <Footer/></>:
                 
@@ -32,6 +63,7 @@ function App() {
 
                 }
     </div>
+    </userContext.Provider>
   );
 }
 
