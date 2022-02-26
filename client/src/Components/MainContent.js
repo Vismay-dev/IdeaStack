@@ -1,9 +1,10 @@
 import NavBar from "./NavMenu/NavBar"
-
 import Landing from "./Landing/Landing"
+import Browse from "./Browse/Browse"
+import Profile from "./Profile/Profile"
 
 import {Switch, Route, Redirect} from 'react-router-dom'
-import Profile from "./Profile/Profile"
+
 
 const MainContent = () => {
 
@@ -18,6 +19,8 @@ const MainContent = () => {
                 }
             </Route>
             <Route path = '/profile'  render = {()=> sessionStorage.getItem('token')? <Profile/>:<Redirect to = '/'/>}  />
+            <Route path = '/browse'  render = {()=> sessionStorage.getItem('token')? <Browse/>:<Redirect to = '/'/>}  />
+
             <Route path = '/'>
             {!(sessionStorage.getItem('token'))  ? 
                      <Redirect to = '/home'/> :

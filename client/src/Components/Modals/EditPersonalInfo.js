@@ -61,7 +61,7 @@ axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com
     return (
 
 
-    <div class="mt-10 w-9/12 bg-gray-50 shadow-lg mx-auto sm:mt-0">
+    <div class="mt-10 w-11/12 bg-gray-50 shadow-lg mx-auto sm:mt-0">
     <div class="md:grid md:grid-cols-3 md:gap-6">
      
       <div class="mt-5 md:mt-0 md:col-span-3">

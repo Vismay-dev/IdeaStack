@@ -47,11 +47,12 @@ const NavBar = (props) => {
 
       const location = useLocation();
       const [pathParams, setPathParams] = useState()
+
       useEffect(()=> {
           const pathParamArr = [...location.pathname.split('/')]
           pathParamArr.shift()
           setPathParams(pathParamArr)
-      },[pathParams, location.pathname])
+      },[location.pathname])
 
 
       // const closeFuncAbout = () => {setAboutModalShow(false)}
@@ -94,10 +95,10 @@ const NavBar = (props) => {
     <div class="mx-auto w-screen lg:px-20 md:px-32 px-10 shadow-lg bg-white relative ">
       <div class="relative flex items-center justify-between">
         <a
-          href="/"
+          onClick = {() => {history.push('/')}}
           aria-label="Company"
           title="Company"
-          class="inline-flex items-center"
+          class="inline-flex items-center hover:cursor-pointer"
         >
             <img data-aos={"fade-left"} data-aos-once='true' src = {logo} className="w-40 -left-10 relative -mt-16 top-10 "/>
             
@@ -196,7 +197,7 @@ const NavBar = (props) => {
               onClick={()=> {
                 showModalOut()
               }}
-              className="ml-5 whitespace-nowrap inline-flex uppercase items-center justify-center px-3 py-2 border border-transparent rounded-md shadow-sm text-md  font-semibold hover:cursor-pointer  text-white bg-gradient-to-r from-blue-300 to-blue-500 hover:from-indigo-300 hover:to-indigo-500 active:bg-blue-500"
+              className="ml-5 whitespace-nowrap inline-flex uppercase items-center justify-center px-3 py-1.5 border border-transparent rounded-md shadow-sm text-md  font-semibold hover:cursor-pointer hover:shadow-lg  text-white bg-gradient-to-r from-blue-300 to-blue-500 hover:from-indigo-300 hover:to-indigo-500 active:bg-blue-500"
             >
             Log Out
             </a>

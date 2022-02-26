@@ -15,7 +15,6 @@ const Profile = () => {
     const currentUser = useContext(userContext)
     const userInfo = currentUser.user
     const [image, setImage] = useState(currentUser.user.profilePic?currentUser.user.profilePic:null)
-
     const [showToolTip, setShowToolTip] = useState(false)
     const [showToolTip2, setShowToolTip2] = useState(false)
     const [modalType, setModalType] = useState('')
@@ -29,17 +28,20 @@ const Profile = () => {
        })
     }
 
+    
 
-    if(userInfo){
-      if(userInfo.description) {
-        if(userInfo.description.trim() === ''){
-          currentUser.setUser({
-            ...currentUser.user,
-            description: null
-          })
+   
+      if(userInfo){
+        if(userInfo.description) {
+          if(userInfo.description.trim() === ''){
+            currentUser.setUser({
+              ...currentUser.user,
+              description: null
+            })
+          }
         }
       }
-    }
+  
 
     const submitHandler = () => {
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/updateUser':'http://localhost:4000/api/user/updateUser',{user, token:sessionStorage.getItem('token')}).then(res=> {
@@ -411,7 +413,7 @@ const Profile = () => {
                      rounded-full
                      text-base text-body-color
                      font-medium
-                     hover:border-primary hover:bg-gray-200 hover:text-indigo-600
+                     hover:border-primary hover:bg-white hover:text-indigo-600
                      transition
                      "
                      >
@@ -461,7 +463,7 @@ const Profile = () => {
                      rounded-full
                      text-base text-body-color
                      font-medium
-                     hover:border-primary hover:bg-gray-200 hover:text-indigo-600
+                     hover:border-primary hover:bg-white hover:text-indigo-600
                      transition
                      "
                      >
@@ -511,7 +513,7 @@ const Profile = () => {
                      rounded-full
                      text-base text-body-color
                      font-medium
-                     hover:border-primary hover:bg-gray-200 hover:text-indigo-600
+                     hover:border-primary hover:bg-white hover:text-indigo-600
                      transition
                      "
                      >
