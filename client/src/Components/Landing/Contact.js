@@ -52,7 +52,7 @@ const Contact = () => {
 
     return (
 
-        <div  class={`bg-gradient-to-b from-purple-600 to-blue-700 ${loading?'h-40':'h-96'} w-full`}>
+        <div  class={`bg-gradient-to-b ${loading?'h-40':'h-96'} w-full`}>
                             <p id = 'contact' class = 'relative -bottom-12'/>
 
             <div  class="w-full  flex items-center justify-center md:my-12">

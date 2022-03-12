@@ -54,8 +54,8 @@ useEffect(
       
         {/* Modal panel, show/hide based on modal state. */}
   
-      <div data-aos="fade-up" data-aos-once='true' class="pr-6 inline-block align-bottom z-50 bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-10/12">
-        <div ref = {myRef} class="bg-white px-1 pt-2 pb-2 sm:p-6 sm:pb-4 z-50">
+      <div data-aos="fade-up" data-aos-once='true' class="pr-6 relative top-2 inline-block align-bottom z-50 bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-10/12">
+        <div ref = {myRef} class="bg-white  px-1 pt-2 pb-2 sm:p-6 sm:pb-4 z-50">
           <div class="sm:flex sm:items-start">
             <div class=" text-center sm:mt-0 sm:ml-4 sm:text-left">   
               <div>
@@ -80,6 +80,9 @@ useEffect(
               sessionStorage.removeItem('token')
               history.push('/home')
               props.close()
+              if(props.loggedOut) {
+                props.loggedOut()
+              }
             }} class="-mt-1 mb-3 bottom-1 hover:shadow-lg group relative w-5/6 mx-auto flex justify-center py-1 px-2 border border-transparent text-md font-medium rounded-md text-white bg-gradient-to-r from-blue-300 to-blue-500 hover:from-blue-400 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
             <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                

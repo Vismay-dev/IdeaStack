@@ -4,6 +4,8 @@ import { useEffect, useState, useRef, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import logo from './logo2.png'
 import userContext from '../../context/userContext'
+import ExitModal from '../Modals/ExitModal';
+
 
 const SideModal = (props) => {
    const history = useHistory();
@@ -19,7 +21,7 @@ const SideModal = (props) => {
       () => {
         const listener = (event) => {
           // Do nothing if clicking ref's element or descendent elements
-          if (!myRef.current || myRef.current.contains(event.target)) {
+          if (!myRef.current || myRef.current.contains(event.target) || exitModalShow) {
             return;
           }
           props.close();
@@ -40,17 +42,33 @@ const SideModal = (props) => {
       [myRef, () => props.close()]
     );
 
+    const [exitModalShow, setExitModalShow] = useState(false)
+
     const userCont = useContext(userContext)
     const user = userCont.user
     const setUser = userCont.setUser
 
+    const showModalOut = ()=> {
+      setExitModalShow(true);}
+ 
+    const closeFuncOut = () => {setExitModalShow(false)}
 
+      const closePostLog = ()=> {props.close()}
     
 
     return (
 
 
+
+
+
         <div  class="fixed z-50 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+
+          {
+                exitModalShow?
+                <ExitModal loggedOut = {closePostLog} ref = {myRef} close = {closeFuncOut}/>
+                 :''
+              }
     <div  class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         {/* Background overlay, show/hide based on modal state. */}
       <div class="fixed inset-0 bg-gray-700 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
@@ -87,7 +105,13 @@ const SideModal = (props) => {
 
           {user.projects.length>0?
             <>
-            <a class="flex items-center px-4 py-2 text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900" href="#">
+            <a onClick = {
+              () => {
+                history.push('/myprojects')
+                props.close()
+              }
+            }
+            class="flex items-center px-4 py-2 text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900" href="#">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M19 11H5M19 11C20.1046 11 21 11.8954 21 13V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V13C3 11.8954 3.89543 11 5 11M19 11V9C19 7.89543 18.1046 7 17 7M5 11V9C5 7.89543 5.89543 7 7 7M7 7V5C7 3.89543 7.89543 3 9 3H15C16.1046 3 17 3.89543 17 5V7M7 7H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
@@ -95,7 +119,8 @@ const SideModal = (props) => {
                 <span class="mx-4 font-semibold">My Projects</span>
             </a>
 
-            <a class="flex items-center px-4 py-2 mt-5 text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900" href="#">
+            <a onClick = {() => {props.close(); history.push('/profile')}}
+            class="flex items-center px-4 py-2 mt-5 text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900" href="#">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -114,7 +139,11 @@ const SideModal = (props) => {
 
             <span class="mx-4 font-semibold">Profile</span>
         </a>
-            <a class="flex items-center px-4 py-2 mt-5 text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900" href="#">
+            <a  onClick = {() => {
+                history.push('/myprojects')
+                props.close()
+              }}
+              class="flex items-center px-4 py-2 mt-5 text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900" href="#">
 
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M19 11H5M19 11C20.1046 11 21 11.8954 21 13V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V13C3 11.8954 3.89543 11 5 11M19 11V9C19 7.89543 18.1046 7 17 7M5 11V9C5 7.89543 5.89543 7 7 7M7 7V5C7 3.89543 7.89543 3 9 3H15C16.1046 3 17 3.89543 17 5V7M7 7H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -137,7 +166,11 @@ const SideModal = (props) => {
 
             <hr class="my-12 border-white " />
 
-            <a class="flex items-center px-4 py-2 mt-5 text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900" href="#">
+            <a  onClick={()=> {
+              showModalOut();
+                
+              }}
+               class="flex items-center px-4 py-2 mt-5 text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900" href="#">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
 </svg>

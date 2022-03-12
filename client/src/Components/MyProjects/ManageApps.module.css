@@ -1,0 +1,10 @@
+input:checked ~ #dot {
+    transform: translateX(100%);
+    background-color: #48bb78;
+  }
+
+  input:checked ~ #bgrnd {
+    background-color: aliceblue;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+  }

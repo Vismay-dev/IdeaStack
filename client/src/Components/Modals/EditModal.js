@@ -57,7 +57,7 @@ useEffect(
         
           {/* Modal panel, show/hide based on modal state. */}
     
-        <div data-aos={"fade-up"} ref = {myRef} data-aos-once='true' class="pr-6 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mt-5 sm:align-middle w-10/12">
+        <div data-aos={"fade-up"} ref = {myRef} data-aos-once='true' class="pr-6 inline-block align-bottom top-10 bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mt-5 sm:align-middle w-10/12">
           <div class="bg-white px-4 pt-2 pb-2 sm:p-6 sm:pb-4">
             <div class=" sm:items-center">
               <div class=" text-center sm:mt-0 sm:ml-4 sm:text-left">   

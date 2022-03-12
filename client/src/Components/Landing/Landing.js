@@ -75,7 +75,7 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
 
 
 
-    <section class="bg-white border-b py-2" >
+    <section class="bg-white border-b py-2 pb-7" >
       <div class="max-w-5xl  mx-auto m-8" data-aos={"fade-up"} data-aos-once='true'>
         <p id = 'about' class = 'relative bottom-14' />
         <h1  class="w-full my-2 text-5xl font-bold leading-tight sm:mb-5 md:mb-8 mb-1 text-center text-gray-800">
@@ -265,16 +265,16 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
       </div>
     </section>
     <p class = 'relative bottom-14' id = 'features'/>
-    <section class="bg-white border-b py-8" >
+    <section class="bg-white border-b py-8" style = {{'backgroundImage':'url(https://coolbackgrounds.io/images/backgrounds/index/compute-ea4c57a4.png)'}} >
       <div class="container mx-auto flex flex-wrap pt-4 pb-12" >
-        <h1 class="w-full my-2 text-5xl font-bold leading-tight mb-7 text-center text-gray-800">
+        <h1 class="w-full my-2 text-6xl font-bold leading-tight mb-7 text-center text-white">
           Features & Services
         </h1>
         <div class="w-full mb-4">
           <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
         </div>
-        <div data-aos={"fade-up"} data-aos-once='true' class="w-full lg:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
-          <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow-xl pt-7">
+        <div data-aos={"fade-up"} data-aos-once='true' class="w-full lg:w-1/3  p-6 flex flex-col flex-grow flex-shrink">
+          <div class="flex-1 bg-white rounded-t  rounded-b-none overflow-hidden shadow-xl pt-7">
             <a class="flex flex-wrap no-underline hover:no-underline text-center">
               <p class="w-full text-gray-600 text-xs md:text-sm px-6 mb-2">
                 Connecting STEM Students
@@ -302,7 +302,7 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
               <div class="w-full font-bold text-2xl text-gray-800 px-6 mb-7">
               Planning & Research
               </div>
-              <p class="text-gray-800 text-base px-3 mb-7  xl:top-0 relative lg:top-9">
+              <p class="text-gray-800 text-base px-3 mb-7 border-b-1 border-gray-100 xl:top-0 relative lg:top-9">
                   By providing for powerful research and planning tools, IdeaStack™ helps teams form their ideal STEM solutions and projects.
               </p>
             </a>

@@ -51,7 +51,20 @@ const NavBar = (props) => {
       useEffect(()=> {
           const pathParamArr = [...location.pathname.split('/')]
           pathParamArr.shift()
+          pathParamArr.forEach((param,i)=> {
+            pathParamArr[i] = param.replace('project', ' Project')
+            if(param === 'joinrequests') {
+              pathParamArr[i] = 'My Join Requests'
+            } else if(param === 'manageapps'){
+              pathParamArr[i] = 'Manage Applications'
+            }
+          })
+
           setPathParams(pathParamArr)
+          if(pathParamArr[1]!=='manage Project'){
+            sessionStorage.removeItem('managing')
+          }
+          
       },[location.pathname])
 
 
@@ -92,7 +105,7 @@ const NavBar = (props) => {
 
 
 
-    <div class="mx-auto w-screen lg:px-20 md:px-32 px-10 shadow-lg bg-white relative ">
+    <div class="mx-auto w-screen lg:px-20 md:px-32 px-10 shadow-lg bg-white fixed z-[45] ">
       <div class="relative flex items-center justify-between">
         <a
           onClick = {() => {history.push('/')}}
@@ -197,7 +210,7 @@ const NavBar = (props) => {
               onClick={()=> {
                 showModalOut()
               }}
-              className="ml-5 whitespace-nowrap inline-flex uppercase items-center justify-center px-3 py-1.5 border border-transparent rounded-md shadow-sm text-md  font-semibold hover:cursor-pointer hover:shadow-lg  text-white bg-gradient-to-r from-blue-300 to-blue-500 hover:from-indigo-300 hover:to-indigo-500 active:bg-blue-500"
+              className="ml-5 whitespace-nowrap inline-flex uppercase items-center justify-center px-3 py-2 border border-transparent rounded-md shadow-sm text-md  font-semibold hover:cursor-pointer hover:shadow-lg  text-white bg-gradient-to-r from-blue-300 to-blue-500 hover:from-indigo-300 hover:to-indigo-500 active:bg-blue-500"
             >
             Log Out
             </a>

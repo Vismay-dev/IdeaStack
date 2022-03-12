@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const nodemailer = require('nodemailer')
 const studentUser = require('../models/studentUser')
+const project = require('../models/project')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const auth = require('../auth/auth')
@@ -113,7 +114,7 @@ router.post('/register', async(req,res)=> {
 //sends back user and token
 router.post('/login', async(req,res)=> {
     try {
-        const user = await studentUser.findOne({email:req.body.email})
+        const user = await studentUser.findOne({email:req.body.email.trim()})
         if(!user) {
             console.log('- User not found')
             res.status(401).send('User not found')
@@ -180,5 +181,69 @@ router.post('/uploadProfPic',upload.single('image'),async(req,res)=> {
     
     res.send(userUpdated);
 })
+
+router.post('/createProject',auth, async(req,res)=> {
+    const user = await studentUser.findById(req.user._id);
+    const userName = user.firstName + ' ' + user.lastName;
+    const projectData = req.body.project;
+    
+    let newProject = new project({
+        name: projectData.name,
+        category: projectData.category,
+        maxCap: projectData.maxCap,
+        problem: projectData.problem,
+        admin: {
+            name: userName,
+            pic: user.profilePic
+        },
+        projPic:projectData.projPic
+    })
+
+    newProject = await newProject.save().catch(err=> {
+        console.log(err)
+        res.status(400).send(err)
+    })
+
+    updateInfo = { projects: user.projects?[...user.projects, newProject._id]:[newProject._id]};
+
+
+    const newUser = await studentUser.findOneAndUpdate({_id:req.user._id}, updateInfo).catch(err=> console.log(err))
+    const updatedUser = await newUser.save().catch(err=> {
+        console.log(err)
+        res.status(400).send(err)
+    })
+
+    res.send(newProject)
+})
+
+router.post('/getUserProjects', auth, async(req,res)=> {
+    const user = await studentUser.findById(req.user._id);
+    const userProjects = user.projects;
+    const projects = await project.find({_id: {$in: userProjects}});
+    res.send(projects)
+})
+
+router.post('/getAllProjects', auth, async(req,res)=> {
+    const projects = await project.find();
+    res.send(projects)
+})
+
+router.post('/uploadProjPic',upload.single('image'),async(req,res)=> {
+    const decoded = jwt.verify(req.body.token, process.env.TOKEN_SECRET);
+    let id = decoded._id;
+    const user = await studentUser.findOne({userId:id})
+    
+    let file = req.file;
+    var fileUrl;
+    await cloudinary.v2.uploader.upload(file.path, 
+        { folder: "IdeaStack" },
+     (err, result) => {
+        fileUrl = result.secure_url           
+        console.log('File Uploaded')
+    }).catch(err=> console.log(err.response))
+   
+    res.send(fileUrl);
+})
+
 
 module.exports = router

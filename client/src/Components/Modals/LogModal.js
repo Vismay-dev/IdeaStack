@@ -101,7 +101,7 @@ return (<div class="fixed z-50 inset-0 overflow-y-auto" aria-labelledby="modal-t
     
       {/* Modal panel, show/hide based on modal state. */}
 
-    <div data-aos={"fade-up"} data-aos-once='true' ref = {myRef} class="pr-6 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mt-4 sm:align-middle sm:max-w-md sm:w-12/12">
+    <div data-aos={"fade-up"} data-aos-once='true' ref = {myRef} class="pr-6 relative top-8x inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mt-4 sm:align-middle sm:max-w-md sm:w-12/12">
       <div class="bg-white px-4 pt-0 pb-2 sm:p-6 sm:px-1 sm:pb-4 w-4/4 mx-auto relative">
         <div class="sm:flex sm:items-start">
           <div class=" text-center sm:mt-0 sm:ml-4 sm:text-left">   
@@ -121,7 +121,7 @@ return (<div class="fixed z-50 inset-0 overflow-y-auto" aria-labelledby="modal-t
     <form class="mt-28 space-y-6 relative" onSubmit={handleSubmit}>
       <input class="text-md" type="hidden" name="remember" value="true"/>
       <div class="rounded-md shadow-sm -space-y-px ">
-      {error==='User not found'?<p class="text-red-500 text-center text-md relative bottom-3 mt-4 pt-3 pb-2 mb-2">Login Failed: Invalid Username</p>:error==='Incorrect password'?<p class="text-red-500 text-center text-md relative bottom-3 mt-4 pt-3 pb-2 mb-2">Login Failed: Incorrect Password</p>:null}
+      {error==='User not found'?<p class="text-red-500 text-center text-md relative bottom-3 mt-4 pt-3 pb-2 mb-2">Login Failed: User Not Found</p>:error==='Incorrect password'?<p class="text-red-500 text-center text-md relative bottom-3 mt-4 pt-3 pb-2 mb-2">Login Failed: Incorrect Password</p>:null}
 
         <div>
           <label for="email-address" class="sr-only">Email address</label>

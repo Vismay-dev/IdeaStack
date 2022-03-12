@@ -7,6 +7,7 @@ import Tooltip from 'react-power-tooltip'
 import {FaProjectDiagram} from 'react-icons/fa'
 import {RiFileList2Fill} from 'react-icons/ri'
 import {GrChapterAdd} from 'react-icons/gr'
+import { useHistory } from 'react-router-dom'
 
 const Profile = () => {
     const [showmore, setShowmore] = useState(false)
@@ -27,6 +28,15 @@ const Profile = () => {
          [e.target.name]: e.target.value
        })
     }
+    const [projects, setProjects] = useState([])
+
+    useEffect(()=> {
+      axios.post(process.env.NODE_ENV ==='production'?"https://ideastack.herokuapp.com/api/user/getUserProjects"
+      :"http://localhost:4000/api/user/getUserProjects",{token:sessionStorage.getItem('token')}).then(res=> {
+      setProjects(res.data);
+    })
+    },[user])
+    
 
     
 
@@ -84,6 +94,8 @@ const Profile = () => {
           console.log(err.response?err.response.data:null)
         })
       }
+
+      const history = useHistory()
 
 
     return (
@@ -144,11 +156,11 @@ const Profile = () => {
         </section>
         <section className="relative py-16 bg-blueGray-200">
           <div className="container mx-auto px-4">
-            <div className="relative flex flex-col min-w-0 break-words bg-white w-full -mb-40 shadow-xl rounded-lg">
+            <div className="relative flex flex-col  min-w-0 break-words bg-gradient-to-br from-white to-gray-100 w-full -mb-40 shadow-xl rounded-lg">
               <div className="px-6">
                 <div className="flex flex-wrap justify-center">
-                  <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-                    <div className="relative scale-90 rounded-r-full p-3">
+                  <div className="w-full lg:w-3/12 px-4   lg:order-2 flex justify-center">
+                    <div className="relative scale-90 rounded-r-full  p-3">
                     <input ref={inputRef} onChange = {profPicUpload} type="file" name="article_picture" style={{'display': 'none'}}/>
                     <img class={`rounded-full -mt-16 -mb-2  shadow-lg w-80 ${currentUser.user.profilePic?'':'p-2'} relative`}
                     src={currentUser.user.profilePic?currentUser.user.profilePic:"https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="}/>  
@@ -369,15 +381,22 @@ const Profile = () => {
 
        <h1 class = 'font-semibold text-4xl w-48 mx-auto relative bottom-6 mb-3 text-center justify-center justify-items-center'>
        <FaProjectDiagram class = 'text-indigo-500 ml-2 text-3xl top-1.5 absolute'/>
-      <span class = 'ml-8'>Projects</span></h1>
+      <span class = 'ml-8 mb-6 relative'>Projects</span></h1>
 
-      <div class="flex flex-wrap -mx-4">
-         <div class="w-full md:w-1/2 xl:w-1/3 px-4">
-            <div class={`rounded-lg shadow-md bg-gradient-to-r  from-blue-50 to-indigo-100 overflow-hidden mb-10`}>
+      <div class="flex flex-wrap space-x-3 -mx-4 mt-4">
+
+        {projects.map(proj=> {
+
+             let date = new Date(proj.createdAt).toDateString().substring(4)
+             date = date.slice(0, 6) + "," + date.slice(6);
+
+          return(
+            <div class={`w-full relative ${projects.length===1?'mx-auto':''} md:w-1/2 xl:w-1/3 px-4}`}>
+            <div class={`rounded-lg shadow-lg bg-gradient-to-r  from-blue-50 to-indigo-100 overflow-hidden mb-10`}>
                <img
-                  src="https://cdn.tailgrids.com/1.0/assets/images/cards/card-01/image-03.jpg"
+                  src={proj.projPic}
                   alt="image"
-                  class="w-full "
+                  class="w-full h-56 object-contain py-3 -mb-3 bg-gray-50 border-b-2 border-gray-400 relative"
                   />
                <div class="p-8 sm:p-9 md:p-7 xl:p-9 text-center">
                   <h3>
@@ -391,138 +410,45 @@ const Profile = () => {
                         lg:text-[22px]
                         xl:text-xl
                         2xl:text-[22px]
-                        mb-4
+                        
                         block
                         hover:text-primary
                         "
                         >
-                     50+ Best creative website themes & templates
+                     {proj.name}
                      </a>
+                     <span class="text-sm mx-auto relative font-light text-gray-600 ">{date}</span>
+
                   </h3>
-                  <p class="text-base text-body-color leading-relaxed mb-7">
-                     Lorem ipsum dolor sit amet pretium consectetur adipiscing
-                     elit. Lorem consectetur adipiscing elit.
+                  <p class="text-base text-body-color mt-4 leading-relaxed mb-7">
+                    {proj.problem}
                   </p>
                   <a
-                     href="javascript:void(0)"
+                     onClick={()=> {
+                       history.push('/myprojects')
+                       window.scrollTo(0, 0)
+                     }}
                      class="
                      inline-block
                      py-2
                      px-7
+                     cursor-pointer
                      border border-[#4577da]
                      rounded-full
                      text-base text-body-color
                      font-medium
-                     hover:border-primary hover:bg-white hover:text-indigo-600
+                     hover:border-primary hover:bg-slate-200 hover:text-indigo-600
                      transition
                      "
                      >
-                  View Details
+                  View Projects
                   </a>
                </div>
             </div>
-         </div>
-         <div class="w-full md:w-1/2 xl:w-1/3 px-4">
-            <div class="rounded-lg  shadow-md bg-gradient-to-r from-blue-50 to-indigo-100 overflow-hidden mb-10">
-               <img
-                  src="https://cdn.tailgrids.com/1.0/assets/images/cards/card-01/image-02.jpg"
-                  alt="image"
-                  class="w-full"
-                  />
-               <div class="p-8 sm:p-9 md:p-7 xl:p-9 text-center">
-                  <h3>
-                     <a
-                        href="javascript:void(0)"
-                        class="
-                        font-semibold
-                        text-dark text-xl
-                        sm:text-[22px]
-                        md:text-xl
-                        lg:text-[22px]
-                        xl:text-xl
-                        2xl:text-[22px]
-                        mb-4
-                        block
-                        hover:text-primary
-                        "
-                        >
-                     The ultimate UX and UI guide to card design
-                     </a>
-                  </h3>
-                  <p class="text-base text-body-color leading-relaxed mb-7">
-                     Lorem ipsum dolor sit amet pretium consectetur adipiscing
-                     elit. Lorem consectetur adipiscing elit.
-                  </p>
-                  <a
-                     href="javascript:void(0)"
-                     class="
-                     inline-block
-                     py-2
-                     px-7
-                     border border-[#4577da]
-                     rounded-full
-                     text-base text-body-color
-                     font-medium
-                     hover:border-primary hover:bg-white hover:text-indigo-600
-                     transition
-                     "
-                     >
-                  View Details
-                  </a>
-               </div>
-            </div>
-         </div>
-         <div class="w-full md:w-1/2 xl:w-1/3 px-4">
-            <div class="bg-gradient-to-r from-blue-50 to-indigo-100 rounded-lg  shadow-md  overflow-hidden mb-10">
-               <img
-                  src="https://cdn.tailgrids.com/1.0/assets/images/cards/card-01/image-03.jpg"
-                  alt="image"
-                  class="w-full"
-                  />
-               <div class="p-8 sm:p-9 md:p-7 xl:p-9 text-center">
-                  <h3>
-                     <a
-                        href="javascript:void(0)"
-                        class="
-                        font-semibold
-                        text-dark text-xl
-                        sm:text-[22px]
-                        md:text-xl
-                        lg:text-[22px]
-                        xl:text-xl
-                        2xl:text-[22px]
-                        mb-4
-                        block
-                        hover:text-primary
-                        "
-                        >
-                     Creative Card Component designs graphic elements
-                     </a>
-                  </h3>
-                  <p class="text-base text-body-color leading-relaxed mb-7">
-                     Lorem ipsum dolor sit amet pretium consectetur adipiscing
-                     elit. Lorem consectetur adipiscing elit.
-                  </p>
-                  <a
-                     href="javascript:void(0)"
-                     class="
-                     inline-block
-                     py-2
-                     px-7
-                     border border-[#4577da]
-                     rounded-full
-                     text-base text-body-color
-                     font-medium
-                     hover:border-primary hover:bg-white hover:text-indigo-600
-                     transition
-                     "
-                     >
-                  View Details
-                  </a>
-               </div>
-            </div>
-         </div>
-      </div>
+         </div>)
+        })}
+         
+   </div>
    </div>
                              :''}
    
