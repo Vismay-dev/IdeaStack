@@ -437,7 +437,7 @@ const Profile = () => {
                      rounded-full
                      text-base text-body-color
                      font-medium
-                     hover:border-primary hover:bg-slate-200 hover:text-indigo-600
+                     hover:border-primary hover:bg-slate-100 hover:text-indigo-600
                      transition
                      "
                      >

@@ -4,6 +4,9 @@ import {ImFilesEmpty} from 'react-icons/im'
 import {BiEditAlt} from 'react-icons/bi'
 import styles from './ManageApps.module.css'
 import EditApplicationForm from "../Modals/EditApplicationForm.js";
+import ViewApplications from "../Modals/ViewApplications.js";
+import axios from "axios";
+
 
 const ManageApps = () => {
 
@@ -23,30 +26,46 @@ const ManageApps = () => {
   },[projects])
   
 
+  const [acceptingApp, setAcceptingApp] = useState() 
 
-  const [showView, setShowView] = useState();
+  useEffect(() => {
+    setAcceptingApp(project?project.accepting:false)
+  },[project])
+
+  const changeHandler = () => {
+    axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/updateAppStatus':'http://localhost:4000/api/project/updateAppStatus',
+         {token:sessionStorage.getItem('token'),projectID:sessionStorage.getItem('managing'), accepting: !acceptingApp}).then(res=> {     
+            setAcceptingApp(res.data)
+        }).catch(err=> {
+            console.log(err.response)
+        })
+  }
+
   const [showEditApp, setShowEditApp] = useState();
+  const [showViewApp, setShowViewApp] = useState();
 
     return (
         <>
-        {
-            showView?'':''
-        }
         {
             showEditApp?
             <EditApplicationForm close = {()=> setShowEditApp(false)}/>
             :''
         }
-<h2 class = 'text-center font-bold text-6xl text-gray-800 top-1 relative mt-10 -mb-5'>Manage Applications</h2>
-    <h1 class = 'text-4xl text-center mt-[60px]'><span class = 'text-blue-700'>Start</span> Accepting Applications</h1>
+        {
+            showViewApp?
+            <ViewApplications close = {()=> setShowViewApp(false)}/>
+            :''
+        }
+<h2 class = 'text-center font-bold text-6xl text-gray-800 top-1 relative mt-8 -mb-5'>Manage Applications</h2>
+    <h1 class = 'text-4xl text-center mt-[67px]'><span class = {!acceptingApp?'text-blue-700':'text-red-500'}>{acceptingApp?'Pause':'Accept'}</span> Core-Team Applications</h1>
 
-    <div class="flex items-center justify-center top-2 relative w-full mb-12">
+    <div class="flex items-center justify-center relative w-full mb-11">
   
   <label for="toggleB" class="flex items-center cursor-pointer">
     {/* <!-- toggle --> */}
     <div class="relative mt-6 -mb-1">
       {/* <!-- input --> */}
-      <input type= 'checkbox'  id='toggleB' class="z-30 sr-only"/>
+      <input type= 'checkbox' checked={acceptingApp} onChange={changeHandler} id='toggleB' class="z-30 sr-only"/>
       {/* <!-- line --> */}
       <div id = {styles.bgrnd} class="block bg-gray-600 w-14 h-8 rounded-full"></div>
       {/* <!-- dot --> */}
@@ -64,13 +83,13 @@ const ManageApps = () => {
 
 
 
-<div className="grid grid-cols-2 gap-5 px-52 mt-[55px]  -mb-56">
+<div className="grid grid-cols-2 gap-8 px-52 mt-[55px]  -mb-[235px]">
 
 <div class={`w-full relative grid-col-1`}>
 <div class={`rounded-lg shadow-lg bg-gradient-to-r  border-[1px] border-blue-600  from-blue-50 to-indigo-200 overflow-hidden mb-0`}>
   <div class = 'h-28 pt-2.5'>
   <p className="text-center top-3 text-xl font-semibold relative">Status: </p><br/>
-    <p class="text-3xl text-blue-700 relative text-center bottom-1.5 px-[50px] ">Accepting Applications</p>     
+    <p class={`text-3xl ${acceptingApp?'text-blue-700':'text-red-500'} relative text-center bottom-1.5 px-[50px]`}>{acceptingApp?'Accepting Applications':'Not Accepting Applications'}</p>     
   </div>
   <div class=" pt-2 pb-7 mt-2 bg-gradient-to-r from-gray-50 to-slate-50 text-center">
   <p className="text-center top-4 text-xl font-semibold relative px-10">Applications Accepted: </p><br/>
@@ -94,7 +113,7 @@ const ManageApps = () => {
   <p className="text-center top-5 text-xl font-semibold relative">View Applications: </p><br/>
   <p class="text-sm relative text-center font-light bottom-0.5 text-gray-600 px-[80px] ">Have a look at join requests for <span class = 'text-indigo-500 font-semibold'> IdeaStack</span>!</p>     
   <ImFilesEmpty onClick = {
-        () => setShowView(true)
+        () => setShowViewApp(true)
     } class = 'text-center relative mx-auto text-8xl top-5 shadow-lg cursor-pointer hover:shadow-2xl active:shadow-lg rounded-md bg-blue-700 p-3'/>
 
   </div>

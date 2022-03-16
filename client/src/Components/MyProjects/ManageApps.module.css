@@ -4,7 +4,7 @@ input:checked ~ #dot {
   }
 
   input:checked ~ #bgrnd {
-    background-color: aliceblue;
+    background-color: rgb(251, 253, 255);
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 
   }

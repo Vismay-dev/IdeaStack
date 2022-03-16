@@ -28,7 +28,7 @@ const AllProjects = () => {
         <h1 class = 'text-gray-600 text-center mt-12 mb-14 text-5xl font-semibold'>All Projects ({projectCon.projects.length}):</h1>
         
 
-        <div class = 'grid grid-cols-2 gap-4 align-middle content-center -mb-52 mt-3 px-[120px]'>
+        <div class = {`grid grid-cols-2 gap-4 align-middle content-center ${projectCon.projects.length === 0? '-mb-16':'-mb-56'} mt-3 px-[120px]`}>
         {projectCon.projects&&projectCon.projects.map((proj,i)=> {
 
 let date = new Date(proj.createdAt).toDateString().substring(4)

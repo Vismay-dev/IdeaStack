@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import Dropdown from './Dropdown'
 import axios from 'axios'
-
+import MoreDetails from '../Modals/MoreDetails'
 
 const Browse = () => {
 
@@ -14,15 +14,24 @@ const Browse = () => {
       axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/getAllProjects':
       'http://localhost:4000/api/user/getAllProjects',{token:sessionStorage.getItem('token')}).then((res)=> {
          setProjects(res.data)
-         console.log(res.data)
       })
 
    },[projects])
+
+   const [projI,setProjI] = useState()
+   const [showMore, setShowMore] = useState(false)
+
 
 
 
     return (
         <>
+
+        {
+           showMore?
+           <MoreDetails close = {()=> {setShowMore(false)}} index = {projI}/>:
+           ''
+        }
           <div 
 style={{'background-image': 'url(https://media.istockphoto.com/photos/dark-blue-grunge-background-picture-id185007737?b=1&k=20&m=185007737&s=170667a&w=0&h=2HRmWnMNz-WdJ9jQ94PksQlATGq6QSIvSyVQOOBbSTY=)'}}            
             className="shadow-md container bg-cover bg-right  bottom-4 w-10/12 flex justify-center mx-auto pt-8 bg-gradient-to-r from-gray-100 to-gray-300">
@@ -67,20 +76,22 @@ style={{'background-image': 'url(https://media.istockphoto.com/photos/dark-blue-
 {
 
 
-projects.map(proj=> {
+projects.map((proj,i)=> {
 
      let date = new Date(proj.createdAt).toDateString().substring(4)
      date = date.slice(0, 6) + "," + date.slice(6);
 
   return(
     <div class="w-full md:w-1/2 xl:w-1/3 px-4">
-    <div class={`rounded-lg shadow-lg bg-gradient-to-r   from-blue-50 to-indigo-100 overflow-hidden mb-10`}>
+    <div class={`rounded-lg shadow-lg bg-gradient-to-r relative  from-blue-50 to-indigo-100 mb-10`}>
+    <button onClick={()=> {setShowMore(true); setProjI(i) }} class = 'bg-gradient-to-br from-blue-400 to-indigo-400 absolute bottom-6 active:shadow-md mx-auto left-1/3 justify-center w-1/3 items-center shadow-lg hover:from-blue-700 hover:to-blue-600 text-white p-1.5 z-30 px-2 rounded-md text-lg  hover:cursor-pointer'>View More</button>
+
        <img
           src={proj.projPic}
           alt="image"
           class="w-full h-56 object-contain py-3 -mb-3 bg-gray-50 border-b-2 border-gray-400 relative"
           />
-       <div class="p-8 sm:p-9 md:p-7 xl:p-9 text-center">
+       <div class="p-8 pb-14  text-center">
           <h3>
              <a
                 href="javascript:void(0)"
@@ -105,27 +116,10 @@ projects.map(proj=> {
           <p class="text-base text-body-color mt-4 leading-relaxed mb-7">
             {proj.problem}
           </p>
-          <a
-             onClick={()=> {
-               window.scrollTo(0, 0)
-             }}
-             class="
-             inline-block
-             py-2
-             px-7
-             cursor-pointer
-             border border-[#4577da]
-             rounded-full
-             text-base text-body-color
-             font-medium
-             hover:border-primary hover:bg-slate-200 hover:text-indigo-600
-             transition
-             "
-             >
-          View Details
-          </a>
        </div>
+
     </div>
+
  </div>)
 })
 

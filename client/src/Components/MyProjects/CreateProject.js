@@ -138,7 +138,7 @@ const CreateProject = () => {
         </div>
 
         <button onClick = {() => setShowCreateModal(true)}
-         class = {`mt-7 ${projectCon.projects.length>0?'-mb-[172px] top-16':'-mb-24 top-36 '} z-30  bg-gradient-to-r  from-blue-600 to-blue-800 w-5/12 rounded-md shadow-lg hover:shadow-lg hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-400 active:shadow-sm p-2 pb-2.5  text-gray-50 font-semibold text-2xl mx-auto text-center block justify-center relative`}>Create Project</button>
+         class = {`mt-7 ${projectCon.projects.length>0?'-mb-[172px] top-16':'-mb-[5.5rem] top-36 '} z-30  bg-gradient-to-r  from-blue-600 to-blue-800 w-5/12 rounded-md shadow-lg hover:shadow-lg hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-400 active:shadow-sm p-2 pb-2.5  text-gray-50 font-semibold text-2xl mx-auto text-center block justify-center relative`}>Create Project</button>
         </>
     )
 }
