@@ -27,6 +27,24 @@ const JoinRequests = () => {
       })
     },[])
 
+    const confirmAcceptance = (index) => {
+      axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/confirmAcceptance':'http://localhost:4000/api/project/confirmAcceptance',
+      {token:sessionStorage.getItem('token'),application : joinRequests[index]}).then(res=> {     
+        setJoinRequests(res.data)
+      }).catch(err=> {
+      console.log(err.response.message)
+     })
+    }
+
+    const confirmRejection = (index) => {
+      axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/confirmRejection':'http://localhost:4000/api/project/confirmRejection',
+      {token:sessionStorage.getItem('token'),application : joinRequests[index]}).then(res=> {     
+          setJoinRequests(res.data)
+      }).catch(err=> {
+      console.log(err.response.message)
+     })
+    }
+
 
     return (
         <>
@@ -49,7 +67,13 @@ joinRequests? joinRequests.map((joinR,i)=> {
   <p class="text-gray-700 text-base mb-3">
     {projects?projects[i].problem: ''}
   </p>
-  <h3 class = 'font-semibold tracking-wide relative top-1 text-indigo-600'>Application Status: {joinR.appStatus}</h3>
+  <h3 class = {`font-semibold tracking-wide relative top-1 mt-5 text-indigo-600 ${joinR.appStatus === 'Accepted'||joinR.appStatus === 'Rejected'?'text-center':''}`}>Application Status: {joinR.appStatus}</h3>
+
+  {joinR.appStatus === 'Accepted'? <button onClick={()=>confirmAcceptance(i)} class = 'shadow-md hover:shadow-xl z-50 cursor-pointer active:shadow-sm relative mt-4 mb-3.5 mx-auto block text-center justify-center bg-gradient-to-r from-blue-600 to-indigo-500 p-3 py-2 rounded-lg text-white font-semibold'>Confirm Acceptance and Join</button>:joinR.appStatus === 'Rejected'?
+  
+  <button onClick={()=>confirmRejection(i)} class = 'shadow-md hover:shadow-xl z-50 cursor-pointer active:shadow-sm relative mt-4 mb-3.5 mx-auto block text-center justify-center bg-gradient-to-r from-orange-600 to-orange-500 p-5 left-[1px] py-2 rounded-lg text-white font-semibold'>Remove Project Request</button>
+  
+  :''}
 </div>
 </div>
 

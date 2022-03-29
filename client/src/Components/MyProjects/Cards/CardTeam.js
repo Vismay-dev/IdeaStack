@@ -19,7 +19,6 @@ useEffect(()=> {
      })[0]      
  }
  setProj(projSelected?projSelected:'')
- console.log(proj)
 
 },[sessionStorage.getItem('managing')])
 
@@ -43,52 +42,35 @@ useEffect(()=> {
         <hr className="border-2-b mb-1 border-blue-600  w-full"/>
 
           {/* Projects table */}
-          <table className="items-center w-full mb-2   bg-transparent border-collapse">
+          <table className="items-center w-full mb-2 h-[25.4rem]   bg-transparent border-collapse">
           
+
              
-            <tbody>
-              <tr>
-              <div class="flex items-center text-md justify-center mx-auto relative bottom-0.5 border-b-[1px] py-5 border-blue-600">
-                   <img class="hidden object-cover w-10 h-10 mx-2 relative right-1 rounded-full sm:block" src={proj?proj.admin.pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
+            <tbody class = 'overflow-scroll'>
+
+              {proj && proj.team.map((teamMember,i) => {
+
+
+return (
+  <>
+            <tr>
+              <div class={`flex items-center text-md justify-center mx-auto relative bottom-0.5 ${i>0?'-mt-[325px] bottom-1':''} bg-gradient-to-r from-indigo-200 to-green-100 border-b-[1px] py-4 pb-5 border-blue-600`}>
+                   <img class="hidden object-cover w-10 h-10 shadow-md mx-2 relative right-1 rounded-full sm:block" src={teamMember.pic?teamMember.pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
                    <a class="font-bold text-gray-700 mr-6  relative cursor-pointer ">
-                        {proj?proj.admin.name:''}
+                        {proj?teamMember.name:''}{i==0?' (Admin)':''}
                    </a>
+                   
+                   
                </div>
                 
               </tr>
-              <tr >
-              <div class="flex items-center justify-center relative bottom-0.5 px-3 border-b-[1px] py-5 border-blue-600">
-                   <img class="hidden object-cover w-10 h-10 mx-2 relative right-1 rounded-full sm:block" src={proj?proj.admin.pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
-                   <a class="font-bold text-gray-700 mr-6 relative cursor-pointer ">
-                        {proj?proj.admin.name:''}
-                   </a>
-               </div>
-              </tr>
-              <tr class = 'mt-2 relative'>
-              <div class="flex items-center justify-center relative bottom-0.5 px-4 border-b-[1px] py-5 border-blue-600">
-                   <img class="hidden object-cover w-10 h-10 mx-2 relative right-1 rounded-full sm:block" src={proj?proj.admin.pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
-                   <a class="font-bold text-gray-700 mr-6 relative cursor-pointer ">
-                        {proj?proj.admin.name:''}
-                   </a>
-               </div>
-              </tr>
-              <tr class = 'mt-2 relative'>
-              <div class="flex items-center justify-center relative bottom-0.5 px-4 border-b-[1px] py-5 border-blue-600">
-                   <img class="hidden object-cover w-10 h-10 mx-2 relative right-1 rounded-full sm:block" src={proj?proj.admin.pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
-                   <a class="font-bold text-gray-700 mr-6 relative cursor-pointer ">
-                        {proj?proj.admin.name:''}
-                   </a>
-               </div>
-                
-              </tr>
-              <tr class = 'mt-2 relative'>
-              <div class="flex items-center justify-center relative bottom-0.5 px-4 py-5 ">
-                   <img class="hidden object-cover w-10 h-10 mx-2 relative right-1 rounded-full sm:block" src={proj?proj.admin.pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
-                   <a class="font-bold text-gray-700 mr-6 cursor-pointer ">
-                        {proj?proj.admin.name:''}
-                   </a>
-               </div>
-              </tr>
+     
+              </>
+)
+
+    
+              })}
+              
             </tbody>
           </table>
         </div>

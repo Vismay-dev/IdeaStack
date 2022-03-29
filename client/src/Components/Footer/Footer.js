@@ -37,7 +37,7 @@ const Footer = () => {
 						</svg>
 					</a>
                     <div className="flex items-center justify-center text-sm">
-		<span className="dark:text-coolGray-400 relative xs3:right-0 xs3:mt-0 xs3:mb-0 mb-2 mt-7 right-3">© Copyright 2022. All Rights Reserved.</span>
+		<span className="dark:text-coolGray-400 relative xs3:right-0 xs3:mt-0 xs3:mb-0 mb-2 mt-2 right-3 lg:ml-3">© Copyright 2022. All Rights Reserved.</span>
 	</div>
             </ul>
         </div>

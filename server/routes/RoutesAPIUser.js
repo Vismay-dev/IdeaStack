@@ -194,8 +194,12 @@ router.post('/createProject',auth, async(req,res)=> {
         problem: projectData.problem,
         admin: {
             name: userName,
-            pic: user.profilePic
+            pic: user.profilePic,
+            id: req.user._id
         },
+        team: [
+            admin
+        ],
         projPic:projectData.projPic
     })
 
@@ -228,10 +232,9 @@ router.post('/getAllProjects', auth, async(req,res)=> {
     res.send(projects)
 })
 
-router.post('/uploadProjPic',upload.single('image'),async(req,res)=> {
+router.post('/uploadPic',upload.single('image'),async(req,res)=> {
     const decoded = jwt.verify(req.body.token, process.env.TOKEN_SECRET);
     let id = decoded._id;
-    const user = await studentUser.findOne({userId:id})
     
     let file = req.file;
     var fileUrl;
@@ -243,6 +246,20 @@ router.post('/uploadProjPic',upload.single('image'),async(req,res)=> {
     }).catch(err=> console.log(err.response))
    
     res.send(fileUrl);
+})
+
+router.post('/createJoinRequest', auth, async(req,res)=> {
+    const proj = await project.findOne({_id: req.body.projectID});
+    let date = new Date()
+    proj.joinRequests = proj.joinRequests? [...proj.joinRequests, {...req.body.application, dateReceived:date }]:[{...req.body.application, dateReceived:date}]
+
+    const user = await studentUser.findById(req.user._id);
+    user.joinRequests =  user.joinRequests? [...user.joinRequests, {...req.body.application, dateReceived:date}]:[{...req.body.application, dateReceived:date}]
+
+    user.save();
+    proj.save()
+
+    res.send('Join Request Succesfully Sent!')
 })
 
 

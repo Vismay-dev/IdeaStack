@@ -5,11 +5,11 @@ import {FaChalkboardTeacher} from 'react-icons/fa'
 export default function CardPageVisits() {
   return (
     <>
-      <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
-        <div className="rounded-t mb-0 px-4 py-3 border-0">
+      <div  className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+        <div style = {{'backgroundImage':'url(https://media.istockphoto.com/photos/digital-cyberspace-with-particles-and-digital-data-network-high-picture-id1302189748?b=1&k=20&m=1302189748&s=170667a&w=0&h=s0o2dhTh40lrWLPt6rg54S0jCUywkr6h04rDdfStMq8=)'}} className="rounded-t mb-0 px-4 py-3 border-0">
           <div className="flex flex-wrap  items-center">
             <div className="relative w-full px-2  py-1.5 max-w-full flex-grow flex-1">
-              <h3 className="font-semibold text-base text-blueGray-700">
+              <h3 className="font-semibold text-base text-white">
                 <FaChalkboardTeacher class = 'text-xl mr-1 bottom-0.5 relative inline'/> Industry Mentorship - Info
               </h3>
             </div>

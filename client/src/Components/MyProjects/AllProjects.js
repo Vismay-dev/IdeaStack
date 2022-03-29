@@ -25,7 +25,7 @@ const AllProjects = () => {
 
         <>
 
-        <h1 class = 'text-gray-600 text-center mt-12 mb-14 text-5xl font-semibold'>All Projects ({projectCon.projects.length}):</h1>
+        <h1 class = 'text-gray-600 text-center mt-11 mb-12 text-5xl font-semibold'>All Projects ({projectCon.projects.length}):</h1>
         
 
         <div class = {`grid grid-cols-2 gap-4 align-middle content-center ${projectCon.projects.length === 0? '-mb-16':'-mb-56'} mt-3 px-[120px]`}>
@@ -69,7 +69,7 @@ return(
     
     
     <div class="flex items-center justify-between mt-4">
-        <a onClick = {()=>readMore(i)} class="text-blue-600 hover:cursor-pointer  hover:underline">View {showMore[0]&&showMore[1]===i?'less':'more'}</a>
+        <a onClick = {()=>readMore(i)} class="text-blue-600 hover:cursor-pointer z-40  hover:underline">View {showMore[0]&&showMore[1]===i?'less':'more'}</a>
          <div class="flex items-center relative bottom-0.5">
             <img class="hidden object-cover w-10 h-10 mx-2 rounded-full sm:block" src={proj.admin.pic?proj.admin.pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
             <a class="font-bold text-gray-700 cursor-pointer ">
@@ -112,7 +112,7 @@ return(
     
                
                <div class="flex items-center justify-between mt-4">
-                   <a onClick = {()=>readMore(i)} class="text-blue-600 hover:cursor-pointer  hover:underline">View {showMore[0]&&showMore[1]===i?'less':'more'}</a>
+                   <a onClick = {()=>readMore(i)} class="text-blue-600 z-40 hover:cursor-pointer  hover:underline">View {showMore[0]&&showMore[1]===i?'less':'more'}</a>
                     <div class="flex items-center relative bottom-0.5">
                        <img class="hidden object-cover w-10 h-10 mx-2 rounded-full sm:block" src={proj.admin.pic?proj.admin.pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
                        <a class="font-bold text-gray-700 cursor-pointer ">

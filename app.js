@@ -2,7 +2,8 @@ const express   = require('express')
 const app       = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
-const RoutesAPI = require('./server/routes/RoutesAPI')
+const RoutesAPIUser = require('./server/routes/RoutesAPIUser')
+const RoutesAPIProject = require('./server/routes/RoutesAPIProject')
 const path = require('path')
 const dotenv = require('dotenv')
 const http = require('http').createServer(app)
@@ -44,7 +45,8 @@ io.on('connection', (socket) => {
 
 const port = process.env.PORT||4000;
 
-app.use('/api/user',RoutesAPI)
+app.use('/api/user',RoutesAPIUser)
+app.use('/api/project',RoutesAPIProject)
 
 
 if(process.env.NODE_ENV === 'production') {

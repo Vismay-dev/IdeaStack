@@ -49,6 +49,14 @@ const studentUserSchema = new mongoose.Schema({
     interests: {
       type:Array,
       required:false
+    },
+    joinRequests: {
+      type:Array,
+      required:false
+    },
+    pendingPayments: {
+      type:Array,
+      required:false
     }
   })
 

@@ -101,6 +101,7 @@ const MoreDetails = (props) => {
        'http://localhost:4000/api/user/createJoinRequest',{token:sessionStorage.getItem('token'), application:applicationTemp, projectID: project._id}).then((res)=> {
          console.log(res.data)
          setTried(true)
+         setApplicationSent(true)
          setApplying(false)
        })
        

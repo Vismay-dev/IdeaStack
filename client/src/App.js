@@ -58,7 +58,7 @@ useEffect(()=> {
       setProjects(res.data)
     })
   }
-},[user.projects])
+},[user.projects, location.pathname])
  
 
 

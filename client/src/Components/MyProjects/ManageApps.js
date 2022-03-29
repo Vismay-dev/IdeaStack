@@ -14,12 +14,39 @@ const ManageApps = () => {
   const [date,setDate] = useState()
   const [project, setProject] = useState()
 
+  const [latestAccepted, setLatestAccepted] = useState();
+  const [latestReceived, setLatestReceived] = useState();
+
   useEffect(()=> {
     let projSelected = projects.projects.filter((proj)=> {
       return proj._id === String(sessionStorage.getItem('managing'))
     })[0]
     if(projects.projects && projSelected){
     setProject(projSelected);
+
+    if(projSelected.team.length>1) {
+      let date = projSelected.team[1].dateAdded
+      let name = projSelected.team[1].name
+      for(let x = 0; x<projSelected.team.length;x++) {
+        if(projSelected.team[x].dateAdded>date) {
+          date = projSelected.team[x].dateAdded
+          name = projSelected.team[x].name
+        }
+      }
+      setLatestAccepted({date:date, name: name});
+    }
+
+    if(projSelected.joinRequests.length>1) {
+      let date = projSelected.joinRequests[1].dateReceived
+      for(let x = 0; x<projSelected.team.length;x++) {
+        if(projSelected.joinRequests[x].dateReceived>date) {
+          date = projSelected.joinRequests[x].dateReceived
+        }
+      }
+      setLatestReceived({date:date});
+    }
+   
+
     let currdate = new Date(projSelected.createdAt).toDateString().substring(4)
   setDate(currdate.slice(0, 6) + "," + currdate.slice(6))
     }
@@ -41,9 +68,8 @@ const ManageApps = () => {
         })
   }
 
-  const [showEditApp, setShowEditApp] = useState();
-  const [showViewApp, setShowViewApp] = useState();
-
+  const [showEditApp, setShowEditApp] = useState(false);
+  const [showViewApp, setShowViewApp] = useState(false);
     return (
         <>
         {
@@ -83,7 +109,7 @@ const ManageApps = () => {
 
 
 
-<div className="grid grid-cols-2 gap-8 px-52 mt-[55px]  -mb-[235px]">
+<div className="grid grid-cols-2 gap-8 px-52 mt-[55px]  -mb-[226px]">
 
 <div class={`w-full relative grid-col-1`}>
 <div class={`rounded-lg shadow-lg bg-gradient-to-r  border-[1px] border-blue-600  from-blue-50 to-indigo-200 overflow-hidden mb-0`}>
@@ -93,13 +119,13 @@ const ManageApps = () => {
   </div>
   <div class=" pt-2 pb-7 mt-2 bg-gradient-to-r from-gray-50 to-slate-50 text-center">
   <p className="text-center top-4 text-xl font-semibold relative px-10">Applications Accepted: </p><br/>
-    <h1 className = 'text-center relative text-4xl text-blue-700'>1</h1>
-    <p class="text-sm relative text-center font-light top-1 text-gray-600 px-[105px] ">Latest Accepted Team Member: <span class = 'text-indigo-500 font-semibold'>Vismay Suramwar</span> ({date?date:''}) </p>     
+    <h1 className = 'text-center relative text-4xl text-blue-700'>{project?project.team.length-1:' '}</h1>
+    <p class="text-sm relative text-center font-light top-1.5 text-gray-600 px-[105px] ">Latest Accepted Team Member: {latestAccepted?<><span class = 'text-indigo-500 font-semibold'>{latestAccepted.name}</span> ({latestAccepted.date?Date(latestAccepted.date).toString().substring(0,15):''})</>:'--'} </p>     
   </div>
   <div class=" pt-2 pb-4  text-center">
-  <p className="text-center top-3.5 text-xl font-semibold relative mb-1">Applications Received: </p><br/>
-    <h1 className = 'text-center text-4xl text-blue-700 -top-2 relative mb-1'>4</h1>
-    <p class="text-sm relative text-center bottom-2 font-light text-gray-600 px-[116px] ">Latest Application Received On: {date?date:''}</p>
+  <p className="text-center top-3.5 text-xl font-semibold relative mb-1">Applications Pending: </p><br/>
+    <h1 className = 'text-center text-4xl text-blue-700 -top-2 relative mb-1'>{project?project.joinRequests.length:' '}</h1>
+    <p class="text-sm relative text-center bottom-1.5 font-light text-gray-600 px-[100px] ">Latest Pending Application Received On: <span class = 'text-indigo-500 font-semibold' >{latestReceived?latestReceived.date:'No Pending Applications'}</span></p>
   </div>
 </div>
 </div>

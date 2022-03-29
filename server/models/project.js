@@ -25,6 +25,34 @@ const projectSchema = new mongoose.Schema({
     projPic: {
       type: String,
       required: true
+    },
+    accepting:{
+      type:Boolean,
+      required:false
+    },
+    application: {
+      type:Array,
+      required:false
+    },
+    team: {
+      type:Array,
+      required:true
+    },
+    joinRequests : {
+      type:Array,
+      required:false
+    },
+    messages : {
+      type:Array,
+      required:false
+    },
+    documents: {
+      type:Array,
+      required:false
+    },
+    mentorshipPackages: {
+      type:Array,
+      required:false
     }
 
   },

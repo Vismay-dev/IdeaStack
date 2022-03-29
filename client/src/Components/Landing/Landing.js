@@ -265,7 +265,7 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
       </div>
     </section>
     <p class = 'relative bottom-14' id = 'features'/>
-    <section class="bg-white border-b py-8" style = {{'backgroundImage':'url(https://coolbackgrounds.io/images/backgrounds/index/compute-ea4c57a4.png)'}} >
+    <section class="bg-white border-b py-8 bg-no-repeat bg-cover" style = {{'backgroundImage':'url(https://img.wallpapersafari.com/tablet/2048/2732/68/27/ZM5Amy.jpg'}} >
       <div class="container mx-auto flex flex-wrap pt-4 pb-12" >
         <h1 class="w-full my-2 text-6xl font-bold leading-tight mb-7 text-center text-white">
           Features & Services

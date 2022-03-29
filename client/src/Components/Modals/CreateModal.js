@@ -27,19 +27,19 @@ const CreateProjectModal = (props) => {
 
        const history = useHistory()
 
-    
     const projPicUpload = (e) => {
         e.preventDefault()
         const data = new FormData();
         data.append('image',e.target.files[0]);
         data.append('token',sessionStorage.getItem('token') )
-        axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/user/uploadProjPic':'http://localhost:4000/api/user/uploadProjPic',data).then(res=> {
+        setImage(URL.createObjectURL(e.target.files[0]))    
+
+        axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/user/uploadPic':'http://localhost:4000/api/user/uploadPic',data).then(res=> {
             console.log(res.data)
             setProject({
               ...project,
               projPic:res.data
           })
-            setImage(res.data)
         }).catch(err=> {
             console.log(err)
         })

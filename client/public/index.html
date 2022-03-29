@@ -18,6 +18,9 @@
 tailwind.config = {
       theme: {
         extend: {
+          boxShadow: {
+            'bottomShadowInner' : 'inset 0 -10px 10px -10px #000000',
+          },
           colors: {
             clifford: '#da373d',
             'white': '#ffffff',
@@ -61,7 +64,10 @@ tailwind.config = {
     }
   }
         }
-      }
+      },
+      plugins: [
+        require('tailwind-scrollbar')
+    ]
     }
     </script>
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.3.4/dist/flowbite.min.css" />
