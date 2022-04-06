@@ -164,7 +164,8 @@ const SideModal = (props) => {
 
         
 
-            <hr class="my-12 border-white " />
+            <hr class="mb-[67px] mt-[65px] py-[0.1px] border-[0.1px] border-blue-800 " />
+
 
             <a  onClick={()=> {
               showModalOut();

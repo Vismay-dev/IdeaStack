@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 
 import ReactTooltip from 'react-tooltip';
+import ClipLoader from "react-spinners/ClipLoader"
 
 const PaymentList = (props) => {
 
@@ -9,7 +10,7 @@ const PaymentList = (props) => {
     return (
         <div class="px-3 mt-3 relative w-full">
            
-            <div class="bg-gradient-to-r from-blue-100 to-indigo-200 pt-4 mt-7 rounded-md shadow-lg pb-6  px-4 ">
+            <div class="bg-gradient-to-r from-blue-100 to-indigo-200 pt-2 mt-7 rounded-md shadow-lg pb-8  px-4 ">
                 
                 
              <>  
@@ -20,7 +21,20 @@ const PaymentList = (props) => {
                     <table class=" whitespace-nowrap w-9/12 relative mx-auto space-y-2">
                         <tbody class = 'space-y-2'>
 
-                            {props.payments&&props.payments.map((payment, i)=> {
+                            {
+
+
+props.loading?
+<div class ='relative mx-auto my-8 mb-10 pb-3 pt-1.5 text-center block justify-center'>
+<ClipLoader color={'#0b0bbf'} loading={props.loading}  size={70} />
+</div>
+:
+                            
+                            
+                            
+                            
+                            
+                            props.payments&&props.payments.map((payment, i)=> {
 
 function convertDate(inputFormat) {
     function pad(s) { return (s < 10) ? '0' + s : s; }

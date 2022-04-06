@@ -12,7 +12,17 @@ import Collaborate from './Collaborate.js'
 import Mentorship from './Mentorship.js'
 import BrowseExperts from "./BrowseExperts.js";
 
+import AOS from 'aos';
+import "aos/dist/aos.css";
+
 export default function ManageProject() {
+
+  useEffect(() => {
+    AOS.init({
+      duration : 600
+    });
+  },[]);
+
 
   const projects = useContext(projectContext)
   const [date,setDate] = useState()
@@ -52,13 +62,18 @@ export default function ManageProject() {
 <Route path = '/myprojects/manageproject/overview'>
   <>
     
-<h2 class = 'text-center font-bold text-6xl text-gray-800 top-1 relative mt-9 -mb-1'>Overview</h2>
-     
-      <div className="flex flex-wrap px-20 mt-[56px] gap-5 ">
+<h2  class = 'text-center font-bold text-5xl text-gray-800 top-1 relative mt-11 mb-7'>
+<svg xmlns="http://www.w3.org/2000/svg" class="h-14 bottom-[2.9px] relative inline w-14 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+</svg> Overview
+<p class = 'mt-[4px] text-xl text-center pl-3 text-gray-800  font-semibold'>View All Important Details</p>
+</h2>
+
+      <div  className="flex flex-wrap px-20 mt-[63px] gap-5 ">
 
 
 
-<div class={`w-full relative md:w-1/2 xl:w-1/3 `}>
+<div data-aos={"fade-up"} data-aos-once='true' class={`w-full relative md:w-1/2 xl:w-1/3 `}>
 <div class={`rounded-lg shadow-lg bg-gradient-to-r border-[1px] border-blue-600  from-blue-50 to-indigo-100 overflow-hidden mb-0`}>
   <img
      src={project?project.projPic:''}
@@ -98,7 +113,7 @@ export default function ManageProject() {
 </div>
 </div>
 
-<div class={`w-full relative md:w-1/2 xl:w-1/3`}>
+<div data-aos={"fade-up"} data-aos-once='true'  data-aos-delay = '200' class={`w-full relative md:w-1/2 xl:w-1/3`}>
 <div class={`rounded-lg shadow-lg bg-gradient-to-r  border-[1px] border-blue-600  from-blue-50 to-indigo-200 overflow-hidden mb-0`}>
   <div class = 'h-40 '>
     <p className="text-center top-5 text-xl font-semibold relative mb-1">Applications Pending: </p><br/>
@@ -111,23 +126,23 @@ export default function ManageProject() {
     <p class="text-sm relative text-center font-light top-1 text-gray-600 px-[105px] ">Upcoming Session With <span class = 'text-indigo-500 font-semibold'>Vismay Suramwar</span> On: {date?date:''}</p>     
   </div>
   <div class=" pt-0 pb-4  text-center">
-  <p className="text-center top-3 text-xl font-semibold relative">Documents Saved: </p><br/>
-    <h1 className = 'text-center -top-1.5 relative text-4xl text-blue-700'>2</h1>
+  <p className="text-center top-3 text-xl font-semibold relative">Documents Uploaded: </p><br/>
+    <h1 className = 'text-center -top-1.5 relative text-4xl text-blue-700'>{project?project.documents.length:' '}</h1>
     <p class="text-sm relative text-center -top-0.5 font-light text-gray-600 px-[116px] ">Latest Document Uploaded On: {date?date:''}</p>     
   </div>
 </div>
 </div>
 
-      <div className=" w-96 xl:mb-0">
+      <div data-aos={"fade-up"} data-aos-once='true' data-aos-delay = '400' className=" w-96 xl:mb-0">
           <CardTeam />
         </div>
       </div>
-      <div className="flex flex-wrap px-16 right-0.5 relative mt-4 -mb-[240px]">
+      <div  data-aos={"fade-up"} data-aos-once='true'  className="flex flex-wrap px-16 right-0.5 relative mt-3.5 -mb-[240px]">
 
-        <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-2">
+        <div className="w-full xl:w-8/12 mb-12 mt-3 relative xl:mb-0 px-2">
           <CardPageVisits />
         </div>
-        <div className="w-full xl:w-4/12  px-2">
+        <div  className="w-full xl:w-4/12 mt-3 relative px-2">
           <CardSocialTraffic />
         </div>
       </div>

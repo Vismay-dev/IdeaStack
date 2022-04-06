@@ -8,6 +8,9 @@ import axios from 'axios'
 
 import {useHistory} from 'react-router-dom'
 
+import ClipLoader from "react-spinners/ClipLoader"
+
+
 
 const LogModal = (props)=> {
 
@@ -67,19 +70,23 @@ const handleChange = (e) => {
 }
 const [error, setError] = useState('');
 
+const [loading, setLoading] = useState(false);
+
 
 const handleSubmit = (e) => {
   e.preventDefault()
+  setLoading(true)
 axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/login':'http://localhost:4000/api/user/login',studentUser).then(res=> {
   sessionStorage.setItem('token',res.data.userToken)
   props.logFunc(res.data.user)
   history.push('/profile')
   props.close()
+  setLoading(false)
+
 }).catch(err=> {
+  setLoading(false)
   console.log(err.response.data)
   setError(err.response.data)
-
-
 })
 
 }
@@ -118,6 +125,14 @@ return (<div class="fixed z-50 inset-0 overflow-y-auto" aria-labelledby="modal-t
         Sign in to your account
       </h2>
     </div>
+
+    {
+
+      loading?
+      <div class ='relative mx-auto my-8 mb-10 pb-3 pl-2 pt-1.5 text-center block justify-center'>
+      <ClipLoader color={'#0b0bbf'} loading={loading}  size={70} />
+      </div>
+:
     <form class="mt-28 space-y-6 relative" onSubmit={handleSubmit}>
       <input class="text-md" type="hidden" name="remember" value="true"/>
       <div class="rounded-md shadow-sm -space-y-px ">
@@ -159,6 +174,8 @@ return (<div class="fixed z-50 inset-0 overflow-y-auto" aria-labelledby="modal-t
         </button>
       </div>
     </form>
+
+}
   </div>
 </div>
 

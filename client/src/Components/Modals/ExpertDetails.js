@@ -5,8 +5,12 @@ import "aos/dist/aos.css";
 import { StarIcon } from '@heroicons/react/solid'
 import { RadioGroup } from '@headlessui/react'
 import {useHistory} from 'react-router-dom'
+import { useLocation } from "react-router-dom";
+
 
 const product = {
+
+  
   
     breadcrumbs: [
       { id: 1, name: 'Industry Mentorship', href: '#' },
@@ -37,13 +41,8 @@ function classNames(...classes) {
   }
 
 const ExpertDetails = (props) => {
-
-
-    useEffect(() => {
-        AOS.init({
-          duration : 1000
-        });
-      }, []);
+const location = useLocation()
+  
     
       const myRef = useRef()
     
@@ -108,7 +107,8 @@ const ExpertDetails = (props) => {
         setMentorshipPackage({
             ...props.experts[i],
             teamSize: teamSize,
-            individualCostPerSession: props.experts[i].pricing[0]/teamSize
+            individualCostPerSession: props.experts[i].pricing[0]/teamSize,
+            numberOfSessions: numberOfSessions
           })
 
         }
@@ -127,6 +127,7 @@ const ExpertDetails = (props) => {
         ...mentorshipPackage,
         numberOfSessions: numberOfSessions,
         individualTotalCost: expert.pricing[0]/teamSize*numberOfSessions,
+        individualCostPerSession: expert.pricing[0]/teamSize,
         paymentPending: true
       }
 
@@ -149,6 +150,14 @@ const ExpertDetails = (props) => {
       
     }
 
+    useEffect(() => {
+      AOS.init({
+        duration : 1000
+      });
+    }, [mentorshipPackage, showConfirm]);
+  
+  
+
     return (
         <div class="fixed z-50 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -158,9 +167,7 @@ const ExpertDetails = (props) => {
           {/* This element is to trick the browser into centering the modal contents. */}
           <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
    
-          <div ref = {myRef} data-aos={"fade-up"} 
-          style = {showConfirm?{'backgroundImage':'url(https://wallpaperaccess.com/full/885179.jpg)'}:{}} 
-          data-aos-once='true' class="bg-cover inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mt-5 sm:align-middle w-10/12">
+          <div ref = {myRef} data-aos={"fade-up"} data-aos-once='true' class={`bg-cover inline-block align-bottom bg-white rounded-lg ${showConfirm?'bg-gradient-to-br from-indigo-50 to-indigo-200':''} text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mt-5 sm:align-middle w-10/12`}>
             
             
             
@@ -204,7 +211,7 @@ const ExpertDetails = (props) => {
             <img
               src={expert && expert.pic}
               alt={expert && expert.pic}
-              className="w-full h-full shadow-md object-center object-cover"
+              className="w-full h-[360px] shadow-md object-center object-cover"
             />
           </div>
         </div>
@@ -403,55 +410,73 @@ expert.contact[1]===''||expert.contact[1]===null?'Phone Number: Unavailable':
           </div>
         </div>
         </> : <>
+
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 absolute text-center justify-center left-[39%] text-blue-700 mx-auto top-[57.5%] translate-y-[-60%]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 absolute text-center justify-center left-[42.4%] text-blue-700 mx-auto top-[57.5%] translate-y-[-60%]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+  <path strokeLinecap="round" strokeLinejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+</svg>
+
+        <div class = 'grid grid-cols-2 right-[2.2%] my-40 mt-24 relative'>
+
+        <div 
+    class="max-w-xs bg-cover mb-8 mt-12 relative block mx-auto  bg-white rounded-lg bottom-5 shadow-lg dark:bg-gray-800">
+        <img class="object-cover  h-[320px]  w-full" src={expert&&expert.pic} alt="avatar"/>
         
-        
-    <div 
-    class="max-w-xs bg-cover mb-8 mt-12 relative mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
-        <img class="object-cover  w-full" src={expert&&expert.pic} alt="avatar"/>
-        
-        <div class="py-5 text-center">
+        <div class="py-5 pt-16 bottom-5 relative text-center">
             <a href="#" class="block text-2xl font-bold text-gray-800 dark:text-white">{expert&& expert.name}</a>
             <span class="text-sm text-gray-700 dark:text-gray-200">{expert&&expert.role}</span>
         </div>
     </div>
 
-    <div class = 'bg-gradient-to-br from-gray-100 to-gray-300 rounded-lg shadow-lg border-indigo-700 border-2 w-1/2 relative mx-auto block  p-4 pl-5 pb-1 mb-32'>
 
-    <h1 class = 'relative mx-auto block -mb-2.5  text-2xl font-semibold '>Is your project team willing to pay for this mentorship session?</h1>
-    <h1 class = 'relative mx-auto block mt-8 text-2xl font-semibold   mb-3  '>Pricing <span class = 'text-indigo-800'>Details:</span></h1>
 
-    <h1 class = 'relative mx-auto block mt-2 text-gray-800 text-lg font-semibold mb-1  w-full '>
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 font-bold text-indigo-800 bottom-[1.5px] inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-  <path strokeLinecap="round" strokeLinejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-</svg> Per Session Cost: <span class = 'font-bold'>AED {expert&&expert.pricing[0]/parseFloat(teamSize)}</span> Per Head</h1>
-
-<h1 class = 'relative mx-auto block text-gray-800 text-lg font-semibold   w-full'>
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 font-bold text-indigo-800 bottom-[1.3px] inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-</svg> Total Cost for <span class = 'font-bold'>{numberOfSessions} sessions :  AED {numberOfSessions&&numberOfSessions*expert.pricing[0]/parseFloat(teamSize)}</span> Per Head</h1>
-
-<div class = 'grid-cols-3 grid w-[360px]  gap-3 mt-10 mb-4'>
+        <div class="w-9/12 col-span-1 -top-5 relative block mx-auto   px-2">
+          <div class="p-6 md:pb-7 px-4 md:p-12 rounded-sm shadow-lg bg-blue-700">
+            <h2 class="mb-8 relative bottom-3 text-4xl font-bold font-heading text-white">Total Required Payment By Team</h2>
+            <div class="flex mb-8 items-center justify-between pb-5 border-b border-blue-100">
+              <span class="text-blue-50 text-md">No. of Sessions</span>
+              <span class="text-xl font-bold font-heading text-white">{numberOfSessions}</span>
+            </div>
+            <h4 class="mb-2 text-xl relative bottom-2 font-bold font-heading text-white">Pricing</h4>
+            <div class="flex mb-2 justify-between items-center">
+              <span class="text-blue-50 text-md">Individual Payment Per Session</span>
+              <span class="text-lg font-bold font-heading text-white">AED {expert.pricing[0]&&expert.pricing[0]/parseFloat(teamSize)}</span>
+            </div>
+            <div class="flex mb-10 justify-between items-center">
+              <span class="text-blue-50 text-md">Total Individual Payment</span>
+              <span class="text-lg font-bold font-heading text-white">AED {numberOfSessions&&numberOfSessions*expert.pricing[0]/parseFloat(teamSize)}</span>
+            </div>
+            <div class="flex mb-10 justify-between items-center">
+              <span class="text-xl font-bold font-heading text-white">Subtotal Cost</span>
+              <span class="text-xl font-bold font-heading text-white">AED {expert.pricing[0]&&expert.pricing[0]*numberOfSessions}</span>
+            </div>
+            <div class = 'grid-cols-3 grid w-[340px]  gap-3 mt-10 mb-4'>
 <button
     onClick = {()=> setShowConfirm(false)}
-  className="bg-indigo-600 col-span-1 inline border border-transparent rounded-md py-2 px-8 items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+  className="block w-full py-4 bg-slate-300 hover:bg-slate-400 col-span-1 border border-transparent rounded-md px-4 items-center justify-center text-base  font-bold text-gray-800  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
   >
  Cancel
     </button>
     <button
     onClick = {()=> addMentorshipPackage()}
-  className="bg-indigo-600 col-span-2 border border-transparent rounded-md py-2 px-3 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+  className="block w-full py-4 bg-slate-300 hover:bg-slate-400 col-span-2 border border-transparent rounded-md  px-3  items-center justify-center text-base font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
   >
  Confirm & Continue
     </button>
     </div>
-</div>
+          </div>
 
 
 
+        </div>
 
+       
+   
 
+    </div>
 
-        
         
         </> }
       </div>

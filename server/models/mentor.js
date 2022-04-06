@@ -36,6 +36,10 @@ const mentorSchema = new mongoose.Schema({
     mentorshipRequests : {
       type:Array,
       required:false
+    },
+    fields: {
+      type:Array,
+      required : true,
     }
   },
   { timestamps: true })

@@ -84,7 +84,7 @@ router.post('/confirmAcceptance',auth, async(req,res)=> {
     }
 
     proj.team.push(appObj)
-    applicant.projects.push(proj)
+    applicant.projects.push(proj._id)
 
     proj.joinRequests = proj.joinRequests.filter(jR=> {
         jR!==req.body.application
@@ -203,36 +203,52 @@ router.post('/getMentors', auth, async(req,res)=> {
 
 router.post('/addMentorshipPackage', auth, async(req,res)=> {
     const proj = await project.findOne({_id:req.body.projectID})
-    proj.mentorshipPackages.push({...req.body.mentorshipPackage,paymentPending:true, scheduled: false})
-
+    proj.mentorshipPackages.push({...req.body.mentorshipPackage,paymentPending:true, pendingAmount: req.body.mentorshipPackage.pricing[0] , scheduled: false})
+    const noOfSessions = req.body.mentorshipPackage.numberOfSessions
     for(let i = 0; i<proj.team.length;i++) {
         if(proj.team[i].pendingPayments){
-        proj.team[i].pendingPayments.push(req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length))
+        proj.team[i].pendingPayments.push(req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions)
         }else {
-            proj.team[i].pendingPayments = [req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)]
+            proj.team[i].pendingPayments = [req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions]
         }
 
 
         const user = await studentUser.findById(proj.team[i].id);
 
         let paymentInfo = {
-            
-                amounts: user.pendingPayments.amounts?user.pendingPayments.amounts.push(req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)):
-                [req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)],
-                totalAmountForThisProject:user.pendingPayments.totalAmountForThisProject? user.pendingPayments.totalAmountForThisProject+req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)
-                :req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length),
-                projectID: req.body.projectID,
-                projectName: proj.name,
-            
-        }
+            amounts: [req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions],
+            totalAmountForThisProject:req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions,
+            projectID: req.body.projectID,
+            projectName: proj.name,
+    }
 
        
         if(user.pendingPayments){
 
+        let chk = false;
+        let finI = 0;
+
+        for(let i = 0; i<user.pendingPayments.length;i++){
+            if(JSON.stringify(user.pendingPayments[i].projectID) === JSON.stringify(req.body.projectID)){
+                chk = true;
+                finI = i;
+                break;
+            }
+        }
+
+
+        if(!chk){
             user.pendingPayments.push(paymentInfo)
+        } else {
+            let pendingPaymentObj = user.pendingPayments[finI]
+            paymentInfo.amounts = pendingPaymentObj.amounts.push(req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions)
+            paymentInfo.totalAmountForThisProject = pendingPaymentObj.totalAmountForThisProject+req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions;
+            user.pendingPayments.push(paymentInfo)
+        }
+
+
 
         }else {
-
             user.pendingPayments = [paymentInfo]
         }
 
@@ -258,6 +274,8 @@ router.post('/getTeam', auth, async(req,res)=> {
     const proj = await project.findOne({_id:req.body.projectID})
     res.send(proj.team);
 })
+
+
 
 
 

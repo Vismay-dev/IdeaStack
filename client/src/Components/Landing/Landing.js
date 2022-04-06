@@ -358,22 +358,13 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
       </g>
     </svg>
     <p id = 'partners' class = 'relative bottom-52'/>
-        <div class = "h-auto md:pb-10 pb-20 xs:pt-6 xs3:pt-6 pt-10  px-4">
-        <h1  class="w-full my-2 lg:-top-28 lg:-mb-12 md:-top-20 md:-mb-6 -top-11 mb-1 relative text-5xl font-bold leading-tight  text-center text-gray-800">
+        <div class = "h-auto md:pb-10 pb-20 xs:pt-6 xs3:pt-6 pt-10  px-6">
+        <h1  class="w-full my-2 xl:-top-36 lg:-top-28 lg:-mb-12 md:-top-[85px] md:-mb-6 sm:-top-[65px] -top-[53px] mb-1 relative text-5xl font-bold leading-tight  text-center text-gray-800">
           Our Trusted Partner
         </h1>
-{/* {lg:w-5/12 md:w-7/12 sm:w-8/12} */}
-        {/* <div class = "grid grid-cols-1 mx-auto  w-5/12 -mb-8 relative    -mt-8 px-20  space-x-8"> */}
-            {/* <div class = "md:col-span-1 col-span-3 bg-white h-72  shadow-xl border-t-2 border-midnight rounded-lg"></div> */}
-            {/* <a href = 'https://atpstem.com/' target = '_blank'> */}
-              {/* {xl:h-80 -mt-10 lg:h-72 xs3:h-72 h-64} */}
-            {/* <div class = "col-span-1 bg-white h-80   shadow-md hover:shadow-lg hover:shadow-blue-200 rounded-b-lg hover:cursor-pointer py-6 px-6  border-t-2 border-midnight-200 rounded-lg relative">
-                <img src = {atp} class = "w-96 mx-auto mt-14"></img>
-                <div class = "absolute bottom-0 pb-1 pt-1 w-full text-center text-gray-600 font-medium bg-gray-300 right-0">ATP STEM Education</div>
-            </div></a> */}
-            {/* <div class = "md:col-span-1 col-span-3 bg-white h-72 shadow-xl border-t-2 border-midnight rounded-lg"></div> */}
-        {/* </div> */}
-        <div data-aos={"fade-up"} data-aos-once='true' className="grid grid-cols-1 xs3:w-80 w-72 mx-auto xs3:h-72 h-64 gap-6">
+
+
+        <div data-aos={"zoom-in"} data-aos-once='true' className="grid grid-cols-1 xs3:w-80 w-72 xl:bottom-8 relative mx-auto xs3:h-72 h-64 gap-6">
 
           {/* ::Partner 1 -> ALL */}
           <div onClick = { ()=> {

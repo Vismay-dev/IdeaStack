@@ -1,8 +1,17 @@
 import DocumentModal from "../Modals/DocumentModal"
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
+import AOS from 'aos';
+import "aos/dist/aos.css";
 
 const Documents = () => {
     const [show, setShow] = useState(false)
+
+
+    useEffect(() => {
+        AOS.init({
+          duration : 1200
+        });
+      },[]);
 
     return (
 
@@ -10,7 +19,7 @@ const Documents = () => {
         {show?<DocumentModal close = {()=>setShow(false)}/>:''}
 
 
-        <div style = {{'backgroundImage':'url(https://biglanguage.com/wp-content/uploads/2021/11/Technical-Document-Translation.jpg)'}}
+        <div data-aos={"fade-up"} data-aos-once='true' style = {{'backgroundImage':'url(https://biglanguage.com/wp-content/uploads/2021/11/Technical-Document-Translation.jpg)'}}
         class = 'col-span-2 bg-cover row-span-1  bg-gradient-to-br from-blue-300 to-indigo-300 rounded-md shadow-xl'>
                                          <div class = 'h-full inset-0 bg-gray-900 bg-opacity-[0.65] pt-4'>
                         

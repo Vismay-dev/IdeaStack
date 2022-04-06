@@ -1,7 +1,10 @@
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 import CreateProjectModal from "../Modals/CreateModal"
 import projectContext from '../../context/projectContext'
 import { useHistory } from "react-router-dom"
+
+import AOS from 'aos';
+import "aos/dist/aos.css";
 
 const CreateProject = () => {
 
@@ -20,6 +23,12 @@ const CreateProject = () => {
         }
     }
 
+    useEffect(() => {
+        AOS.init({
+          duration : 600
+        });
+      },[showMore]);
+
     const history = useHistory()
     
 
@@ -33,21 +42,19 @@ const CreateProject = () => {
             }
 
         
+<h1 class = ' text-center w-10/12 relative mx-auto   mt-5 py-4 pb-9 font-semibold text-gray-800 text-[47px] underline'>Projects Created ({projectCon.projects.length})</h1>
 
-        <h1 class = 'text-gray-600 text-center mt-10 mb-12 text-5xl font-semibold'>Projects Created ({projectCon.projects.length}):</h1>
-        
 
-        <div class = 'grid grid-cols-2 gap-4 align-middle content-center -mb-8 mt-0 px-[120px]'>
+        <div class = 'grid grid-cols-2 gap-4 align-middle content-center -mb-7 mt-2 md:px-[20px]   lg:px-[120px] sm:px-[50px] px-[19px]  sm:left-0 left-1 relative'>
             {projectCon.projects&&projectCon.projects.map((proj,i)=> {
 
                 let date = new Date(proj.createdAt).toDateString().substring(4)
                 date = date.slice(0, 6) + "," + date.slice(6);
-                console.log(i)
-                console.log(showMore[0]&&showMore[1]===i)
-                return(
-                    (i+1)%2===1 && i === projectCon.projects.length-1 ?   <div key = {i} class = 'col-span-2 px-64'>
 
-<div class={`w-full px-8 py-4 mt-1 mr-32 relative right-1.5 ${showMore[0]===true&&showMore[i]!==i?'':'h-full'} bg-white rounded-lg shadow-md `}>
+                return(
+                    (i+1)%2===1 && i === projectCon.projects.length-1 ?   <div key = {i} class = 'col-span-2 xl:px-64 lg:px-32 px-2'>
+
+<div data-aos={"zoom-in"} data-aos-once='true' class={`w-full px-8  py-4 mt-1 mr-32 relative right-1.5 ${showMore[0]===true&&showMore[i]!==i?'':'h-full'} bg-white rounded-lg shadow-md `}>
 
 <div class="flex items-center justify-between">
     <span class="text-sm font-light text-gray-600 ">{date}</span>
@@ -59,9 +66,9 @@ const CreateProject = () => {
 
 </div>
 
-<div class="mt-2">
+<div class="mt-2   ">
     <a href="#" class="text-2xl relative font-bold text-gray-700 hover:text-gray-600  hover:underline">{proj.name}</a>
-    <p class="mt-4 text-gray-600 ">
+    <p class="mt-4 xl:pb-1 pb-2  md:text-md text-sm text-gray-600 relative ">
          {proj.problem}
     </p>
 </div>
@@ -88,7 +95,7 @@ const CreateProject = () => {
     
 </div>
 </div></div>:
-           <div class = 'col-span-1' key = {i}>
+           <div class = 'md:col-span-1 col-span-2' key = {i}>
 
            <div class={`w-full px-8 py-4 mt-1 mr-4 ${showMore[0]===true&&showMore[i]!==i?'':'h-full'} bg-white rounded-lg shadow-md `}>
 
@@ -102,9 +109,9 @@ const CreateProject = () => {
 
            </div>
    
-           <div class="mt-2">
+           <div class="mt-1">
                <a href="#" class="text-2xl relative font-bold text-gray-700 hover:text-gray-600  hover:underline">{proj.name}</a>
-               <p class="mt-4 text-gray-600 ">
+               <p class="mt-4 xl:pb-1 pb-2  md:text-md text-sm text-gray-600 ">
                     {proj.problem}
                </p>
            </div>
@@ -138,7 +145,7 @@ const CreateProject = () => {
         </div>
 
         <button onClick = {() => setShowCreateModal(true)}
-         class = {`mt-4 ${projectCon.projects.length>0?'-mb-[172px] top-16':'-mb-[5.1rem] top-40 '} z-30  bg-gradient-to-r  from-blue-600 to-blue-800 w-5/12 rounded-md shadow-lg hover:shadow-lg hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-400 active:shadow-sm p-2 pb-2.5  text-gray-50 font-semibold text-2xl mx-auto text-center block justify-center relative`}>Create Project</button>
+         class = {`mt-4 ${projectCon.projects.length>0?'-mb-[155px] top-[70px]':'-mb-[4.6rem] top-40 '} z-40 pointer-events-auto  bg-gradient-to-r  from-blue-600 to-blue-800 w-5/12 rounded-md shadow-lg hover:shadow-lg hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-400 active:shadow-sm p-2 pb-2.5  text-gray-50 font-semibold text-2xl mx-auto text-center block justify-center relative`}>Create Project</button>
         </>
     )
 }

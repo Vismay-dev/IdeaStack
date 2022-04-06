@@ -1,15 +1,13 @@
-import PersonalInfo from "./PersonalInfo"
-import Stepper from "./Stepper"
+
 import axios from 'axios'
 
 import AOS from 'aos';
 import "aos/dist/aos.css";
 
-import PaymentList from "./PaymentList";
-
 import { useEffect, useState, useRef } from "react";
+import SessionList from './SessionList';
 
-const PaymentsConsultant = (props)=> {
+const AllSessionDetails = (props)=> {
 
 
   useEffect(() => {
@@ -45,36 +43,28 @@ useEffect(
   // ... passing it into this hook.
   [myRef, () => props.close()]
 );
-const [mentorshipPackage, setMentorshipPackage] = useState()
-const [payments, setPayments] = useState(false)
-const [loading, setLoading ] = useState(false)
-    useEffect(()=> {
-      setLoading(false)
-        axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/project/getTeam':'http://localhost:4000/api/project/getTeam',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
-        let paymentsTemp = [];
-        for(let i=0;i<res.data.length;i++){
-                paymentsTemp.push({
-                    name: res.data[i].name,
-                    amount:res.data[i].pendingPayments[0]});
-        }
-        setPayments(paymentsTemp)
-    }).catch(err=> {
-                console.log(err)
-                setLoading(false)
-
-            }) 
-            
-            
+const [mentorshipPackages, setMentorshipPackages] = useState()
+const [loading, setLoading] = useState()
+    useEffect(()=> {    
+      setLoading(true)       
                 axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/project/getMentorshipPackages':'http://localhost:4000/api/project/getMentorshipPackages',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
-                  setMentorshipPackage(res.data[0])
-                  setLoading(false)
+                let arr1 = [];
+                let arr2 = [];
 
+                for(let i = 0; i<res.data.length;i++) {
+                  let session = res.data[i];
+                  if(session.paymentPending) {
+                    arr1.push(session)
+                  }else {
+                    arr2.push(session)
+                  }
+                }
+                 setMentorshipPackages([arr1,arr2])
+                 setLoading(false)
                 }).catch(err=> {
                         console.log(err)
                         setLoading(false)
-
                 }) 
-
     },[])
 
 
@@ -92,10 +82,9 @@ const [loading, setLoading ] = useState(false)
         <div ref = {myRef} data-aos={"fade-up"} data-aos-once='true' class="pr-6 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mt-5 sm:align-middle w-10/12">
           <div  class="bg-white px-4 pt-2 pb-2 sm:p-6 sm:pb-4">
     
-                    <p class = 'text-center text-3xl top-2 font-bold relative'>Pending Payments</p>
-                    <p class = 'text-center text-2xl top-2 mt-3 mb-1.5 font-semibold text-gray-700 relative'>{mentorshipPackage&&(mentorshipPackage.name + ' - ' + mentorshipPackage.role)}</p>
+                    <p class = 'text-center text-3xl top-2 font-bold relative'>Mentorship Sessions - Details</p>
 
-                    <PaymentList loading = {loading} payments = {payments}/>
+                    <SessionList sessions = {mentorshipPackages} loading = {loading}/>
                    
     
     
@@ -112,6 +101,6 @@ const [loading, setLoading ] = useState(false)
       </div>
     </div>)
     }
-    
 
-export default PaymentsConsultant;
+export default AllSessionDetails
+    

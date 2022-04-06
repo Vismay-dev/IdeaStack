@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import axios from 'axios'
 import PaymentsConsultant from '../Modals/PaymentsConsultant'
 import {SiZoom, SiGooglemeet} from 'react-icons/si'
+import ClipLoader from "react-spinners/ClipLoader"
 
 const UpcomingMentor = props => {
 
@@ -10,16 +11,24 @@ const UpcomingMentor = props => {
     const [paymentComplete, setPaymentComplete] = useState(false)
 
     const [consultant,setConsultant] = useState({})
+    const [loading, setLoading] = useState(false)
+
    useEffect(()=> {
+    setLoading(true)
      if(props.mentorshipPackages && props.mentorshipPackages.length!==0) {
        setConsultantSelected(true);
         setConsultant(props.mentorshipPackages[0])
         if(props.mentorshipPackages[0].paymentPending===false) {
           setPaymentComplete(true)
-
-        
+          if(props.mentorshipPackages[0].scheduled) {
+            setSessionScheduled(true)
+          }
         }
      }
+
+     setLoading(false)
+
+
 
    },[props.mentorshipPackages])
 
@@ -38,6 +47,13 @@ const UpcomingMentor = props => {
   <p className="text-center top-2 text-xl font-semibold relative">Upcoming Mentorship Session:</p><br/>
   
   {
+    loading?
+    <div class ='relative mx-auto top-[64%] left-0.5 text-center block justify-center'>
+    <ClipLoader color={'#1663be'} loading={loading}  size={110} />
+    </div>
+
+
+:
     consultantSelected? <>
   <img class={`hidden object-cover ${paymentComplete?'-mt-0.5':'mt-4'} w-24 h-24 shadow-md mx-auto justify-center relative right-1 rounded-full sm:block`} src={consultant.pic} alt="avatar"/>
 <p class = 'text-gray-900 text-center font-semibold text-lg right-1.5 relative mt-2'>{consultant.name}</p>
@@ -50,7 +66,7 @@ const UpcomingMentor = props => {
 
    
 
-     !sessionScheduled?
+     sessionScheduled?
      <> 
      <p class = 'mt-[10px] text-md relative mx-auto justify-center text-center right-2'>
 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 top-[1px] relative text-gray-600 mr-1 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -69,7 +85,7 @@ const UpcomingMentor = props => {
 <h3 class = 'text-indigo-400 truncate text-center break-normal mt-2 text-ellipsis mb-1 hover:text-indigo-600 hover:underline cursor-pointer relative w-10/12 mx-auto left-1 z-50 '>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</h3> 
 
 
-<p class =' relative mx-auto text-center mt-2 mb-0.5'>
+<p class =' relative mx-auto text-center mt-1.5 mb-0.5'>
 <SiZoom class = 'inline relative  mr-3 text-blue-600 text-5xl'/>
 <SiGooglemeet class = 'inline  text-indigo-500 relative text-2xl'/>
 
@@ -83,7 +99,7 @@ const UpcomingMentor = props => {
 
 <h1 class = 'text-center mt-3 font-medium text-gray-800'>Awaiting Session Details..</h1>
 
-<p class =' relative mx-auto text-center mt-2.5 mb-0.5'>
+<p class =' relative mx-auto text-center mt-1.5 mb-1.5'>
 <SiZoom class = 'inline relative  mr-3 text-blue-600 text-5xl'/>
 <SiGooglemeet class = 'inline  text-amber-600 relative text-2xl'/>
 
@@ -98,10 +114,10 @@ const UpcomingMentor = props => {
 
 
 
-<p class = 'mt-[18px] relative mx-auto justify-center text-center  right-2'>
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 underline inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+<p class = 'mt-[18px] relative mx-auto justify-center text-center  right-2.5'>
+<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 underline inline mr-0.5 top-[1px] relative" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M16 15v-1a4 4 0 00-4-4H8m0 0l3 3m-3-3l3-3m9 14V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z" />
-</svg><span class = 'inline mt-6 font-semibold top-[3px] text-xl relative underline'> Payment Pending: </span>
+</svg><span class = 'inline mt-6 font-semibold top-[3px] text-lg relative underline'>Team Payment Pending: </span>
 <button onClick={()=> {setShowPayments(true)}} class = 'bg-indigo-500  uppercase p-3 hover:ring-1 hover:ring-blue-400 hover:bg-indigo-600 hover:shadow-lg active:shadow-sm rounded-lg text-sm mx-auto relative block right-[8px] shadow-md py-2.5 mt-4 mb-2 text-white font-semibold left-[.8px]'>VIEW PENDING PAYMENTS</button>
 
 </p>

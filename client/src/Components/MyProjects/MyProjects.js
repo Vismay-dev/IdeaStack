@@ -42,11 +42,20 @@ const MyProjects = () => {
    const [showHeader, setShowHeader] = useState(true)
 
    const [prevLocation, setPrevLocation] = useState('');
+   const [prevLocation2, setPrevLocation2] = useState('');
+
+   const [bool2, setBool2] = useState(false);
 
    useEffect(()=> {
+    if(!bool2 && location.pathname.split('/').length-1===3){    
 
-    if(location.pathname !== '/myprojects/manageproject/overview' && location.pathname.split('/')[2] === 'manageproject'){
+    
+
+    if(location.pathname.split('/').length-1===3 && (prevLocation2.split('/').length-1===2 || prevLocation.split('/').length-1===2)){
+        setShowHeader(true)
+    }else if(location.pathname !== '/myprojects/manageproject/overview' && location.pathname.split('/')[2] === 'manageproject' || showHeader===false&&prevLocation!=='/myprojects/manageproject/overview'&&prevLocation2.split('/').length-1!==2&&prevLocation.split('/').length-1!==2){
         setShowHeader(false)
+            setBool2(true)
     }else{
         setShowHeader(true)
     }
@@ -54,7 +63,39 @@ const MyProjects = () => {
     if(showHeader === true && prevLocation!=='/myprojects/manageproject/overview') {
         setShowHeader(true)
     }
+
+    
+}
+
+    if(prevLocation2.split('/').length-1 === 2 &&  location.pathname === '/myprojects/manageproject/overview'){
+        setShowHeader(true)
+    }
+
+
  
+   },[location.pathname])
+
+   const [bool, setBool] = useState(false);
+
+
+   useEffect(()=> {
+    if(!bool && location.pathname.split('/').length-1===2){
+    
+    
+        if(location.pathname !== '/myprojects/allprojects' && location.pathname.split('/')[2] !== 'manageproject' || showHeader===false&&prevLocation2!=='/myprojects/allprojects'){
+            setShowHeader(false)
+            setBool(true)
+    }else{
+        setShowHeader(true)
+    }
+
+    if(showHeader === true && prevLocation2!=='/myprojects/allprojects') {
+        setShowHeader(true)
+    }
+
+
+}
+  
    },[location.pathname])
 
 
@@ -64,6 +105,16 @@ const MyProjects = () => {
         setPrevLocation(location.pathname)
     } else {
         setPrevLocation('')
+    }
+   },[location.pathname])
+
+
+   useEffect(()=> {
+
+    if(location.pathname === '/myprojects/allprojects') {
+        setPrevLocation2(location.pathname)
+    } else {
+        setPrevLocation2(location.pathname)
     }
    },[location.pathname])
 
@@ -83,10 +134,10 @@ style={{'background-image': 'url(https://airwallpaper.com/wp-content/uploads/wal
    </div>:''
 }
 
-            <div class="flex space-x-1 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pt-5 justify-center w-10/12 rounded-b-lg mx-auto">
+            <div class="flex space-x-1 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pt-5 justify-center w-10/12 pr-16 rounded-b-lg mx-auto">
         {!sessionStorage.getItem('managing')?<><button onClick = {()=> {
             history.push('/myprojects/allprojects')
-        }} class={`flex items-center h-12 relative ml-[73px] py-2 text-sm text-center text-gray-100 
+        }} class={`flex items-center h-12 relative ml-[132px] py-2 text-sm text-center text-gray-100 
         ${location.pathname==='/myprojects/allprojects'?'bg-gray-800':'bg-gray-500'} px-7 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
             All Projects
         </button>
@@ -112,7 +163,7 @@ style={{'background-image': 'url(https://airwallpaper.com/wp-content/uploads/wal
 onClick = {()=> {setShowHeader(showHeader?false:true)}}
 
         class={` items-center h-12 left-48 relative py-1.5 text-sm text-center text-gray-100 
-        hover:from-gray-600 hover:to-gray-700 bg-gradient-to-b from-gray-500 to-gray-500 border-1   px-4 border-b-0   sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+        hover:from-gray-600 hover:to-gray-700 bg-gradient-to-b from-gray-500 to-gray-500 border-1   px-4  border-b-0   sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
             <FcCollapse class = {`text-4xl -top-[1px] text-gray-200 relative ${!showHeader?'rotate-180':''}`}/>
         </button>
         
@@ -127,9 +178,21 @@ onClick = {()=> {setShowHeader(showHeader?false:true)}}
     location.pathname!=='/myprojects/manageproject/mentorship/browse'?
 <>
 <button onClick = {()=> {
+        history.push('/myprojects/allprojects')
+    }}
+    class={`flex items-center mr-16 -ml-[28] relative h-12 py-2.5 text-sm text-center text-gray-100 
+   bg-gray-500 px-5 border border-b-0 hover:bg-gray-600  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+       
+<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline mr-1.5 top-[0.03px] relative" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
+</svg>
+        
+       <span class = 'relative bottom-[0.016px] font-semibold'> Go Back </span>
+    </button>
+<button onClick = {()=> {
             history.push('/myprojects/manageproject/overview')
         }} class={`flex items-center h-12 relative ml-[72px] py-2 text-sm text-center text-gray-100 
-        ${location.pathname==='/myprojects/manageproject/overview'?'bg-gray-800':'bg-gray-500'} px-7 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+        ${location.pathname==='/myprojects/manageproject/overview'?'bg-gray-800':'bg-gray-500'} px-6 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
             Overview
         </button>
 
@@ -137,7 +200,7 @@ onClick = {()=> {setShowHeader(showHeader?false:true)}}
             history.push('/myprojects/manageproject/manageapps')
         }}
         class={`flex items-center h-12 py-2 text-sm text-center text-gray-100 
-        ${location.pathname==='/myprojects/manageproject/manageapps'?'bg-gray-800':'bg-gray-500'} px-7 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+        ${location.pathname==='/myprojects/manageproject/manageapps'?'bg-gray-800':'bg-gray-500'} px-6 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
             Manage Applications
         </button>
 
@@ -152,8 +215,8 @@ onClick = {()=> {setShowHeader(showHeader?false:true)}}
         <button onClick = {()=> {
             history.push('/myprojects/manageproject/mentorship')
         }}
-        class={`flex items-center h-12 py-2 text-sm text-center text-gray-100 
-        ${location.pathname==='/myprojects/manageproject/mentorship'||location.pathname==='/myprojects/manageproject/mentorship/'?'bg-gray-800':'bg-gray-500'} px-7 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+        class={`flex items-center h-12 py-2  text-sm text-center text-gray-100 
+        ${location.pathname==='/myprojects/manageproject/mentorship'||location.pathname==='/myprojects/manageproject/mentorship/'?'bg-gray-800':'bg-gray-500'} px-6 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
             Industry Mentorship
         </button>
         </>
@@ -164,10 +227,11 @@ onClick = {()=> {setShowHeader(showHeader?false:true)}}
     <button onClick = {()=> {
         history.push('/myprojects/manageproject/mentorship')
     }}
-    class={`flex items-center ml-[185px] mr-24 h-12 py-2.5 text-sm text-center text-gray-100 
+    class={`flex items-center ml-[330px] mr-40 h-12 py-2.5 text-sm text-center text-gray-100 
    bg-gray-500 px-7 border border-b-0 hover:bg-gray-600  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 inline mr-1 top-[0.1px] relative" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-  <path strokeLinecap="round" strokeLinejoin="round" d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.333 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z" />
+       
+<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline mr-1.5 top-[0.03px] relative" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
 </svg>
         
        <span class = 'relative bottom-[0.016px] font-semibold'> Go Back </span>
@@ -180,7 +244,7 @@ onClick = {()=> {setShowHeader(showHeader?false:true)}}
         <button
 onClick = {()=> {setShowHeader(showHeader?false:true)}}
 
-        class={` items-center h-12 left-36 relative py-1.5 text-sm text-center text-gray-100 
+        class={` items-center h-12 left-24  relative py-1.5 text-sm text-center text-gray-100 
         hover:from-gray-600 hover:to-gray-700 bg-gradient-to-b from-gray-500 to-gray-500 border-1   px-4 border-b-0   sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
             <FcCollapse class = {`text-4xl -top-[1px] text-gray-200 relative ${!showHeader?'rotate-180':''}`}/>
         </button>

@@ -3,6 +3,8 @@ import NavBar from "./Components/NavMenu/NavBar"
 import Footer from "./Components/Footer/Footer";
 import { useEffect, useState } from "react";
 import ClockLoader from "react-spinners/ClipLoader"
+import { CircleLoader } from "react-awesome-loaders";
+
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 import userContext from './context/userContext'
 import projectContext from "./context/projectContext";
@@ -65,16 +67,24 @@ useEffect(()=> {
   return (
     <projectContext.Provider value={{projects:projects, setProjects:setProjects}}>
     <userContext.Provider value = {{user:user, setUser:setUser}}>
-    <div class = {` w-screen bg-gradient-to-r from-gray-200 to-blue-200 relative z-0 ${location.pathname === '/home' || loading ? 'h-screen':'h-max'}`}>
+    <div class = {` w-screen bg-gradient-to-r from-gray-200 to-blue-200 relative z-0 ${location.pathname === '/home' || loading ? 'h-screen':'h-max'}` }>
                 {!loading?<>
                   <NavBar loginFunc = {logIn}/>
                   <MainContent class = "-z-10"/>
                   <Footer/></>:
                 
-                  <div class = 'relative mx-auto text-center justify-center align-middle top-1/2'>
-                      <div class = 'bottom-24 left-4 relative'>
-                    <ClockLoader color={"#368ED7"} loading={loading} size={160}/>
-                  </div>
+                      <div 
+      class = ' w-[317px]  m-0 relative mx-auto top-[50%] translate-y-[-50%]  pl-1.5'>
+                      
+
+                      <CircleLoader
+        meshColor={"#6366F1"}
+        lightColor={"#E0E7FF"}
+        duration={1.5}
+        desktopSize={"90px"}
+        mobileSize={"64px"}
+      />
+             
                   </div>
 
                 }

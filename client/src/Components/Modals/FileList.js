@@ -3,6 +3,7 @@ import UploadFile from "./UploadFile"
 import axios from 'axios'
 import ReactTooltip from 'react-tooltip';
 import fileDownload from 'js-file-download'
+import ClipLoader from "react-spinners/ClipLoader"
 
 const FileList = () => {
 
@@ -12,14 +13,27 @@ const FileList = () => {
         setDocs(docsParam)
     }
 
+    const [loading, setLoading] = useState(false);
+
     useEffect(()=> {
+        if(!uploading){
+            setTimeout(()=> {
+                setLoading(true)
+            },500)
+        }
         axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/project/getDocs':'http://localhost:4000/api/project/getDocs',{
             projectID:sessionStorage.getItem('managing'), token:sessionStorage.getItem('token')}
         ).then(res=> {
             setDocs(res.data)
+            setTimeout(()=> {
+                setLoading(false)
+            },800)
+        
         }).catch(err=> {
             console.log(err)
-        })
+            setTimeout(()=> {
+                setLoading(false)
+            },500)        })
     },[uploading])
 
     const downloadResource = (doc,i) => {
@@ -59,6 +73,12 @@ const FileList = () => {
             <div class="bg-gradient-to-r from-blue-100 to-indigo-200 pt-4 mt-7 rounded-md shadow-lg pb-6  px-4 ">
                 
                 {
+                    
+      loading?
+      <div class ='relative mx-auto my-8 mb-10 pb-3 pt-5 pl-4 text-center block justify-center'>
+      <ClipLoader color={'#0b0bbf'} loading={loading}  size={70} />
+      </div>
+:
                     !uploading?
              <>  
                 <div class="sm:flex items-center top-3 relative justify-between">

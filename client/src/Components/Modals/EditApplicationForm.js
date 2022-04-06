@@ -3,8 +3,12 @@ import "aos/dist/aos.css";
 import { PaperClipIcon } from '@heroicons/react/solid'
 import { useEffect, useState, useRef } from "react";
 import axios from 'axios'
+import { CircleLoader } from "react-awesome-loaders";
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 
 const EditApplicationForm = (props) => {
+
+  const location = useLocation()
 
     useEffect(() => {
         AOS.init({
@@ -48,15 +52,24 @@ const EditApplicationForm = (props) => {
         setQuestion(e.target.value)
     }
 
+    const [loading, setLoading] = useState(false)
+
 
     useEffect(() => {
+        setLoading(true)
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/getQuestions':'http://localhost:4000/api/project/getQuestions',
          {token:sessionStorage.getItem('token'),projectID:sessionStorage.getItem('managing')}).then(res=> {
             setQuestions(res.data)
+            setTimeout(()=> {
+              setLoading(false)
+            },2000)
         }).catch(err=> {
             console.log(err.response)
+            setTimeout(()=> {
+              setLoading(false)
+            },2000)
         })
-    },[questions])
+    },[location.pathname])
 
    
     const deleteQ = (i) => {
@@ -111,7 +124,35 @@ return (
       <div className="border-t border-gray-200">
         <dl>
 
-            {questions.map((q,i)=> {
+
+
+
+            {
+            
+            loading?
+
+
+            <div 
+            class = ' w-[220px]  top-[144px]  m-0 relative mx-auto block translate-y-[-50%] py-10  pl-1.5'>
+                            
+      
+                            <CircleLoader
+              meshColor={"#6366F1"}
+              lightColor={"#E0E7FF"}
+              duration={1.5}
+              desktopSize={"64px"}
+              mobileSize={"64px"}
+            />
+                   
+                        </div>
+      
+      
+      
+            :
+            
+            
+            
+            questions.map((q,i)=> {
                 return (
 <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 relative">
             <dt className="text-sm font-medium text-gray-500">Question #{i+1}</dt>

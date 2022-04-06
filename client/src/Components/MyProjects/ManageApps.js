@@ -7,8 +7,18 @@ import EditApplicationForm from "../Modals/EditApplicationForm.js";
 import ViewApplications from "../Modals/ViewApplications.js";
 import axios from "axios";
 
+import AOS from 'aos';
+import "aos/dist/aos.css";
 
 const ManageApps = () => {
+
+
+  useEffect(() => {
+    AOS.init({
+      duration : 1000
+    });
+  },[]);
+
 
     const projects = useContext(projectContext)
   const [date,setDate] = useState()
@@ -82,7 +92,7 @@ const ManageApps = () => {
             <ViewApplications close = {()=> setShowViewApp(false)}/>
             :''
         }
-<h2 class = 'text-center font-bold text-6xl text-gray-800 top-1 relative mt-8 -mb-5'>Manage Applications</h2>
+<h2 class = 'text-center font-bold text-5xl text-gray-800 top-1 relative mt-10 -mb-2.5'>Manage Applications</h2>
     <h1 class = 'text-4xl text-center mt-[67px]'><span class = {!acceptingApp?'text-blue-700':'text-red-500'}>{acceptingApp?'Pause':'Accept'}</span> Core-Team Applications</h1>
 
     <div class="flex items-center justify-center relative w-full mb-11">
@@ -109,18 +119,19 @@ const ManageApps = () => {
 
 
 
-<div className="grid grid-cols-2 gap-8 px-52 mt-[55px]  -mb-[226px]">
+<div  className="grid grid-cols-2 gap-8 px-52 mt-[70px]  -mb-[222px]">
 
-<div class={`w-full relative grid-col-1`}>
+<div data-aos={"fade-up"} data-aos-once='true' class={`w-full relative grid-col-1`}>
 <div class={`rounded-lg shadow-lg bg-gradient-to-r  border-[1px] border-blue-600  from-blue-50 to-indigo-200 overflow-hidden mb-0`}>
   <div class = 'h-28 pt-2.5'>
   <p className="text-center top-3 text-xl font-semibold relative">Status: </p><br/>
     <p class={`text-3xl ${acceptingApp?'text-blue-700':'text-red-500'} relative text-center bottom-1.5 px-[50px]`}>{acceptingApp?'Accepting Applications':'Not Accepting Applications'}</p>     
   </div>
-  <div class=" pt-2 pb-7 mt-2 bg-gradient-to-r from-gray-50 to-slate-50 text-center">
+  <div class={`${!latestAccepted?'pt-4 pb-[41px]':'pt-2 pb-7'}  mt-2 bg-gradient-to-r from-gray-50 to-slate-50 text-center`}>
   <p className="text-center top-4 text-xl font-semibold relative px-10">Applications Accepted: </p><br/>
     <h1 className = 'text-center relative text-4xl text-blue-700'>{project?project.team.length-1:' '}</h1>
-    <p class="text-sm relative text-center font-light top-1.5 text-gray-600 px-[105px] ">Latest Accepted Team Member: {latestAccepted?<><span class = 'text-indigo-500 font-semibold'>{latestAccepted.name}</span> ({latestAccepted.date?Date(latestAccepted.date).toString().substring(0,15):''})</>:'--'} </p>     
+    <p class={`text-sm relative ${!latestAccepted?'top-3 ':' top-1.5'} text-center font-light text-gray-600 px-[105px]  `}>Latest Accepted Team Member: {latestAccepted?<><span class = 'text-indigo-500 font-semibold'>{latestAccepted.name}</span> ({latestAccepted.date?Date(latestAccepted.date).toString().substring(0,15):''})</>:'--'} </p>    
+  
   </div>
   <div class=" pt-2 pb-4  text-center">
   <p className="text-center top-3.5 text-xl font-semibold relative mb-1">Applications Pending: </p><br/>
@@ -133,7 +144,7 @@ const ManageApps = () => {
 
 
 
-<div class={`w-full relative grid-col-1`}>
+<div data-aos={"fade-up"} data-aos-once='true' data-aos-delay = '200' class={`w-full pointer-events-auto z-40 relative grid-col-1`}>
 <div class={`rounded-lg shadow-lg bg-gradient-to-r  relative bottom-[0.7px] border-[1px] border-blue-600  from-blue-50 to-indigo-200 overflow-hidden mb-0`}>
   <div class = 'h-[215px] relative  '>
   <p className="text-center top-5 text-xl font-semibold relative">View Applications: </p><br/>

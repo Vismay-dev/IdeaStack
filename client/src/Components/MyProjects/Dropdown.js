@@ -13,6 +13,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+
 export default function Dropdown(props) {
 
   const [catSelected, setCatSelected] = useState('')
@@ -30,9 +31,9 @@ export default function Dropdown(props) {
     {name:'Blockchain', icon:<SiHiveBlockchain class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:9},
   ]
   return (
-    <Menu as="div" className="relative inline-block md:text-md text-sm   ml-5 text-left">
+    <Menu as="div" className="relative inline-block z-40 pointer-events-auto  ml-5 text-left">
       <div>
-        <Menu.Button className="py-2  inline-flex justify-center w-full border-2 rounded-sm border-gray-300 shadow-sm px-4 bg-white text-md font-medium text-gray-700 hover:bg-gray-50 focus:outline-none  ">
+        <Menu.Button className="py-2 inline-flex justify-center w-full border-2 rounded-sm border-gray-300 shadow-sm px-4 bg-white text-md font-medium text-gray-700 hover:bg-gray-50 focus:outline-none  ">
           {catSelected?catSelected==='All'?'All Categories':'Category: '+ catSelected:'Category'}
           <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5 top-0.5 relative" aria-hidden="true" />
         </Menu.Button>
@@ -47,7 +48,7 @@ export default function Dropdown(props) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="origin-top-right absolute pointer-events-auto right-0 mt-2 z-40 w-72 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="origin-top-right pointer-events-auto  absolute right-0 mt-2 z-40 w-72 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
             {
               categories.map((cat, i) => {
@@ -60,7 +61,7 @@ export default function Dropdown(props) {
                     setCatSelected(cat.name)
                   }}
                   className={classNames(
-                    active ? 'bg-gray-100 cursor-pointer text-gray-900 font-semibold' : 'text-gray-700',
+                    active ? 'bg-gray-100 cursor-pointer z-40 text-gray-900 font-semibold' : 'text-gray-700',
                     'block px-4 py-2 text-sm'
                   )}
                 >

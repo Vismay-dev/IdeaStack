@@ -8,8 +8,19 @@ import {FaProjectDiagram} from 'react-icons/fa'
 import {RiFileList2Fill} from 'react-icons/ri'
 import {GrChapterAdd} from 'react-icons/gr'
 import { useHistory } from 'react-router-dom'
+import ClipLoader from "react-spinners/ClipLoader"
+
+import AOS from 'aos';
+import "aos/dist/aos.css";
 
 const Profile = () => {
+
+  useEffect(() => {
+    AOS.init({
+      duration : 800
+    });
+  }, []);
+
     const [showmore, setShowmore] = useState(false)
     const [addDesc, setAddDesc] = useState(false)
     const [editingDesc, setEditingDesc] = useState(false)
@@ -30,10 +41,13 @@ const Profile = () => {
     }
     const [projects, setProjects] = useState([])
 
+    const [loading, setLoading] = useState(false)
     useEffect(()=> {
+      setLoading(true)
       axios.post(process.env.NODE_ENV ==='production'?"https://ideastack.herokuapp.com/api/user/getUserProjects"
       :"http://localhost:4000/api/user/getUserProjects",{token:sessionStorage.getItem('token')}).then(res=> {
       setProjects(res.data);
+      setLoading(false)
     })
     },[user])
     
@@ -69,9 +83,12 @@ const Profile = () => {
       const inputRef = useRef(null)
       const dummyRef = useRef(null)
 
+      const [picLoading, setPicLoading] = useState(false)
+
       const [editModalShow, setEditModalShow] = useState(false)
       const profPicUpload =(e)=> {
         e.preventDefault()
+        setPicLoading(true)
         const data = new FormData();
         data.append('image',e.target.files[0]);
         data.append('token',sessionStorage.getItem('token') )
@@ -79,17 +96,20 @@ const Profile = () => {
             console.log(res.data)
             currentUser.setUser(res.data)
             setImage(res.data.profilePic)
+            setPicLoading(false)
         }).catch(err=> {
+          setPicLoading(false)
             console.log(err.response)
         })
       }
     
       const removeProfPic = (e) => {
-
+        setPicLoading(true)
         const removedProfPic = {...user, profilePic:''}
         console.log(removedProfPic)
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/updateUser':'http://localhost:4000/api/user/updateUser',{user:removedProfPic, token:sessionStorage.getItem('token')}).then(res=> {
           currentUser.setUser(res.data)
+          setPicLoading(false)
         }).catch(err=> {
           console.log(err.response?err.response.data:null)
         })
@@ -99,7 +119,7 @@ const Profile = () => {
 
 
     return (
-        <div class="pt-28 -mb-72 relative  overflow-hidden bg-gradient-to-r from-gray-200 to-blue-200">
+        <div class="xl:pt-28 pt-28 -mb-72 relative  overflow-hidden bg-gradient-to-r from-gray-200 to-blue-200">
             <div ref = {dummyRef}></div>
             {
                 editModalShow?
@@ -107,7 +127,7 @@ const Profile = () => {
                  :''
             }
 
-            <h1 class = 'relative mx-auto -mt-16 text-center text-6xl font-semibold'><span class = 'text-blue-600'>Your</span> Profile</h1>
+            <h1 class = 'relative mx-auto xl:-mt-12 2xl:-mb-16 xl:-mb-6 xl:py-8 xl:pt-4   lg:mb-6 md:-mt-12 md:mb-16 sm:-mt-14 sm:mb-24 -mt-10 mb-36 xs:-mt-10 xs:mb-40  text-center text-6xl font-semibold'><span class = 'text-blue-600'>Your</span> Profile</h1>
             <div class="relative -mt-10 -mb-60  max-h-80">
       <svg viewBox="0 0 1428 174" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -154,21 +174,36 @@ const Profile = () => {
             </svg>
           </div>
         </section>
-        <section className="relative py-16 bg-blueGray-200">
-          <div className="container mx-auto px-4">
-            <div className="relative flex flex-col  min-w-0 break-words bg-gradient-to-br from-white to-gray-100 w-full -mb-40 shadow-xl rounded-lg">
-              <div className="px-6">
-                <div className="flex flex-wrap justify-center">
-                  <div className="w-full lg:w-3/12 px-4   lg:order-2 flex justify-center">
+        <section  className="relative py-16 bg-blueGray-200">
+          <div  className="container mx-auto px-4">
+            <div className="relative flex flex-col  min-w-0  break-words bg-gradient-to-br from-white to-gray-100 w-full lg:-mb-40 md:-mb-16  md:mt-5 lg:mt-4 sm:-mb-8 sm:mt-7 -mb-2 shadow-xl rounded-lg">
+              <div  className="px-6">
+                <div data-aos={"zoom-in-up"} data-aos-once='true'  className="flex flex-wrap justify-center">
+                  <div   className="lg:w-4/12 w-[270px] xl:w-3/12 xl:ml-10   px-4  lg:order-2 order-1 flex justify-center">
                     <div className="relative scale-90 rounded-r-full  p-3">
                     <input ref={inputRef} onChange = {profPicUpload} type="file" name="article_picture" style={{'display': 'none'}}/>
-                    <img class={`rounded-full -mt-16 -mb-2  shadow-lg w-80 ${currentUser.user.profilePic?'':'p-2'} relative`}
-                    src={currentUser.user.profilePic?currentUser.user.profilePic:"https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="}/>  
+                    {
+                      picLoading?
+
+                    
+                      <div class = 'relative top-3 my-3 mb-7 block'>
+                      <ClipLoader color={'#0b0bbf'} loading={picLoading}  size={70} />
+                     </div>
+                      :
+
+                      <img class={`rounded-full -mt-16 -mb-2  w-56 h-56 object-contain bg-white  shadow-lg block ${currentUser.user.profilePic?'':'p-2'} relative`}
+                    src={currentUser.user.profilePic?currentUser.user.profilePic:"https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="} /> }
+
+
+
+
                  {currentUser.user.profilePic?
+
+                
                  <i data-tip="Remove Picture" onMouseOver={() => setShowToolTip2(true)} 
                  onMouseLeave={() => setShowToolTip2(false)} onClick = {()=> {
                   setShowToolTip2(false);
-                 removeProfPic()}} className="fas hover:cursor-pointer hover:text-orange-700  fa-trash font-semibold text-2xl absolute right-0 bottom-8 text-red-600">
+                 removeProfPic()}} className={`fas hover:cursor-pointer hover:text-orange-700  fa-trash font-semibold text-2xl absolute right-0 ${picLoading?'bottom-5 -right-2':'bottom-8 '} text-red-600`}>
 <Tooltip show={showToolTip2} position = 'right' fontSize = '16px' padding = '3px 5px'>
   <span class = 'font-semibold text-center font-sans bottom-0.5'>Remove Picture</span>
 </Tooltip>
@@ -180,14 +215,14 @@ const Profile = () => {
 
                   <i     onMouseOver={() => setShowToolTip(true)} 
         onMouseLeave={() => setShowToolTip(false)}
-          onClick={()=>{setShowToolTip(false); inputRef.current.click()}}  className={`fas hover:cursor-pointer hover:text-indigo-700 text-2xl fa-camera font-semibold  ${currentUser.user.profilePic?'bottom-0.5 right-6 absolute':'right-2 absolute bottom-0.5'} text-gray-800`}>
+          onClick={()=>{setShowToolTip(false); inputRef.current.click()}}  className={`fas hover:cursor-pointer hover:text-indigo-700 text-2xl fa-camera font-semibold  ${currentUser.user.profilePic?'bottom-0.5 right-6 absolute':'right-2 absolute bottom-0.5'} ${picLoading?'mt-3':''} text-gray-800`}>
             <Tooltip position = 'bottom' fontSize = '16px' padding = '3px 5px' show={showToolTip} className = 'p-1'>
   <span class = 'font-semibold text-center font-sans bottom-0.5'>{currentUser.user.profilePic?'Change Picture':'Upload Picture'}</span>
 </Tooltip></i>                    </div>
 
                   </div>
-                  <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-                    <div className="py-6 px-3 mt-24 sm:mt-0">
+                  <div className="w-full lg:w-4/12  px-4 lg:order-3 order-2 mx-auto text-center lg:mt-0 mt-7 lg:left-0 sm:left-2.5 left-1 relative lg:text-right lg:self-center">
+                    <div className="py-6 px-3 lg:mt-4 mt-1 sm:mt-0">
                       <button
                       onClick={() => {setModalType('profile'); setEditModalShow(true)}}
                         className="bg-gradient-to-r from-blue-300 to-blue-500 hover:from-indigo-300 hover:to-indigo-500 active:bg-blue-400 uppercase text-white font-bold hover:shadow-lg shadow-sm text-md px-3 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-24 ease-linear transition-all duration-150"
@@ -197,8 +232,8 @@ const Profile = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="w-full lg:w-4/12 px-4 lg:order-1">
-                    <div className="flex justify-center py-4 right-12 relative lg:pt-4 pt-8">
+                  <div className="w-full lg:w-4/12 xl:ml-3 px-4 xl:top-1.5 lg:mt-0 -mt-[105px] lg:left-0 left-[10px] relative lg:order-1 order-2">
+                    <div className="flex justify-center py-4 xl:right-7 lg:right-3 right-0 relative lg:pt-4 pt-8">
                       <div className="mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                           0
@@ -219,8 +254,8 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
-                <div className="text-center mt-11">
-                  <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700">
+                <div  className="text-center mt-11">
+                  <h3 className="sm:text-4xl text-3xl font-semibold leading-normal mb-2 text-blueGray-700">
                     {currentUser?userInfo.firstName+ ' ' + userInfo.lastName:' '}
                   </h3>
                   <div className="text-sm leading-normal mt-0 mb-10 text-blueGray-400 font-bold uppercase">
@@ -229,17 +264,17 @@ const Profile = () => {
                   </div>
                  
 
-                  <div className="mb-2 text-blueGray-600">
-                    <i className="fas fa-calendar mr-2 text-lg text-gray-400"></i>
-                    Age: {currentUser?userInfo.age:' '}
+                  <div className="mb-2 text-blueGray-600 px-4">
+                    <i className="fas fa-calendar mr-2 text-lg sm:text-gray-400 text-gray-500"></i>
+                    <span class = 'sm:font-normal font-medium'>Age:</span> {currentUser?userInfo.age:' '}
                   </div>
-                  <div className="mb-2 text-blueGray-600">
-                    <i className="fas fa-university mr-2 text-lg text-gray-400"></i>
+                  <div className="mb-2 text-blueGray-600 px-4">
+                    <i className="fas fa-university mr-2 text-lg sm:text-gray-400 text-gray-500"></i>
                     {currentUser?userInfo.school:' '}
                   </div>
-                  <div className="mb-5 text-blueGray-600">
-                    <i className="fas fa-envelope mr-2 text-lg text-gray-400"></i>
-                    Contact: {currentUser?userInfo.email:' '}
+                  <div className="sm:mb-5 mb-8 text-blueGray-600 px-4">
+                    <i className="fas fa-envelope mr-2 text-lg sm:text-gray-400 text-gray-500"></i>
+                    <span class = 'sm:font-normal font-medium'>Contact</span>: {currentUser?userInfo.email:' '}
                   </div>
                   
                 </div>
@@ -318,7 +353,7 @@ const Profile = () => {
 
 
                       <button
-                        class="font-semibold top-3 p-2 text-md shadow-md mb-2 z-20 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 relative text-gray-700"
+                        class="font-semibold top-3 p-2 z-40 text-md shadow-md mb-2 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 relative text-gray-700"
                         onClick={() => {
                         setShowmore(showmore?false:true)}}
                       >
@@ -331,7 +366,7 @@ const Profile = () => {
                              {/* <!-- ====== Cards Section Start --> */}
                              {showmore?
                                                          
-                             <div class="container mt-16  -mb-6 px-16">
+                             <div class="container mt-16  -mb-6 px-10">
        <h1 class = 'font-semibold text-4xl w-48 mx-auto relative text-center justify-center justify-items-center bottom-6 mb-6'>
        <RiFileList2Fill class = 'text-indigo-500 ml-1 text-3xl top-1.5 absolute'/>
       <span class = 'ml-8'>Interests</span></h1>
@@ -341,7 +376,7 @@ const Profile = () => {
                     currentUser.user.interests.length>0?
                     <button
                       onClick={() => {setModalType('interests'); setEditModalShow(true)}}
-                        className="bg-gradient-to-r from-blue-300 absolute right-24 -mt-20  to-blue-500 hover:from-indigo-300 hover:to-indigo-500 active:bg-blue-400 uppercase text-white font-bold hover:shadow-lg shadow-sm text-md px-3 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-28 ease-linear transition-all duration-150"
+                        className="bg-gradient-to-r from-blue-300 absolute md:block hidden lg:right-[70px] md:right-8 right-4 lg:-mt-20 -mt-[85px]  to-blue-500 hover:from-indigo-300 hover:to-indigo-500 active:bg-blue-400 uppercase text-white font-bold hover:shadow-lg shadow-sm lg:text-md text-sm md:px-3 px-2 md:py-2 py-1.5 rounded outline-none focus:outline-none sm:mr-2 mb-28 ease-linear transition-all duration-150"
                         type="button"
                       >
                         Edit Interests
@@ -351,12 +386,13 @@ const Profile = () => {
                 
       {
         currentUser.user.interests.length>0?
-        <div class = {`grid grid-cols-3 ${currentUser.user.interests.length>2?'-mt-3':'-mt-6'}  mb-16 space-y-4`}>
+        <>
+        <div data-aos={"zoom-in-up"} data-aos-once='true' class = {`grid md:grid-cols-3 sm:grid-cols-4 grid-cols-3  ${currentUser.user.interests.length>2?'-mt-3':'-mt-6'}  mb-16 space-y-4`}>
         {currentUser.user.interests.map(interest => {
           return (
-              <div class={`max-w-xs col-span-1 mx-auto py-2 pb-1 ${currentUser.user.interests.length===1?'col-start-2':''} top-5 relative mb-5 overflow-hidden bg-gradient-to-r from-blue-50 to-indigo-100  rounded-lg shadow-lg `}>
-                <div class="px-4 py-2">
-                    <h1 class="text-2xl font-bold mb-1 text-gray-700">{interest.title}</h1>
+              <div class={`max-w-xs  mx-auto py-2 pb-1 ${currentUser.user.interests.length===1?'md:col-start-2 sm:col-start-2':''} md:col-span-1 sm:col-span-2 lg:left-0 left-[1px] col-span-3 top-5 relative mb-5 overflow-hidden bg-gradient-to-r from-blue-50 to-indigo-100  rounded-lg shadow-lg `}>
+                <div class="lg:px-4 px-3 py-2">
+                    <h1 class="sm:text-2xl text-xl font-bold lg:mb-1 mb-4 text-gray-700">{interest.title}</h1>
                     <p class="text-sm text-gray-600 mt-2 mb-2">{interest.desc}</p>
                 </div>
               </div> 
@@ -364,7 +400,13 @@ const Profile = () => {
         })}
         
         </div>
-
+        <button
+                      onClick={() => {setModalType('interests'); setEditModalShow(true)}}
+                        className="bg-gradient-to-r from-blue-300  md:hidden visible   -mt-[55px] mb-9 bottom-4 left-0.5 relative  to-blue-500 hover:from-indigo-300 hover:to-indigo-500 active:bg-blue-400 uppercase text-white font-bold hover:shadow-lg shadow-sm text-md px-2.5 py-2  rounded outline-none focus:outline-none  ease-linear transition-all duration-150"
+                        type="button"
+                      >
+                        Edit Interests
+                      </button></>
         :<>
         <div onClick={() => {setModalType('interests'); setEditModalShow(true)}}
               class = 'hover:text-indigo-600 hover:cursor-pointer mt-2 top-1.5 relative hover:border-x-4 hover:border-indigo-500 w-1/4 mx-auto'  >
@@ -383,16 +425,30 @@ const Profile = () => {
        <FaProjectDiagram class = 'text-indigo-500 ml-2 text-3xl top-1.5 absolute'/>
       <span class = 'ml-8 mb-6 relative'>Projects</span></h1>
 
-      <div class="flex flex-wrap space-x-3 -mx-4 mt-4">
 
-        {projects.map(proj=> {
+
+      <div class="flex flex-wrap space-x-3 -mx-2 mt-4">
+
+        {
+
+        loading?
+
+
+        <div class ='relative mx-auto my-8 pl-4 mb-20 text-center block justify-center'>
+      <ClipLoader color={'#0b0bbf'} loading={loading}  size={70} />
+      </div>
+
+
+        :
+
+        projects.map(proj=> {
 
              let date = new Date(proj.createdAt).toDateString().substring(4)
              date = date.slice(0, 6) + "," + date.slice(6);
 
           return(
-            <div class={`w-full relative ${projects.length===1?'mx-auto':''} md:w-1/2 xl:w-1/3 px-4}`}>
-            <div class={`rounded-lg shadow-lg bg-gradient-to-r  from-blue-50 to-indigo-100 overflow-hidden mb-10`}>
+            <div data-aos={"zoom-in-up"} data-aos-once='true' class={` sm:mt-0 mt-4 relative ${projects.length===1?'mx-auto':''}  md:w-2/3 xl:w-1/3 px-4}`}>
+            <div class={`rounded-lg shadow-lg bg-gradient-to-r  from-blue-50 to-indigo-100 sm:w-full w-[120%] sm:right-0 right-[10%] relative  overflow-hidden mb-10`}>
                <img
                   src={proj.projPic}
                   alt="image"
@@ -446,7 +502,8 @@ const Profile = () => {
                </div>
             </div>
          </div>)
-        })}
+        })
+        }
          
    </div>
    </div>

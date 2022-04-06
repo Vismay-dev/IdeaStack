@@ -176,8 +176,22 @@ router.post('/uploadProfPic',upload.single('image'),async(req,res)=> {
         fileUrl = result.secure_url           
         console.log('File Uploaded')
     }).catch(err=> console.log(err.response))
-    console.log(fileUrl)
         let userUpdated = await studentUser.findOneAndUpdate({_id:id}, {profilePic : fileUrl}).catch(err=> console.log(err))
+        let projects = await project.find({_id: {$in: user.projects}}).catch(err=> console.log(err))
+        for(let i = 0; i<projects.length;i++) {
+            let proj = projects[i];
+            for(let i = 0; i<proj.team.length;i++) {
+                if(JSON.stringify(proj.team[i].id)===JSON.stringify(userUpdated._id)){
+                    proj.team[i].pic = fileUrl
+                    proj.markModified('team')
+                    if(i===0){
+                        proj.admin.pic = fileUrl
+                    }
+                    proj.markModified('admin')
+                    await proj.save()
+                }
+            }
+        }
     
     res.send(userUpdated);
 })
@@ -262,5 +276,79 @@ router.post('/createJoinRequest', auth, async(req,res)=> {
     res.send('Join Request Succesfully Sent!')
 })
 
+
+router.post('/getLatestPendingPayment', auth, async(req,res)=> {
+
+    const user = await studentUser.findById(req.user._id);
+    const pendingPayments = user.pendingPayments;
+    try{
+        for(let i = 0; i<pendingPayments.length;i++) {
+            if(pendingPayments[i].projectID===req.body.projectID) {
+                res.send({payment:parseFloat(pendingPayments[i].amounts[i])})
+                return;
+            }
+        }
+    } 
+    catch (err){
+        console.log(err);
+        res.send('error')
+    }
+   
+
+})
+
+router.post('/completeLatestPendingPayment', auth, async(req,res)=> {
+
+    const user = await studentUser.findById(req.user._id);
+    const pendingPayments = user.pendingPayments;
+    let amnt = 0;
+    for(let i = 0; i<pendingPayments.length;i++) {
+        if(pendingPayments[i].projectID===req.body.projectID) {
+            amnt = user.pendingPayments[i].amounts.splice(0,1);
+            user.pendingPayments[i].totalAmountForThisProject = user.pendingPayments[i].totalAmountForThisProject - amnt;
+        }
+    }
+    user.markModified('pendingPayments');
+    await user.save();
+
+    proj = await project.findOne({_id: req.body.projectID});
+    mentorshipPackage = proj.mentorshipPackages[0];
+    mentorshipPackage.pendingAmount -= amnt;
+    if(mentorshipPackage.pendingAmount==0) {
+        mentorshipPackage.paymentPending = false;
+    }
+
+    proj.markModified('mentorshipPackages');
+
+
+    amnt = 50;
+    for(let i = 0; i<proj.team.length;i++){
+        let member = proj.team[i];
+        if(JSON.stringify(member.id)===JSON.stringify(req.user._id)) {
+            if(member.pendingPayments[0]===amnt){
+               proj.team[i].pendingPayments[0] = 0;
+               proj.markModified('team');
+            }
+        }
+    }
+
+    await proj.save()
+    res.send('Payment Completed!')
+})
+
+router.post('/getProjectsPaid', async(req,res)=> {
+
+    const proj = await project.find({});
+    let projectsPaid = [];
+    for(let i = 0; i<proj.length;i++) {
+        for(let j = 0; j<proj[i].mentorshipPackages.length;j++) {
+            if(proj[i].mentorshipPackages[i].paymentPending===false && proj[i].mentorshipPackages[i].scheduled===false) {
+                projectsPaid.push(proj[i])
+            }
+        }
+    }
+    
+    res.send(projectsPaid)
+})
 
 module.exports = router

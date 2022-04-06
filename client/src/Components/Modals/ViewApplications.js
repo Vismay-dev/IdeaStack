@@ -7,6 +7,8 @@ import axios from 'axios'
 import {BsChevronDown, BsChevronUp } from 'react-icons/bs'
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
+import { CircleLoader } from "react-awesome-loaders";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const ViewApplications = (props) => {
     useEffect(() => {
@@ -56,8 +58,10 @@ const ViewApplications = (props) => {
       const [rejectedMember, setRejectedMember] = useState(false);
 
       const [change, setChange] = useState(false)
+      const [loading, setLoading] = useState(false)
 
       useEffect(()=> {
+        setLoading(true)
         let applicantsTemp = [];
         for(let k = 0; k<projCon.projects.length;k++) {
             if(projCon.projects[k]._id === sessionStorage.getItem('managing')){
@@ -68,15 +72,15 @@ const ViewApplications = (props) => {
                      console.log(res.data)
                       applicantsTemp.push(res.data)
                       setApplicants(applicantsTemp)
-                      
                     }).catch(err=> {
                     console.log(err.response)
                   })
                 }
             }
         }
-        console.log(applicants)
-        
+        setTimeout(()=> {
+          setLoading(false)
+        },1800)
       },[change, location.pathname])
 
 
@@ -89,7 +93,7 @@ const ViewApplications = (props) => {
           setTimeout(()=> {
             setApplications(res.data)
             setAddedNewMember(false)
-          },4500)
+          },4000)
         }).catch(err=> {
         console.log(err.response)
        })
@@ -105,12 +109,13 @@ const ViewApplications = (props) => {
           setTimeout(()=> {
             setApplications(res.data)
             setRejectedMember(false)
-          },4500)
+          },4000)
         }).catch(err=> {
         console.log(err.response)
        })
       }
 
+      const [currentI, setCurrentI] = useState(0)
 
 
 
@@ -147,47 +152,100 @@ const ViewApplications = (props) => {
     
     
 
-    {!addedNewMember && !rejectedMember && applications && applications.length===0?
+    {
+
+      loading && !addedNewMember && !rejectedMember?
+
+
+      <div 
+      class = ' w-[220px]  top-[144px]  m-0 relative mx-auto block translate-y-[-50%] py-10  pl-1.5'>
+                      
+
+                      <CircleLoader
+        meshColor={"#6366F1"}
+        lightColor={"#E0E7FF"}
+        duration={1.5}
+        desktopSize={"64px"}
+        mobileSize={"64px"}
+      />
+             
+                  </div>
+
+
+
+      :
+
+  
     
-    <h1 class = 'text-center my-11 font-semibold text-3xl'>No <span class = 'text-orange-400'>Applications</span> Pending</h1>
+    
+    
+    
+    
+    !addedNewMember && !rejectedMember && applications && applications.length===0?
+    
+    <h1 class = 'text-center my-20 mb-24 font-semibold text-4xl'>No <span class = 'text-orange-400'>Applications</span> Pending</h1>
     
     :
     <>
     
-    <div class = 'relative left-2 w-full h-max bg-gradient-to-br my-3 mt-4 rounded-md p-3 pb-8 shadow-md from-blue-50 to-indigo-200'>
+    <div class = 'relative left-2 w-full h-max bg-gradient-to-br my-3 mt-4 rounded-md p-3 pb-8 shadow-md px-16 from-blue-50 to-indigo-200'>
 
  <div class="relative rounded-lg">
 
 {
 addedNewMember?
-
-<h3 class = 'text-center font-semibold text-3xl my-7 mt-10'>Succesfully <span class = 'text-blue-500'>Added</span> a Team Member...</h3>
-
-
-
+<>
+<h3 class = 'text-center font-semibold text-3xl my-9 mt-8'><span class = 'text-blue-500'>Adding the Applicant</span> as a Team Member...</h3>
+<div class ='relative mx-auto pb-4 left-1.5 mt-3  pt-1.5 text-center block justify-center'>
+<BeatLoader color={'#3896FF'} loading={true} margin = {6}  size={20} />
+</div>
+</>
 
 :
 rejectedMember?
-
-<h3 class = 'text-center font-semibold text-3xl my-7 mt-10'>Rejecting the <span class = 'text-orange-600'>Applicant</span></h3>
+<>
+<h3 class = 'text-center font-semibold text-3xl my-9 mt-8'>Rejecting the <span class = 'text-orange-600'>Applicant</span></h3>
+<div class ='relative mx-auto pb-5 left-1.5 mt-3  pt-1.5 text-center block justify-center'>
+<BeatLoader color={'#FFA500'} loading={true} margin = {6}  size={20} />
+</div>
+</>
 :
 
 
 applications && applicants && applicants.map((app,i) => {
 return (
 
-<div key = {i}>
-<div class = ' mb-9 space-y-1  text-center text-md mt-2 top-4 relative'>
-<h3 class = 'text-center uppercase text-blue-700 font-semibold text-sm relative bottom-2.5 mb-8'>Application No. {i+1}</h3>
+<div data-aos={"zoom-in-up"}  data-aos-once='true' key = {i} class = {i===currentI?'visible':'hidden'}>
 
-<img class="object-cover w-24 shadow-md   h-24 mx-auto relative mb-[60px] mt-2 bottom-5  z-40 rounded-full sm:block" src={app.profilePic?app.profilePic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
+
+<div class = 'relative mx-auto z-40 text-center top-[210px]  align-middle justify-center block '>
+<p class = 'absolute  bottom-[55px] font-semibold'><span class = 'text-indigo-600'>Previous</span> Applicant</p>
+<svg xmlns="http://www.w3.org/2000/svg" onClick={()=> {
+  setCurrentI(currentI>0?currentI-1:applicants.length-1)
+}} class=" hover:h-12 hover:w-12 cursor-pointer hover:text-indigo-600  h-10 w-10 absolute left-2 bottom-[100%]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+</svg>
+
+<p class = 'absolute  bottom-[55px] right-0 font-semibold'><span class = 'text-indigo-600'>Next</span> Applicant</p>
+<svg onClick={()=> {
+  setCurrentI(currentI<applicants.length-1?currentI+1:0)
+}} xmlns="http://www.w3.org/2000/svg" class="hover:h-12 hover:w-12 hover:text-indigo-600 cursor-pointer h-10 w-10 absolute right-2 bottom-[100%]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+</svg>
+
+
+</div>
+<div class = ' mb-16 space-y-1   text-center text-md mt-2 top-4 relative'>
+<h3 class = 'text-center uppercase text-blue-700 font-semibold text-sm relative bottom-2.5 mb-12'>Application No. {i+1}</h3>
+
+<img class="object-cover w-24 shadow-md   h-24 mx-auto relative mb-[60px] mt-12 bottom-5  z-40 rounded-full sm:block" src={app.profilePic?app.profilePic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
 
 <h3 class = 'text-sm'><strong>Applicant Name</strong> : {applicants? app.firstName + ' ' + app.lastName :''}</h3>
 <h3 class = 'text-sm'><strong>School</strong> : {applicants?app.school:''} </h3>
 <h3 class = 'text-sm'><strong>Age</strong> : {applicants?app.age:''}</h3>
 <h3 class = 'text-sm' ><strong>Profile</strong> : </h3>
 </div>
-{applications && applications[i].appStatus === 'Not Decided'?
+{applications && applications[i] !==null && applications[i].appStatus === 'Not Decided'?
 <>
 {Object.keys(applications[i]).filter(key=>key!=='id'&&key!=='projID'&&key!=='appStatus').map((q,ind)=> {
 
@@ -201,7 +259,7 @@ return (
 
 })}
 
-<button class = 'relative mx-auto justify-center block  text-center top-2.5 mt-5 bg-gradient-to-r rounded-md shadow-md hover:shadow-lg active:shadow-sm from-gray-400 to-gray-600 p-4 text-white text-sm  font-semibold py-1.5' onClick={()=> setShowContact(!showContact)}>Contact (Recommended before Acceptance){showContact?<BsChevronUp class = 'relative ml-1 font-semibold inline'/>:<BsChevronDown class = 'relative ml-1 font-semibold  inline'/>}</button>
+<button class = 'relative mx-auto justify-center block  text-center top-2.5 mt-12 bg-gradient-to-r rounded-md shadow-md hover:shadow-lg active:shadow-sm from-gray-400 to-gray-600 p-4 text-white text-sm  font-semibold py-1.5' onClick={()=> setShowContact(!showContact)}>Contact (Recommended before Acceptance){showContact?<BsChevronUp class = 'relative ml-1 font-semibold inline'/>:<BsChevronDown class = 'relative ml-1 font-semibold  inline'/>}</button>
 <br/>
 {showContact?
   <p class = 'relative text-center my-4 mb-6 font-semibold -mt-1 text-sm'> 
@@ -227,16 +285,39 @@ return (
   <div class = 'relative  mx-auto justify-center block space-x-2 text-center'>
 
   <button onClick = {()=> setShowAcceptConfirm(true)} class = 'bg-gradient-to-r rounded-md shadow-md hover:shadow-lg active:shadow-sm from-blue-400 to-indigo-600 p-4 text-white  font-semibold py-1.5 text-sm'>Accept</button>
-<button onClick = {()=> setShowRejectConfirm(true)} class = 'bg-gradient-to-r rounded-md shadow-md hover:shadow-lg active:shadow-sm  from-red-400 to-orange-600 p-4 text-white font-semibold py-1.5 text-sm'>Reject</button>
+<button onClick = {()=> setShowRejectConfirm(true)} class = 'bg-gradient-to-r rounded-md shadow-md hover:shadow-lg active:shadow-sm  from-red-500 to-orange-600 p-4 text-white font-semibold py-1.5 text-sm'>Reject</button>
 
   </div>
 
 
 }
+
+<div class = 'relative mx-auto text-center bottom-4  align-middle justify-center block '>
+
+<p class = 'absolute  bottom-[55px] font-semibold'><span class = 'text-indigo-600'>Previous</span> Applicant</p>
+
+<svg xmlns="http://www.w3.org/2000/svg" onClick={()=> {
+  setCurrentI(currentI>0?currentI-1:applicants.length-1)
+}} class=" hover:h-12 hover:w-12 cursor-pointer hover:text-indigo-600  h-10 w-10 absolute left-16 bottom-[105%]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+</svg>
+
+<p class = 'absolute  bottom-[55px] right-0 font-semibold'><span class = 'text-indigo-600'>Next</span> Applicant</p>
+
+<svg onClick={()=> {
+  setCurrentI(currentI<applicants.length-1?currentI+1:0)
+}} xmlns="http://www.w3.org/2000/svg" class="hover:h-12 hover:w-12 hover:text-indigo-600 cursor-pointer h-10 w-10 absolute right-16 bottom-[105%]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+</svg>
+
+
+</div>
 </>
 :applications[i].appStatus === 'Accepted'?
 <h1 class = 'text-center px-[30%] text-indigo-600 top-0.5 font-medium text-sm relative'>This applicant has been notified of his/her acceptance and will be added to the team after the acceptance has been confirmed.</h1>:''
 }
+
+
 
 </div>)
 
@@ -250,17 +331,7 @@ return (
 
 </div>
 
-<div class = 'relative mx-auto text-center  align-middle justify-center block '>
 
-<svg xmlns="http://www.w3.org/2000/svg" class=" hover:h-12 hover:w-12 cursor-pointer hover:text-indigo-600  h-10 w-10 absolute left-16 bottom-[100%]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" class="hover:h-12 hover:w-12 hover:text-indigo-600 cursor-pointer h-10 w-10 absolute right-16 bottom-[100%]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-</svg>
-
-
-</div>
                
           
 

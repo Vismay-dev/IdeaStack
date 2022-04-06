@@ -6,8 +6,27 @@ import Tooltip from 'react-power-tooltip'
 import AOS from 'aos';
 import "aos/dist/aos.css";
 
+import Dropdown from "../MyProjects/Dropdown"
+
+import {MdDeveloperMode, MdWeb, MdOutlineCastForEducation, MdHealthAndSafety} from 'react-icons/md'
+import {GiVintageRobot, GiPowerGenerator, GiArtificialIntelligence} from 'react-icons/gi'
+import {GrDeliver} from 'react-icons/gr'
+import {SiHiveBlockchain} from 'react-icons/si'
+
 
 const CreateProjectModal = (props) => {
+
+  let categories = [
+    {name:'Robotics', icon:<GiVintageRobot class = 'inline mr-[3.5px] w-[18px] right-[1px] bottom-[0.85px] relative h-[18px]'/>,id:1},
+    {name:'Web Development',icon:<MdWeb class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:2},
+    {name:'Mobile App Development',icon:<MdDeveloperMode class = 'inline mr-[3.5px] w-[18px] right-[1px] bottom-[0.85px] relative h-[18px]'/>,id:3},
+    {name:'Logistics (Transport and Storage of Goods)' ,icon:<GrDeliver class = 'inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]'/>,id:4},
+    {name:'EdTech (Educational Technology)',icon:<MdOutlineCastForEducation class = 'inline mr-[4px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]'/>,id:5},
+    {name:'Healthcare',icon:<MdHealthAndSafety class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:6},
+    {name:'Energy',icon:<GiPowerGenerator class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:7},
+    {name:'AI',icon:<GiArtificialIntelligence class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:8},
+    {name:'Blockchain', icon:<SiHiveBlockchain class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:9},
+  ]
 
     useEffect(() => {
         AOS.init({
@@ -123,13 +142,13 @@ const CreateProjectModal = (props) => {
 <div class="relative z-0 mb-11 w-full group">
 <select placeholder = 'Category' name = 'category' onChange={changeHandler} type="select" defaultValue={''}  class="block top-3 relative py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer" required={true}>
 <option value={''} defaultChecked disabled >Category</option>
-<option value={'a'} >Category1</option>
-<option value={'b'}  >Category2</option>
-<option value={'c'}  >Category3</option>
-<option value={'d'}  >Category4</option>
-<option value={'e'}  >Category5</option>
-<option value={'f'}  >Category6</option>
-
+{
+  categories.map(cat => {
+    return (
+      <option value={cat.name} >{cat.id}. {cat.name}</option>
+    )
+  })
+}
 </select>
 </div>
 <div class="relative z-0 mb-10 w-full group">
