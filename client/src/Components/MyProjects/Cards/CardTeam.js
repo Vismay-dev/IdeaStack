@@ -26,7 +26,7 @@ useEffect(()=> {
       
   return (
     <>
-      <div className="relative border-[1px] border-blue-600 flex flex-col min-w-0 break-words  w-full mb-4 bg-gradient-to-r from-white to-indigo-200 shadow-lg rounded">
+      <div className="relative border-[1px] border-blue-600 h-fit lg:h-[480px] xl:h-[530px] flex flex-col min-w-0 break-words  w-full mb-4 bg-gradient-to-r from-white to-indigo-200 shadow-lg rounded">
         <div className="rounded-t mb-0 px-4 py-3 border-0">
           <div className="flex flex-wrap items-center">
             <div className="relative w-full px-2 py-2 -mt-5 max-w-full flex-grow flex-1">

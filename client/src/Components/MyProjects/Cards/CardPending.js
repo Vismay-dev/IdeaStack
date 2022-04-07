@@ -23,7 +23,7 @@ export default function CardSocialTraffic() {
   
   return (
     <>
-      <div className="relative flex flex-col min-w-0 break-words  h-[380px] bg-white w-full mb-6 shadow-lg rounded">
+      <div className="relative flex flex-col xl:mt-0 xl:mb-6 -mt-9 mb-10  min-w-0 break-words  h-[380px] bg-white w-full shadow-lg rounded">
         <div  style = {{'backgroundImage':'url(https://www.vapulus.com/en/wp-content/uploads/2021/02/challenge-accepting-online-payments-technical-issue-1024x768-1.png)'}} className="rounded-t bg-cover mb-0 px-1 py-3 border-0">
           <div className="flex flex-wrap items-center">
             <div className="relative w-full ml-3 left-1   max-w-full flex-grow flex-1">

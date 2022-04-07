@@ -9,6 +9,7 @@ const JoinRequests = () => {
     const [joinRequests, setJoinRequests] = useState([])
     const [projects, setProjects] = useState()
     useEffect(()=> {
+      setLoading(true)
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/getUser':'http://localhost:4000/api/user/getUser',
       {token: sessionStorage.getItem('token')}).then(res=> {
         setJoinRequests(res.data.joinRequests);
@@ -27,15 +28,12 @@ const JoinRequests = () => {
         }
 
         setProjects(projTemp)
+        setLoading(false)
     })
       })
     },[])
 
-    useEffect(() => {
-      AOS.init({
-        duration : 600
-      });
-    },[]);
+   
 
     const [loading, setLoading] = useState(false)
 
@@ -50,6 +48,12 @@ const JoinRequests = () => {
       setLoading(false)
      })
     }
+
+    useEffect(() => {
+      AOS.init({
+        duration : 600
+      });
+    },[loading]);
 
     const confirmRejection = (index) => {
       setLoading(true)
@@ -66,10 +70,10 @@ const JoinRequests = () => {
 
     return (
         <>
-                <h1 class = ' text-center w-10/12 relative mx-auto   mt-5 py-4 pb-5 font-semibold text-gray-800 text-[47px]'>Join Requests ({joinRequests?joinRequests.length:''}):</h1>
+                <h1 class = ' text-center w-10/12 relative mx-auto md:mb-0 -mb-3   md:mt-6 mt-4 py-4 pb-[10px] underline font-semibold text-gray-800 md:text-[47px] text-[38px] '>Join Requests ({joinRequests?joinRequests.length:''})</h1>
 
 
-        <div class = {`flex gap-4 top-2.5 relative px-32 pointer-events-auto ${joinRequests && joinRequests.length === 0? 'mb-[8rem] pb-24':'-mb-56'}`}>
+        <div class = {`grid ${joinRequests && joinRequests.length === 1 ? 'lg:grid-cols-3 grid-cols-4':'md:grid-cols-3 sm:grid-cols-2 grid-cols-1'} xl:px-24 lg:px-16 pt-[54px] sm:px-10  px-[60px]   pointer-events-auto ${joinRequests && joinRequests.length === 0? 'mb-[8rem] pb-24':'md:-mb-[13.5rem] -mb-[12rem]'}`}>
 
 {
 
@@ -77,8 +81,8 @@ const JoinRequests = () => {
 loading?
 
 
-<div class ='relative mx-auto my-8 py-[60px] pt-[110px] -mb-36 text-center block justify-center'>
-   <PulseLoader color={'#1a52c9'} loading={loading}  size={35} margin={6} />
+<div class ='relative mx-auto  py-[60px] col-start-2 pt-[74px] mb-24 text-center block justify-center'>
+   <PulseLoader color={'#1a52c9'} loading={loading}  size={30} margin={6} />
    </div>
 
 
@@ -90,21 +94,21 @@ joinRequests? joinRequests.map((joinR,i)=> {
 
 
     return(
-<div data-aos={"fade-up"} data-aos-once='true' data-aos-delay = {`${i%3}00`} class={`rounded-lg pointer-events-auto  z-40 ${joinRequests && joinRequests.length === 1 ? 'mx-auto right-0.5 relative' :''} shadow-lg bg-white max-w-sm`}>
+<div data-aos={"fade-up"} data-aos-once='true' class={`rounded-lg col-span-1 pointer-events-auto ${joinRequests && joinRequests.length === 1 ? 'md:col-start-2 lg:col-start-2 sm:col-start-2  col-start-1 lg:col-span-1 sm:col-span-2 col-span-4 relative' :''} shadow-lg bg-white `}>
 <a href="#!">
   <img class="rounded-t-lg scale-75 -my-10 " src={projects?projects[i].projPic:''} alt=""/>
 </a>
-<div class="p-6 border-t-[1px] border-gray-400 pointer-events-auto z-50">
+<div class="p-6 border-t-[1px] border-gray-400 text-center sm:text-left pointer-events-auto z-50">
   <h5 class="text-gray-900 relative bottom-1  text-xl font-medium mb-2">Join Request : {projects?projects[i].name : ''}</h5>
-  <p class="text-gray-700 text-base mb-3">
+  <p class="text-gray-700 lg:text-base text-sm mb-3 mt-1.5">
     {projects?projects[i].problem: ''}
   </p>
-  <h3 class = {`font-semibold tracking-wide relative top-1 mt-5 text-indigo-600 ${joinR.appStatus === 'Accepted'||joinR.appStatus === 'Rejected'?'text-center':''}`}>Application Status: {joinR.appStatus}</h3>
+  <h3 class = {`font-semibold tracking-wide relative top-1 lg:text-base text-sm lg:mt-5 mt-3 lg:mb-0 mb-[1px]  text-indigo-600 ${joinR.appStatus === 'Accepted'||joinR.appStatus === 'Rejected'?'text-center':''}`}>Application Status: {joinRequests[i].appStatus}</h3>
 
-<div class = 'z-40 pointer-events-auto'>
-  {joinR.appStatus === 'Accepted'? <button onClick={()=>confirmAcceptance(i)} class = 'shadow-md hover:shadow-xl z-40  cursor-pointer active:shadow-sm relative mt-4 mb-3.5 mx-auto block text-center justify-center bg-gradient-to-r from-blue-600 to-indigo-500 p-3 py-2 rounded-lg text-white font-semibold'>Confirm Acceptance and Join</button>:joinR.appStatus === 'Rejected'?
+<div class = 'z-40 lg:text-base text-sm pointer-events-auto'>
+  {joinR.appStatus === 'Accepted'? <button onClick={()=>confirmAcceptance(i)} class = 'shadow-md lg:text-base text-sm hover:shadow-xl z-40  cursor-pointer active:shadow-sm relative mt-4 mb-3.5 mx-auto block text-center justify-center bg-gradient-to-r from-blue-600 to-indigo-500 p-3 py-2 rounded-lg text-white font-semibold'>Confirm Acceptance and Join</button>:joinR.appStatus === 'Rejected'?
   
-  <button onClick={()=>confirmRejection(i)} class = 'shadow-md hover:shadow-xl cursor-pointer  z-40 active:shadow-sm relative mt-4 mb-3.5 mx-auto block text-center justify-center bg-gradient-to-r from-orange-600 to-orange-500 p-5 left-[1px] py-2 rounded-lg text-white font-semibold'>Remove Project Request</button>
+  <button onClick={()=>confirmRejection(i)} class = 'shadow-md hover:shadow-xl cursor-pointer lg:text-base text-sm  z-40 active:shadow-sm relative mt-4 mb-3.5 mx-auto block text-center justify-center bg-gradient-to-r from-orange-600 to-orange-500 p-5 left-[1px] py-2 rounded-lg text-white font-semibold'>Remove Project Request</button>
   
   :''}
   </div>

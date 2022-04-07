@@ -127,43 +127,42 @@ const MyProjects = () => {
          <div 
          data-aos={"flip-up"} data-aos-once='true'
 style={{'background-image': 'url(https://airwallpaper.com/wp-content/uploads/wall001/Earth-Wallpaper.jpg)'}}            
-   className="shadow-md transition-transform ease-out overflow-hidden origin-top transform container bg-right bg-cover bottom-4 w-10/12 flex justify-center mx-auto pt-7 bg-gradient-to-r from-gray-100 to-gray-300">
-       <div >
-           <h1 className="xl:text-7xl text-7xl relative text-center text-gray-100 font-extrabold pb-6 mb-1  mx-auto">{!sessionStorage.getItem('managing')?'My Projects':projectCurrent}</h1>
+   className="shadow-md transition-transform ease-out overflow-hidden origin-top transform xl:container bg-right bg-cover bottom-4  xl:flex block justify-center xl:w-10/12 mx-auto pt-7 bg-gradient-to-r from-gray-100 to-gray-300">
+       <div>
+           <h1 className="xl:text-7xl md:text-6xl sm:text-5xl text-[43px] sm:leading-[54px] xl:leading-[72px] md:leading-[65px] leading-10 relative text-center text-gray-100 font-extrabold pb-6 mb-1  mx-auto">{!sessionStorage.getItem('managing')?'My Projects':projectCurrent}</h1>
        </div>
    </div>:''
 }
 
-            <div class="flex space-x-1 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pt-5 justify-center w-10/12 pr-16 rounded-b-lg mx-auto">
+            <div class="flex space-x-1 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pt-5 justify-center xl:w-10/12 w-full md:pr-16 sm:pr-32 pr-[130px] rounded-b-lg mx-auto">
         {!sessionStorage.getItem('managing')?<><button onClick = {()=> {
             history.push('/myprojects/allprojects')
-        }} class={`flex items-center h-12 relative ml-[132px] py-2 text-sm text-center text-gray-100 
-        ${location.pathname==='/myprojects/allprojects'?'bg-gray-800':'bg-gray-500'} px-7 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
-            All Projects
+        }} class={`flex items-center h-12 pt-0.5 relative ml-[132px]  text-sm text-center text-gray-100 
+        ${location.pathname==='/myprojects/allprojects'?'bg-gray-800':'bg-gray-500'} space-x-1 sm:px-7 sm:py-2 px-4 py-1 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+            <p>All</p> <p class = 'hidden sm:block space-x-1'>Projects</p>
         </button>
 
         <button onClick = {()=> {
             history.push('/myprojects/joinrequests')
         }}
-        class={`flex items-center h-12 py-2 text-sm text-center text-gray-100 
-        ${location.pathname==='/myprojects/joinrequests'?'bg-gray-800':'bg-gray-500'} px-8 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
-            My Join Requests
+        class={`flex items-center h-12 pt-0.5   text-center text-gray-100 
+        ${location.pathname==='/myprojects/joinrequests'?'bg-gray-800':'bg-gray-500'}  space-x-1 sm:px-8 sm:py-2 px-3.5 py-1 border border-b-0  border-gray-300 text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+            <p class = 'hidden sm:block space-x-1'>My</p> <p>Join Requests</p>
         </button>
 
         <button onClick = {()=> {
             history.push('/myprojects/createproject')
         }}
-        class={`flex items-center h-12 py-2 text-sm text-center text-gray-100 
-        ${location.pathname==='/myprojects/createproject'?'bg-gray-800':'bg-gray-500'} px-8 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
-            Create Project
+        class={`flex items-center h-12 pt-0.5  text-center text-gray-100 
+        ${location.pathname==='/myprojects/createproject'?'bg-gray-800':'bg-gray-500'} space-x-1  sm:px-8 sm:py-2 px-4 py-1 border border-b-0  border-gray-300 text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+           <p>Create</p>  <p class = 'hidden sm:block space-x-1'> Project</p>
         </button>
         
-      
         <button
 onClick = {()=> {setShowHeader(showHeader?false:true)}}
 
-        class={` items-center h-12 left-48 relative py-1.5 text-sm text-center text-gray-100 
-        hover:from-gray-600 hover:to-gray-700 bg-gradient-to-b from-gray-500 to-gray-500 border-1   px-4  border-b-0   sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+        class={` items-center h-12 pt-0.5 xl:left-48 lg:left-24 left-0 relative sm:py-1.5  text-center text-gray-100 
+        hover:from-gray-600 hover:to-gray-700 bg-gradient-to-b from-gray-500 to-gray-500 border-1   sm:px-4 px-1.5 py-1  border-b-0   text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
             <FcCollapse class = {`text-4xl -top-[1px] text-gray-200 relative ${!showHeader?'rotate-180':''}`}/>
         </button>
         

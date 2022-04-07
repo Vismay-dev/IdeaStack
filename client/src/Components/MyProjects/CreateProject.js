@@ -42,17 +42,17 @@ const CreateProject = () => {
             }
 
         
-<h1 class = ' text-center w-10/12 relative mx-auto   mt-5 py-4 pb-9 font-semibold text-gray-800 text-[47px] underline'>Projects Created ({projectCon.projects.length})</h1>
+<h1 class = ' text-center w-10/12 relative mx-auto lg:mt-5 mt-5 py-4 lg:pb-8 pb-7 font-semibold text-gray-800 md:text-[47px] text-[38px] underline'>Projects Created ({projectCon.projects.length})</h1>
 
 
-        <div class = 'grid grid-cols-2 gap-4 align-middle content-center -mb-7 mt-2 md:px-[20px]   lg:px-[120px] sm:px-[50px] px-[19px]  sm:left-0 left-1 relative'>
+        <div class = 'grid grid-cols-2 gap-4 align-middle content-center -mb-7 mt-[19px] md:px-[20px]   lg:px-[120px] sm:px-[70px] px-[19px]  sm:left-1.5 left-1 relative'>
             {projectCon.projects&&projectCon.projects.map((proj,i)=> {
 
                 let date = new Date(proj.createdAt).toDateString().substring(4)
                 date = date.slice(0, 6) + "," + date.slice(6);
 
                 return(
-                    (i+1)%2===1 && i === projectCon.projects.length-1 ?   <div key = {i} class = 'col-span-2 xl:px-64 lg:px-32 px-2'>
+                    (i+1)%2===1 && i === projectCon.projects.length-1 ?   <div key = {i} class = 'col-span-2 xl:px-64 lg:px-32 px-6'>
 
 <div data-aos={"zoom-in"} data-aos-once='true' class={`w-full px-8  py-4 mt-1 mr-32 relative right-1.5 ${showMore[0]===true&&showMore[i]!==i?'':'h-full'} bg-white rounded-lg shadow-md `}>
 
@@ -85,7 +85,7 @@ const CreateProject = () => {
 
 
 <div class="flex items-center justify-between mt-4">
-    <a onClick = {()=>readMore(i)} class="text-blue-600 hover:cursor-pointer  hover:underline">View {showMore[0]&&showMore[1]===i?'less':'more'}</a>
+    <a onClick = {()=>readMore(i)} class="text-blue-600 hover:cursor-pointer sm:bottom-0 bottom-[2px] relative  hover:underline">View {showMore[0]&&showMore[1]===i?'less':'more'}</a>
      <div class="flex items-center relative bottom-0.5">
         <img class="hidden object-cover w-10 h-10 mx-2 rounded-full sm:block" src={proj.admin.pic?proj.admin.pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
         <a class="font-bold text-gray-700 cursor-pointer ">
@@ -128,7 +128,7 @@ const CreateProject = () => {
 
            
            <div class="flex items-center justify-between mt-4">
-               <a onClick = {()=>readMore(i)} class="text-blue-600 hover:cursor-pointer  hover:underline">View {showMore[0]&&showMore[1]===i?'less':'more'}</a>
+               <a onClick = {()=>readMore(i)} class="text-blue-600 hover:cursor-pointer sm:bottom-0 bottom-[2px] relative  hover:underline">View {showMore[0]&&showMore[1]===i?'less':'more'}</a>
                 <div class="flex items-center relative bottom-0.5">
                    <img class="hidden object-cover w-10 h-10 mx-2 rounded-full sm:block" src={proj.admin.pic?proj.admin.pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
                    <a class="font-bold text-gray-700 cursor-pointer ">
@@ -145,7 +145,7 @@ const CreateProject = () => {
         </div>
 
         <button onClick = {() => setShowCreateModal(true)}
-         class = {`mt-4 ${projectCon.projects.length>0?'-mb-[155px] top-[70px]':'-mb-[4.6rem] top-40 '} z-40 pointer-events-auto  bg-gradient-to-r  from-blue-600 to-blue-800 w-5/12 rounded-md shadow-lg hover:shadow-lg hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-400 active:shadow-sm p-2 pb-2.5  text-gray-50 font-semibold text-2xl mx-auto text-center block justify-center relative`}>Create Project</button>
+         class = {`mt-4 ${projectCon.projects.length>0?'lg:-mb-[152px] xl:-mb-[149px] -mb-[145px] lg:top-[70px] top-[65px]':'-mb-[4.6rem] top-40 '} z-40 pointer-events-auto  bg-gradient-to-r  from-blue-600 to-blue-800 w-5/12 rounded-md shadow-lg hover:shadow-lg hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-400 active:shadow-sm p-2 pb-2.5  text-gray-50 font-semibold md:text-2xl sm:text-xl text-lg mx-auto text-center block justify-center relative`}>Create Project</button>
         </>
     )
 }
