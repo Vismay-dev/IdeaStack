@@ -54,20 +54,20 @@ useEffect(
       
         {/* Modal panel, show/hide based on modal state. */}
   
-      <div data-aos="fade-up" data-aos-once='true' class="pr-6 relative top-2 inline-block align-bottom z-50 bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-10/12">
+      <div data-aos="fade-up" data-aos-once='true' class="pr-6 relative sm:top-2 top-12 inline-block align-bottom z-50 bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 mb-36 sm:align-middle sm:max-w-lg sm:w-10/12 w-11/12">
         <div ref = {myRef} class="bg-white  px-1 pt-2 pb-2 sm:p-6 sm:pb-4 z-50">
           <div class="sm:flex sm:items-start">
-            <div class=" text-center sm:mt-0 sm:ml-4 sm:text-left">   
+            <div class=" text-center sm:mt-0 ml-4  sm:text-left">   
               <div>
                 <p class="text-lg text-gray-500">
   
   
   {/* form starts here */}
-                <div class="right-2 min-h-full flex items-center justify-center py-3 px-7 sm:px-6 lg:px-5">
+                <div class="right-2 min-h-full flex items-center justify-center py-3 px-5 sm:px-6 lg:px-5">
     <div class="max-w-md w-full space-y-8">
       <div>
       <img class="mx-auto w-32 -mt-3 relative" src={logo} alt="Workflow"/>
-        <h2 class="mt-1 bottom-3 relative mb-1 text-center text-4xl font-extrabold text-gray-900">
+        <h2 class="mt-1 bottom-3 relative mb-1 text-center sm:text-4xl text-3xl font-extrabold text-gray-900">
           Are you sure you want to logout?
         </h2>
       </div>
@@ -79,11 +79,12 @@ useEffect(
           <button onClick = {()=> {
               sessionStorage.removeItem('token')
               history.push('/home')
+              localStorage.removeItem('cookieID')
               props.close()
               if(props.loggedOut) {
                 props.loggedOut()
               }
-            }} class="mt-9 mb-6 bottom-1 hover:shadow-lg group relative w-4/6 mx-auto flex justify-center py-1 px-2 border border-transparent text-md font-medium rounded-md text-white bg-gradient-to-r from-blue-300 to-blue-500 hover:from-blue-400 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
+            }} class="mt-9 mb-6 bottom-1 hover:shadow-lg group relative sm:w-4/6 w-[136px] mx-auto font-semibold flex justify-center py-1 pb-1.5 px-1 border border-transparent text-md  rounded-md text-white bg-gradient-to-r from-blue-300 to-blue-500 hover:from-blue-400 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
             <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                
             </span>
@@ -100,7 +101,7 @@ useEffect(
           </div>
         </div>
         <div class="bg-gray-100 px-4 py-3 ml-5 sm:px-6 sm:flex sm:flex-row-reverse">
-          <button onClick = {props.close} type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          <button onClick = {props.close} type="button" class="mt-0 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
             Cancel
           </button>
         </div>

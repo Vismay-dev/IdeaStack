@@ -68,26 +68,41 @@ const FileList = () => {
         }
 
     return (
-        <div class="px-3 mt-3 relative w-full">
+        <div class="lg:px-3 px-[1px] relative w-full">
            
-            <div class="bg-gradient-to-r from-blue-100 to-indigo-200 pt-4 mt-7 rounded-md shadow-lg pb-6  px-4 ">
+            <div class={`bg-gradient-to-r from-blue-100 to-indigo-200 sm:pt-4 pt-1 mt-9 left-2.5 mb-2 relative rounded-md shadow-lg pb-6 ${uploading?'px-0':'px-4'}  `}>
                 
                 {
                     
       loading?
-      <div class ='relative mx-auto my-8 mb-10 pb-3 pt-5 pl-4 text-center block justify-center'>
+      <div class ='relative mx-auto my-8 mb-10 pb-3 md:pt-5 pt-8 right-2  pl-4 text-center block justify-center'>
       <ClipLoader color={'#0b0bbf'} loading={loading}  size={70} />
       </div>
 :
                     !uploading?
              <>  
                 <div class="sm:flex items-center top-3 relative justify-between">
-                    <button onClick={()=> setUploading(true)} class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 mb-3 sm:mt-0 relative block mx-auto justify-center px-5 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded">
+                    <button onClick={()=> setUploading(true)} class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mb-3 mb-10 sm:mt-0 relative block mx-auto justify-center px-5 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded">
                         <p class="text-md font-medium leading-none  text-white">Upload File</p>
                     </button>
                 </div>
+
+                <p class = 'xl:hidden block mx-auto text-center my-5 md:text-base text-sm relative sm:px-16 px-1.5  '><strong class = 'underline'>Note:</strong> Horizontally scroll panels to see more details on project documents</p>
                 <div class="mt-7 overflow-x-auto">
                     <table class="w-full whitespace-nowrap space-y-2">
+
+
+                        { docs.length===0?
+
+
+<p class = 'sm:text-3xl text-2xl font-semibold col-span-2 text-center mt-[30px] mb-[57px] right-2 mx-auto relative'><svg xmlns="http://www.w3.org/2000/svg" class="sm:h-9 sm:w-9 h-7 w-7 inline text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+<path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+</svg> <span class = 'top-0.5 relative'>No Files Uploaded</span></p>
+
+
+
+
+:
                         <tbody class = 'space-y-2'>
 
                             {docs&&docs.map((doc, i)=> {
@@ -148,13 +163,13 @@ function convertDate(inputFormat) {
                                         </div>
                                     </td>
                                     <td class="pl-5">
-                                        <button onClick={()=>downloadResource(doc,i)} class="focus:ring-2 focus:ring-offset-2 shadow-sm hover:shadow-md active:shadow-sm focus:ring-red-300 text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded   -mr-10 ml-8 hover:bg-gray-200 focus:outline-none">
+                                        <button onClick={()=>downloadResource(doc,i)} class="focus:ring-2 focus:ring-offset-2 shadow-sm hover:shadow-md active:shadow-sm focus:ring-red-300 text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded   xl:-mr-10 -mr-6 ml-8 hover:bg-gray-200 focus:outline-none">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline relative -mt-[2.5px] " fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
     </svg> Download</button>
                                     </td>
                                     <td class="pl-1">
-                                        <button onClick={()=> deleteFile(i)} class="py-3 px-3 text-sm focus:outline-none shadow-sm hover:shadow-md active:shadow-sm leading-none relative left-9 text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200 mr-11 rounded"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline relative -mt-[2.5px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <button onClick={()=> deleteFile(i)} class="py-3 px-3 text-sm focus:outline-none shadow-sm hover:shadow-md active:shadow-sm leading-none relative left-9 text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200 xl:mr-11 mr-16 rounded"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline relative -mt-[2.5px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
     </svg> Delete</button>
                                     </td>
@@ -162,7 +177,7 @@ function convertDate(inputFormat) {
                                     <td>
                                         <div class="relative px-5 pt-2" data-tip = {'Uploaded by - ' + doc.uploadedBy}>
                                             <button class="focus:ring-2 rounded-full -ml-7 focus:outline-none" onclick="dropdownFunction(this)" role="button" aria-label="option">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 relative bottom-[1.5px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
     </svg>
                                             </button>
@@ -180,6 +195,8 @@ function convertDate(inputFormat) {
                             
                        
                         </tbody>
+
+}
                     </table>
                 </div>
 </> 

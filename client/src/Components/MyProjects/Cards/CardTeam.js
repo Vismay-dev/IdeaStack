@@ -26,13 +26,13 @@ useEffect(()=> {
       
   return (
     <>
-      <div className="relative border-[1px] border-blue-600 h-fit lg:h-[480px] xl:h-[530px] flex flex-col min-w-0 break-words  w-full mb-4 bg-gradient-to-r from-white to-indigo-200 shadow-lg rounded">
+      <div className="relative border-[1px] border-blue-600 h-fit lg:h-[480px] xl:h-[530px] flex flex-col min-w-0 break-words  w-full mb-4 bg-gradient-to-r from-white to-indigo-200 shadow-lg rounded-md">
         <div className="rounded-t mb-0 px-4 py-3 border-0">
           <div className="flex flex-wrap items-center">
             <div className="relative w-full px-2 py-2 -mt-5 max-w-full flex-grow flex-1">
                 
-              <h3 className="font-bold ml-7 relative text-center text-black text-lg text-blueGray-700">
-              <RiTeamFill class = 'text-xl top-[22.4px] left-[61px] relative'/>Team Members
+              <h3 className="font-bold relative text-center top-2.5 my-2 mb-[9px] text-black text-lg text-blueGray-700">
+              <p><RiTeamFill class = 'text-xl inline bottom-[3px] mr-0.5  relative'/> Team Members</p>
               </h3>
             </div>
            
@@ -53,8 +53,8 @@ useEffect(()=> {
 
 return (
   <>
-            <tr>
-              <div class={`flex items-center text-md justify-center mx-auto relative bottom-0.5 ${i>0?'-mt-[325px] bottom-1':''} bg-gradient-to-r from-indigo-200 to-green-100 border-b-[1px] py-4 pb-5 border-blue-600`}>
+            <tr class = '-mb-1 relative'>
+              <div class={`flex items-center text-md justify-center mx-auto relative bottom-1 ${i>0?'-mt-[325px] bottom-2':''} relative bg-gradient-to-r from-indigo-200 to-green-100 border-b-[1px] py-4 pb-5 border-blue-600`}>
                    <img class="hidden object-cover w-10 h-10 shadow-md mx-2 relative right-1 rounded-full sm:block" src={teamMember.pic?teamMember.pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
                    <a class="font-bold text-gray-700 mr-6  relative cursor-pointer ">
                         {proj?teamMember.name:''}{i==0?' (Admin)':''}

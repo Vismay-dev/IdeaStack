@@ -70,7 +70,7 @@ const [loading, setLoading] = useState(false)
 
     return (
 
-        <div class="relative min-h-screen top-0.5 flex rounded-md items-center justify-center  py-12 px-4 sm:px-6 lg:px-8  bg-no-repeat bg-cover"
+        <div class="relative min-h-screen top-0.5 flex rounded-md items-center justify-center  py-12 px-1 sm:px-6 lg:px-8  bg-no-repeat bg-cover"
 	style={{'backgroundImage': 'url(https://pbs.twimg.com/media/EXUO20IWsAAklxl.jpg)'}}>
 	<div class="absolute bg-black opacity-30 top-0.5 rounded-md inset-0 z-0"></div>
 	<div class="sm:max-w-lg w-full p-10 bg-white rounded-xl z-10">
@@ -102,7 +102,7 @@ const [loading, setLoading] = useState(false)
 <p class = 'inline ml-2 -top-[10.2px] text-sm font-bold text-gray-500 relative'>Is this important?</p>
                     <div class="grid grid-cols-1 space-y-2 mt-3">
                                     <label class="text-sm font-bold text-gray-500 tracking-wide">Attach Document</label>
-                        <div class="flex items-center justify-center w-full">                            <label class="flex flex-col rounded-lg border-4 border-dashed w-full h-60 p-10 group text-center">
+                        <div class="flex items-center justify-center w-full">                            <label class="flex flex-col rounded-lg border-4 border-dashed w-full h-60 sm:p-10 p-10 px-3 group text-center">
 {
                             uploading?
 
@@ -111,17 +111,17 @@ const [loading, setLoading] = useState(false)
                             </div>
 
                             : <>
-                                <div class="h-full w-full text-center flex flex-col items-center justify-center items-center  ">
+                                <div class="h-full w-full text-center flex flex-col items-center justify-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class={`w-10 h-10 text-blue-400 group-hover:text-blue-600  `} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                     </svg>
                                     <div class={`flex flex-auto max-h-48 w-2/5 mx-auto ${upload.file?'-mt-16 bottom-2 relative':'-mt-10'}`}>
-                                    <img class="has-mask h-36 object-center" src="https://img.freepik.com/free-vector/image-upload-concept-landing-page_52683-27130.jpg?size=338&ext=jpg" alt="freepik image"/>
+                                    <img class="has-mask sm:h-36 h-28 sm:block hidden object-center" src="https://img.freepik.com/free-vector/image-upload-concept-landing-page_52683-27130.jpg?size=338&ext=jpg" alt="freepik image"/>
                                     </div>
-                                    <p class="pointer-none text-gray-500 relative top-2 ">
-                                        {upload.file?<p class = 'text-green-600 font-semibold'>File Succesfully Uploaded!</p>:
+                                    <p class="pointer-none  sm:text-base text-sm text-gray-500 relative sm:top-2 ">
+                                        {upload.file?<p class = 'text-green-600 sm:bottom-0 bottom-5 relative font-semibold'>File Succesfully Uploaded!</p>:
                                         <>
-                                        <span class="text-sm">Drag and drop</span> file here <br /> or <a  onClick = {()=> inputRef.click()}  class="text-blue-600 cursor-pointer hover:underline">select a file</a> from your computer</>}</p>
+                                        <span class="text-sm">Drag and drop</span> file here <br /> or <a  onClick = {()=> inputRef.click()}  class="text-blue-600 sm:text-base text-sm cursor-pointer hover:underline">select a file</a> from your computer</>}</p>
                                 </div>
                                 <input type="file" ref={inputRef} class="hidden"  onClick={e => e.stopPropagation()} onChange = {fileUploadHandler}/>
                        </>

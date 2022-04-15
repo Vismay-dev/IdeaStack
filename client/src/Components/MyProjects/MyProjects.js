@@ -134,12 +134,12 @@ style={{'background-image': 'url(https://airwallpaper.com/wp-content/uploads/wal
    </div>:''
 }
 
-            <div class="flex space-x-1 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pt-5 justify-center xl:w-10/12 w-full md:pr-16 sm:pr-32 pr-[130px] rounded-b-lg mx-auto">
+            <div class="flex space-x-1 overflow-hidden bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pt-5 justify-center xl:w-10/12 w-full md:pr-16 sm:pr-32 pr-[130px] rounded-b-lg mx-auto">
         {!sessionStorage.getItem('managing')?<><button onClick = {()=> {
             history.push('/myprojects/allprojects')
         }} class={`flex items-center h-12 pt-0.5 relative ml-[132px]  text-sm text-center text-gray-100 
         ${location.pathname==='/myprojects/allprojects'?'bg-gray-800':'bg-gray-500'} space-x-1 sm:px-7 sm:py-2 px-4 py-1 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
-            <p>All</p> <p class = 'hidden sm:block space-x-1'>Projects</p>
+            <p>All</p> Projects
         </button>
 
         <button onClick = {()=> {
@@ -147,7 +147,7 @@ style={{'background-image': 'url(https://airwallpaper.com/wp-content/uploads/wal
         }}
         class={`flex items-center h-12 pt-0.5   text-center text-gray-100 
         ${location.pathname==='/myprojects/joinrequests'?'bg-gray-800':'bg-gray-500'}  space-x-1 sm:px-8 sm:py-2 px-3.5 py-1 border border-b-0  border-gray-300 text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
-            <p class = 'hidden sm:block space-x-1'>My</p> <p>Join Requests</p>
+            <p>Join <span class = 'sm:inline hidden'>Requests & Invites</span></p>
         </button>
 
         <button onClick = {()=> {
@@ -179,45 +179,46 @@ onClick = {()=> {setShowHeader(showHeader?false:true)}}
 <button onClick = {()=> {
         history.push('/myprojects/allprojects')
     }}
-    class={`flex items-center mr-16 -ml-[28] relative h-12 py-2.5 text-sm text-center text-gray-100 
-   bg-gray-500 px-5 border border-b-0 hover:bg-gray-600  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+    class={`flex items-center xl:-ml-[36] xl:-left-20 md:ml-[63px] sm:ml-[125px] ml-[242px] xl:mr-0 relative h-12 py-2.5 text-sm text-center text-gray-100 
+   bg-gray-500 md:px-5 px-3 border border-b-0 hover:bg-gray-600  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
        
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline mr-1.5 top-[0.03px] relative" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline lg:mr-1.5 top-[0.03px] relative" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
 </svg>
         
-       <span class = 'relative bottom-[0.016px] font-semibold'> Go Back </span>
+       <span class = 'relative bottom-[0.016px] lg:inline hidden font-semibold'> Go Back </span>
     </button>
 <button onClick = {()=> {
             history.push('/myprojects/manageproject/overview')
         }} class={`flex items-center h-12 relative ml-[72px] py-2 text-sm text-center text-gray-100 
-        ${location.pathname==='/myprojects/manageproject/overview'?'bg-gray-800':'bg-gray-500'} px-6 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+        ${location.pathname==='/myprojects/manageproject/overview'?'bg-gray-800':'bg-gray-500'} md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
             Overview
         </button>
-
+<div class = 'sm:flex space-x-[3.5px] hidden'>
         <button onClick = {()=> {
             history.push('/myprojects/manageproject/manageapps')
         }}
         class={`flex items-center h-12 py-2 text-sm text-center text-gray-100 
-        ${location.pathname==='/myprojects/manageproject/manageapps'?'bg-gray-800':'bg-gray-500'} px-6 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
-            Manage Applications
+        ${location.pathname==='/myprojects/manageproject/manageapps'?'bg-gray-800':'bg-gray-500'} md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+            <span class = 'lg:inline hidden  mr-1.5'>Manage </span> Applications
         </button>
 
         <button onClick = {()=> {
             history.push('/myprojects/manageproject/collaborate')
         }}
-        class={`flex items-center h-12 py-2 text-sm text-center text-gray-100 
-        ${location.pathname==='/myprojects/manageproject/collaborate'?'bg-gray-800':'bg-gray-500'} px-6 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+        class={` block items-center h-12 py-2 text-sm text-center text-gray-100 
+        ${location.pathname==='/myprojects/manageproject/collaborate'?'bg-gray-800':'bg-gray-500'} md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
             Collaborate
         </button>
 
         <button onClick = {()=> {
             history.push('/myprojects/manageproject/mentorship')
         }}
-        class={`flex items-center h-12 py-2  text-sm text-center text-gray-100 
-        ${location.pathname==='/myprojects/manageproject/mentorship'||location.pathname==='/myprojects/manageproject/mentorship/'?'bg-gray-800':'bg-gray-500'} px-6 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
-            Industry Mentorship
+        class={`flex items-center h-12 py-2   text-sm text-center text-gray-100 
+        ${location.pathname==='/myprojects/manageproject/mentorship'||location.pathname==='/myprojects/manageproject/mentorship/'?'bg-gray-800':'bg-gray-500'} md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+            <span class = 'lg:inline hidden mr-1.5'>Industry </span> Mentorship
         </button>
+        </div>
         </>
     
     
@@ -235,7 +236,7 @@ onClick = {()=> {setShowHeader(showHeader?false:true)}}
         
        <span class = 'relative bottom-[0.016px] font-semibold'> Go Back </span>
     </button>
-    
+   
     }
 
 
@@ -243,11 +244,39 @@ onClick = {()=> {setShowHeader(showHeader?false:true)}}
         <button
 onClick = {()=> {setShowHeader(showHeader?false:true)}}
 
-        class={` items-center h-12 left-24  relative py-1.5 text-sm text-center text-gray-100 
-        hover:from-gray-600 hover:to-gray-700 bg-gradient-to-b from-gray-500 to-gray-500 border-1   px-4 border-b-0   sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+        class={` items-center h-12 ${sessionStorage.getItem('managing')?'left-0 xl:left-24 md:px-4 px-2':"left-24 px-4"}  relative py-1.5 text-sm text-center text-gray-100 
+        hover:from-gray-600 hover:to-gray-700 bg-gradient-to-b from-gray-500 to-gray-500 border-1    border-b-0   sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
             <FcCollapse class = {`text-4xl -top-[1px] text-gray-200 relative ${!showHeader?'rotate-180':''}`}/>
         </button>
+<br/>
+<div class = 'sm:hidden block relative'>
+    <br/>
+        <div class = 'space-x-[3px] flex relative mt-8 -ml-[259px] mr-12 '>
+        <button onClick = {()=> {
+            history.push('/myprojects/manageproject/manageapps')
+        }}
+        class={`flex items-center h-12 py-2 text-sm text-center text-gray-100 
+        ${location.pathname==='/myprojects/manageproject/manageapps'?'bg-gray-800':'bg-gray-500'} md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+            <span class = 'lg:inline hidden'>Manage</span> Applications
+        </button>
 
+        <button onClick = {()=> {
+            history.push('/myprojects/manageproject/collaborate')
+        }}
+        class={` block items-center h-12 py-2 text-sm text-center text-gray-100 
+        ${location.pathname==='/myprojects/manageproject/collaborate'?'bg-gray-800':'bg-gray-500'} md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+            Collaborate
+        </button>
+
+        <button onClick = {()=> {
+            history.push('/myprojects/manageproject/mentorship')
+        }}
+        class={`flex items-center h-12 py-2   text-sm text-center text-gray-100 
+        ${location.pathname==='/myprojects/manageproject/mentorship'||location.pathname==='/myprojects/manageproject/mentorship/'?'bg-gray-800':'bg-gray-500'} md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+            <span class = 'lg:inline hidden'>Industry</span> Mentorship
+        </button>
+        </div>
+        </div>
 
 
         </>

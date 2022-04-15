@@ -26,19 +26,12 @@ export default function CardSocialTraffic() {
       <div className="relative flex flex-col xl:mt-0 xl:mb-6 -mt-9 mb-10  min-w-0 break-words  h-[380px] bg-white w-full shadow-lg rounded">
         <div  style = {{'backgroundImage':'url(https://www.vapulus.com/en/wp-content/uploads/2021/02/challenge-accepting-online-payments-technical-issue-1024x768-1.png)'}} className="rounded-t bg-cover mb-0 px-1 py-3 border-0">
           <div className="flex flex-wrap items-center">
-            <div className="relative w-full ml-3 left-1   max-w-full flex-grow flex-1">
+            <div className="relative w-full ml-3 left-1 py-[5px]  max-w-full flex-grow flex-1">
               <h3 className="font-semibold text-base text-blue-700 text-md text-blueGray-700">
               <GiCash class = 'text-xl  text-white bottom-0.5 relative inline'/> Pending Payments
               </h3>
             </div>
-            <div className="relative w-full px-4 py-1 max-w-full flex-grow flex-1 text-right">
-              <button
-                className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 shadow-lg ease-linear transition-all duration-150"
-                type="button"
-              >
-                See all
-              </button>
-            </div>
+           
           </div>
         </div>
         <div className="block w-full  h-[320px] overflow-scroll">
@@ -46,7 +39,7 @@ export default function CardSocialTraffic() {
           <table className="items-center w-full  bg-transparent border-collapse">
           {loading?
                 <div class ='relative mx-auto my-8 mb-14 bottom-8 pb-3 pt-[21%] border-t-[1px] border-gray-300 w-full text-center items-center block justify-center'>
-                <ClipLoader color={'#0b0bbf'} loading={loading}  size={100} />
+                <ClipLoader color={'#0b0bbf'} loading={loading}  size={80} />
                 </div>
           :<>
           

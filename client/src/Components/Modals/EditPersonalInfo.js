@@ -114,19 +114,19 @@ axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com
   loading?
 
   <div class ='relative mx-auto my-14 mb-16 pb-3 pt-1.5 bottom-6 text-center block justify-center'>
-  <ClipLoader color={'#0b0bbf'} loading={loading}  size={150} />
+  <ClipLoader color={'#0b0bbf'} loading={loading}  size={90} />
   </div>
 
 
 :
 
 <div class="grid grid-cols-6 gap-6">
-<div class="col-span-6 sm:col-span-3 sm:left-3 relative">
+<div class="col-span-6 sm:col-span-3  relative">
   <label for="first-name" class="block text-sm font-semibold left-0.5 text-gray-700">First name</label>
   <input type="text"     onChange = {handleChange} name="firstName" min = {2} id="first-name" placeholder={currentUser?currentUser.user.firstName:''} value = {user?user.firstName:''} class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"/>
 </div>
 
-<div class="col-span-6 sm:col-span-4 sm:left-2.5 relative">
+<div class="col-span-6 sm:col-span-4 relative">
   <label for="last-name" class="block text-sm font-semibold left-0.5 text-gray-700">Last name</label>
   <input type="text"     onChange = {handleChange} name="lastName" id="last-name" min = {2} placeholder={currentUser?currentUser.user.lastName:''} value = {user?user.lastName:''} class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"/>
 </div>

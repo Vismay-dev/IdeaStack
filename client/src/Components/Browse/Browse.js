@@ -162,14 +162,14 @@ style={{'background-image': 'url(https://media.istockphoto.com/photos/dark-blue-
         
         
         
-    <div class="flex flex-wrap mx-auto mt-14  -mb-56 top-2 relative md:px-[80px] sm:px-24 px-7 ">
+    <div class="flex flex-wrap mx-auto mt-16  -mb-56 top-2 relative md:px-[80px] sm:px-24 px-7 ">
 
 {
 
 
    loading?
 
-   <div class ='relative mx-auto my-10 mb-20 py-[100px] pb-[130px] text-center block justify-center'>
+   <div class ='relative mx-auto my-10 mb-20 sm:py-[100px] py-[70px] pb-[100px] sm:pb-[130px] text-center block justify-center'>
    <PulseLoader color={'#2e62d1'} loading={loading}  size={30} margin={8} />
    </div>
 
@@ -184,7 +184,7 @@ style={{'background-image': 'url(https://media.istockphoto.com/photos/dark-blue-
           <span className="block">Oops..</span>
           <span className="block text-blue-700">No Search Results Appeared.</span>
         </h2>
-        <div className="-mt-2 flex lg:flex-shrink-0">
+        <div className="-mt-2 flex py-3 lg:flex-shrink-0">
           <img class = 'w-64 right-11 relative h-64' src = {logo}></img>
         </div>
       </div>
@@ -206,7 +206,7 @@ projects.map((proj,i)=> {
        <img
           src={proj.projPic}
           alt="image"
-          class="w-full h-56 object-contain py-3 -mb-3 bg-gray-50 border-b-2 border-gray-400 relative"
+          class="w-full h-56 object-contain py-7 -mb-3 bg-gray-50 border-b-2 border-gray-400 relative"
           />
        <div class="p-8 pb-14  text-center">
           <h3>

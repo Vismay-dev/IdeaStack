@@ -6,7 +6,7 @@ const Footer = () => {
     const location = useLocation()
 
     return (
-        <div class = 'relative z-30 '>
+        <div class = {`relative z-30 `}>
         <footer className={`px-4 lg:py-10 sm:py-3 pt-0 pb-3 dark:bg-blue-900 opacity-80 dark:text-gray-100 ${location.pathname==='/home'?'mt-[460px]':'mt-[215px]'} md:-mb-80 -mb-102 relative lg:top-[160px] md:top-[139px] top-[132px]`}>
         <div className="container flex flex-wrap items-center justify-center mx-auto space-y-4 sm:justify-between sm:space-y-0">
             <div className="flex flex-row pr-3 relative lg:top-0 sm:-top-3 top-0 lg:right-0 right-44  lg:mx-0 mx-auto space-x-4 sm:space-x-8">

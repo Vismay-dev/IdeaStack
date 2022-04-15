@@ -69,15 +69,15 @@ const SideModal = (props) => {
                 <ExitModal loggedOut = {closePostLog} ref = {myRef} close = {closeFuncOut}/>
                  :''
               }
-    <div  class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div  class="items-end justify-center min-h-screen  text-center block p-0">
         {/* Background overlay, show/hide based on modal state. */}
       <div class="fixed inset-0 bg-gray-700 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
   
   
       
+<div data-aos={"fade-left"} data-aos-once='true' ref = {myRef} class = 'bg-gradient-to-r from-blue-200 to-indigo-300 h-screen w-64 z-40  right-0 absolute'>
 
-
-    <div data-aos={"fade-left"} data-aos-once='true' ref = {myRef} class="z-50 absolute w-80 h-screen right-0 px-8 py-8 border-r bg-gradient-to-r from-blue-200 to-indigo-300 border-gray-600">
+    <div  class="z-50 absolute  h-fit right-0 px-8 py-8 pb-40 border-r bg-gradient-to-r from-blue-200 to-indigo-300 border-gray-600">
 
     <button onClick = {props.close} type="button" class="bg-white rounded-md mb-5 p-2 absolute left-4 top-4 text-gray-400 hover:text-gray-500 hover:bg-gray-100 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
               <span class="sr-only">Close menu</span>
@@ -97,7 +97,7 @@ const SideModal = (props) => {
             </svg>
         </span>
 
-        <input type="text" class="w-full py-2 pl-10 mb-8 pr-4 text-gray-900 bg-white border-0 shadow-md rounded-md  focus:border-blue-00  focus:ring-blue-700 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Search"/>
+        <input type="text" class="w-full py-2 pl-10 mb-8 pr-4  text-gray-900 bg-white border-0 shadow-md rounded-md  focus:border-blue-00  focus:ring-blue-700 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Search"/>
     </div>
     
     <div class="flex flex-col justify-between flex-1 mt-6">
@@ -111,7 +111,7 @@ const SideModal = (props) => {
                 props.close()
               }
             }
-            class="flex items-center px-4 py-2 text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900" href="#">
+            class="flex items-center px-4 py-2 text-gray-700 cursor-pointer transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M19 11H5M19 11C20.1046 11 21 11.8954 21 13V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V13C3 11.8954 3.89543 11 5 11M19 11V9C19 7.89543 18.1046 7 17 7M5 11V9C5 7.89543 5.89543 7 7 7M7 7V5C7 3.89543 7.89543 3 9 3H15C16.1046 3 17 3.89543 17 5V7M7 7H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
@@ -120,7 +120,7 @@ const SideModal = (props) => {
             </a>
 
             <a onClick = {() => {props.close(); history.push('/profile')}}
-            class="flex items-center px-4 py-2 mt-5 text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900" href="#">
+            class="flex items-center px-4 py-2 mt-5 text-gray-700 cursor-pointer transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -131,7 +131,7 @@ const SideModal = (props) => {
             </>
             :<>
          <a onClick = {() => {props.close(); history.push('/profile')}}
-         class="flex items-center px-4 py-2 text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900 cursor-pointer">
+         class="flex items-center px-4 py-2 text-gray-700  transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900 cursor-pointer">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -143,7 +143,7 @@ const SideModal = (props) => {
                 history.push('/myprojects')
                 props.close()
               }}
-              class="flex items-center px-4 py-2 mt-5 text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900" href="#">
+              class="flex items-center px-4 py-2 mt-5 cursor-pointer text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900">
 
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M19 11H5M19 11C20.1046 11 21 11.8954 21 13V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V13C3 11.8954 3.89543 11 5 11M19 11V9C19 7.89543 18.1046 7 17 7M5 11V9C5 7.89543 5.89543 7 7 7M7 7V5C7 3.89543 7.89543 3 9 3H15C16.1046 3 17 3.89543 17 5V7M7 7H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -155,7 +155,7 @@ const SideModal = (props) => {
       }
 
             <a onClick = {() => { props.close(); history.push('/browse') }}
-            class="flex items-center px-4 py-2 mt-5 text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900 cursor-pointer" >
+            class="flex items-center px-4 py-2 mt-5 text-gray-700  transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900 cursor-pointer" >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
 </svg>               
@@ -163,15 +163,15 @@ const SideModal = (props) => {
             </a>
 
         
+            <hr class = 'relative mx-auto block w-10/12 mb-[67px] mt-[65px] border-t-[1.5px]  border-gray-700'/>
 
-            <hr class="mb-[67px] mt-[65px] py-[0.1px] border-[0.1px] border-blue-800 " />
 
 
             <a  onClick={()=> {
               showModalOut();
                 
               }}
-               class="flex items-center px-4 py-2 mt-5 text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900" href="#">
+               class="flex items-center px-4 py-2 mt-5 text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900" >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
 </svg>
@@ -182,6 +182,8 @@ const SideModal = (props) => {
 
   
     </div>
+</div>
+
 </div>
 
 </div>

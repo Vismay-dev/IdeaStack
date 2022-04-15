@@ -14,12 +14,14 @@ import AOS from 'aos';
 import "aos/dist/aos.css";
 
 const Profile = () => {
+  
+  const [projects, setProjects] = useState([])
 
   useEffect(() => {
     AOS.init({
       duration : 800
     });
-  }, []);
+  }, [projects]);
 
     const [showmore, setShowmore] = useState(false)
     const [addDesc, setAddDesc] = useState(false)
@@ -39,7 +41,6 @@ const Profile = () => {
          [e.target.name]: e.target.value
        })
     }
-    const [projects, setProjects] = useState([])
 
     const [loading, setLoading] = useState(false)
     useEffect(()=> {
@@ -64,6 +65,10 @@ const Profile = () => {
             })
           }
         }
+      }
+
+      function onlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
       }
   
 
@@ -127,7 +132,7 @@ const Profile = () => {
                  :''
             }
 
-            <h1 class = 'relative mx-auto xl:-mt-12 2xl:-mb-16 xl:-mb-6 xl:py-8 xl:pt-4   lg:mb-6 md:-mt-12 md:mb-16 sm:-mt-14 sm:mb-24 -mt-10 mb-36 xs:-mt-10 xs:mb-40  text-center text-6xl font-semibold'><span class = 'text-blue-600'>Your</span> Profile</h1>
+            <h1 class = 'relative mx-auto xl:-mt-12 2xl:-mb-16 xl:-mb-6 xl:py-8 xl:pt-4   lg:mb-6 md:-mt-12 md:mb-16 sm:-mt-14 sm:mb-24 -mt-10 mb-40 xs:-mt-10 xs:mb-40 px-4 text-center sm:text-6xl text-5xl font-semibold'><span class = 'text-blue-600'>Your</span> Profile</h1>
             <div class="relative -mt-10 -mb-60  max-h-80">
       <svg viewBox="0 0 1428 174" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -236,7 +241,7 @@ const Profile = () => {
                     <div className="flex justify-center py-4 xl:right-7 lg:right-3 right-0 relative lg:pt-4 pt-8">
                       <div className="mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          0
+                        {currentUser.user&&currentUser.user.projects.filter(onlyUnique).length} 
                         </span>
                         <span className="text-sm top-1 relative text-blueGray-400">
                           Projects
@@ -387,10 +392,10 @@ const Profile = () => {
       {
         currentUser.user.interests.length>0?
         <>
-        <div data-aos={"zoom-in-up"} data-aos-once='true' class = {`grid md:grid-cols-3 sm:grid-cols-4 grid-cols-3  ${currentUser.user.interests.length>2?'-mt-3':'-mt-6'}  mb-16 space-y-4`}>
-        {currentUser.user.interests.map(interest => {
+        <div data-aos={"zoom-in-up"} data-aos-once='true' class = {`grid md:grid-cols-3 sm:grid-cols-4 grid-cols-3 -mt-1 gap-7  mb-20`}>
+        {currentUser.user.interests.map((interest,i) => {
           return (
-              <div class={`max-w-xs  mx-auto py-2 pb-1 ${currentUser.user.interests.length===1?'md:col-start-2 sm:col-start-2':''} md:col-span-1 sm:col-span-2 lg:left-0 left-[1px] col-span-3 top-5 relative mb-5 overflow-hidden bg-gradient-to-r from-blue-50 to-indigo-100  rounded-lg shadow-lg `}>
+              <div class={`w-full relative  mx-auto py-2 pb-1 ${currentUser.user.interests.length===1?'md:col-start-2 sm:col-start-2':''} md:col-span-1 sm:col-span-2 lg:left-0 left-[1px] col-span-3 top-5 relative mb-5 overflow-hidden bg-gradient-to-r from-blue-50 to-indigo-100  rounded-lg shadow-lg `}>
                 <div class="lg:px-4 px-3 py-2">
                     <h1 class="sm:text-2xl text-xl font-bold lg:mb-1 mb-4 text-gray-700">{interest.title}</h1>
                     <p class="text-sm text-gray-600 mt-2 mb-2">{interest.desc}</p>
@@ -440,7 +445,16 @@ const Profile = () => {
 
 
         :
+          !projects.length>0?
 
+
+          <p class = 'text-2xl font-semibold text-center my-6 mb-24 mx-auto relative'><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+        </svg> <span class = 'top-0.5 relative'>No Projects</span></p>
+
+
+
+          :
         projects.map(proj=> {
 
              let date = new Date(proj.createdAt).toDateString().substring(4)

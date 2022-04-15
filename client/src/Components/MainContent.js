@@ -4,7 +4,7 @@ import Browse from "./Browse/Browse"
 import Profile from "./Profile/Profile"
 import MyProjects from './MyProjects/MyProjects'
 import AdminPage from "./adminPage"
-
+import ViewProfile from './Profile/ViewProfile'
 import {Switch, Route, Redirect} from 'react-router-dom'
 
 
@@ -13,7 +13,7 @@ const MainContent = () => {
 
     return (
         <>
-        <div class = 'relative top-[90px]'>
+        <div class = {`relative top-[90px] ${sessionStorage.getItem('token')!==null?'sm:top-[143px] md:top-[121px] lg:top-[90px] md:mb-[260px] mb-[50px]  sm:mb-[270px] lg:mb-0':''}`}>
             <Switch>
             <Route path = '/home'>
                 {!(sessionStorage.getItem('token'))  ? 
@@ -25,6 +25,9 @@ const MainContent = () => {
             <Route path = '/browse'  render = {()=> sessionStorage.getItem('token')? <Browse/>:<Redirect to = '/'/>}  />
             <Route path = '/myprojects'  render = {()=> sessionStorage.getItem('token')? <MyProjects/>:<Redirect to = '/'/>}  />
 
+            <Route path = '/viewProfile'  render = {()=> localStorage.getItem('viewToken')? <ViewProfile/>:<Redirect to = '/'/>}  />
+
+            
             <Route path = '/admin-operations-passcode-IdeaStackOperations300305'>
                     <AdminPage/>
             </Route>

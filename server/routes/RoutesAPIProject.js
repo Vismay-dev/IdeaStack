@@ -73,6 +73,30 @@ router.post('/acceptApp',auth, async(req,res)=> {
     res.send(proj.joinRequests)
 })
 
+router.post('/sendInvite',auth, async(req,res)=> {
+    let invitee = await studentUser.findOne({_id:req.body.user.id});
+    const proj = await project.findOne({_id:req.body.projectID})
+
+    let joinRequest = {
+        isInvite:true,
+        projID:req.body.projectID,
+        id:req.body.user.id,
+        appStatus: 'Invited'
+    }
+
+
+    proj.joinRequests.push(joinRequest)
+    proj.markModified('joinRequests');
+    await proj.save()
+
+    invitee.joinRequests.push(joinRequest)
+    invitee.markModified('joinRequests')
+    console.log(invitee.joinRequests)
+    await invitee.save()
+
+    res.send('Worked..')
+})  
+
 router.post('/confirmAcceptance',auth, async(req,res)=> {
     const applicant = await studentUser.findOne({_id:req.body.application.id});
     const proj = await project.findOne({_id:req.body.application.projID})
@@ -97,7 +121,8 @@ router.post('/confirmAcceptance',auth, async(req,res)=> {
 
     applicant.markModified('joinRequests');
     proj.markModified('joinRequests');
-    
+
+
     await applicant.save()
 
     await proj.save()
@@ -139,12 +164,38 @@ router.post('/rejectApp',auth, async(req,res)=> {
 router.post('/confirmRejection',auth, async(req,res)=> {
     const applicant = await studentUser.findOne({_id:req.body.application.id});
     applicant.joinRequests = applicant.joinRequests.filter(jR=> {
-        jR!==req.body.application
+        jR!==req.body.application&&(jR.isInvite===true&&req.body.application.isInvite===true||jR.isInvite===false&&req.body.application.isInvite===false)
     })
 
     applicant.markModified('joinRequests');
     
     await applicant.save()     
+
+    res.send(applicant.joinRequests)
+})
+
+router.post('/confirmRejectionInvite',auth, async(req,res)=> {
+    const applicant = await studentUser.findOne({_id:req.user._id});
+    applicant.joinRequests = applicant.joinRequests.filter(jR=> {
+        return (
+        jR!==req.body.application&&!((jR.isInvite===true&&req.body.application.isInvite===true)||(jR.isInvite===false&&req.body.application.isInvite===false))
+        )
+    })
+
+    applicant.markModified('joinRequests');
+    await applicant.save()     
+
+    const proj = await project.findOne({_id:req.body.application.projID})
+    proj.joinRequests = proj.joinRequests.filter(jR=> {
+        return(
+        jR!==req.body.application&&!((jR.isInvite===true&&req.body.application.isInvite===true)||(jR.isInvite===false&&req.body.application.isInvite===false))
+        )
+    })
+
+
+    proj.markModified('joinRequests');
+    await proj.save()
+
 
     res.send(applicant.joinRequests)
 })
@@ -203,7 +254,7 @@ router.post('/getMentors', auth, async(req,res)=> {
 
 router.post('/addMentorshipPackage', auth, async(req,res)=> {
     const proj = await project.findOne({_id:req.body.projectID})
-    proj.mentorshipPackages.push({...req.body.mentorshipPackage,paymentPending:true, pendingAmount: req.body.mentorshipPackage.pricing[0] , scheduled: false})
+    proj.mentorshipPackages.push({...req.body.mentorshipPackage,numberOfSessionsRemaining:req.body.mentorshipPackage.numberOfSessions, paymentPending:true, pendingAmount: req.body.mentorshipPackage.pricing[0]*req.body.mentorshipPackage.numberOfSessions , scheduled: false})
     const noOfSessions = req.body.mentorshipPackage.numberOfSessions
     for(let i = 0; i<proj.team.length;i++) {
         if(proj.team[i].pendingPayments){
@@ -243,7 +294,7 @@ router.post('/addMentorshipPackage', auth, async(req,res)=> {
             let pendingPaymentObj = user.pendingPayments[finI]
             paymentInfo.amounts = pendingPaymentObj.amounts.push(req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions)
             paymentInfo.totalAmountForThisProject = pendingPaymentObj.totalAmountForThisProject+req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions;
-            user.pendingPayments.push(paymentInfo)
+            user.pendingPayments[finI] = paymentInfo;
         }
 
 

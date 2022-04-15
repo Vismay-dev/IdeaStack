@@ -9,7 +9,8 @@ const userContext = createContext({
     country: '',
     age: 0,
     city: '',
-    school: ''
+    school: '',
+    id:''
     },
     setUser:   () => {
 

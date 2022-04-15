@@ -109,17 +109,40 @@ router.post('/register', async(req,res)=> {
     }
 })
 
-//receives login credentials
-//checks if user exists in database
-//sends back user and token
-router.post('/login', async(req,res)=> {
+router.post('/checkCookie',async(req,res)=> {
+    try {
+        const users = await studentUser.find();
+        let chk = false;
+        for(let i =0;i<users.length;i++){
+            const decoded = await jwt.verify(req.body.cookieString, process.env.TOKEN_SECRET);
+            const isMatch = JSON.stringify(users[i]._id) === JSON.stringify(decoded._id)
+            if(isMatch) {
+                let user = users[i];
+                const token = jwt.sign({_id:user._id}, 
+                    process.env.TOKEN_SECRET,
+                    {expiresIn:'2.5h'});
+                    console.log('- Logged In')
+                    chk = true;
+                    res.send({user:user, userToken: token, isValid:true})
+            }
+        }
+        if(!chk){res.send('Invalid Cookie')}
+    }catch (err) {
+        console.log(err)
+        res.status(400).send(err)
+    }
+})
+
+
+router.post('/login',   
+  async(req,res)=> {
     try {
         const user = await studentUser.findOne({email:req.body.email.trim()})
         if(!user) {
             console.log('- User not found')
-            res.status(401).send('User not found')
+            res.status(401) .send('User not found')
         }else {
-            const isMatch = await bcrypt.compare(req.body.password, user.password)
+            const isMatch = await bcrypt.compare(req.body.password.trim(), user.password)
             if(!isMatch) {
                 console.log('- Incorrect password')
                 res.status(401).send('Incorrect password')
@@ -127,8 +150,27 @@ router.post('/login', async(req,res)=> {
                 const token = jwt.sign({_id:user._id}, 
                     process.env.TOKEN_SECRET,
                     {expiresIn:'2.5h'});
+
+                    const token2 = jwt.sign({_id:user._id}, 
+                        process.env.TOKEN_SECRET,
+                        {expiresIn:'14d'});
+
+
                 console.log('- Logged In')
-                res.send({user:user, userToken: token})
+
+                if(!req.body.rememberme){
+                    let cookieNow = req.session.cookie
+                cookieNow.path = 'www.ideastack.org/home'
+                cookieNow.id = token2
+                cookieNow.expires = new Date(Date.now() + 900000)
+                req.session.isAuth = true
+                res.send({user:user, userToken: token, cookieObj:{...cookieNow,
+                    id:token2,
+                    expires: new Date(Date.now() + 900000)    
+                }})
+                }else {
+                    res.send({user:user, userToken: token})
+                }
             }
         }
     }catch (err) {
@@ -136,10 +178,100 @@ router.post('/login', async(req,res)=> {
     }
 })
 
+
+router.post('/sendResetCode',async(req,res)=> {
+    console.log(req.body.mail.trim())
+        const user = await studentUser.findOne({email:req.body.mail.trim()})
+        if(!user) {
+            console.log('- User not found')
+            res.status(401).send('User Email ID not found')
+        }else {
+            async function sendMail(){
+                try {
+                    const transport = nodemailer.createTransport({
+                        service: 'gmail',
+                        auth: {
+                            user: 'ideastackapp@gmail.com',
+                            pass: process.env.PASS
+                        } 
+                    })
+                
+                    const mailOptions = {
+                        from:'IdeaStack™ <ideastackapp@gmail.com>',
+                        to: [user.email],
+                        bcc:['vismaysuramwar@gmail.com'],
+                        subject:'Password Reset',
+                        text:`
+                        Hey ${user.firstName},
+                
+                        Your message has been noted.
+                        Message: ${req.body.message}.
+                        We'll get back to you as soon as possible!
+                        
+                        Best Regards,
+                        Outreach, IdeaStack™`,
+                        html: `
+                        <p>Hey ${user.firstName}!</p>
+                
+                        <h4>Welcome Back to IdeaStack!</h4>
+                        Requested Password Reset Code: <strong>${req.body.code}</strong>.<br/> 
+                        Please use this code to access the privilege to reset your password. It will expire in 10 minutes<br/>
+                        
+                        <p>Best Regards,<br/>
+                        Outreach team, IdeaStack™</p>
+                        <br/><br/>
+                        <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                        `,
+                        attachments:[
+                            {
+                              fileName: 'IdeaStack.jpg',
+                              path: 'server/routes/IdeaStack.jpg',
+                              cid: 'ideastack@orgae.ee'
+                            }
+                          ]
+                    }
+                    const result = transport.sendMail(mailOptions)
+                    return result
+                }catch (err) {
+                    return(err)
+                }
+                } 
+                sendMail().then(result=> {
+                    console.log(result)
+                }).catch(err=> {
+                    console.log(err)
+                })
+                res.send('Code succesfully sent!')
+        }
+})
+
+router.post('/resetPassword',async(req,res)=> {
+    try {
+        const user = await studentUser.findOne({email:req.body.email})
+        console.log(req.body.pass)
+        let hash = await bcrypt.hash(req.body.pass.trim(), 10)
+        user.password = hash;
+        await user.save()
+        res.send('Done succesfully')
+    }catch (err) {
+        console.log(err)
+        res.status(400).send(err)
+    }
+})
+
 //sends back user data based on token
 router.post('/getUser',auth,async(req,res)=> {
     try {
         const user = await studentUser.findById(req.user._id)
+        res.send(user)
+    }catch (err) {
+        res.status(400).send(err)
+    }
+})
+
+router.post('/getUserView',async(req,res)=> {
+    try {
+        const user = await studentUser.findById(req.body.token)
         res.send(user)
     }catch (err) {
         res.status(400).send(err)
@@ -212,7 +344,11 @@ router.post('/createProject',auth, async(req,res)=> {
             id: req.user._id
         },
         team: [
-            admin
+            {
+                name: userName,
+            pic: user.profilePic,
+            id: req.user._id
+            }
         ],
         projPic:projectData.projPic
     })
@@ -241,7 +377,24 @@ router.post('/getUserProjects', auth, async(req,res)=> {
     res.send(projects)
 })
 
+router.post('/getUserProjectsView', async(req,res)=> {
+    const user = await studentUser.findById(req.body.token);
+    const userProjects = user.projects;
+    const projects = await project.find({_id: {$in: userProjects}});
+    res.send(projects)
+})
+
 router.post('/getAllProjects', auth, async(req,res)=> {
+    const projects = await project.find();
+    res.send(projects)
+})
+
+router.post('/getAllUsers', auth, async(req,res)=> {
+    const users = await studentUser.find();
+    res.send(users)
+})
+
+router.post('/getAllProjectsAdmin',  async(req,res)=> {
     const projects = await project.find();
     res.send(projects)
 })
@@ -308,6 +461,7 @@ router.post('/completeLatestPendingPayment', auth, async(req,res)=> {
             user.pendingPayments[i].totalAmountForThisProject = user.pendingPayments[i].totalAmountForThisProject - amnt;
         }
     }
+
     user.markModified('pendingPayments');
     await user.save();
 
@@ -315,25 +469,56 @@ router.post('/completeLatestPendingPayment', auth, async(req,res)=> {
     mentorshipPackage = proj.mentorshipPackages[0];
     mentorshipPackage.pendingAmount -= amnt;
     if(mentorshipPackage.pendingAmount==0) {
-        mentorshipPackage.paymentPending = false;
+        proj.mentorshipPackages[0].paymentPending = false;
     }
 
     proj.markModified('mentorshipPackages');
 
-
-    amnt = 50;
     for(let i = 0; i<proj.team.length;i++){
         let member = proj.team[i];
         if(JSON.stringify(member.id)===JSON.stringify(req.user._id)) {
-            if(member.pendingPayments[0]===amnt){
+            if(parseInt(member.pendingPayments[0])===parseInt(amnt)){
                proj.team[i].pendingPayments[0] = 0;
-               proj.markModified('team');
             }
         }
     }
 
+    proj.markModified('team');
+
+
     await proj.save()
     res.send('Payment Completed!')
+})
+
+
+router.post('/updateLatestPendingSession', auth, async(req,res)=> {
+
+    proj = await project.findOne({_id: req.body.projectID});
+    mentorshipPackage = proj.mentorshipPackages[0];
+    if(mentorshipPackage.pendingAmount==0) {
+        proj.mentorshipPackages[0] = {...mentorshipPackage, ...req.body.updated};
+    }
+
+    proj.markModified('mentorshipPackages');
+    await proj.save()
+
+    console.log('job done')
+    res.send('Request Sent!')
+})
+
+router.post('/updateLatestPendingSessionAdmin', async(req,res)=> {
+
+    proj = await project.findOne({_id: req.body.projectID});
+    mentorshipPackage = proj.mentorshipPackages[0];
+    if(mentorshipPackage.pendingAmount==0) {
+        proj.mentorshipPackages[0] = {...mentorshipPackage, ...req.body.updated};
+    }
+
+    proj.markModified('mentorshipPackages');
+    await proj.save()
+
+    console.log('job done')
+    res.send('Request Sent!')
 })
 
 router.post('/getProjectsPaid', async(req,res)=> {
@@ -342,7 +527,7 @@ router.post('/getProjectsPaid', async(req,res)=> {
     let projectsPaid = [];
     for(let i = 0; i<proj.length;i++) {
         for(let j = 0; j<proj[i].mentorshipPackages.length;j++) {
-            if(proj[i].mentorshipPackages[i].paymentPending===false && proj[i].mentorshipPackages[i].scheduled===false) {
+            if(proj[i].mentorshipPackages[i].paymentPending===false && proj[i].mentorshipPackages[i].sessionScheduled===false) {
                 projectsPaid.push(proj[i])
             }
         }

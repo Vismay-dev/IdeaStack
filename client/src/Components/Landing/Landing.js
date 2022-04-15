@@ -24,19 +24,19 @@ const Landing = () => {
 
     return (
         <>
-        <div class="pt-44 lg:pb-12 pb-0 overflow-hidden bg-gradient-to-r from-gray-200 to-blue-200">
-      <div  class=" sm:left-14 left-16 xl:px-14 xs2:px-20 px-4 xl:left-12 xl:bottom-0 bottom-4 relative container mx-auto flex flex-wrap flex-col md:flex-row items-center">
-        <div class="flex flex-col xl:w-2/5 lg:w-3/5 relative xl:-right-6 xl:bottom-2 lg:-bottom-5 lg:right-72 md:right-6 sm:right-40 right-16 bottom-5 md:pl-0 sm:pl-8 pl-0 sm:w-full w-full mx-auto justify-center items-start text-left">
-          <p class="uppercase font-medium sm:text-base text-sm  text-center lg:right-0 md:right-16 sm:-right-12 sm:left-20 md:-left-10 lg:-left-0 right-0 mx-auto  top-5 -mt-10   relative md:w-full w-80">IdeaStack™ - Developing Platform</p>
-          <h1 class="relative my-4 mb-7 md:-ml-12 text-center mx-auto lg:text-7xl md:text-7xl  xl:-ml-20 lg:-ml-12 sm:text-6xl text-5xl sm:left-20 -left-1 font-bold leading-tight">
+        <div class="lg:pt-44 md:pt-48 pt-[168px] lg:pb-12 pb-0 overflow-hidden bg-gradient-to-r from-gray-200 to-blue-200">
+      <div  class="  sm:left-14 left-16 xl:px-14 xs2:px-20 px-4 xl:left-12 xl:bottom-0 bottom-4 relative container mx-auto flex flex-wrap flex-col md:flex-row items-center">
+        <div class="flex flex-col  xl:w-2/5 lg:w-[46%] relative xl:-right-6 xl:bottom-2 lg:-bottom-5 lg:right-72 md:right-6 sm:right-40 right-16 bottom-5 md:pl-0 sm:pl-8 pl-0 sm:w-full w-full mx-auto justify-center items-start text-left">
+          <p class="uppercase font-medium sm:text-base text-sm  text-center lg:right-0 md:right-20 sm:-right-12 sm:left-20 md:-left-[52px] lg:-left-0 xl:-left-0 right-0 mx-auto  top-5 -mt-10   relative md:w-full w-80">IdeaStack™ - Developing Platform</p>
+          <h1 class="relative my-4 mb-7 md:ml-1.5 text-center mx-auto lg:text-7xl md:text-7xl  xl:-ml-20 lg:-ml-[78px] sm:text-6xl text-5xl sm:left-20 -left-1 font-bold leading-tight">
             Coming <span class = " text-blue-700">Soon!</span> 
           </h1>
-          <p class="leading-normal font-medium mx-auto xl:text-xl lg:-right-1 lg:left-0 md:right-9  sm:-right-24 sm:left-20 md:-left-10 xs:right-3 right-0   xs:w-96 md:w-3/4  lg:w-full md:text-xl sm:text-xl w-80 text-lg mb-12 mt-6 relative text-center">
+          <p class="leading-normal font-medium mx-auto xl:text-xl xl:-right-3 lg:-right-2 lg:left-0 md:right-10  sm:-right-24 sm:left-20 md:-left-[40px] xs:right-3 right-0   xs:w-96 md:w-3/4  lg:w-full md:text-xl sm:text-xl xl:w-80 w-72 text-lg mb-12 mt-5 relative text-center">
           Networking and Consultancy Platform to Help Students Plan and Launch STEM Projects
           </p>
           <a
           href = '#about'
-class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  relative xs:-mb-4 bottom-8  bg-white text-gray-800 font-bold rounded-lg  my-4 sm:py-4 py-3 hover:cursor-pointer z-20 md:px-6 sm:px-8 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+class="sm:ml-40 mx-auto xl:left-[10px] lg:left-2 left-[3px] md:left-[100px] md:mb-0 sm:left-[139px]  relative xs:-mb-4 lg:bottom-8 md:bottom-6 bottom-6  bg-white text-gray-800 font-bold rounded-lg  my-4 sm:py-4 py-3 hover:cursor-pointer z-20 md:px-6 sm:px-8 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
             Learn More
           </a>
         </div>
@@ -87,20 +87,28 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
         <div class="flex relative flex-wrap sm:-mb-9 -mb-4">
           <div class="w-5/6 sm:w-1/2 p-6 relative lg:px-6 md:px-10 sm:mx-0 mx-auto px-6 lg:left-0 md:left-10 sm:left-6  text-center">
             <h3 class="md:text-3xl text-2xl text-gray-800 relative  font-bold leading-one mb-6 mt-3">
-             The Obstacle IdeaStack™ Removes
+             The Problem We Solve
             </h3>
             <p class="text-gray-600  leading-7 ">
             STEM (Science, Engineering, Tech, Mathematics) projects are planned and launched by students via a problematic process full of obstacles, including:              <br /><br />
-            <ul class = 'leading-8'><strong><li>-{'>'} Lack of Networking Opportunities</li>
-            <li>-{'>'} Uncoordinated Project Planning</li>
-            <li>-{'>'} Lack of Professional Advice</li></strong></ul>
+            <ul class = 'leading-8'><strong><li><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 relative bottom-[1.8px] mr-0.5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+</svg> <span class = 'inline'>Lack of Networking Opportunities</span></li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 relative bottom-[1.8px] mr-0.5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+</svg> <span class = 'inline'>Collaborative inefficiency</span></li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 relative bottom-[1.8px] mr-0.5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path d="M12 14l9-5-9-5-9 5 9 5z" />
+  <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+<path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+</svg> <span class = 'inline'>Lack of Professional Advice</span></li></strong></ul>
               <br />
 
         
             </p>
           </div>
           <div class="w-full sm:w-1/2 p-6">
-            <img src = {team} class = 'relative lg:w-96 md:w-80 w-64 lg:left-6 lg:-ml-0  md:left-1 sm:left-3 left-2 sm:mx-0 mx-auto   lg:bottom-8 md:-bottom-9 sm:-bottom-16  bottom-12'/>
+            <img src = {team} class = 'relative lg:w-96 md:w-80 w-64 lg:left-6 lg:-ml-0  md:left-1 sm:left-3 left-2 sm:mx-0 mx-auto   lg:bottom-8 md:-bottom-2 sm:-bottom-16  bottom-9'/>
           </div>
         </div>
         <div class="flex flex-wrap flex-col-reverse sm:flex-row">
@@ -249,13 +257,13 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
               <circle cx="600.35" cy="480.68" r="11.968" fill="#ff6347" />
             </svg>
           </div>
-          <div class="w-full sm:w-1/2 sm:p-6 lg:px-6 sm:px-8 px-20 pb-6 pt-6  mt-3 relative lg:right-0 sm:right-7">
+          <div class="w-full sm:w-1/2 sm:p-6 lg:px-6 sm:px-8 px-20 pb-6 pt-6  mt-[18px] relative lg:right-0 sm:right-7">
             <div class="align-middle text-center">
-              <h3 class="md:text-3xl text-2xl text-gray-800 font-bold leading-one mb-6">
+              <h3 class="md:text-3xl text-2xl text-gray-800 font-bold leading-one sm:mb-6 mb-7">
                 Our Mission Statement
               </h3>
               <p class="text-gray-600 mb-4 leading-7 lg:top-9">
-              Enabling high-school and university students to form teams through networking, solve real-world problems through guided project planning and ensure project feasibility by consulting with STEM experts.                 <br />
+              We enable high-school and university students to form teams through networking, solve real-world problems through guided project planning and ensure project feasibility by consulting with STEM experts.                 <br />
                 <br />
         
               </p>
@@ -267,7 +275,7 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
     <p class = 'relative bottom-14' id = 'features'/>
     <section class="bg-white border-b py-8 bg-no-repeat bg-cover" style = {{'backgroundImage':'url(https://img.wallpapersafari.com/tablet/2048/2732/68/27/ZM5Amy.jpg'}} >
       <div class="container mx-auto flex flex-wrap pt-4 pb-12" >
-        <h1 class="w-full my-2 text-6xl font-bold leading-tight mb-7 text-center text-white">
+        <h1 class="w-full my-2 sm:text-6xl text-5xl font-bold leading-tight mb-7 px-4 text-center text-white">
           Features & Services
         </h1>
         <div class="w-full mb-4">
@@ -280,7 +288,7 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
                 Connecting STEM Students
               </p>
               <div class="w-full font-bold text-2xl text-gray-800 px-6 mb-5">
-                Networking
+                Network
               </div>
               <p class="text-gray-800 text-base px-3 mb-7 xl:top-0 relative lg:top-9">
                 IdeaStack™ connects students to STEM project teams looking to recruit like-minded members. Our service allows students to be a part of projects that interest them. 
@@ -300,10 +308,10 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
                 Helping Teams Build Solutions
               </p>
               <div class="w-full font-bold text-2xl text-gray-800 px-6 mb-7">
-              Planning & Research
+              Collaborate
               </div>
               <p class="text-gray-800 text-base px-3 mb-7 border-b-1 border-gray-100 xl:top-0 relative lg:top-9">
-                  By providing for powerful research and planning tools, IdeaStack™ helps teams form their ideal STEM solutions and projects.
+                  By providing for a powerful collaborative dashboard, IdeaStack™ helps teams form their ideal STEM solutions and projects.
               </p>
             </a>
           </div>
@@ -320,7 +328,7 @@ class="sm:ml-40 mx-auto xl:left-0 lg:left-11 md:left-11 md:mb-0 sm:left-20  rela
                 Making Projects Feasible
               </p>
               <div class="w-full font-bold text-2xl text-gray-800 px-6 mb-5">
-                STEM Expert Consultancy
+                Learn from STEM Experts
               </div>
               <p class="text-gray-800 text-base px-6 mb-7 ">
                 Our platform allows project teams to consult with experts and academicians working within STEM-related fields. Expertise makes projects realistic and ready to implement.              </p>

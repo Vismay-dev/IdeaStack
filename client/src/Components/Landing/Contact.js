@@ -52,11 +52,11 @@ const Contact = () => {
 
     return (
 
-        <div  class={`bg-gradient-to-b ${loading?'h-40':'h-96'} w-full`}>
+        <div  class={`bg-gradient-to-b ${loading?'h-40':'md:h-96 h-[490px]'} px-9 w-full`}>
                             <p id = 'contact' class = 'relative -bottom-12'/>
 
             <div  class="w-full  flex items-center justify-center md:my-12">
-                <div  data-aos={"fade-up"} data-aos-once='true' class="relative md:top-24 top-24 bg-white shadow  rounded-md py-12 md:mb-80  lg:px-56 md:px-44 sm:px-20    px-10">
+                <div  data-aos={"fade-up"} data-aos-once='true' class="relative md:top-24 top-24 bg-white shadow  rounded-md py-12 md:mb-80 mb-40  lg:px-56 md:px-44 sm:px-20    px-16">
                     <p class="text-3xl font-bold leading-7 text-center text-gray-700">Get In Touch..</p>
                     {!loading?<form onSubmit={formSub}>
                     <div class="md:flex items-center mt-16 xs3:w-72 w-64 md:mr-32 mx-auto">

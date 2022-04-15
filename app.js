@@ -10,6 +10,10 @@ const http = require('http').createServer(app)
 const jwt = require('jsonwebtoken')
 const User = require('./server/models/studentUser')
 const cloudinary = require('cloudinary')
+const session = require('express-session')
+
+
+const MongoDBSession = require('connect-mongodb-session')(session)
 
 dotenv.config()
 
@@ -29,6 +33,8 @@ const io = require('socket.io')(http, {
   }) 
 
 
+
+
 mongoose.connect(process.env.MONGODB,{useUnifiedTopology:true,useNewUrlParser:true },
     ).then(()=> {
           console.log('- Connected to IdeaStack Database...')
@@ -44,6 +50,12 @@ io.on('connection', (socket) => {
 })
 
 const port = process.env.PORT||4000;
+
+app.use(session({
+    secret: process.env.SESHSECRET,
+    resave:false,
+    saveUninitialized:false    
+}))
 
 app.use('/api/user',RoutesAPIUser)
 app.use('/api/project',RoutesAPIProject)

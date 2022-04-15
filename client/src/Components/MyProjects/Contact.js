@@ -50,11 +50,11 @@ const [showToolTip, setShowToolTip] = useState(false);
 
     return (
         <div data-aos={"fade-up"} data-aos-once='true' style = {{'backgroundImage':'url(https://www.mysupplychaingroup.com/wp-content/uploads/2015/11/Business-team-world-map-background.png)'}}
-        class = 'col-span-2 bg-opacity-75 row-span-2 bg-cover bg-no-repeat  bg-gradient-to-br from-blue-300 to-indigo-300 rounded-md shadow-xl'>
-                 <div class = 'h-full inset-0 bg-gray-900 bg-opacity-[0.65] pt-4'>
+        class = 'lg:col-span-2 col-span-5 bg-opacity-75 row-span-2 bg-cover bg-no-repeat  bg-gradient-to-br from-blue-300 to-indigo-300 rounded-md shadow-xl'>
+                 <div class = 'h-full inset-0 bg-gray-900 lg:pb-0 pb-9 bg-opacity-[0.65] pt-4'>
                  
-                        <h3 class = 'uppercase text-center font-semibold text-gray-100 mb-2 relative text-3xl'>Team Contacts</h3>
-                        <hr class = 'mb-5 w-8/12 border-t-[0.3px] border-gray-100 mx-auto relative justify-center'></hr>
+                        <h3 class = 'uppercase text-center font-semibold text-gray-100 relative text-3xl'>Team Contacts</h3>
+                        <hr class = 'mb-5 w-8/12 border-t-[0.3px] border-gray-100 mx-auto mt-2 relative justify-center'></hr>
 
                         {
 
@@ -68,8 +68,8 @@ loading?
                             proj&&contacts&&contacts.map((contact,i)=> {
                                 return (
                                     <>
-                                    <div class={`flex items-center text-md justify-center mx-auto relative   bg-gradient-to-r from-indigo-300 to-blue-200 border-b-[1px] py-2.5  border-blue-600`}>
-                   <img class="hidden object-cover w-10 h-10 shadow-md mx-2 relative right-1 rounded-full sm:block" src={proj.team[i].pic?proj.team[i].pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
+                                    <div class={`flex items-center lg:top-0 top-1 text-md justify-center mx-auto relative   bg-gradient-to-r from-indigo-300 to-blue-200 border-b-[1px] py-2.5   border-blue-600`}>
+                   <img class="hidden object-cover w-10 h-10 shadow-md mx-2 relative right-1 rounded-full sm:block" src={proj.team[i].pic!==null?proj.team[i].pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
                    <a class="font-bold text-gray-700 mr-6  relative cursor-pointer ">
                    {proj?proj.team[i].name:''}{i==0?' (Admin)':''}
                    

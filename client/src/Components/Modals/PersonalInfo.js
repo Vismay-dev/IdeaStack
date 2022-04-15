@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo, useContext } from "react"
 import axios from 'axios'
 import {useHistory} from 'react-router-dom'
 import userContext from '../../context/userContext'
+import ClipLoader from "react-spinners/ClipLoader"
 
 const PersonalInfo = (props) => {
 
@@ -24,24 +25,29 @@ const history = useHistory()
 
 
 const handleChange = (e) => {
-   setError()
     setStudentUser({
     ...studentUser,
     [e.target.name]: e.target.value
   })  
 }
+const [loading, setLoading] = useState(false);
 
 const [error,setError] = useState(null)
+
 const handleSubmit = (e) => {
 e.preventDefault()
+setError()
+setLoading(true)
 console.log(studentUser)
 axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/register':'http://localhost:4000/api/user/register',studentUser).then(res=> {
     sessionStorage.setItem('token',res.data.userToken)
     currentUser.setUser(res.data.user)
     history.push('/profile')
     props.close()
+    setLoading(false)
   }).catch(err=> {
     setError(err.response?err.response.data:null)
+    setLoading(false)
   })
   
   }
@@ -53,43 +59,54 @@ axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com
     <div class="mt-10 sm:mt-0">
     <div class="md:grid md:grid-cols-3 md:gap-6">
       <div class="md:col-span-1">
-        <div class="px-8 sm:px-3 mr-3">
-          <h3 class="mt-48 text-3xl font-bold text-gray-900 text-center">Sign Up for IdeaStack</h3>
+        <div class="px-8 sm:px-3 md:left-0 sm:left-1.5 left-4 relative mr-3">
+          <h3 class="md:mt-48 sm:-mt-4 -mt-10 md:mb-0 mb-4 relative  md:left-0 sm:left-1.5 left-1   lg:text-3xl md:text-2xl text-3xl font-bold text-gray-900 text-center">Sign Up for IdeaStack</h3>
           <p class = 'text-xs font-medium leading-6 mt-2 text-gray-400 uppercase text-center'>Join The Movement</p>
-          <p class="mt-8 text-sm text-gray-600 px-14 text-center">
+          <p class="xl:mt-8 mt-6 md:mb-0 mb-7 text-sm text-gray-600 xl:px-14 lg:px-6 sm:px-2 px-0.5 text-center">
             Safe and Secure.<br/><br/> We value the protection of your personal data above all else.
           </p>
         </div>
       </div>
-      <div class="mt-5 md:mt-0 md:col-span-2">
+      <div class="mt-5 md:mt-0 md:left-0 sm:left-1.5 left-3 relative md:col-span-2">
         <form id = 'regForm' onSubmit={handleSubmit}>
           <div class="shadow overflow-hidden sm:rounded-md">
-            <div class="px-3 py-2 bg-gradient-to-r from-indigo-200 to-blue-200 sm:p-6">
+            <div class="px-3 py-2 pb-9 bg-gradient-to-r from-indigo-200 to-blue-200 sm:p-6">
+            
+            {
+
+loading?
+<div class ='relative mx-auto my-8 mb-14 mt-40 sm:pb-3 pb-14 mr-4 pt-1.5 sm:left-0  text-center sm:top-[50%] top-[65%] translate-y-[-50%] block justify-center'>
+<ClipLoader color={'#0b0bbf'} loading={loading}  size={70} />
+</div>
+:
+            
+            <>
+
             {
               error!==null&&error?
-              <p class = 'text-center mb-4 text-orange-500'>Error: {error?error:''}</p>
-            :''
-            }
+              <p class = 'text-center mb-4 text-red-500'><span class = 'black underline text-black font-semibold'>Error:</span> {error?error:''}</p>
+            :''}
+            
               
               <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6 sm:col-span-3">
                   <label for="first-name" class="block text-sm font-semibold left-0.5 text-gray-700">First name</label>
-                  <input type="text" required onChange = {handleChange} name="firstName" min = {2} id="first-name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"/>
+                  <input type="text" required onChange = {handleChange} name="firstName" min = {2} id="first-name" value = {studentUser.firstName} class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"/>
                 </div>
   
                 <div class="col-span-6 sm:col-span-3">
                   <label for="last-name" class="block text-sm font-semibold left-0.5 text-gray-700">Last name</label>
-                  <input type="text" required onChange = {handleChange} name="lastName" id="last-name" min = {2} autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"/>
+                  <input type="text" required onChange = {handleChange} name="lastName" id="last-name" min = {2} value = {studentUser.lastName} class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"/>
                 </div>
   
                 <div class="col-span-6 sm:col-span-4">
                   <label for="email-address" class="block text-sm font-semibold left-0.5 text-gray-700">Email address</label>
-                  <input type="text" required onChange = {handleChange} name="email" id="email-address" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2 bg-white   shadow-md sm:text-sm border-gray-300 rounded-md"/>
+                  <input type="text" required onChange = {handleChange} name="email" id="email-address" autocomplete="email" value = {studentUser.email} class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2 bg-white   shadow-md sm:text-sm border-gray-300 rounded-md"/>
                 </div>
   
                 <div class="col-span-6 sm:col-span-3">
                   <label for="country"  class="block text-sm font-semibold left-0.5 relative text-gray-700">Country</label>
-                  <select id="country" required onChange = {handleChange} name="country" autocomplete="country-name" class="mt-1 block w-full py-2 px-3 border text-black border-gray-300 bg-white rounded-md p-2   shadow-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                  <select id="country" required onChange = {handleChange} name="country" autocomplete="country-name" value = {studentUser.country} class="mt-1 block w-full py-2 px-3 border text-black border-gray-300 bg-white rounded-md p-2   shadow-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                   <option value="Afganistan">Afghanistan</option>
    <option value="Albania">Albania</option>
    <option value="Algeria">Algeria</option>
@@ -341,30 +358,30 @@ axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com
   
                 <div class="col-span-6">
                   <label for="school" class="block text-sm font-semibold left-0.5 text-gray-700">Age</label>
-                  <input type="number" min={12} required onChange = {handleChange} name="age" id="school"  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"/>
+                  <input type="number" min={12} required onChange = {handleChange} name="age" id="school" value = {studentUser.age}  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"/>
                 </div>
   
                 <div class="col-span-6 sm:col-span-6 lg:col-span-3">
                   <label for="city" class="block text-sm font-semibold left-0.5 text-gray-700">City</label>
-                  <input type="text" required onChange = {handleChange} name="city" id="city"  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"/>
+                  <input type="text" required onChange = {handleChange} name="city" id="city" value = {studentUser.city}  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"/>
                 </div>
   
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3">
                   <label for="region" class="block text-sm font-semibold left-0.5 text-gray-700">Institution (School/University)</label>
-                  <input type="text" required = {true}  onChange = {handleChange} name="school" id="region" min = {3} autocomplete="School" class="mt-1  focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm text-black border-gray-300 rounded-md"/>
+                  <input type="text" required = {true}  onChange = {handleChange} name="school" value = {studentUser.school} id="region" min = {3} autocomplete="School" class="mt-1  focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm text-black border-gray-300 rounded-md"/>
                 </div>
 
                
 
                 <div class="col-span-6 sm:col-span-8 lg:col-span-3">
                   <label for="city" class="block text-sm font-semibold left-0.5 text-gray-700">Password</label>
-                  <input type="password" required = {true} onChange = {handleChange} name="password" id="city" autocomplete="password" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"/>
+                  <input type="password" required = {true} onChange = {handleChange} name="password" id="city" value = {studentUser.password} autocomplete="password" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"/>
                 </div>
 
 
           
               </div>
-
+</>}
               
             </div>
             <div class="px-4 py-1 bg-gray-50 sm:px-6 text-center">

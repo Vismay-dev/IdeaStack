@@ -78,7 +78,7 @@ const MoreDetails = (props) => {
         if(user&&project){
             for(let i = 0; i<Array(...user.joinRequests).length; i++) {
                 for(let k = 0; k<project.joinRequests.length;k++){
-                  if(JSON.stringify(project.joinRequests[k]) == JSON.stringify(user.joinRequests[i])){
+                  if(JSON.stringify(project.joinRequests[k]) == JSON.stringify(user.joinRequests[i]) && !(user.joinRequests[i].isInvite) ){
 
                         setApplicationSent(true)
 
@@ -100,7 +100,7 @@ const MoreDetails = (props) => {
         setAppLoading(true)
         let applicationTemp = {
             ...application,id: user._id, projID: project._id, appStatus: 'Not Decided'
-            }
+         }
         setApplication(applicationTemp)
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/createJoinRequest':
        'http://localhost:4000/api/user/createJoinRequest',{token:sessionStorage.getItem('token'), application:applicationTemp, projectID: project._id}).then((res)=> {
@@ -185,7 +185,7 @@ projLoading?
 </div>
 :
 
-<div class={`w-full sm:px-8 px-4 py-1 mt-1 mr-4 h-full bg-transparent  `}>
+<div class={`w-full sm:px-8 px-4 sm:pt-1 pt-11 py-1 mt-1 mr-4 h-full bg-transparent  `}>
 
 <div class="flex items-center sm:justify-left justify-center">
     <span class="text-sm top-2  relative mx-auto font-light text-gray-600 ">{project?date:''}</span>
@@ -205,12 +205,19 @@ projLoading?
 
 
 
-<div class="flex items-center  sm:justify-between justify-center sm:mr-0 mr-2 sm:mb-0 sm:pb-0 pb-3 -mb-4 relative">
-     <div class="flex items-center relative bottom-0.5">
-        <img class="object-cover sm:w-10 sm:h-10 w-6 h-6 mx-2  rounded-full sm:block hidden" src={project.admin?project.admin.pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
-        <a class="font-bold text-gray-700 cursor-pointer sm:text-md text-sm mx-auto text-center relative left-1 ">
-             {project.admin?project.admin.name:''} (Project Admin)
-        </a>
+<div class="flex items-center  md:justify-between justify-center sm:mr-0 mr-2 sm:mb-0 sm:pb-0 pb-3 -mb-4 relative">
+     
+     <div class="md:flex block items-center relative bottom-0.5">
+        <img class="object-cover sm:w-10 sm:h-10 w-6 h-6 mx-2  rounded-full md:block sm:inline  hidden" src={project.admin?project.admin.pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
+        <a class="font-bold text-gray-700 cursor-pointer inline sm:text-md text-sm mx-auto text-center relative left-1 ">
+             {project.admin?project.admin.name:''} - Project Admin
+        </a><br class = 'md:hidden block'/>
+        <p onClick={()=> {
+          localStorage.setItem('viewToken',project.admin.id);
+          window.open(process.env.NODE_ENV ==='production'?'https://ideastack.org/viewProfile':'http://localhost:3000/viewProfile', '_blank')
+        }} class = 'text-blue-700 w-fit text-center mx-auto md:inline block hover:underline md:ml-3 sm:ml-[50%] ml-[27%] relative text-sm font-semibold hover:text-blue-800 cursor-pointer'> ( <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-[1px] inline relative bottom-[2px]" viewBox="0 0 20 20" fill="currentColor">
+  <path fill-rule="evenodd" d="M6.672 1.911a1 1 0 10-1.932.518l.259.966a1 1 0 001.932-.518l-.26-.966zM2.429 4.74a1 1 0 10-.517 1.932l.966.259a1 1 0 00.517-1.932l-.966-.26zm8.814-.569a1 1 0 00-1.415-1.414l-.707.707a1 1 0 101.415 1.415l.707-.708zm-7.071 7.072l.707-.707A1 1 0 003.465 9.12l-.708.707a1 1 0 001.415 1.415zm3.2-5.171a1 1 0 00-1.3 1.3l4 10a1 1 0 001.823.075l1.38-2.759 3.018 3.02a1 1 0 001.414-1.415l-3.019-3.02 2.76-1.379a1 1 0 00-.076-1.822l-10-4z" clip-rule="evenodd" />
+</svg><span class = 'inline'>View Profile</span>)</p>
     </div>
     
 </div>
@@ -229,7 +236,7 @@ projLoading?
 <>
         <h3 class = 'mb-3 xl:mt-12 mt-7 sm:text-md text-sm tracking-wide'><strong>Category</strong>:<br class = 'sm:hidden block'/> {project.category?project.category:''}</h3>
         <h3 class = 'mb-3 tracking-wide sm:text-md text-sm '><strong>Maximum Team Capacity</strong>:<br class = 'sm:hidden block'/>  {project.maxCap?project.maxCap:''}</h3>
-        <h3 class = 'tracking-wide sm:text-md text-sm '><strong>No. of Members</strong>:<br class = 'sm:hidden block'/> </h3>
+        <h3 class = 'tracking-wide sm:text-md text-sm '><strong>No. of Members</strong>:<br class = 'sm:hidden block'/> {project.team?project.team.length:''} </h3>
 
         <button disabled = {project?!project.accepting || isInTeam || applicationSent:true} class = {`${project.accepting && !isInTeam && !applicationSent?'hover:bg-blue-700 bg-blue-600 hover:shadow-xl active:shadow-sm':'hover:bg-blue-300 bg-blue-300 hover:shadow-sm active:shadow-sm'} shadow-sm sm:p-3 p-2 rounded-sm sm:text-md text-sm uppercase text-white sm:font-medium font-semibold tracking-wide sm:px-5 px-2.5 xl:mt-[87px] sm:mt-[75px] sm:top-0 top-5 mt-[60px] `}onClick = {()=> setApplying(true)}>Apply - Send a Join Request</button>
         

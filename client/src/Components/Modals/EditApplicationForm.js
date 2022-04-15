@@ -66,7 +66,7 @@ const EditApplicationForm = (props) => {
         }).catch(err=> {
             console.log(err.response)
             setTimeout(()=> {
-              setLoading(false)
+              // setLoading(false)
             },2000)
         })
     },[location.pathname])
@@ -108,15 +108,15 @@ return (
       
         {/* Modal panel, show/hide based on modal state. */}
   
-      <div ref = {myRef} data-aos={"fade-up"}  data-aos-once='true' class="pr-6 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mt-5 sm:align-middle w-10/12">
-        <div  class="bg-white px-4 pt-2 pb-2 sm:p-6 sm:pb-4">
+      <div ref = {myRef} data-aos={"fade-up"}  data-aos-once='true' class="pr-6 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mt-5 sm:align-middle lg:w-10/12 sm:w-11/12 w-[98%]">
+        <div  class="bg-white md:px-4 px-1 pt-2 pb-2  sm:p-6 sm:pb-4">
          
 
 
 
 
 
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div className="bg-white shadow md:left-2 left-2.5 relative overflow-hidden sm:rounded-lg">
       <div className="px-4 py-5 sm:px-6">
         <h3 className="text-lg leading-6 font-medium text-gray-900">Applicant Form</h3>
         <p className="mt-1 max-w-2xl text-sm text-gray-500">Questions that will be asked to applicants. Try to keep it confined to absolutely necessary information.</p>
@@ -133,7 +133,7 @@ return (
 
 
             <div 
-            class = ' w-[220px]  top-[144px]  m-0 relative mx-auto block translate-y-[-50%] py-10  pl-1.5'>
+            class = ' w-[220px]    top-[144px]  m-0 relative mx-auto block translate-y-[-50%] py-10  pl-1.5'>
                             
       
                             <CircleLoader
@@ -154,11 +154,11 @@ return (
             
             questions.map((q,i)=> {
                 return (
-<div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 relative">
+<div className="bg-gray-100 px-14 pl-7  py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-14 relative">
             <dt className="text-sm font-medium text-gray-500">Question #{i+1}</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{q}</dd>
             <svg onClick={()=> deleteQ(i)}
-            xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 absolute right-4 top-3.5 shadow-md hover:bg-red-400 hover:shadow-lg active:shadow-md cursor-pointer bg-red-200 p-1 rounded-full mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            xmlns="http://www.w3.org/2000/svg" className="md:h-8 md:w-8 w-6 h-6 absolute right-4 top-3.5 shadow-md hover:bg-red-400 hover:shadow-lg active:shadow-md cursor-pointer bg-red-200 sm:p-1 p-[1px] rounded-full mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
   <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
 </svg>
           </div>
@@ -166,19 +166,19 @@ return (
             })}
           
           
-          <div className="bg-white px-10 py-5 pt-9 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <div className="bg-white px-5 py-5 pt-9 grid md:grid-cols-3 grid-cols-4 sm:gap-4 sm:px-6">
             {
                 !addingQ?
-            <button onClick={ () => setAddingQ(true)} class = 'bg-gradient-to-r hover:shadow-xl  bottom-2.5 text-xl uppercase text-gray-50 col-start-2 rounded-md p-2 pb-2.5 active:shadow-lg relative  from-blue-700 to-indigo-600 shadow-lg'>Add Question</button>
+            <button onClick={ () => setAddingQ(true)} class = 'bg-gradient-to-r hover:shadow-xl  bottom-2.5 lg:text-xl text-md lg:font-normal font-semibold uppercase text-gray-50 sm:col-start-2 md:col-start-2 lg:col-start-2 xl:col-start-2 col-start-1 md:col-span-1 sm:col-span-2 col-span-4 rounded-md p-2 pb-2.5 active:shadow-lg relative  from-blue-700 to-indigo-600 shadow-lg'>Add Question</button>
              : 
              <>
-              <div class = ' col-span-1 col-start-2 -mb-1'>
-             <textarea onChange={qChangeHandler} max = {120} name = 'desc' required  class = 'w-full text-sm p-2 mx-auto relative justify-self-center shadow-lg h-24 rounded-md '></textarea>
+              <div class = 'md:col-span-1 sm:col-span-2 col-span-4 sm:col-start-2 md:col-start-2 lg:col-start-2 xl:col-start-2 col-start-1 sm:-mb-1 mb-4'>
+             <textarea onChange={qChangeHandler} max = {120} name = 'desc' required  class = 'w-full text-sm p-2 mx-auto relative justify-self-center shadow-lg h-28 rounded-md '></textarea>
              </div>
 
-             <div class = ' col-span-1 col-start-2 gap-6'>
-             <button onClick={addQ} class = 'justify-center font-semibold p-2 w-7/12 mr-3 mb-6 shadow-md mx-auto relative text-center z-20 bg-gray-100 hover:bg-gray-200 text-lg uppercase rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600 '>Submit</button>
-             <button  onClick={ () => setAddingQ(false)} class = 'justify-center font-semibold p-2 px-3 w-[38%] mb-6 shadow-md mx-auto relative text-center z-20 bg-gray-100 hover:bg-gray-200 text-lg uppercase rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600 '>Cancel</button>
+             <div class = ' md:col-span-1 sm:col-span-2 col-span-4 sm:col-start-2 md:col-start-2 lg:col-start-2 xl:col-start-2 col-start-1 grid grid-cols-6 gap-3'>
+             <button onClick={addQ} class = 'font-semibold p-2 col-span-3  mb-6 shadow-md relative text-center z-20 bg-gray-100 hover:bg-gray-200 sm:text-lg text-base uppercase rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600 '>Submit</button>
+             <button  onClick={ () => setAddingQ(false)} class = 'font-semibold p-2 px-3 col-span-3 mb-6 shadow-md relative text-center z-20 bg-gray-100 sm:text-lg text-base hover:bg-gray-200  uppercase rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600 '>Cancel</button>
              
             </div>
             </>
@@ -232,7 +232,7 @@ return (
   
         <div class="bg-gray-50 px-3 mt-4 w-full left-2 relative shadow-md border-y-indigo-200 border-2 -mr-6 py-0 sm:px-6 sm:flex sm:flex-row-reverse ">
         
-          <button onClick = {props.close} type="button" class="-left-4 relative h-11 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-7 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-5 mb-5 sm:w-auto sm:text-md">
+          <button onClick = {props.close} type="button" class="md:-left-4 relative h-11 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-7 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-5 mb-5 sm:w-auto sm:text-md">
             Close
           </button>
           

@@ -31,7 +31,7 @@ export default function Dropdown(props) {
     {name:'Blockchain', icon:<SiHiveBlockchain class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:9},
   ]
   return (
-    <Menu as="div" className="relative inline-block z-40 pointer-events-auto  ml-5 text-left">
+    <Menu as="div" className="relative md:col-span-2 col-span-6 inline-block z-40 pointer-events-auto  text-left">
       <div>
         <Menu.Button className="py-2 inline-flex justify-center w-full border-2 rounded-sm border-gray-300 shadow-sm px-4 bg-white text-md font-medium text-gray-700 hover:bg-gray-50 focus:outline-none  ">
           {catSelected?catSelected==='All'?'All Categories':'Category: '+ catSelected:'Category'}

@@ -5,12 +5,13 @@ import { useHistory } from "react-router-dom"
 
 import AOS from 'aos';
 import "aos/dist/aos.css";
+import userContext from "../../context/userContext";
 
 const CreateProject = () => {
 
     const [showCreateModal, setShowCreateModal] = useState(false)
     const projectCon = useContext(projectContext)
-
+    const user = useContext(userContext).user
     const [showMore, setShowMore] = useState([false,null]);
 
     const readMore = (index) => {
@@ -42,11 +43,29 @@ const CreateProject = () => {
             }
 
         
-<h1 class = ' text-center w-10/12 relative mx-auto lg:mt-5 mt-5 py-4 lg:pb-8 pb-7 font-semibold text-gray-800 md:text-[47px] text-[38px] underline'>Projects Created ({projectCon.projects.length})</h1>
+<h1 class = ' text-center w-10/12 relative mx-auto lg:mt-5 mt-5 py-4 lg:pb-8 pb-7 font-semibold text-gray-800 md:text-[47px] text-[38px] underline'>Projects Created ({user&& projectCon.projects&&projectCon.projects.filter(proj=>user._id===proj.admin.id).length})</h1>
 
 
         <div class = 'grid grid-cols-2 gap-4 align-middle content-center -mb-7 mt-[19px] md:px-[20px]   lg:px-[120px] sm:px-[70px] px-[19px]  sm:left-1.5 left-1 relative'>
-            {projectCon.projects&&projectCon.projects.map((proj,i)=> {
+            {
+
+
+
+user&& projectCon.projects&&projectCon.projects.filter(proj=>user._id===proj.admin.id).length===0?
+
+
+<p class = 'text-4xl font-semibold col-span-2 text-center mt-[65px] right-3 mb-6 pb-20 mx-auto relative'><svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 inline text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+<path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+</svg> <span class = 'top-0.5 relative'>No Projects Created..</span></p>
+
+
+
+
+:
+            
+            
+            
+           user&& projectCon.projects&&projectCon.projects.filter(proj=>user._id===proj.admin.id).map((proj,i)=> {
 
                 let date = new Date(proj.createdAt).toDateString().substring(4)
                 date = date.slice(0, 6) + "," + date.slice(6);
@@ -145,7 +164,7 @@ const CreateProject = () => {
         </div>
 
         <button onClick = {() => setShowCreateModal(true)}
-         class = {`mt-4 ${projectCon.projects.length>0?'lg:-mb-[152px] xl:-mb-[149px] -mb-[145px] lg:top-[70px] top-[65px]':'-mb-[4.6rem] top-40 '} z-40 pointer-events-auto  bg-gradient-to-r  from-blue-600 to-blue-800 w-5/12 rounded-md shadow-lg hover:shadow-lg hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-400 active:shadow-sm p-2 pb-2.5  text-gray-50 font-semibold md:text-2xl sm:text-xl text-lg mx-auto text-center block justify-center relative`}>Create Project</button>
+         class = {`mt-4 ${projectCon.projects.length>0?'lg:-mb-[152px] xl:-mb-[149px] -mb-[145px] lg:top-[70px] top-[65px]':'-mb-[4.6rem] top-40 '}  z-40 pointer-events-auto  bg-gradient-to-r  from-blue-600 to-blue-800 w-5/12 rounded-md shadow-lg hover:shadow-lg hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-400 active:shadow-sm p-2 pb-2.5  text-gray-50 font-semibold md:text-2xl sm:text-xl text-lg mx-auto text-center block justify-center relative`}>Create Project</button>
         </>
     )
 }
