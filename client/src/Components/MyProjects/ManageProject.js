@@ -151,11 +151,10 @@ setTeam(teamTemp)
 setProj(projSelected?projSelected:'')
 },[sessionStorage.getItem('managing')])
 
-
-
+const [mentorDate, setMentorDate] = useState()
+const [dateOfUpload, setDateOfUpload] = useState()
   useEffect(()=> {
     setLoading(true)
-    setInviteSent(false)
 
     axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/user/getAllUsers':'http://localhost:4000/api/user/getAllUsers'
         ,{token:sessionStorage.getItem('token')}).then(res=> {
@@ -185,13 +184,46 @@ setProj(projSelected?projSelected:'')
     setProject(projSelected);
 
     if(projSelected.joinRequests.length>1) {
-      let date = projSelected.joinRequests[1].dateReceived
+      let dateNew3 = projSelected.joinRequests[0].dateReceived
       for(let x = 0; x<projSelected.team.length;x++) {
-        if(projSelected.joinRequests[x].dateReceived>date) {
-          date = projSelected.joinRequests[x].dateReceived
+        if(projSelected.joinRequests[x].dateReceived>dateNew3) {
+          dateNew3 = projSelected.joinRequests[x].dateReceived
         }
       }
-      setLatestReceived({date:date});
+      setLatestReceived({date:dateNew3});
+    }
+
+
+    if(projSelected.mentorshipPackages.length>0) {
+      if(projSelected.mentorshipPackages[0].scheduleSelected)
+      var dateNew2 = projSelected.mentorshipPackages[0].scheduleSelected
+      for(let x = 0; x<projSelected.mentorshipPackages.length;x++) {
+        if(projSelected.mentorshipPackages[x].scheduleSelected>dateNew2) {
+          dateNew2 = projSelected.mentorshipPackages[x].scheduleSelected
+        }
+      }
+      setMentorDate({date:dateNew2});
+    }
+
+
+    if(projSelected.joinRequests.length>0) {
+      let dateNew1 = Date(projSelected.joinRequests[0].dateReceived)
+      for(let x = 0; x<projSelected.team.length;x++) {
+        if(Date(projSelected.joinRequests[x].dateReceived)>dateNew1) {
+          dateNew1 = projSelected.joinRequests[x].dateReceived
+        }
+      }
+      setLatestReceived({date:dateNew1});
+    }
+
+    if(projSelected.documents.length>0) {
+      let dateNew = Date(projSelected.documents[0].dateOfUpload)
+      for(let x = 0; x<projSelected.documents.length;x++) {
+        if(Date(projSelected.documents[x].dateOfUpload)>dateNew) {
+          dateNew = projSelected.documents[x].dateOfUpload
+        }
+      }
+      setDateOfUpload({date:dateNew});
     }
 
     let currdate = new Date(projSelected.createdAt).toDateString().substring(4)
@@ -342,20 +374,20 @@ setText('');
 
 <div data-aos={"fade-up"} data-aos-once='true'  data-aos-delay = '200' class={`w-full  relative h-fit lg:h-[480px] xl:h-[530px] col-span-1`}>
 <div class={`rounded-lg shadow-lg bg-gradient-to-r  border-[1px] border-blue-600 h-fit lg:h-[480px] xl:h-[530px]  from-blue-50 to-indigo-200 overflow-hidden mb-0`}>
-  <div class = 'h-40 sm:pt-1.5 xl:pb-4 pt-0'>
+  <div class = 'xl:h-[168px] lg:h-[160px] h-[152px] sm:pt-1.5 xl:pb-7 pt-0'>
     <p className="text-center top-5 text-xl font-semibold relative mb-1">Applications Pending: </p><br/>
-    <h1 className = 'text-center text-4xl text-blue-700 bottom-[1px] relative mb-1'>{project?project.joinRequests.length:' '}</h1>
-    <p class="text-sm relative text-center bottom-[0.2px] font-light text-gray-600 sm:px-[50px] px-[25px] lg:px-[15px] ">Latest Pending Application Received On: <span class = 'text-indigo-500 font-semibold' >{latestReceived?latestReceived.date:'No Pending Applications'}</span></p>
+    <h1 className = 'text-center text-4xl text-blue-700 bottom-[1px] relative mb-1'>{project?project.joinRequests.filter(jR=>jR.isInvite===false).length:' '}</h1>
+    <p class="text-sm relative text-center bottom-[0.2px] top-2.5 font-light text-gray-600 sm:px-[50px] px-[25px] lg:px-[15px] ">Latest Pending Application Received On: <span class = 'text-indigo-500 font-semibold' >{latestReceived&&latestReceived.date?new Date(latestReceived.date).toDateString():'No Pending Applications'}</span></p>
   </div>
-  <div class=" sm:pt-1.5 sm:pb-8 pt-1.5  lg:pt-2 pb-[26px] xl:h-[200px]  bg-gradient-to-r from-gray-50 to-slate-50 text-center">
+  <div class=" sm:pt-1.5 sm:pb-12 pt-1  lg:pt-1 xl:pt-1.5 pb-[38px] xl:h-[202px] h-fit  bg-gradient-to-r from-gray-50 to-slate-50 text-center">
   <p className="text-center top-4 text-xl font-semibold relative sm:px-[85px] px-10">Industry Mentors Appointed: </p><br/>
     <h1 className = 'text-center relative text-4xl text-blue-700'>{project?project.mentorshipPackages.length:''}</h1>
-    <p class="text-sm relative text-center font-light top-1 text-gray-600 sm:px-[95px] px-[60px] lg:px-[20px] ">Upcoming Session With <span class = 'text-indigo-500 font-semibold'>Vismay Suramwar</span> On: {date?date:''}</p>     
+    <p class="text-sm relative text-center font-light top-2 text-gray-600 sm:px-[95px] px-[60px] lg:px-[20px] ">{mentorDate?<p>Upcoming Session With <span class = 'text-indigo-500 font-semibold'>Vismay Suramwar</span> On: <span class = 'text-indigo-500 font-semibold' >{mentorDate.date}</span></p>:<span class = 'text-indigo-500 font-semibold relative top-2' >No Upcoming Session</span>}</p>     
   </div>
-  <div class=" pt-2 pb-7 lg:pt-2 xl:align-middle xl:pt-4   text-center">
+  <div class=" pt-2 pb-7 lg:pt-2 xl:align-middle xl:pt-2   text-center">
   <p className="text-center top-3 text-xl font-semibold relative">Documents Uploaded: </p><br/>
     <h1 className = 'text-center -top-1.5 relative text-4xl text-blue-700'>{project?project.documents.length:' '}</h1>
-    <p class="text-sm relative text-center -top-0.5 font-light text-gray-600 sm:px-[96px] px-[60px] lg:px-[15px] ">Latest Document Uploaded On: {date?date:''}</p>     
+    <p class="text-sm relative text-center top-1.5 font-light text-gray-600 sm:px-[96px] px-[60px] lg:px-[15px] ">Latest Document Uploaded On: <span class = 'text-indigo-500 font-semibold' >{dateOfUpload?new Date(dateOfUpload.date).toDateString():'No Document Uploaded'}</span></p>     
   </div>
 </div>
 </div>

@@ -51,13 +51,14 @@ const ManageApps = () => {
     }
 
     if(projSelected.joinRequests.length>1) {
-      let date = projSelected.joinRequests[1].dateReceived
+      let newDate = projSelected.joinRequests[1].dateReceived
       for(let x = 0; x<projSelected.team.length;x++) {
-        if(projSelected.joinRequests[x].dateReceived>date) {
-          date = projSelected.joinRequests[x].dateReceived
+        if(projSelected.joinRequests[x].dateReceived>newDate) {
+          newDate = projSelected.joinRequests[x].dateReceived
         }
       }
-      setLatestReceived({date:date});
+      setLatestReceived({date:newDate});
+
     }
    
 
@@ -154,7 +155,7 @@ const ManageApps = () => {
   <div class=" pt-2.5 md:pt-5 lg:pt-2.5 pb-[27px] lg:h-fit md:h-[200px] h-fit text-center">
   <p className="text-center   top-3.5 text-xl font-semibold relative mb-1">Applications Pending: </p><br/>
     <h1 className = 'text-center text-4xl text-blue-700 -top-2 relative mb-1'>{project?project.joinRequests.length:' '}</h1>
-    <p class="text-sm relative text-center bottom-1.5 font-light text-gray-600 xl:px-[60px] lg:px-[50px] md:px-[50px] px-[50px] ">Latest Pending Application Received On: <span class = 'text-indigo-500 font-semibold' >{latestReceived?latestReceived.date:'No Pending Applications'}</span></p>
+    <p class="text-sm relative text-center bottom-1.5 font-light text-gray-600 xl:px-[60px] lg:px-[50px] md:px-[50px] px-[50px] ">Latest Pending Application Received On: <span class = 'text-indigo-500 font-semibold' >{latestReceived&&latestReceived.date?latestReceived.date:'No Pending Applications'}</span></p>
   </div>
 </div>
 </div>
