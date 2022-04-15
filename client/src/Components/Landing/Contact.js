@@ -53,9 +53,9 @@ const Contact = () => {
     return (
 
         <div  class={`bg-gradient-to-b ${loading?'h-40':'md:h-96 h-[490px]'} px-24 w-full`}>
-                            <p id = 'contact' class = 'relative -bottom-12'/>
+                            <p id = 'contact' class = 'relative sm:-bottom-12 -bottom-7'/>
 
-            <div  class="sm:w-full w-[60%] sm:left-0 left-[20%] relative  flex items-center justify-center md:my-12">
+            <div  class="sm:w-full w-[60%] sm:left-0 left-[20%] relative sm:mb-0 mb-6  flex items-center justify-center md:my-12">
                 <div  data-aos={"fade-up"} data-aos-once='true' class="relative md:top-24 top-24 bg-white shadow  rounded-md py-12 md:mb-80 mb-40  lg:px-56 md:px-44 sm:px-20    px-16">
                     <p class="text-3xl font-bold leading-7 text-center text-gray-700">Get In Touch..</p>
                     {!loading?<form onSubmit={formSub}>
