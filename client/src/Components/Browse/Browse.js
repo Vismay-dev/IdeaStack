@@ -200,7 +200,7 @@ projects.map((proj,i)=> {
 
   return(
     <div class="md:w-1/2 w-full xl:w-1/3  sm:px-4 px-4 pointer-events-auto">
-    <div  data-aos={"fade-up"}  data-aos-once='true' class={`rounded-lg pointer-events-auto z-40 shadow-lg bg-gradient-to-r relative  from-blue-50 to-indigo-100 mb-10`}>
+    <div  data-aos={"fade-up"}  data-aos-once='true' class={`rounded-lg pointer-events-auto z-40 shadow-lg bg-gradient-to-r relative  from-blue-50 to-indigo-100 -mb-1`}>
     <button onClick={()=> {setShowMore(true); setProjI(i) }} class = 'bg-gradient-to-br from-blue-400 to-indigo-400 absolute md:bottom-6 bottom-6 active:shadow-md mx-auto lg:left-1/3 md:left-1/4 w-2/5  justify-center lg:w-1/3 md:w-1/2 left-[30%]  md:mt-0 mt-0  mb-2 items-center shadow-lg hover:from-blue-700 hover:to-blue-600 z-40 text-white p-1.5  pointer-events-auto px-2 rounded-md sm:text-lg text-md  hover:cursor-pointer'>View More</button>
 
        <img
