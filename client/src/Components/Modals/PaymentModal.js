@@ -64,7 +64,7 @@ const location = useLocation()
    
 
         useEffect(()=> {
-        axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/project/getTeamContacts':'http://localhost:4000/api/project/getTeamContacts',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
+        axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/getTeamContacts':'http://localhost:4000/api/project/getTeamContacts',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
             setTeamSize(res.data.length)
             }).catch(err=> {
                 console.log(err)
@@ -77,7 +77,7 @@ const location = useLocation()
           })
         setNumberOfSessions(props.expert.numberOfSessions);
 
-        axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/user/getLatestPendingPayment':'http://localhost:4000/api/user/getLatestPendingPayment',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
+        axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/getLatestPendingPayment':'http://localhost:4000/api/user/getLatestPendingPayment',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
             setPayment(res.data.payment)
             }).catch(err=> {
                 console.log(err)
@@ -91,7 +91,7 @@ const location = useLocation()
     const submitHandler = (e) => {
         e.preventDefault();
 
-        axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/user/completeLatestPendingPayment':'http://localhost:4000/api/user/completeLatestPendingPayment',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
+        axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/completeLatestPendingPayment':'http://localhost:4000/api/user/completeLatestPendingPayment',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
             console.log(res.data)
             setConfirmPayment(true)
     }).catch(err=> {

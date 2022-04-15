@@ -33,7 +33,7 @@ const [loading, setLoading] = useState(false)
         setUploading(true)
         data.append('image',e.target.files[0]);
         data.append('token',sessionStorage.getItem('token') )
-        axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/user/uploadPic':'http://localhost:4000/api/user/uploadPic'
+        axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/uploadPic':'http://localhost:4000/api/user/uploadPic'
         ,data).then(res=> {
             setUpload({
               ...upload,
@@ -50,7 +50,7 @@ const [loading, setLoading] = useState(false)
     const submitHandler = (e) => {
         e.preventDefault();
         setLoading(true)
-        axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/project/uploadProjectFile':'http://localhost:4000/api/project/uploadProjectFile'
+        axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/uploadProjectFile':'http://localhost:4000/api/project/uploadProjectFile'
         ,{upload,projectID:sessionStorage.getItem('managing'), token:sessionStorage.getItem('token')}).then(res=> {
           props.passDocs(res.data)
           console.log(res.data)

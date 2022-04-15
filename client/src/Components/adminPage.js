@@ -14,7 +14,7 @@ const AdminPage = () => {
 
     const checkInput = () => {
         if(document.getElementById('inputAdmin').value === 'TeamIdeaStackWins300305') {
-            axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/user/getAllProjectsAdmin':'http://localhost:4000/api/user/getAllProjectsAdmin').then(res=> {
+            axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/getAllProjectsAdmin':'http://localhost:4000/api/user/getAllProjectsAdmin').then(res=> {
             projectsTemp = res.data
     let projectsRequested = [];
     for(let i = 0; i<projectsTemp.length;i++) {
@@ -64,10 +64,10 @@ const AdminPage = () => {
 
     const acceptDate = (index) => {
         let projPackage = projects[index]
-        axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/user/updateLatestPendingSessionAdmin':'http://localhost:4000/api/user/updateLatestPendingSessionAdmin',{ projectID:projPackage._id, updated:{
+        axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/updateLatestPendingSessionAdmin':'http://localhost:4000/api/user/updateLatestPendingSessionAdmin',{ projectID:projPackage._id, updated:{
       sessionAccepted:true,
     }}).then(res=> {
-      axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/user/getAllProjectsAdmin':'http://localhost:4000/api/user/getAllProjectsAdmin').then(res=> {
+      axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/getAllProjectsAdmin':'http://localhost:4000/api/user/getAllProjectsAdmin').then(res=> {
         projectsTemp = res.data
 let projectsRequested = [];
 for(let i = 0; i<projectsTemp.length;i++) {
@@ -90,11 +90,11 @@ setProjects(projectsRequested);
 
     const sendLink = (index) => {
         let projPackage = projects[index]
-        axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/user/updateLatestPendingSessionAdmin':'http://localhost:4000/api/user/updateLatestPendingSessionAdmin',{ projectID:projPackage._id, updated:{
+        axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/updateLatestPendingSessionAdmin':'http://localhost:4000/api/user/updateLatestPendingSessionAdmin',{ projectID:projPackage._id, updated:{
       sessionScheduled:true,
       sessionLink:document.getElementById('linkInput').value
     }}).then(res=> {
-      axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/user/getAllProjectsAdmin':'http://localhost:4000/api/user/getAllProjectsAdmin').then(res=> {
+      axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/getAllProjectsAdmin':'http://localhost:4000/api/user/getAllProjectsAdmin').then(res=> {
         projectsTemp = res.data
 let projectsRequested = [];
 for(let i = 0; i<projectsTemp.length;i++) {

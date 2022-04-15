@@ -53,7 +53,7 @@ const CreateProjectModal = (props) => {
         data.append('token',sessionStorage.getItem('token') )
         setImage(URL.createObjectURL(e.target.files[0]))    
 
-        axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/user/uploadPic':'http://localhost:4000/api/user/uploadPic',data).then(res=> {
+        axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/uploadPic':'http://localhost:4000/api/user/uploadPic',data).then(res=> {
             console.log(res.data)
             setProject({
               ...project,

@@ -95,7 +95,7 @@ const location = useLocation()
     })
 
     useEffect(()=> {
-        axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/project/getTeamContacts':'http://localhost:4000/api/project/getTeamContacts',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
+        axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/getTeamContacts':'http://localhost:4000/api/project/getTeamContacts',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
             setTeamSize(res.data.length)
             }).catch(err=> {
                 console.log(err)
@@ -141,7 +141,7 @@ const location = useLocation()
     const history = useHistory()
 
     const addMentorshipPackage = () => {
-      axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/project/addMentorshipPackage':'http://localhost:4000/api/project/addMentorshipPackage',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing'),mentorshipPackage}).then(res=> {
+      axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/addMentorshipPackage':'http://localhost:4000/api/project/addMentorshipPackage',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing'),mentorshipPackage}).then(res=> {
           history.push('/myprojects/manageproject/mentorship/')
           props.close()
         }).catch(err=> {

@@ -51,7 +51,7 @@ const UpcomingMentor = props => {
    const [sessionScheduling, setSessionScheduling] = useState(false)
 
    const requestSession = () => {
-    axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/user/updateLatestPendingSession':'http://localhost:4000/api/user/updateLatestPendingSession',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing'), updated:{
+    axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/updateLatestPendingSession':'http://localhost:4000/api/user/updateLatestPendingSession',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing'), updated:{
       sessionConfirmed,
       sessionScheduled,
       sessionRequested:true,
@@ -68,7 +68,7 @@ const UpcomingMentor = props => {
 
 
    const confirmSession = () => {
-    axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/user/updateLatestPendingSession':'http://localhost:4000/api/user/updateLatestPendingSession',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing'), updated:{
+    axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/updateLatestPendingSession':'http://localhost:4000/api/user/updateLatestPendingSession',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing'), updated:{
       sessionConfirmed:true
     }}).then(res=> {
       console.log(res.data);

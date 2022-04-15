@@ -21,7 +21,7 @@ const FileList = () => {
                 setLoading(true)
             },500)
         }
-        axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/project/getDocs':'http://localhost:4000/api/project/getDocs',{
+        axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/getDocs':'http://localhost:4000/api/project/getDocs',{
             projectID:sessionStorage.getItem('managing'), token:sessionStorage.getItem('token')}
         ).then(res=> {
             setDocs(res.data)
@@ -39,7 +39,7 @@ const FileList = () => {
     const downloadResource = (doc,i) => {
         const newFileArr = docs;
         newFileArr[i].downloads+=1;
-        axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/project/updateDocs':'http://localhost:4000/api/project/updateDocs',{
+        axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/updateDocs':'http://localhost:4000/api/project/updateDocs',{
             projectID:sessionStorage.getItem('managing'), token:sessionStorage.getItem('token'), docs:newFileArr}
         ).then(res=> {
             setDocs(res.data)
@@ -58,7 +58,7 @@ const FileList = () => {
             const newFileArr = docs;
             newFileArr.splice(index,1);
             console.log(newFileArr)
-            axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/project/updateDocs':'http://localhost:4000/api/project/updateDocs',{
+            axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/updateDocs':'http://localhost:4000/api/project/updateDocs',{
             projectID:sessionStorage.getItem('managing'), token:sessionStorage.getItem('token'), docs:newFileArr}
         ).then(res=> {
             setDocs(res.data)

@@ -50,7 +50,7 @@ axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com
     const data = new FormData();
     data.append('image',e.target.files[0]);
     data.append('token',sessionStorage.getItem('token') )
-    axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/user/uploadProfPic':'http://localhost:4000/api/user/uploadProfPic',data).then(res=> {
+    axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/uploadProfPic':'http://localhost:4000/api/user/uploadProfPic',data).then(res=> {
         console.log(res.data)
         currentUser.setUser(res.data)
         setImage(res.data.profilePic)

@@ -35,7 +35,7 @@ const Mentorship = () => {
   const [loading, setLoading] = useState(false)
   useEffect(()=> {
     setLoading(true)
-    axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/project/getMentorshipPackages':'http://localhost:4000/api/project/getMentorshipPackages',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
+    axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/getMentorshipPackages':'http://localhost:4000/api/project/getMentorshipPackages',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
       setMentorshipPackages(res.data)
       setLoading(false)
     }).catch(err=> {

@@ -156,7 +156,7 @@ const [dateOfUpload, setDateOfUpload] = useState()
   useEffect(()=> {
     setLoading(true)
 
-    axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/user/getAllUsers':'http://localhost:4000/api/user/getAllUsers'
+    axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/getAllUsers':'http://localhost:4000/api/user/getAllUsers'
         ,{token:sessionStorage.getItem('token')}).then(res=> {
           let teamArr = proj.team.map((member)=> {
            return member.id;
@@ -235,7 +235,7 @@ const [dateOfUpload, setDateOfUpload] = useState()
 
   const sendInvite = () => {
       setLoading(true)
-    axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/project/sendInvite':'http://localhost:4000/api/project/sendInvite'
+    axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/sendInvite':'http://localhost:4000/api/project/sendInvite'
     ,{token:sessionStorage.getItem('token'), user: memberSelected, projectID: sessionStorage.getItem('managing')}).then(res=> {
       setInviteSent(true)
       setLoading(false)

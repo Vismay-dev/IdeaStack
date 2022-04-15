@@ -25,7 +25,7 @@ const MakePayment = (props) => {
       axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/getUser':
       'http://localhost:4000/api/user/getUser',{token:sessionStorage.getItem('token')}).then((res)=> {
       let idImp = res.data._id;
-        axios.post(process.env.NODE_ENV ==='production'?'https://taskdeck-app.herokuapp.com/api/project/getTeam':'http://localhost:4000/api/project/getTeam',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
+        axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/getTeam':'http://localhost:4000/api/project/getTeam',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
           for(let i=0; i<res.data.length; i++) {
             if(idImp === res.data[i].id){
               console.log(res.data[i].pendingPayments[0])
