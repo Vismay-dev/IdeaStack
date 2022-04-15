@@ -27,16 +27,16 @@ const Landing = () => {
         <div class="lg:pt-44 md:pt-48 pt-[168px] lg:pb-12 pb-0 overflow-hidden bg-gradient-to-r from-gray-200 to-blue-200">
       <div  class="  sm:left-14 left-16 xl:px-14 xs2:px-20 px-4 xl:left-12 xl:bottom-0 bottom-4 relative container mx-auto flex flex-wrap flex-col md:flex-row items-center">
         <div class="flex flex-col  xl:w-2/5 lg:w-[46%] relative xl:-right-6 xl:bottom-2 lg:-bottom-5 lg:right-72 md:right-6 sm:right-40 right-16 bottom-5 md:pl-0 sm:pl-8 pl-0 sm:w-full w-full mx-auto justify-center items-start text-left">
-          <p class="uppercase font-medium sm:text-base text-sm  text-center lg:right-0 md:right-20 sm:-right-12 sm:left-20 md:-left-[52px] lg:-left-0 xl:-left-0 right-0 mx-auto  top-5 -mt-10   relative md:w-full w-80">IdeaStack™ - Developing Platform</p>
-          <h1 class="relative my-4 mb-7 md:ml-1.5 text-center mx-auto lg:text-7xl md:text-7xl  xl:-ml-20 lg:-ml-[78px] sm:text-6xl text-5xl sm:left-20 -left-1 font-bold leading-tight">
-            Coming <span class = " text-blue-700">Soon!</span> 
+          <p class="uppercase font-medium  text-sm  text-center lg:right-0 md:right-20 sm:-right-12 sm:left-20 md:-left-[52px] lg:-left-0 xl:left-[1px] right-0 mx-auto  top-5 -mt-10   relative md:w-full w-80">IdeaStack - STEM Development Platform</p>
+          <h1 class="relative my-4 mb-7 md:-ml-[46px] text-center mx-auto lg:text-6xl md:text-7xl  xl:-ml-[87px] lg:-ml-[90px] sm:text-6xl text-5xl sm:left-20 left-1 font-bold leading-tight">
+            Launch <span class = " text-blue-700">Your Idea!</span> 
           </h1>
           <p class="leading-normal font-medium mx-auto xl:text-xl xl:-right-3 lg:-right-2 lg:left-0 md:right-10  sm:-right-24 sm:left-20 md:-left-[40px] xs:right-3 right-0   xs:w-96 md:w-3/4  lg:w-full md:text-xl sm:text-xl xl:w-80 w-72 text-lg mb-12 mt-5 relative text-center">
           Networking and Consultancy Platform to Help Students Plan and Launch STEM Projects
           </p>
           <a
           href = '#about'
-class="sm:ml-40 mx-auto xl:left-[10px] lg:left-2 left-[3px] md:left-[100px] md:mb-0 sm:left-[139px]  relative xs:-mb-4 lg:bottom-8 md:bottom-6 bottom-6  bg-white text-gray-800 font-bold rounded-lg  my-4 sm:py-4 py-3 hover:cursor-pointer z-20 md:px-6 sm:px-8 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+class="sm:ml-40 mx-auto xl:left-[11px] lg:left-2 left-[3px] md:left-[108px] md:mb-0 sm:left-[139px]  relative xs:-mb-4 lg:bottom-8 md:bottom-6 bottom-6  bg-white text-gray-800 font-bold rounded-lg  my-4 sm:py-4 py-3 hover:cursor-pointer z-20 md:px-6 sm:px-8 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
             Learn More
           </a>
         </div>
