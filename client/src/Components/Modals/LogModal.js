@@ -197,9 +197,9 @@ return (<div class="fixed z-50 inset-0 overflow-y-auto" aria-labelledby="modal-t
     
       {/* Modal panel, show/hide based on modal state. */}
 
-    <div data-aos={"fade-up"} data-aos-once='true' ref = {myRef} class="pr-6 relative top-8 inline-block align-bottom bg-white rounded-lg sm:text-left text-center overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mb-28 mb-32 sm:align-middle sm:max-w-md sm:w-12/12 w-10/12">
-      <div class="bg-white px-4 pt-5 pb-2 sm:p-6 sm:px-1 sm:pb-4 w-4/4 mx-auto relative">
-        <div class="sm:flex sm:items-start">
+    <div data-aos={"fade-up"} data-aos-once='true' ref = {myRef} class="pr-6 relative top-9 inline-block align-bottom bg-white rounded-lg sm:text-left text-center overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mb-28 mb-32 sm:align-middle sm:max-w-md sm:w-12/12 w-10/12">
+      <div class="bg-white px-1 pt-5 pb-2 sm:p-6 sm:px-1 sm:pb-4 w-4/4 mx-auto relative">
+        <div class="sm:flex sm:left-0 left-[2px] relative sm:items-start">
           <div class=" text-center sm:mt-0 sm:ml-4 sm:text-left">   
             <div>
               <p class="text-lg text-gray-500">
@@ -469,7 +469,7 @@ passReset?
       <img class="mx-auto w-28 sm:left-0 left-[8px] -mt-6 relative" src={logo} alt="Workflow"/>
       
     
-       <h2 class="mt-0 sm:left-0 left-[2.5px]  -top-2 relative text-center md:text-4xl sm:text-3xl text-2xl font-extrabold text-gray-900">
+       <h2 class="mt-0 sm:left-0 left-[2.5px]  -top-2 relative text-center md:text-4xl sm:text-3xl text-3xl font-extrabold text-gray-900">
         Sign in to your account
       </h2>
 

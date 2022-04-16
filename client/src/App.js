@@ -17,7 +17,7 @@ function App() {
     setLoading(true)
     setTimeout(()=> {
       setLoading(false)
-    },3000)
+    },2500)
   },[])
 
   const location = useLocation()
@@ -74,15 +74,15 @@ useEffect(()=> {
                   <Footer/></>:
                 
                       <div 
-      class = ' w-[317px]  m-0 relative mx-auto top-[50%] translate-y-[-50%]  pl-1.5'>
+      class = ' w-[217px]  m-0 relative mx-auto top-[50%] translate-y-[-50%]  pl-1.5'>
                       
 
                       <CircleLoader
         meshColor={"#6366F1"}
         lightColor={"#E0E7FF"}
         duration={1.5}
-        desktopSize={"90px"}
-        mobileSize={"90px"}
+        desktopSize={"60px"}
+        mobileSize={"60px"}
       />
              
                   </div>

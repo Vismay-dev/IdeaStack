@@ -39,16 +39,16 @@ e.preventDefault()
 setError()
 setLoading(true)
 console.log(studentUser)
-axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/register':'http://localhost:4000/api/user/register',studentUser).then(res=> {
-    sessionStorage.setItem('token',res.data.userToken)
-    currentUser.setUser(res.data.user)
-    history.push('/profile')
-    props.close()
-    setLoading(false)
-  }).catch(err=> {
-    setError(err.response?err.response.data:null)
-    setLoading(false)
-  })
+// axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/register':'http://localhost:4000/api/user/register',studentUser).then(res=> {
+//     sessionStorage.setItem('token',res.data.userToken)
+//     currentUser.setUser(res.data.user)
+//     history.push('/profile')
+//     props.close()
+//     setLoading(false)
+//   }).catch(err=> {
+//     setError(err.response?err.response.data:null)
+//     setLoading(false)
+//   })
   
   }
 
@@ -56,11 +56,11 @@ axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com
     return (
 
 
-    <div class="mt-10 sm:mt-0">
-    <div class="md:grid md:grid-cols-3 md:gap-6">
+    <div class="mt-10 sm:mt-0  relative mx-auto block justify-center">
+    <div class={`md:grid md:grid-cols-3 ${loading?'relative mx-auto block text-center bg-blue-500':'w-fit'}  md:gap-6`}>
       <div class="md:col-span-1">
-        <div class="px-8 sm:px-3 md:left-0 sm:left-1.5 left-4 relative mr-3">
-          <h3 class="md:mt-48 sm:-mt-4 -mt-10 md:mb-0 mb-4 relative  md:left-0 sm:left-1.5 left-1   lg:text-3xl md:text-2xl text-3xl font-bold text-gray-900 text-center">Sign Up for IdeaStack</h3>
+        <div class="px-8 sm:px-3 md:left-0 sm:left-3 left-4 relative mr-3">
+          <h3 class={`  ${loading?'xl:mt-28 md:mt-24 sm:-mt-3 -mt-10 ':'-mt-10 sm:-mt-4 md:mt-48'} md:mb-0 mb-4 relative  md:left-0 sm:left-1.5 left-1   lg:text-3xl md:text-2xl text-3xl font-bold text-gray-900 text-center`}>Sign Up for IdeaStack</h3>
           <p class = 'text-xs font-medium leading-6 mt-2 text-gray-400 uppercase text-center'>Join The Movement</p>
           <p class="xl:mt-8 mt-6 md:mb-0 mb-7 text-sm text-gray-600 xl:px-14 lg:px-6 sm:px-2 px-0.5 text-center">
             Safe and Secure.<br/><br/> We value the protection of your personal data above all else.
@@ -70,12 +70,12 @@ axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com
       <div class="mt-5 md:mt-0 md:left-0 sm:left-1.5 left-3 relative md:col-span-2">
         <form id = 'regForm' onSubmit={handleSubmit}>
           <div class="shadow overflow-hidden sm:rounded-md">
-            <div class="px-3 py-2 pb-9 bg-gradient-to-r from-indigo-200 to-blue-200 sm:p-6">
+            <div class={`px-3  py-2 pb-9 bg-gradient-to-r from-indigo-200 to-blue-200  sm:p-6`}>
             
             {
 
 loading?
-<div class ='relative mx-auto my-8 mb-14 mt-40 sm:pb-3 pb-14 mr-4 pt-1.5 sm:left-0  text-center sm:top-[50%] top-[65%] translate-y-[-50%] block justify-center'>
+<div class ='relative mx-auto my-8 mb-14  mt-40 sm:pb-3 pb-0 sm:mr-4 pt-1.5 sm:left-0  text-center sm:top-[50%] top-[65%] translate-y-[-50%] block justify-center'>
 <ClipLoader color={'#0b0bbf'} loading={loading}  size={70} />
 </div>
 :

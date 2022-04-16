@@ -366,8 +366,8 @@ class="sm:ml-40 mx-auto xl:left-[11px] lg:left-2 left-[3px] md:left-[108px] md:m
       </g>
     </svg>
     <p id = 'partners' class = 'relative bottom-52'/>
-        <div class = "h-auto md:pb-10 pb-20 xs:pt-6 xs3:pt-6 pt-10  px-6">
-        <h1  class="w-full my-2 xl:-top-36 lg:-top-28 lg:-mb-12 md:-top-[85px] md:-mb-6 sm:-top-[65px] -top-[53px] mb-1 relative text-5xl font-bold leading-tight  text-center text-gray-800">
+        <div class = "h-auto md:pb-14 pb-20 xs:pt-6 xs3:pt-6 pt-12  px-6">
+        <h1  class="w-full my-2 xl:-top-36 lg:-top-28 lg:-mb-10 md:-top-[85px] md:-mb-6 sm:-top-[65px] -top-[53px] mb-1 relative text-5xl font-bold leading-tight  text-center text-gray-800">
           Our Trusted Partner
         </h1>
 
