@@ -46,7 +46,7 @@ const CreateProject = () => {
 <h1 class = ' text-center w-10/12 relative mx-auto lg:mt-5 mt-5 py-4 lg:pb-8 pb-7 font-semibold text-gray-800 md:text-[47px] text-[38px] underline'>Projects Created ({user&& projectCon.projects&&projectCon.projects.filter(proj=>user._id===proj.admin.id).length})</h1>
 
 
-        <div class = 'grid grid-cols-2 gap-4 align-middle content-center -mb-7 mt-[19px] md:px-[20px]   lg:px-[120px] sm:px-[70px] px-[19px]  sm:left-1.5 left-1 relative'>
+        <div class = 'grid grid-cols-2 gap-4 align-middle content-center -mb-7 mt-[19px] md:px-[20px]   lg:px-[120px] sm:px-[70px] px-[19px]  -mr-4 relative'>
             {
 
 
@@ -54,7 +54,7 @@ const CreateProject = () => {
 user&& projectCon.projects&&projectCon.projects.filter(proj=>user._id===proj.admin.id).length===0?
 
 
-<p class = 'text-4xl font-semibold col-span-2 text-center mt-[65px] right-3 mb-6 pb-20 mx-auto relative'><svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 inline text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+<p class = 'sm:text-4xl text-3xl font-semibold col-span-2 text-center mt-[65px] px-3 right-3 mb-0 pb-0 mx-auto relative'><svg xmlns="http://www.w3.org/2000/svg" class="sm:h-9 sm:w-9 h-8 w-8 inline text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
 </svg> <span class = 'top-0.5 relative'>No Projects Created..</span></p>
 
@@ -164,7 +164,7 @@ user&& projectCon.projects&&projectCon.projects.filter(proj=>user._id===proj.adm
         </div>
 
         <button onClick = {() => setShowCreateModal(true)}
-         class = {`mt-4 ${projectCon.projects.length>0?'lg:-mb-[152px] xl:-mb-[149px] -mb-[145px] lg:top-[70px] top-[65px]':'-mb-[4.6rem] top-40 '}  z-40 pointer-events-auto  bg-gradient-to-r  from-blue-600 to-blue-800 w-5/12 rounded-md shadow-lg hover:shadow-lg hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-400 active:shadow-sm p-2 pb-2.5  text-gray-50 font-semibold md:text-2xl sm:text-xl text-lg mx-auto text-center block justify-center relative`}>Create Project</button>
+         class = {`mt-4 ${projectCon.projects.length>0?'lg:-mb-[152px] xl:-mb-[149px] -mb-[145px] lg:top-[70px] top-[65px]':'md:-mb-[4.3rem] sm:-mb-[3.3rem] -mb-[2.8rem] top-40 '} left-[10px] z-40 pointer-events-auto  bg-gradient-to-r  from-blue-600 to-blue-800 sm:w-5/12 w-7/12 rounded-md shadow-lg hover:shadow-lg hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-400 active:shadow-sm p-2 pb-2.5  text-gray-50 font-semibold md:text-2xl sm:text-xl text-lg mx-auto text-center block justify-center relative`}>Create Project</button>
         </>
     )
 }

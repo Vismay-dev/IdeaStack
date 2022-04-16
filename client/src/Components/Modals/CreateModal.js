@@ -123,9 +123,9 @@ const CreateProjectModal = (props) => {
           {/* Modal panel, show/hide based on modal state. */}
     
         <div ref = {myRef} data-aos={"fade-up"} onChange={projPicUpload} data-aos-once='true' class="pr-6 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mt-5 sm:align-middle w-10/12">
-          <div  class="bg-white px-4 pt-2 pb-2 sm:p-6 sm:pb-4">
+          <div  class="bg-white px-4 pt-4 pb-2 sm:p-6 sm:pb-4">
             <div class="sm:flex sm:items-center">
-              <div class=" text-center w-full sm:mt-0 sm:ml-4 sm:text-left">   
+              <div class=" text-center w-full sm:mt-0 sm:ml-4 ml-3 sm:text-left">   
                 <div>
     
 
@@ -136,7 +136,7 @@ const CreateProjectModal = (props) => {
 <form class = 'w-full mt-1 pt-1' onSubmit={submitHandler}>
 <div class="relative z-0 mb-3 w-full group">
 <input type="text" name = 'name' onChange={changeHandler} id = 'floating_repeat_name'  class="block mt-3  relative mb-2 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer"  required={true}  placeholder=" "/>
-<label for="floating_repeat_name" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-0 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" >Project Name</label>
+<label for="floating_repeat_name" class="absolute text-sm left-0 text-gray-500  duration-300 transform -translate-y-6 scale-75 top-0 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" >Project Name</label>
 </div>
 <div class="grid xl:grid-cols-2 mb-3.5 xl:gap-6">
 <div class="relative z-0 mb-11 w-full group">
@@ -151,27 +151,27 @@ const CreateProjectModal = (props) => {
 }
 </select>
 </div>
-<div class="relative z-0 mb-10 w-full group">
+<div class="relative z-0 mb-10 md:mt-0 -mt-4 w-full group">
 <input type="number" name = 'maxCap' onChange={changeHandler} id="maxCap" class="block top-3 relative py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required={true}/>
-<label for="maxCap" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-6 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Max. Team Capacity</label>
+<label for="maxCap" class="absolute left-0 text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-6 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Max. Team Capacity</label>
 </div>
 </div>
 
-<div class="relative z-0 mb-10 w-full group">
+<div class="relative z-0 mb-10 md:mt-0 w-full group">
 <textarea type="number" name = 'problem' onChange={changeHandler}  id="problem" class="block top-3 relative  w-full text-sm text-gray-900 bg-transparent border-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer h-32 p-2  rounded-md" placeholder=" " required={true}/>
-<label  class="absolute text-sm text-gray-500 duration-300 transform -top-4 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  ">What Problem Are You Solving?</label>
+<label  class="absolute text-sm left-0 text-gray-500 duration-300 transform -top-4 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  ">What Problem Are You Solving?</label>
 </div>
 
 <div class="grid xl:grid-cols-2 mb-3.5 xl:gap-6">
-<div class="relative z-0 mb-11 w-full group bg-gradient-to-br from-blue-100 rounded-sm to-indigo-300 shadow-md top-0.5 align-middle p-10">
+<div class={`relative z-0 mb-11 w-full group bg-gradient-to-br from-blue-100 rounded-sm to-indigo-300 shadow-md top-0.5 align-middle ${image!==null?'xl:p-10 pt-2 pb-16':'p-10'} `}>
 <div className="relative scale-75 p-3 ">
                     <input ref={inputRef} onChange = {projPicUpload} type="file"  style={{'display': 'none'}}/>
 
                     <ul class = 'space-x-2 space-y-4 mx-auto relative mt-20 text-center '> 
 
-                {image===''||image===null? <>  <button onClick={(e)=>{e.preventDefault(); inputRef.current.click()}} class = 'font-semibold text-2xl p-3 mt-8 shadow-md left-1  z-20 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600'>Upload Project Cover Image</button><br/></>:
-                         <>  <button class = 'font-semibold  p-3 shadow-md  z-20 bg-gray-100 hover:bg-gray-200 px-4 text-2xl -mt-1 -ml-3 rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600' onClick={(e)=>{e.preventDefault(); inputRef.current.click()}}>Change Image</button>  <br/>
-                             <button onClick = {(e)=> {e.preventDefault(); removeProjPic()}} class = 'font-semibold text-2xl -ml-3 p-3 shadow-md right-2.5 relative  z-20 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600'>Remove Image</button>  </>}
+                {image===''||image===null? <>  <button onClick={(e)=>{e.preventDefault(); inputRef.current.click()}} class = 'font-semibold text-2xl p-3 xl:mt-8 -mt-12 xl:mb-0 mb-20 shadow-md left-1  z-20 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600'>Upload Project Cover Image</button><br/></>:
+                         <>  <button class = 'font-semibold  p-3 shadow-md  z-20 bg-gray-100 hover:bg-gray-200 px-4 text-2xl xl:-mt-1 -mt-64  -ml-3 rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600' onClick={(e)=>{e.preventDefault(); inputRef.current.click()}}>Change Image</button>  <br/>
+                             <button onClick = {(e)=> {e.preventDefault(); removeProjPic()}} class = 'font-semibold text-2xl -ml-3 p-3 xl:mb-0 mb-20 shadow-md right-2.5 relative  z-20 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600'>Remove Image</button>  </>}
 
 
 
@@ -229,7 +229,7 @@ const CreateProjectModal = (props) => {
           </div>
           <div class="bg-gray-50 px-3 mt-4 shadow-md border-y-indigo-200 border-2 -mr-6 py-0 sm:px-6 sm:flex sm:flex-row-reverse ">
           
-            <button onClick = {props.close} type="button" class="-left-4 relative h-11 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-7 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-5 mb-5 sm:w-auto sm:text-md">
+            <button onClick = {props.close} type="button" class="sm:-left-4 relative h-11 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-7 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-5 mb-5 sm:w-auto sm:text-md">
               Close
             </button>
             
