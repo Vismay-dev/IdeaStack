@@ -148,7 +148,7 @@ useEffect(
         
           {/* Modal panel, show/hide based on modal state. */}
     
-        <div ref = {myRef} data-aos={"fade-up"} onChange={projPicUpload} data-aos-once='true' class="pr-6 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mt-5 sm:align-middle w-10/12">
+        <div ref = {myRef} data-aos={"fade-up"} onChange={projPicUpload} data-aos-once='true' class="pr-6 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mt-5 sm:align-middle md:w-10/12 sm:w-11/12 w-[95%]">
           <div  class="bg-white px-4 pt-4 pb-2 sm:p-6 sm:pb-4">
             <div class="sm:flex sm:items-center">
               <div class=" text-center w-full sm:mt-0 sm:ml-4 ml-3 sm:text-left">   
@@ -189,15 +189,15 @@ useEffect(
 </div>
 
 <div class="grid xl:grid-cols-2 mb-3.5 xl:gap-6">
-<div class={`relative z-0 mb-11 w-full group bg-gradient-to-br from-blue-100 rounded-sm to-indigo-300 shadow-md top-0.5 align-middle ${image!==null?'xl:p-10 pt-2 pb-16':'p-10'} `}>
+<div class={`relative z-0 mb-11 w-full group bg-gradient-to-br from-blue-100 rounded-sm to-indigo-300 shadow-md top-0.5 align-middle ${image!==null?'xl:p-10 pt-2 pb-16':'p-10 px-3'} `}>
 <div className="relative scale-75 p-3 ">
                     <input ref={inputRef} onChange = {projPicUpload} type="file"  style={{'display': 'none'}}/>
 
                     <ul class = 'space-x-2 space-y-4 mx-auto relative mt-20 text-center '> 
 
-                {image===''||image===null? <>  <button onClick={(e)=>{e.preventDefault(); inputRef.current.click()}} class = 'font-semibold text-2xl p-3 xl:mt-8 -mt-12 xl:mb-0 mb-20 shadow-md left-1  z-20 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600'>Upload Project Cover Image</button><br/></>:
-                         <>  <button class = 'font-semibold  p-3 shadow-md  z-20 bg-gray-100 hover:bg-gray-200 px-4 text-2xl xl:-mt-1 -mt-64  -ml-3 rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600' onClick={(e)=>{e.preventDefault(); inputRef.current.click()}}>Change Image</button>  <br/>
-                             <button onClick = {(e)=> {e.preventDefault(); removeProjPic()}} class = 'font-semibold text-2xl -ml-3 p-3 xl:mb-0 mb-20 shadow-md right-2.5 relative  z-20 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600'>Remove Image</button>  </>}
+                {image===''||image===null? <>  <button onClick={(e)=>{e.preventDefault(); inputRef.current.click()}} class = 'font-semibold sm:text-2xl text-xl p-3 xl:mt-8 -mt-12 xl:mb-0 mb-20 shadow-md left-1  z-20 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600'>Upload Project Cover Image</button><br/></>:
+                         <>  <button class = 'font-semibold  p-3 shadow-md  z-20 bg-gray-100 hover:bg-gray-200 px-4 sm:text-2xl text-xl xl:-mt-1 -mt-64  -ml-3 rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600' onClick={(e)=>{e.preventDefault(); inputRef.current.click()}}>Change Image</button>  <br/>
+                             <button onClick = {(e)=> {e.preventDefault(); removeProjPic()}} class = 'font-semibold sm:text-2xl text-xl -ml-3 p-3 xl:mb-0 mb-20 shadow-md right-2.5 relative  z-20 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600'>Remove Image</button>  </>}
 
 
 
@@ -232,11 +232,11 @@ useEffect(
 
 {error!==''?
 <p class = 'text-red-500 text-center text-lg font-semibold -bottom-1 mb-12 relative'>{error}</p>:''}
-<button type="submit" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-lg shadow-md w-full sm:w-auto px-32 mt-3 py-2 mx-auto block text-center  ">Submit</button>
+<button type="submit" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-lg shadow-md w-full sm:w-auto sm:px-32 sm:mt-3 mt-1 py-2 mx-auto block text-center  ">Submit</button>
 <button onClick={(e) => {
     e.preventDefault();
     props.close()
-}} class="text-black border-2 border-gray-700 bg-slate-200 hover:bg-slate-300 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-lg shadow-md w-full sm:w-auto px-32 mt-2 mb-3 py-2 mx-auto block text-center  ">Cancel</button>
+}} class="text-black border-2 border-gray-700 bg-slate-200 hover:bg-slate-300 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-lg shadow-md w-full sm:w-auto sm:px-32 mt-2 sm:mb-3 mb-6 py-2 mx-auto block text-center  ">Cancel</button>
 
 </form>
 

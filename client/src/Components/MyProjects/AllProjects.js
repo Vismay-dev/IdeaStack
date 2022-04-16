@@ -33,7 +33,7 @@ const AllProjects = () => {
 
         <>
 
-        <h1 class = ' text-center w-10/12 relative mx-auto   lg:mt-6 mt-5 py-4 pb-7  font-semibold text-gray-800 md:text-[47px] text-[38px] underline'>All Projects ({projectCon.projects.length})</h1>
+        <h1 class = ' text-center w-10/12 relative mx-auto   lg:mt-6 mt-5 py-4 pb-8  font-semibold text-gray-800 md:text-[47px] text-[38px] underline'>All Projects ({projectCon.projects.length})</h1>
         
 
         <div class = {`grid grid-cols-2 gap-4 align-middle content-center ${projectCon.projects.length === 0? '-mb-16':'-mb-[187px] top-2 relative'} mt-6 pb-3 md:px-[20px]    lg:px-[120px] sm:px-[70px] px-[19px]  sm:left-1.5 left-1`}>
