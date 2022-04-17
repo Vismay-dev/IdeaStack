@@ -16,7 +16,7 @@ function App() {
   useEffect(()=> {
     setLoading(true)
     setTimeout(()=> {
-      // setLoading(false)
+      setLoading(false)
     },2500)
   },[])
 
@@ -74,7 +74,7 @@ useEffect(()=> {
                   <Footer/></>:
                 
                       <div 
-      class = ' w-[217px]  m-0 relative mx-auto sm:top-[48%] top-[45%]  translate-y-[-50%]  pl-3'>
+      class = ' w-[217px]  m-0 relative mx-auto sm:top-[48%] top-[45%]  translate-y-[-50%]  sm:pl-3 pl-2'>
                       
 
                       <CircleLoader
