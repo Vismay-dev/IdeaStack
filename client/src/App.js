@@ -16,7 +16,7 @@ function App() {
   useEffect(()=> {
     setLoading(true)
     setTimeout(()=> {
-      setLoading(false)
+      // setLoading(false)
     },2500)
   },[])
 
@@ -67,14 +67,14 @@ useEffect(()=> {
   return (
     <projectContext.Provider value={{projects:projects, setProjects:setProjects}}>
     <userContext.Provider value = {{user:user, setUser:setUser}}>
-    <div class = {` w-screen bg-gradient-to-r from-gray-200 to-blue-200 relative z-0 ${location.pathname === '/home' || loading ? 'h-screen':' max-h-full'}` }>
+    <div class = {` w-screen bg-gradient-to-r from-gray-200 to-blue-200 relative z-0 ${location.pathname === '/home' || loading ? ' h-screen':' max-h-full'}` }>
                 {!loading?<>
                   <NavBar loginFunc = {logIn}/>
                   <MainContent class = "-z-10"/>
                   <Footer/></>:
                 
                       <div 
-      class = ' w-[217px]  m-0 relative mx-auto top-[50%] translate-y-[-50%]  pl-1.5'>
+      class = ' w-[217px]  m-0 relative mx-auto sm:top-[48%] top-[45%]  translate-y-[-50%]  pl-3'>
                       
 
                       <CircleLoader
