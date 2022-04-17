@@ -32,7 +32,8 @@ useEffect(()=> {
             <div className="relative w-full px-2 py-2 -mt-5 max-w-full flex-grow flex-1">
                 
               <h3 className="font-bold relative text-center top-2.5 my-2 mb-[9px] text-black text-lg text-blueGray-700">
-              <p><RiTeamFill class = 'text-xl inline bottom-[3px] mr-0.5  relative'/> Team Members</p>
+              <p><RiTeamFill class = 'text-xl inline bottom-[3px] mr-0.5  relative'/> Team Members </p>
+              <p class = 'text-gray-700 text-sm left-1 relative font-medium'>{proj&&(proj.maxCap-proj.team.length===0)?'(Maximum Capacity)':''}</p>
               </h3>
             </div>
            

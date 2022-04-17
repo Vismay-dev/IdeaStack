@@ -33,7 +33,7 @@ export default function Dropdown(props) {
   return (
     <Menu as="div" className="relative md:col-span-2 col-span-6 inline-block z-40 pointer-events-auto  text-left">
       <div>
-        <Menu.Button className="py-2 inline-flex justify-center w-full border-2 rounded-sm border-gray-300 shadow-sm px-4 bg-white text-md font-medium text-gray-700 hover:bg-gray-50 focus:outline-none  ">
+        <Menu.Button className="py-2 inline-flex justify-center z-40 w-full border-2 rounded-sm border-gray-300 shadow-sm px-4 bg-white text-md font-medium text-gray-700 hover:bg-gray-50 focus:outline-none  ">
           {catSelected?catSelected==='All'?'All Categories':'Category: '+ catSelected:'Category'}
           <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5 top-0.5 relative" aria-hidden="true" />
         </Menu.Button>
@@ -61,7 +61,7 @@ export default function Dropdown(props) {
                     setCatSelected(cat.name)
                   }}
                   className={classNames(
-                    active ? 'bg-gray-100 cursor-pointer z-40 text-gray-900 font-semibold' : 'text-gray-700',
+                    active ? 'bg-gray-100 cursor-pointer z-50 text-gray-900 font-semibold' : 'text-gray-700',
                     'block px-4 py-2 text-sm'
                   )}
                 >

@@ -4,7 +4,7 @@ import ReactTooltip from 'react-tooltip';
 import ClipLoader from "react-spinners/ClipLoader"
 
 const SessionList = (props) => {
-
+console.log(props.sessions)
     
     return (
         <div class="left-2 mt-5 relative w-full">
@@ -32,7 +32,7 @@ const SessionList = (props) => {
       <ClipLoader color={'#0b0bbf'} loading={props.loading}  size={60} />
       </div>
 :
-                                props.sessions && props.sessions[0].length!==0&& props.sessions[1].length===0?
+                                props.sessions && props.sessions[1].length!==0&& props.sessions[0].length===0?
 
                                 <h1 class = 'relative mx-auto text-center text-xl justify-center mt-14 mb-14 right-[4px] block'>
 
@@ -66,7 +66,7 @@ props.loading?
 <tbody class = 'space-y-2  '>
 
 
-                            {props.sessions&&props.sessions[1].map((session, i)=> {
+                            {props.sessions&&props.sessions[0].map((session, i)=> {
 
 function convertDate(inputFormat) {
     function pad(s) { return (s < 10) ? '0' + s : s; }
@@ -121,19 +121,19 @@ function convertDate(inputFormat) {
 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 top-[1px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
 </svg>
-    <p class={`text-sm leading-none ${!session.sessionScheduled?'text-green-700':'text-gray-600'} ml-2`}>{!session.sessionScheduled?'To Be Scheduled Soon':'datex/smonthx'}</p>
+    <p class={`text-sm leading-none ${!session.sessionScheduled?'text-green-700':'text-gray-600'} ml-2`}>{!session.sessionScheduled?'To Be Scheduled Soon':new Date(session.scheduleSelected).toDateString()}</p>
 </div>
 
 
                                 </td>
 
                                 <td class="pl-5 lg:-mr-9 -mr-6 relative">
-                                <h1 class = 'text-sm relative left-16'>Payment Per Member: <span class = 'font-semibold underline'>AED {session.pricing[0]/parseFloat(session.teamSize)} </span></h1>
+                                <h1 class = 'text-sm relative left-16'>Payment Per Member: <span class = 'font-semibold underline'>AED {session.individualTotalCost} </span></h1>
                                     </td>
 
                                    
                                     <td class="pl-5 -mr-6 lg:ml-0 ml-5 relative">
-                                <h1 class = 'text-sm relative left-6'>Total Payment Amount: <span class = 'font-semibold underline'>AED {session.pricing[0]} </span></h1>
+                                <h1 class = 'text-sm relative left-6'>Total Payment Amount: <span class = 'font-semibold underline'>AED {session.pricing[0]*session.numberOfSessions} </span></h1>
                                     </td>
 
 
@@ -172,7 +172,7 @@ props.loading?
 <ClipLoader color={'#0b0bbf'} loading={props.loading}  size={60} />
 </div>
 :
-                                props.sessions && props.sessions[0].length===0?
+                                props.sessions && props.sessions[1].length===0?
 
                                 <h1 class = 'relative mx-auto text-center text-xl justify-center  pb-1 mt-16 right-[2px] mb-10 block'><svg xmlns="http://www.w3.org/2000/svg" class="h-8 mr-1 w-8 text-green-700 inline relative bottom-[1.6px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
@@ -183,7 +183,7 @@ props.loading?
                                 <tbody class = 'space-y-2'>{
                             
 
-                            props.sessions&&props.sessions[0].map((session, i)=> {
+                            props.sessions&&props.sessions[1].map((session, i)=> {
 
 function convertDate(inputFormat) {
     function pad(s) { return (s < 10) ? '0' + s : s; }

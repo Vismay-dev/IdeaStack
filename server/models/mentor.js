@@ -40,6 +40,10 @@ const mentorSchema = new mongoose.Schema({
     fields: {
       type:Array,
       required : true,
+    },
+    availableDates: {
+      type:Array,
+      required:false
     }
   },
   { timestamps: true })

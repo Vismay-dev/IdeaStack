@@ -81,7 +81,7 @@ const Mentorship = () => {
 
 <div    className="w-full xl:w-4/12 mb-3 xl:mb-0 px-3">
   {
-    mentorshipPackages && mentorshipPackages.length > 0 &&  mentorshipPackages[0].paymentPending ===true?
+    mentorshipPackages && mentorshipPackages.length > 0 &&  mentorshipPackages[mentorshipPackages.length-1].paymentPending ===true?
     <MakePayment  mentorshipPackages = {mentorshipPackages} />
 :<FindMentor/>
   }

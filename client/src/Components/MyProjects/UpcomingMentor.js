@@ -17,20 +17,36 @@ const UpcomingMentor = props => {
     const [scheduleSelected,setScheduleSelected] = useState(null)
     const [sessionAccepted, setSessionAccepted] = useState(false)
     const [numSesh,setNumSesh] = useState(0);
+    const [availableDates, setAvailableDates] = useState([])
+
+    const [sessionCompleted, setSessionCompleted] = useState(false)
    useEffect(()=> {
     setLoading(true)
+
+
+
      if(props.mentorshipPackages && props.mentorshipPackages.length!==0) {
        setConsultantSelected(true);
+      
        setNumSesh(props.mentorshipPackages[0].numberOfSessions-props.mentorshipPackages[0].numberOfSessionsRemaining+1)
         setConsultant(props.mentorshipPackages[0])
+        
         if(props.mentorshipPackages[0].paymentPending===false) {
           setPaymentComplete(true)
+         
           if(props.mentorshipPackages[0].sessionRequested){
             setSessionRequested(true)
 
           }
           if(props.mentorshipPackages[0].sessionScheduled) {
-            setSessionScheduled(true)}
+            setSessionScheduled(true)
+        
+          if(((parseFloat((new Date()).getHours())-parseFloat((new Date(props.mentorshipPackages[0].scheduleSelected)).getHours())))>6){
+            setSessionCompleted(true)
+          }
+          
+          
+          }
             else if(props.mentorshipPackages[0].sessionAccepted){
               setSessionAccepted(true)
             }
@@ -46,6 +62,11 @@ const UpcomingMentor = props => {
 
 
    },[props.mentorshipPackages])
+
+
+   if(sessionScheduled&&!sessionCompleted&&(parseFloat((new Date()).getHours())-parseFloat((new Date(props.mentorshipPackages[0].scheduleSelected)).getHours()))>6){
+    setSessionCompleted(true)
+  }
 
    const [showPayments, setShowPayments] = useState(false)
    const [sessionScheduling, setSessionScheduling] = useState(false)
@@ -78,10 +99,66 @@ const UpcomingMentor = props => {
   })  
    }
 
-   console.log(sessionRequested)
+   const rescheduleSession = () => {
+    axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/updateLatestPendingSession':'http://localhost:4000/api/user/updateLatestPendingSession',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing'), updated:{
+      sessionConfirmed:false,
+      sessionRequested:false,
+      sessionAccepted:false,
+      sessionScheduled:false,
+      scheduleSelected:''
+    }}).then(res=> {
+      console.log(res.data);
+      setSessionConfirmed(false)
+      setSessionAccepted(false)
+      setSessionRequested(false)
+      setScheduleSelected('')
+      setSessionScheduled(false)
+
+}).catch(err=> {
+          console.log(err);
+  })  
+   }
+
 
    const history = useHistory()
 
+
+   function padTo2Digits(num) {
+    return num.toString().padStart(2, '0');
+  }
+  
+  function formatDate(date) {
+    let not = padTo2Digits(date.getHours())>12?'PM':'AM'
+    return (
+      [
+        padTo2Digits(date.getDate()),
+        padTo2Digits(date.getMonth() + 1),
+        date.getFullYear()
+      ].join('/') +
+      '  ' + ' ' +
+      [
+        padTo2Digits(date.getHours()>12?date.getHours()-12:date.getHours()),
+        padTo2Digits(date.getMinutes()),
+      ].join(':')
+        + ' '+ not
+      
+    );
+  } 
+
+
+ const [chkDate, setChkDate] = useState(false)
+const [sessionFinished, setSessionFinished] = useState(false);
+
+const finishSession = () => {
+  axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/finishLatestSession':'http://localhost:4000/api/project/finishLatestSession',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
+    console.log(res.data);
+    setSessionFinished(true)
+}).catch(err=> {
+        console.log(err);
+})  
+
+
+}
 
     return (
         <>
@@ -115,18 +192,50 @@ const UpcomingMentor = props => {
    {paymentComplete?
 
 
+sessionCompleted?
+<>
 
+{sessionFinished?
+
+<>
+  <p class = ' font-semibold text-xl text-center mt-3 right-2.5 relative underline'>
+Session Completed
+ </p>
+
+<svg xmlns="http://www.w3.org/2000/svg" class="h-9 text-green-700 w-9 mb-0.5 mt-3 right-1  relative block mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+</svg>
+
+
+<p class = 'text-sm px-6 text-center mt-2.5'>For any queries, mail us at <span class = 'underline text-blue-600'>ideastackapp@gmail.com.</span> We prioritize addressing your concerns.</p>
+
+</>
+
+:
+<>
+<p class = ' font-semibold text-xl text-center mt-3 right-2.5 relative underline'>
+<svg xmlns="http://www.w3.org/2000/svg" class="h-7 text-green-700 w-7 mb-1 relative inline right-1 mx-auto ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+</svg>
+ <span class = 'inline'>Session Completed</span>
+
+</p>
+
+<button onClick={finishSession} class = 'bg-blue-700 text-white p-2 pt-1 shadow-md right-1 text-sm font-semibold my-4 mb-3.5  py-1.5 px-3 relative mx-auto block'>Okay</button>
+
+<p class = 'text-sm px-6 text-center mt-3.5'>For any queries, mail us at <span class = 'underline text-blue-600'>ideastackapp@gmail.com.</span> We prioritize addressing your concerns.</p> </>}
+</>:
 
 sessionScheduled?
 
 <> 
-     <p class = 'mt-[10px] mb-[18px] text-md relative mx-auto justify-center text-center right-2'>
+     <p class = 'mt-[10px] mb-[17px] text-md relative mx-auto justify-center text-center right-2'>
 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 top-[1px] relative text-gray-600 mr-1 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-</svg><span class = 'inline mt-4 font-semibold top-[2.5px] relative text-gray-700 text-sm'> When: {new Date().toString().substring(0,15)} </span><br/>
+</svg><span class = {`inline mt-4 font-semibold top-[2.5px] relative text-gray-700 text-sm ${(new Date().toString().substring(0,15))===(new Date(consultant.scheduleSelected).toString().substring(0,15))?'text-blue-700 font-semibold uppercase':''}`}> When: {(new Date().toString().substring(0,15))===(new Date(consultant.scheduleSelected).toString().substring(0,15))?'Today':new Date(consultant.scheduleSelected).toString().substring(0,15)} </span><br/>
 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 relative text-gray-600 mr-1 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
   <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-</svg><span class = 'inline mt-4 font-semibold top-[1.5px] relative text-gray-700 text-sm'> At: {new Date().toString().substring(16,24)+' '+new Date().toString().substring(34)} </span>
+</svg><span class = 'inline mt-4 font-semibold top-[1.5px] relative text-gray-700 text-sm'> At: {String(parseInt(new Date(consultant.scheduleSelected).toString().substring(16,18))>12?parseInt(new Date(consultant.scheduleSelected).toString().substring(16,18))-12:parseInt(new Date(consultant.scheduleSelected).toString().substring(16,18)))+new Date(consultant.scheduleSelected).toString().substring(18,21)+String(parseInt(new Date(consultant.scheduleSelected).toString().substring(16,18))>12?' PM ': ' AM ')+new Date().toString().substring(34)} </span>
 
 </p>
 
@@ -135,13 +244,13 @@ sessionScheduled?
 <p class = ' relative mx-auto justify-center text-center right-2'>
 <svg xmlns="http://www.w3.org/2000/svg" class="h-[17px] w-[17px] top-[1px] text-gray-600 relative inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-</svg><span class = 'inline mt-6 font-semibold relative text-gray-700'> Meeting Link: </span>
+</svg><span class = 'inline mt-4 font-semibold relative underline text-gray-700'> Meeting Link: </span>
 </p>
 
-<h3 class = 'text-indigo-400 truncate text-center break-normal mt-0.5 text-ellipsis mb-1 hover:text-indigo-600 hover:underline cursor-pointer relative w-10/12 mx-auto left-1 z-50 '>{consultant.sessionLink}</h3> 
+<h3 class = 'text-indigo-400 truncate text-center break-normal mt-0.5 right-1.5 text-ellipsis mb-1 hover:text-indigo-600 hover:underline cursor-pointer relative w-10/12 mx-auto  z-50 '>{consultant.sessionLink}</h3> 
 
 
-<p class =' relative mx-auto text-center mt-[5px] ml-4 right-2  mb-0.5'>
+<p class =' absolute mx-auto text-center  ml-4 right-2  mb-0.5'>
 <SiZoom class = 'inline relative  mr-1.5 text-blue-600 text-4xl'/>
 <SiGooglemeet class = 'inline  text-indigo-500 relative text-xl'/>
 
@@ -210,18 +319,24 @@ sessionRequested?
 <p class = '-mt-[2px] mb-[11px] text-md relative mx-auto justify-center text-center right-2'>
 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 top-[1px] relative  mr-1 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-</svg><span class = 'inline mt-4 font-semibold top-[2.5px] relative  text-sm'> When: {Date(consultant.scheduleSelected).toString().substring(0,15)} </span>
+</svg><span class = 'inline mt-4 font-semibold top-[2.5px] relative  text-sm'> When: {new Date(consultant.scheduleSelected).toString().substring(0,15)} </span>
 <br/>
 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 top-[1px] relative mr-1 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
   <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-</svg><span class = 'inline mt-4 font-semibold top-[2.5px] relative  text-sm'> At: {Date(consultant.scheduleSelected).toString().substring(16,24)+' '+new Date().toString().substring(34)} </span>
+</svg><span class = 'inline mt-4 font-semibold top-[2.5px] relative  text-sm'> At: {String(parseInt(new Date(consultant.scheduleSelected).toString().substring(16,18))>12?parseInt(new Date(consultant.scheduleSelected).toString().substring(16,18))-12:parseInt(new Date(consultant.scheduleSelected).toString().substring(16,18)))+':'+String((new Date(consultant.scheduleSelected).toString().substring(19,21))) +  (parseInt(new Date(consultant.scheduleSelected).toString().substring(16,18))>12?' PM ':' AM ') +new Date().toString().substring(34)} </span>
 
 
 </p>
 
+<div class = 'mt-[19px] mx-auto  grid grid-cols-6 right-0.5 relative w-2/3 gap-3'>
+<button onClick={rescheduleSession} class = {`px-4 col-span-3   rounded-lg  text-sm uppercase py-2 mb-1.5 relative   bg-gradient-to-br hover:from-orange-400 hover:to-orange-500 text-white font-semibold from-orange-300 to-orange-500 `}>Reschedule</button>
+
+<button onClick={confirmSession} class = {`px-4 col-span-3   rounded-lg  text-sm uppercase py-2 mb-1.5 relative   bg-gradient-to-br hover:from-blue-400 hover:to-blue-600 text-white font-semibold from-blue-400 to-indigo-500 `}>Confirm</button>
 
 
- <button onClick={confirmSession} class = {`px-4 mt-[19px]  rounded-lg mx-auto block text-sm uppercase py-2 mb-1.5 relative   bg-gradient-to-br hover:from-blue-400 hover:to-blue-600 text-white from-blue-400 to-indigo-500 `}>Confirm</button>
+
+</div>
+
 
 
 
@@ -241,8 +356,39 @@ sessionRequested?
  <h3 class = 'relative mx-auto text-center underline right-2 top-0.5 font-semibold'>Select & Request Appointment</h3>
  <div class = 'relative mx-auto overflow-scroll h-[156px] top-[11px] bg-blue-100 rounded-md w-[350px] right-0 shadow-md '>
    <h3 class = 'text-center text-sm right-0.5 top-1.5 mb-4 font-semibold relative underline'>Available Slots:</h3>
+{
 
-<button onClick={()=>setScheduleSelected(new Date())} class = {`w-11/12 h-[25px] hover:border-[1px] hover:border-solid hover:ring-1 hover:ring-black text-white active:border-solid ${scheduleSelected?'border-solid border-[1px] ring-black ring-1 border-white':''} hover:border-white rounded-lg mx-auto block text-sm pb-0.5 font-semibold  hover:font-medium mb-1.5 relative   bg-gradient-to-br from-gray-500 to-gray-600`}>Saturday, 5 AM - 29th April</button>
+consultant.availableDates.filter(date=> {
+  
+  let available = true;
+
+  axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/checkAvailability':'http://localhost:4000/api/project/checkAvailability',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing'),consultant:props.mentorshipPackages[0], date:props.mentorshipPackages[0].scheduleSelected}).then(res=> {
+    available = res.data
+}).catch(err=> {
+         console.log(err);
+ })
+  
+  return (new Date(date)>new Date()&&available)
+ }).length === 0?
+
+ <p class = 'text-sm w-[87%] text-center px-10 relative mx-auto block top-[27%] text-indigo-800 underline translate-y-[-50%]'>No Available Slots (We'll post dates here soon!)</p>
+
+ :
+  consultant.availableDates.filter(date=> {
+    let available = true;
+    axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/checkAvailability':'http://localhost:4000/api/project/checkAvailability',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing'),consultant:props.mentorshipPackages[0], date:props.mentorshipPackages[0].scheduleSelected}).then(res=> {
+      available = res.data
+  }).catch(err=> {
+           console.log(err);
+   })
+   return (new Date(date)>new Date() && available)
+  }).map(date=> {
+
+    return (
+<button onClick={()=>setScheduleSelected(new Date(date))} class = {`w-11/12 h-[25px] hover:border-[1px] hover:border-solid hover:ring-1 hover:ring-black text-white active:border-solid ${scheduleSelected?'border-solid border-[1px] ring-black ring-1 border-white':''} hover:border-white rounded-lg mx-auto block text-sm pb-0.5 font-semibold  hover:font-medium mb-1.5 relative   bg-gradient-to-br from-gray-500 to-gray-600`}>{formatDate(new Date(date))}</button>
+    )
+  })
+}
 
  </div>
 

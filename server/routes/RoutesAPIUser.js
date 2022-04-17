@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')
 const auth = require('../auth/auth')
 const multer = require('multer')
 const cloudinary = require('cloudinary')
+const Mentor = require('../models/mentor')
 
 const fileStorageEngine = multer.diskStorage({
     filename: function (req, file, callback) {
@@ -415,6 +416,20 @@ router.post('/uploadPic',upload.single('image'),async(req,res)=> {
     res.send(fileUrl);
 })
 
+
+router.post('/uploadPicAdmin',upload.single('image'),async(req,res)=> {
+     let file = req.file;
+    var fileUrl;
+    await cloudinary.v2.uploader.upload(file.path, 
+        { folder: "IdeaStack" },
+     (err, result) => {
+        fileUrl = result.secure_url           
+        console.log('File Uploaded')
+    }).catch(err=> console.log(err.response))
+   
+    res.send(fileUrl);
+})
+
 router.post('/createJoinRequest', auth, async(req,res)=> {
     const proj = await project.findOne({_id: req.body.projectID});
     let date = new Date()
@@ -437,7 +452,7 @@ router.post('/getLatestPendingPayment', auth, async(req,res)=> {
     try{
         for(let i = 0; i<pendingPayments.length;i++) {
             if(pendingPayments[i].projectID===req.body.projectID) {
-                res.send({payment:parseFloat(pendingPayments[i].amounts[i])})
+                res.send({payment:parseFloat(pendingPayments[i].amounts[pendingPayments[i].amounts.length-1])})
                 return;
             }
         }
@@ -515,6 +530,7 @@ router.post('/updateLatestPendingSessionAdmin', async(req,res)=> {
     }
 
     proj.markModified('mentorshipPackages');
+    console.log(proj.mentorshipPackage)
     await proj.save()
 
     console.log('job done')
@@ -534,6 +550,47 @@ router.post('/getProjectsPaid', async(req,res)=> {
     }
     
     res.send(projectsPaid)
+})
+
+
+router.post('/modifyMentorAdmin', async(req,res)=> {
+    const updateInfo =req.body.mentor
+    const newMentor = await Mentor.findByIdAndUpdate(req.body.id, updateInfo)
+    newMentor.save()
+
+    const projects = await project.find();
+
+    for(let x = 0; x<projects.length;x++){
+        for(let y = 0; y<projects[x].mentorshipPackages.length;y++){
+            if(JSON.stringify(projects[x].mentorshipPackages[y]._id)===JSON.stringify(newMentor._id)){
+                projects[x].mentorshipPackages[y] = {...projects[x].mentorshipPackages[y], ...updateInfo}
+                console.log(projects[x].mentorshipPackages[y])
+                projects[x].markModified('mentorshipPackages');
+                projects[x].save()
+            }
+        }
+    }
+    
+    res.send('Succesfully Modified Mentor')
+})
+
+
+router.post('/addMentorAdmin', async(req,res)=> {
+    console.log(req.body.pic)
+    const newMentor = new Mentor({
+        name: req.body.name,
+        background: req.body.background,
+        pricing: req.body.pricing,
+        strengths: req.body.strengths,
+        role: req.body.role,
+        contact: req.body.contact,
+        pic:req.body.pic,
+        mentorshipProp: req.body.mentorshipProp,
+        availableDates: req.body.availableDates
+    })
+    const mentor = await newMentor.save()
+    
+    res.send('Succesfully Added Mentor')
 })
 
 module.exports = router

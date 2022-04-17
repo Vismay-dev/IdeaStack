@@ -14,6 +14,8 @@ import Collaborate from './Collaborate.js'
 import Mentorship from './Mentorship.js'
 import BrowseExperts from "./BrowseExperts.js";
 
+import EditProjModal from '../Modals/EditProjModal'
+
 import AOS from 'aos';
 import "aos/dist/aos.css";
 
@@ -245,6 +247,8 @@ const [dateOfUpload, setDateOfUpload] = useState()
 
 
   }
+
+  const [editing, setEditing] = useState(false)
   
   const [memberSelected, setMemberSelected] = useState()
 
@@ -253,6 +257,11 @@ const [dateOfUpload, setDateOfUpload] = useState()
     <Switch>
 <Route path = '/myprojects/manageproject/overview'>
   <>
+
+  {
+    editing?
+    <EditProjModal close = {()=> setEditing(false)}/>:''
+  }
     
 <h2  class = 'text-center font-bold sm:text-5xl text-4xl text-gray-800 top-1 relative mt-11 mb-7'>
 <svg xmlns="http://www.w3.org/2000/svg" class="sm:h-14 h-10 sm:bottom-[2.9px] bottom-[3.1px] relative inline sm:w-14 w-10 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -340,7 +349,10 @@ setText('');
      class="w-full h-56 object-contain py-3 -mb-3 bg-gray-50 border-b-2 border-gray-400 relative"
      />
   <div class="p-8 sm:p-9 md:px-7 md:pt-9 md:pb-10 lg:p-7 xl:py-9 xl:px-6 text-center">
+  <button onClick={()=>setEditing(true)} class = 'relative -top-1 flex justify-start -mb-[34px] rounded-md shadow-md hover:shadow-xl active:shadow-sm left-3 font-semibold text-white bg-blue-600 hover:bg-blue-700 p-1 px-3'>EDIT</button>
+
      <h3>
+
         <a
            href="javascript:void(0)"
            class="

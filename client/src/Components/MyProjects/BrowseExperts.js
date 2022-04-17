@@ -138,7 +138,7 @@ useEffect(() => {
             showExpert ? <ExpertDetails close = {()=>setShowExpert(false)} experts = {experts} id = {expertId}/> : ''
         }
         <div class="w-full mx-auto pt-10 md:pb-0 pb-1   md:px-14 sm:px-8 px-4 lg:-mb-[190px] md:-mb-[180px] -mb-[220px] relative lg:max-w-7xl ">
-            <h2 style = {{'backgroundImage':'url(https://upload.wikimedia.org/wikipedia/commons/8/81/Maxresdefault_%281%29.jpg)'}} class = 'text-center bg-no-repeat z-30 bg-gradient-to-br from-cyan-400 to-cyan-600   text-gray-100 top-1  bg-right w-full ring-2 ring-offset-2 ring-offset-cyan-500 border-2 border-blue-700 ring-blue-700 rounded-sm shadow-md mb-[74px] relative'>
+            <h2 style = {{'backgroundImage':'url(https://upload.wikimedia.org/wikipedia/commons/8/81/Maxresdefault_%281%29.jpg)'}} class = 'text-center bg-no-repeat z-40 bg-gradient-to-br from-cyan-400 to-cyan-600   text-gray-100 top-1  bg-right w-full ring-2 ring-offset-2 ring-offset-cyan-500 border-2 border-blue-700 ring-blue-700 rounded-sm shadow-md mb-[74px] relative'>
               <div class = 'bg-gray-900 bg-opacity-40 py-10 pb-11'>
               
               <p class = 'md:text-5xl text-4xl   font-bold'>
@@ -151,7 +151,7 @@ useEffect(() => {
               </div>
               </h2>
               
-              <div class="flex pointer-events-auto z-10 px-4 -space-x-4 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-5 pb-3 bottom-[71.5px] relative justify-center sm:w-10/12 w-full  rounded-b-lg  mx-auto">
+              <div class="flex pointer-events-auto z-[35] px-4 -space-x-4 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-5 pb-3 bottom-[71.5px] relative justify-center sm:w-10/12 w-full  rounded-b-lg  mx-auto">
             
             <div class="grid grid-cols-6 sm:text-base text-sm gap-2 items-center z-40 justify-center relative">
     <div class=" border-2 md:col-span-4 col-span-6 grid sm:grid-cols-6 sm:text-base text-sm grid-cols-12 pointer-events-auto rounded-sm border-gray-300">
@@ -172,17 +172,19 @@ useEffect(() => {
 
    { experts&&experts.length===0?
 
-<div className="bg-gray-50 ring-2 ring-indigo-500 w-full sm:h-full h-[350px] pl-9 sm:mb-32 mb-20 bottom-2 mt-8 rounded-sm relative shadow-lg">
-   <div className="w-full mx-auto py-9 px-1 sm:right-3 right-4 relative lg:right-0 sm:px-6 sm:pb-1 sm:pt-16 lg:py-12 lg:px-8 lg:flex lg:items-center lg:justify-between">
-     <h2 className=" text-2xl  lg:text-left sm:mt-0 mt-4 sm:mb-0 mb-5 text-center font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-       <span className="block">Oops..</span>
-       <span className="block sm:w-full w-[270px] mx-auto sm:mx-0 text-blue-700">No Results Appeared.</span>
-     </h2>
-     <div className="lg:-mt-2 sm:mt-3 -mt-5 flex lg:flex-shrink-0">
-       <img class = 'sm:w-64 w-48 lg:right-6 lg:mx-0 mx-auto block sm:right-1  relative h-48 sm:h-64' src = {logo}></img>
-     </div>
-   </div>
- </div>
+<div className="bg-gray-50 ring-2 ring-indigo-500 w-full pl-9 mb-20 mt-8 rounded-sm relative shadow-lg">
+      <div className="w-full mx-auto py-9 pt-16 px-4 sm:px-6 lg:py-12 lg:px-8 lg:flex lg:items-center lg:justify-between">
+        <h2 className="text-3xl lg:mt-0 -ml-[32px] mt-7 font-extrabold lg:text-left text-center tracking-tight text-gray-900 sm:text-4xl">
+          <span className="block">Oops..</span>
+          <span className="block text-blue-700">No Search Results Appeared.</span>
+        </h2>
+        <div className="-mt-2 mx-auto text-center block lg:flex relative justify-center py-3 lg:flex-shrink-0">
+          <img class = 'md:w-64 w-52 lg:right-11 right-5 lg:mt-0 mt-3 relative block mx-auto md:h-64 h-52' src = {logo}></img>
+        </div>
+      </div>
+    </div>
+
+
 
  :
 
@@ -198,8 +200,8 @@ useEffect(() => {
 
               
             [...experts,...experts,...experts,...experts,...experts,...experts,...experts].map((expert,i) => (
-              <a data-aos={"fade-up"} data-aos-once='true' delay = {`${i%3}00`} key={expert.id} onClick={()=> {setShowExpert(true); setExpertId(expert.id)}} class={`group z-40 pointer-events-auto  rounded-md cursor-pointer`}>
-                <div  class="w-full       overflow-hidden ">
+              <a data-aos={"fade-up"} data-aos-once='true' delay = {`${i%3}00`} key={expert.id} onClick={()=> {setShowExpert(true); setExpertId(expert.id)}} class={`group z-20 pointer-events-auto  rounded-md cursor-pointer`}>
+                <div  class="w-full z-20      overflow-hidden ">
                   <img
                     src={i%2==0?'https://images.unsplash.com/photo-1531891437562-4301cf35b7e4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aGFuZHNvbWUlMjBndXl8ZW58MHx8MHx8&w=1000&q=80':'https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80'}
                     alt="expert"

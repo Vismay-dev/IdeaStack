@@ -6,6 +6,7 @@ import { StarIcon } from '@heroicons/react/solid'
 import { RadioGroup } from '@headlessui/react'
 import {useHistory} from 'react-router-dom'
 import { useLocation } from "react-router-dom";
+import userContext from "../../context/userContext";
 
 
 const product = {
@@ -43,7 +44,7 @@ function classNames(...classes) {
 const ExpertDetails = (props) => {
 const location = useLocation()
   
-    
+    const user = useContext(userContext).user
       const myRef = useRef()
     
     useEffect(
@@ -88,18 +89,41 @@ const location = useLocation()
       }
     }
 
+    const [packageyum, setPackageyum] = useState([])
+
     const [expert,setExpert] = useState();
     const [teamSize, setTeamSize] = useState();
     const [mentorshipPackage, setMentorshipPackage] = useState({
 
     })
 
+    const [isMentor, setIsMentor] = useState(false)
+
     useEffect(()=> {
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/getTeamContacts':'http://localhost:4000/api/project/getTeamContacts',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
             setTeamSize(res.data.length)
             }).catch(err=> {
                 console.log(err)
-            })    
+            }) 
+            
+            
+
+            axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/getTeam':'http://localhost:4000/api/project/getTeam',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
+                if(JSON.stringify(user._id) === JSON.stringify(res.data[0].id)){
+                  setIsMentor(true)
+                }
+
+                axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/getMentorshipPackages':'http://localhost:4000/api/project/getMentorshipPackages',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
+                  for(let k = 0; k<res.data.length;k++){
+                    if(JSON.stringify(res.data[k]._id)===JSON.stringify(expert._id)){
+                      setPackageyum(true)
+                    }
+                  }
+                }).catch(err=> {
+                    console.log(err)
+                })
+
+            })
 
       for(let i = 0; i<props.experts.length;i++){
         if(props.experts.id===props.id) {
@@ -366,9 +390,25 @@ expert.contact[1]===''||expert.contact[1]===null?'Phone Number: Unavailable':
               {showError?
               <p class = 'text-center -mb-8 mt-8 font-semibold text-red-600 text-md'>Please select no. of sessions..</p>:''}
 
+
+{!isMentor?<p class = 'uppercase text-sm font-semibold text-center top-8 -mb-1 right-0.5 relative'>
+<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+</svg>
+  <span class = 'inline ml-1.5'>ADMIN ONLY FEATURE</span>
+</p>:packageyum?
+<p class = 'uppercase text-sm font-semibold text-center top-8 -mb-1 right-0.5 relative'>
+<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+</svg>
+<span class = 'inline ml-1.5'>Mentor Already Selected</span>
+</p>:''
+}
               <button
 onClick={submitHandler}
-                className="sm:mt-12 mt-6 mb-4 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+
+disabled = {!isMentor||packageyum}
+                className={`sm:mt-12 mt-6 mb-4 w-full ${!isMentor||packageyum?'bg-indigo-400':'bg-indigo-600 hover:bg-indigo-700'} border border-transparent rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
               >
                 Seek Mentorship - Paid
               </button></div>

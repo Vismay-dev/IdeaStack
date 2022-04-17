@@ -13,7 +13,7 @@ const MakePayment = (props) => {
     const [consultant,setConsultant] = useState({})
     useEffect(()=> {
       if(props.mentorshipPackages && props.mentorshipPackages.length!==0) {
-         setConsultant(props.mentorshipPackages[0])
+         setConsultant(props.mentorshipPackages[props.mentorshipPackages.length-1])
       }
     },[props.mentorshipPackages])
 
@@ -28,8 +28,7 @@ const MakePayment = (props) => {
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/getTeam':'http://localhost:4000/api/project/getTeam',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
           for(let i=0; i<res.data.length; i++) {
             if(idImp === res.data[i].id){
-              console.log(res.data[i].pendingPayments[0])
-              setPayment(res.data[i].pendingPayments[0])
+                setPayment(res.data[i].pendingPayments[res.data[i].pendingPayments.length-1])
             }
           }  
           setLoading(false)          

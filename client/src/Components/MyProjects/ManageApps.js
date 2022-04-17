@@ -66,6 +66,8 @@ const ManageApps = () => {
   setDate(currdate.slice(0, 6) + "," + currdate.slice(6))
     }
   },[projects])
+
+  console.log(project&&project.admin)
   
 
   const [acceptingApp, setAcceptingApp] = useState() 

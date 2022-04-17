@@ -227,7 +227,7 @@ onClick = {()=> {setShowHeader(showHeader?false:true)}}
     <button onClick = {()=> {
         history.push('/myprojects/manageproject/mentorship')
     }}
-    class={`flex items-center ml-[330px] mr-40 h-12 py-2.5 text-sm text-center text-gray-100 
+    class={`flex items-center md:ml-[330px] ml-[205px] md:mr-40 mr-4 h-12 py-2.5 text-sm text-center text-gray-100 
    bg-gray-500 px-7 border border-b-0 hover:bg-gray-600  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
        
 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline mr-1.5 top-[0.03px] relative" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -244,8 +244,8 @@ onClick = {()=> {setShowHeader(showHeader?false:true)}}
         <button
 onClick = {()=> {setShowHeader(showHeader?false:true)}}
 
-        class={` items-center h-12 ${sessionStorage.getItem('managing')?'left-0 xl:left-24 md:px-4 px-2':"left-24 px-4"}  relative py-1.5 text-sm text-center text-gray-100 
-        hover:from-gray-600 hover:to-gray-700 bg-gradient-to-b from-gray-500 to-gray-500 border-1    border-b-0   sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+        class={` items-center h-12 ${sessionStorage.getItem('managing')?'left-0 xl:left-24 md:px-4 px-2':"left-24 px-4"}  relative py-1.5  text-sm text-center text-gray-100 
+        hover:from-gray-600 hover:to-gray-700 bg-gradient-to-b from-gray-500 to-gray-500 border-1    border-b-0  ${ location.pathname==='/myprojects/manageproject/mentorship/browse'?'sm:mr-0 mr-12 relative':''}  sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
             <FcCollapse class = {`text-4xl -top-[1px] text-gray-200 relative ${!showHeader?'rotate-180':''}`}/>
         </button>
 <br/>
@@ -255,7 +255,7 @@ onClick = {()=> {setShowHeader(showHeader?false:true)}}
         <button onClick = {()=> {
             history.push('/myprojects/manageproject/manageapps')
         }}
-        class={`flex items-center h-12 py-2 text-sm text-center text-gray-100 
+        class={`flex items-center h-12 py-2 ${ location.pathname==='/myprojects/manageproject/mentorship/browse'?'sm:':''} ${ location.pathname==='/myprojects/manageproject/mentorship/browse'?'hidden':''} text-sm text-center text-gray-100 
         ${location.pathname==='/myprojects/manageproject/manageapps'?'bg-gray-800':'bg-gray-500'} md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
             <span class = 'lg:inline hidden'>Manage</span> Applications
         </button>
@@ -263,7 +263,7 @@ onClick = {()=> {setShowHeader(showHeader?false:true)}}
         <button onClick = {()=> {
             history.push('/myprojects/manageproject/collaborate')
         }}
-        class={` block items-center h-12 py-2 text-sm text-center text-gray-100 
+        class={` block items-center h-12 py-2 ${ location.pathname==='/myprojects/manageproject/mentorship/browse'?'hidden':''} text-sm text-center text-gray-100 
         ${location.pathname==='/myprojects/manageproject/collaborate'?'bg-gray-800':'bg-gray-500'} md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
             Collaborate
         </button>
@@ -271,7 +271,7 @@ onClick = {()=> {setShowHeader(showHeader?false:true)}}
         <button onClick = {()=> {
             history.push('/myprojects/manageproject/mentorship')
         }}
-        class={`flex items-center h-12 py-2   text-sm text-center text-gray-100 
+        class={`flex items-center h-12 py-2 ${ location.pathname==='/myprojects/manageproject/mentorship/browse'?'hidden':''}   text-sm text-center text-gray-100 
         ${location.pathname==='/myprojects/manageproject/mentorship'||location.pathname==='/myprojects/manageproject/mentorship/'?'bg-gray-800':'bg-gray-500'} md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
             <span class = 'lg:inline hidden'>Industry</span> Mentorship
         </button>

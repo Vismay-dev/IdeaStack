@@ -78,6 +78,8 @@ const NavBar = (props) => {
               pathParamArr[i] = 'My Join Requests'
             } else if(param === 'manageapps'){
               pathParamArr[i] = 'Manage Applications'
+            } else if(param === 'admin-operations-passcode-IdeaStackOperations300305'){
+              pathParamArr[i] = 'Secret Operations'
             }
           })
 

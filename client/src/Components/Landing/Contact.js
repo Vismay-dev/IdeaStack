@@ -50,7 +50,7 @@ const Contact = () => {
 
     return (
 
-            <section id = "contact" class=" xl:py-28 mt-2 xl:pb-32 py-[90px] pb-36 lg:py-[120px] -mb-[550px] border-t-2 border-dashed border-blue-700  overflow-hidden relative z-30">
+            <section id = "contact" class=" xl:py-32 mt-2 xl:pb-36 py-[90px] pb-36 lg:py-[120px] -mb-[550px] border-t-2 border-dashed border-blue-700  overflow-hidden relative z-20">
                <div class="container mx-auto">
                   <div class="flex flex-wrap  top-4     mx-auto justify-center">
                      <div class="w-full xl:ml-12 xl:mr-0 lg:w-full  justify-center  mx-auto xl:w-6/12 px-8">
@@ -155,7 +155,7 @@ const Contact = () => {
                            </div>
                         </div>
                      </div>
-                     <div class="w-full lg:w-1/2 xl:w-5/12 xl:right-12 top-4 z-40 relative px-4">
+                     <div class="w-full lg:w-1/2 xl:w-5/12 xl:right-12 top-4  z-40 relative px-4">
                         <div data-aos="fade-up" data-aos-once='true' delay = '200' class="bg-gradient-to-r z-40 from-blue-100 to-indigo-300  relative rounded-lg p-8 sm:p-12 shadow-lg">
                         {!loading?<form onSubmit = {formSub} class = 'z-40'>
                               <div class="mb-6">
@@ -262,7 +262,7 @@ const Contact = () => {
                                        />
                                  </svg>
                               </span>
-                              <span class="absolute -right-10 top-[90px] z-[-100]">
+                              <span class="absolute  -right-10 top-[90px] z-[-100]">
                                  <svg
                                     width="34"
                                     height="134"
@@ -482,7 +482,8 @@ const Contact = () => {
                                        />
                                  </svg>
                               </span>
-                              <span class="absolute -left-40 -bottom-40 z-[-100]">
+                         
+                              <span class="absolute z-[-100] -left-96 -bottom-6">
                                  <svg
                                     width="107"
                                     height="134"

@@ -8,6 +8,8 @@ const jwt = require('jsonwebtoken')
 const auth = require('../auth/auth')
 const multer = require('multer')
 const cloudinary = require('cloudinary')
+const { PromiseProvider } = require('mongoose')
+const Mentor = require('../models/mentor')
 
 const fileStorageEngine = multer.diskStorage({
     filename: function (req, file, callback) {
@@ -21,6 +23,12 @@ router.post('/getQuestions',auth,async(req,res)=> {
     const application = proj.application?proj.application:[]
     res.send(application)
 } )
+
+router.post('/updateProject',auth,async(req,res)=> {
+    let newproj = await project.findByIdAndUpdate(req.body.projectID,req.body.update)
+    console.log(newproj);
+    res.send(newproj)
+})
 
 router.post('/updateQuestions' , auth, async(req,res)=> {
     const proj = await project.findOne({_id: req.body.projectID});
@@ -252,6 +260,35 @@ router.post('/getMentors', auth, async(req,res)=> {
     res.send(mentors);
 })
 
+router.post('/getMentorsAdmin', async(req,res)=> {
+    const mentors = await mentor.find({});
+    res.send(mentors);
+})
+
+router.post('/checkAvailability', auth, async(req,res)=> {
+    const projects = await project.find();
+    const mentor = req.body.consultant;
+    const date = req.body.date;
+    let availability = true;
+
+
+    for(let i = 0; i<projects.length;i++){
+        for(let j = 0; j<projects[i].mentorshipPackages.length;j++){
+            if(projects[i].mentorshipPackages[j].scheduleSelected&&JSON.stringify(projects[i].mentorshipPackages[j]._id)===JSON.stringify(mentor._id)){
+                if(String(new Date(projects[i].mentorshipPackages[j].scheduleSelected)) === String(new Date(date)) ){
+                    console.log('Date Taken')
+                    availability = false
+                }
+            }
+        }
+    }
+
+
+    res.send(availability);
+
+
+})  
+
 router.post('/addMentorshipPackage', auth, async(req,res)=> {
     const proj = await project.findOne({_id:req.body.projectID})
     proj.mentorshipPackages.push({...req.body.mentorshipPackage,numberOfSessionsRemaining:req.body.mentorshipPackage.numberOfSessions, paymentPending:true, pendingAmount: req.body.mentorshipPackage.pricing[0]*req.body.mentorshipPackage.numberOfSessions , sessionScheduled: false})
@@ -292,7 +329,8 @@ router.post('/addMentorshipPackage', auth, async(req,res)=> {
             user.pendingPayments.push(paymentInfo)
         } else {
             let pendingPaymentObj = user.pendingPayments[finI]
-            paymentInfo.amounts = pendingPaymentObj.amounts.push(req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions)
+            pendingPaymentObj.amounts.push(req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions)
+            paymentInfo.amounts = pendingPaymentObj.amounts
             paymentInfo.totalAmountForThisProject = pendingPaymentObj.totalAmountForThisProject+req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions;
             user.pendingPayments[finI] = paymentInfo;
         }
@@ -324,6 +362,37 @@ router.post('/getMentorshipPackages',auth,async(req,res)=> {
 router.post('/getTeam', auth, async(req,res)=> {
     const proj = await project.findOne({_id:req.body.projectID})
     res.send(proj.team);
+})
+
+router.post('/finishLatestSession', auth, async(req,res)=> 
+{
+    const proj = await project.findOne({_id:req.body.projectID})
+    mentorshipPackage = proj.mentorshipPackages[0];
+    if(mentorshipPackage.numberOfSessionsRemaining===1){
+        proj.mentorshipPackages.splice(0,1)
+        proj.markModified('mentorshipPackages');
+    await proj.save()
+    let randamnt
+        for(let i = 0;i<proj.team.length;i++){
+            randamnt = proj.team[i].pendingPayments.splice(0,1);
+        }
+        proj.markModified('team');
+        await proj.save()
+
+    
+    }else {
+        proj.mentorshipPackages[0].numberOfSessionsRemaining -= 1;
+        proj.mentorshipPackages[0].sessionScheduled = false;
+        proj.mentorshipPackages[0].sessionConfirmed = false;
+        proj.mentorshipPackages[0].sessionAccepted = false;
+        proj.mentorshipPackages[0].sessionRequested = false;
+        proj.mentorshipPackages[0].sessionLink = null;
+        proj.mentorshipPackages[0].scheduleSelected = null;
+        proj.markModified('mentorshipPackages');
+    await proj.save()
+    }
+    
+    res.send('Works')
 })
 
 

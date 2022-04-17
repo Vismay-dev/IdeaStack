@@ -12,9 +12,10 @@ import {MdDeveloperMode, MdWeb, MdOutlineCastForEducation, MdHealthAndSafety} fr
 import {GiVintageRobot, GiPowerGenerator, GiArtificialIntelligence} from 'react-icons/gi'
 import {GrDeliver} from 'react-icons/gr'
 import {SiHiveBlockchain} from 'react-icons/si'
+import projectContext from "../../context/projectContext"
 
 
-const CreateProjectModal = (props) => {
+const EditProjModal = (props) => {
 
   let categories = [
     {name:'Robotics', icon:<GiVintageRobot class = 'inline mr-[3.5px] w-[18px] right-[1px] bottom-[0.85px] relative h-[18px]'/>,id:1},
@@ -43,6 +44,17 @@ const CreateProjectModal = (props) => {
       const [project, setProject] = useState({
 
       })
+      
+      const proj = useContext(projectContext).projects
+
+      useEffect(()=> {
+          for(let i =0;i<proj.length;i++){
+              if(JSON.stringify(sessionStorage.getItem('managing'))===JSON.stringify(proj[i]._id)){
+                  setProject(proj[i])
+                  setImage(proj[i].projPic)
+              }
+          }
+      },[])
 
        const history = useHistory()
 
@@ -100,7 +112,6 @@ useEffect(
 
     const submitHandler = (e) => {
         e.preventDefault()
-        console.log(image)
 
         if(image === '' || image === null) {
             setError('Please upload a project cover image')
@@ -108,16 +119,11 @@ useEffect(
         }else {
           setError('')
         }
-
+        console.log(project.maxCap)
 
         //send project data to server
-        axios.post(process.env.NODE_ENV ==='production'?"https://ideastack.herokuapp.com/api/user/createProject":"http://localhost:4000/api/user/createProject",{project,token:sessionStorage.getItem('token')}).then(res=> {
+        axios.post(process.env.NODE_ENV ==='production'?"https://ideastack.herokuapp.com/api/project/updateProject":"http://localhost:4000/api/project/updateProject",{update:project,token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
             console.log(res.data)
-            let projects = currentUser.user.projects?currentUser.user.projects:[];
-            projects.push(res.data)
-            currentUser.setUser({
-              ...currentUser.user,projects:projects
-            })
             props.close()
         })
         .catch(err => {
@@ -127,12 +133,15 @@ useEffect(
 
 
     const changeHandler = (e) => {
-      console.log(e.target.name)
+      console.log(e.target.name==='maxCap'?e.target.value:'')
         setProject({
             ...project,
             [e.target.name]:e.target.value
         })
     } 
+
+    console.log(project.maxCap)
+
 
     return (
 
@@ -160,13 +169,15 @@ useEffect(
 
 
 <form class = 'w-full mt-1 pt-1' onSubmit={submitHandler}>
+
+    <h1 class ='text-4xl mx-auto block relative text-center my-2 mb-12 font-semibold'>Edit Project</h1>
 <div class="relative z-0 mb-3 w-full group">
-<input type="text" name = 'name' onChange={changeHandler} id = 'floating_repeat_name'  class="block mt-3  relative mb-2 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer"  required={true}  placeholder=" "/>
+<input type="text" name = 'name' onChange={changeHandler} value = {project.name} id = 'floating_repeat_name'  class="block mt-3  relative mb-2 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer"  required={true}  placeholder=" "/>
 <label for="floating_repeat_name" class="absolute text-sm left-0 text-gray-500  duration-300 transform -translate-y-6 scale-75 top-0 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" >Project Name</label>
 </div>
 <div class="grid xl:grid-cols-2 mb-3.5 xl:gap-6">
 <div class="relative z-0 mb-11 w-full group">
-<select placeholder = 'Category' name = 'category' onChange={changeHandler} type="select" defaultValue={''}  class="block top-3 relative py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer" required={true}>
+<select placeholder = 'Category' value = {project.category} name = 'category' onChange={changeHandler} type="select" defaultValue={''}  class="block top-3 relative py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer" required={true}>
 <option value={''} defaultChecked disabled >Category</option>
 {
   categories.map(cat => {
@@ -178,13 +189,13 @@ useEffect(
 </select>
 </div>
 <div class="relative z-0 mb-10 md:mt-0 -mt-4 w-full group">
-<input type="number" name = 'maxCap' onChange={changeHandler} id="maxCap" class="block top-3 relative py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required={true}/>
+<input type="text" onFocus={(e)=>e.target.type = 'number'} name = 'maxCap' onChange={changeHandler} value = {project.maxCap} id="maxCap" class="block top-3 relative py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required={true}/>
 <label for="maxCap" class="absolute left-0 text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-6 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Max. Team Capacity</label>
 </div>
 </div>
 
 <div class="relative z-0 mb-10 md:mt-0 w-full group">
-<textarea type="number" name = 'problem' onChange={changeHandler}  id="problem" class="block top-3 relative  w-full text-sm text-gray-900 bg-transparent border-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer h-32 p-2  rounded-md" placeholder=" " required={true}/>
+<textarea type="number" name = 'problem' onChange={changeHandler} value = {project.problem}  id="problem" class="block top-3 relative  w-full text-sm text-gray-900 bg-transparent border-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer h-32 p-2  rounded-md" placeholder=" " required={true}/>
 <label  class="absolute text-sm left-0 text-gray-500 duration-300 transform -top-4 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  ">What Problem Are You Solving?</label>
 </div>
 
@@ -214,21 +225,6 @@ useEffect(
 </div>
 
 
-
-
-
-
-
-{/* <div class="grid xl:grid-cols-2 xl:gap-6">
-<div class="relative z-0 mb-8 w-full group">
-<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="floating_phone" id="floating_phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required=""/>
-<label for="floating_phone" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number (123-456-7890)</label>
-</div>
-<div class="relative z-0 mb-8 w-full group">
-<input type="text" name="floating_company" id="floating_company" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required=""/>
-<label for="floating_company" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Company (Ex. Google)</label>
-</div>
-</div> */}
 
 {error!==''?
 <p class = 'text-red-500 text-center text-lg font-semibold -bottom-1 mb-12 relative'>{error}</p>:''}
@@ -272,4 +268,4 @@ useEffect(
     )
 }
 
-export default CreateProjectModal
+export default EditProjModal
