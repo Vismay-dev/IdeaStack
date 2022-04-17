@@ -137,11 +137,11 @@ style={{'background-image': 'url(https://media.istockphoto.com/photos/dark-blue-
                 </div>
             </div>
 
-      <div class="flex -space-x-4 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-5 pb-3 justify-center lg:w-10/12 w-full rounded-b-lg  mx-auto">
+      <div class="sm:flex block -space-x-4 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-5 pb-3 justify-center lg:w-10/12 w-full rounded-b-lg  mx-auto">
             
-            <div  data-aos={"fade-right"} data-aos-once='true' class="flex pointer-events-auto z-[43] items-center justify-center relative">
-    <div class="flex border-2 rounded-sm -mr-3 border-gray-300">
-        <input type="text" onChange={textChangeHandler} class="px-4 py-2 md:text-md text-sm sm:w-64 w-36 shadow-md border-0" placeholder="Search Project"/>
+            <div  data-aos={"fade-right"} data-aos-once='true' class="sm:flex block pointer-events-auto z-[43] items-center justify-center relative">
+    <div class="flex justify-center sm:border-2 rounded-sm sm:-mr-3 mx-auto sm:border-gray-300">
+        <input type="text" onChange={textChangeHandler} class="px-4 py-2  md:text-md text-sm sm:w-64 w-36 shadow-md border-0" placeholder="Search Project"/>
         <button onClick={()=>filterByText()} class="flex items-center hover:shadow-lg hover:bg-blue-700 active:shadow-sm shadow-md justify-center px-4 border-l bg-blue-600">
             <svg class="w-6 h-6 text-gray-100" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24">
@@ -149,7 +149,7 @@ style={{'background-image': 'url(https://media.istockphoto.com/photos/dark-blue-
                     d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
             </svg>
         </button>
-    </div>
+    </div><br/>
 
    <Dropdown passCategory = {getCateg} />
 
@@ -170,7 +170,7 @@ style={{'background-image': 'url(https://media.istockphoto.com/photos/dark-blue-
    loading?
 
    <div class ='relative mx-auto my-10 mb-20 sm:py-[100px] py-[70px] pb-[100px] sm:pb-[130px] text-center block justify-center'>
-   <PulseLoader color={'#2e62d1'} loading={loading}  size={30} margin={8} />
+   <PulseLoader color={'#2e62d1'} loading={loading}  size={25} margin={8} />
    </div>
 
 
@@ -178,14 +178,14 @@ style={{'background-image': 'url(https://media.istockphoto.com/photos/dark-blue-
 
    projects.length===0?
 
-   <div className="bg-gray-50 ring-2 ring-indigo-500 w-full pl-9 mb-20 mt-8 rounded-sm relative shadow-lg">
-      <div className="w-full mx-auto py-9 px-4 sm:px-6 lg:py-12 lg:px-8 lg:flex lg:items-center lg:justify-between">
-        <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+   <div className="bg-gray-50 ring-2 ring-indigo-500 w-full pl-9 lg:mb-20 mb-10 lg:mt-8 mt-5 rounded-sm relative shadow-lg">
+      <div className="w-full mx-auto py-9 pt-16 px-4 sm:px-6 lg:py-12 lg:px-8 lg:flex lg:items-center lg:justify-between">
+        <h2 className="text-3xl lg:mt-0 -ml-[32px] mt-7 font-extrabold lg:text-left text-center tracking-tight text-gray-900 sm:text-4xl">
           <span className="block">Oops..</span>
           <span className="block text-blue-700">No Search Results Appeared.</span>
         </h2>
-        <div className="-mt-2 flex py-3 lg:flex-shrink-0">
-          <img class = 'w-64 right-11 relative h-64' src = {logo}></img>
+        <div className="-mt-2 mx-auto text-center block lg:flex relative justify-center py-3 lg:flex-shrink-0">
+          <img class = 'md:w-64 w-52 lg:right-11 right-5 lg:mt-0 mt-3 relative block mx-auto md:h-64 h-52' src = {logo}></img>
         </div>
       </div>
     </div>
