@@ -16,14 +16,14 @@ import "aos/dist/aos.css";
 const Profile = () => {
   
   const [projects, setProjects] = useState([])
+  const [showmore, setShowmore] = useState(false)
 
   useEffect(() => {
     AOS.init({
       duration : 800
     });
-  }, [projects]);
+  }, [projects, showmore]);
 
-    const [showmore, setShowmore] = useState(false)
     const [addDesc, setAddDesc] = useState(false)
     const [editingDesc, setEditingDesc] = useState(false)
     const currentUser = useContext(userContext)
@@ -124,7 +124,7 @@ const Profile = () => {
 
 
     return (
-        <div class="xl:pt-28 pt-28 -mb-72 relative  overflow-hidden bg-gradient-to-r from-gray-200 to-blue-200">
+        <div class="xl:pt-28  pt-28 -mb-72 relative  overflow-hidden bg-gradient-to-r from-gray-200 to-blue-200">
             <div ref = {dummyRef}></div>
             {
                 editModalShow?
@@ -358,7 +358,7 @@ const Profile = () => {
 
 
                       <button
-                        class="font-semibold top-3 p-2 z-40 text-md shadow-md mb-2 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 relative text-gray-700"
+                        class={`font-semibold ${!showmore?'z-[1000]':'z-30'}  pointer-events-auto top-3 p-2 text-md shadow-md mb-2 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 relative text-gray-700`}
                         onClick={() => {
                         setShowmore(showmore?false:true)}}
                       >
@@ -373,7 +373,7 @@ const Profile = () => {
                                                          
                              <div class="container mt-16  -mb-6 px-10">
        <h1 class = 'font-semibold text-4xl w-48 mx-auto relative text-center justify-center justify-items-center bottom-6 mb-6'>
-       <RiFileList2Fill class = 'text-indigo-500 ml-1 text-3xl top-1.5 absolute'/>
+       <RiFileList2Fill class = 'text-indigo-500 ml-1 text-3xl mr-1 top-1.5 absolute'/>
       <span class = 'ml-8'>Interests</span></h1>
                   
                   
@@ -415,7 +415,7 @@ const Profile = () => {
         :<>
         <div onClick={() => {setModalType('interests'); setEditModalShow(true)}}
               class = 'hover:text-indigo-600 hover:cursor-pointer mt-2 top-1.5 relative hover:border-x-4 hover:border-indigo-500 w-1/4 mx-auto'  >
-     <GrChapterAdd className="text-indigo-500 text-center mx-auto mb-4  text-4xl "></GrChapterAdd>
+     <GrChapterAdd className="text-indigo-500  text-center mx-auto mb-4  text-4xl "></GrChapterAdd>
      <p class = 'text-gray-800 font-semibold text-lg mb-16'>Add Interests</p>
      </div>
  </>}                          
@@ -427,7 +427,7 @@ const Profile = () => {
        <hr class = ' border-t-1.5 border-gray-200 mb-16'/>
 
        <h1 class = 'font-semibold text-4xl w-48 mx-auto relative bottom-6 mb-3 text-center justify-center justify-items-center'>
-       <FaProjectDiagram class = 'text-indigo-500 ml-2 text-3xl top-1.5 absolute'/>
+       <FaProjectDiagram class = 'text-indigo-500 ml-2 mr-2 text-3xl top-1.5 absolute'/>
       <span class = 'ml-8 mb-6 relative'>Projects</span></h1>
 
 
