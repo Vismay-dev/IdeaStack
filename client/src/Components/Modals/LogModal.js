@@ -11,6 +11,8 @@ import {useHistory} from 'react-router-dom'
 import ClipLoader from "react-spinners/ClipLoader"
 import React from "react";
 import ReactGA from "react-ga";
+const TRACKING_ID = "G-XS0K631R8T"; // OUR_TRACKING_ID
+ReactGA.initialize(TRACKING_ID);
 
 
 const LogModal = (props)=> {
@@ -185,7 +187,7 @@ const resetPass = (e) => {
 
 
 const useAnalyticsEventTracker = (category="Logins") => {
-  const eventTracker = (action = "test action", label = "test label") => {
+  const eventTracker = (action = "Logged In", label = "Event Tracking") => {
     ReactGA.event({category, action, label});
   }
   return eventTracker;
