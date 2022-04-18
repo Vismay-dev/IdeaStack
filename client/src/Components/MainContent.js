@@ -13,7 +13,7 @@ const MainContent = () => {
 
     return (
         <>
-        <div class = {`relative  ${sessionStorage.getItem('token')!==null?'sm:top-[143px] md:top-[121px] lg:top-[90px] md:mb-[260px] relative  sm:mb-[270px] -mb-12 lg:mb-0':''}`}>
+        <div class = {`relative  ${sessionStorage.getItem('token')!==null?'sm:top-[143px] md:top-[121px] lg:top-[90px] md:mb-[260px] relative  sm:mb-[270px] -mb-12 lg:mb-0':'sm:top-[90px]'}`}>
             <Switch>
             <Route path = '/home'>
                 {!(sessionStorage.getItem('token'))  ? 
