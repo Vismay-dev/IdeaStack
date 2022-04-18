@@ -10,6 +10,10 @@ import userContext from './context/userContext'
 import projectContext from "./context/projectContext";
 import axios from "axios";
 
+import ReactGA from 'react-ga';
+const TRACKING_ID = "G-VS1QYF7SGJ"; // OUR_TRACKING_ID
+ReactGA.initialize(TRACKING_ID);
+
 function App() {
 
   const [loading, setLoading] = useState(false)

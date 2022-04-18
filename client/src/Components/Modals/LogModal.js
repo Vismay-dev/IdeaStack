@@ -9,7 +9,8 @@ import axios from 'axios'
 import {useHistory} from 'react-router-dom'
 
 import ClipLoader from "react-spinners/ClipLoader"
-
+import React from "react";
+import ReactGA from "react-ga";
 
 
 const LogModal = (props)=> {
@@ -94,6 +95,7 @@ axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com
     localStorage.removeItem('cookieID');
     localStorage.removeItem('cookieExpires');
   }
+  gaEventTracker('Log In')
   history.push('/profile')
   props.close()
   setLoading(false)
@@ -180,6 +182,17 @@ const resetPass = (e) => {
     setLoading(false)
   })
 }
+
+
+const useAnalyticsEventTracker = (category="Logins") => {
+  const eventTracker = (action = "test action", label = "test label") => {
+    ReactGA.event({category, action, label});
+  }
+  return eventTracker;
+}
+
+const gaEventTracker = useAnalyticsEventTracker('Log In');
+
 
   //create change handlers
 
