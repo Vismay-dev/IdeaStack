@@ -164,7 +164,7 @@ user&& projectCon.projects&&projectCon.projects.filter(proj=>user._id===proj.adm
         </div>
 
         <button onClick = {() => setShowCreateModal(true)}
-         class = {`mt-4 ${projectCon.projects.length>0?'lg:-mb-[152px] xl:-mb-[149px] -mb-[145px] lg:top-[70px] top-[65px]':'md:-mb-[4.1rem] sm:-mb-[3.1rem] -mb-[2.7rem] top-40 '} left-[7.5px] z-40 pointer-events-auto  bg-gradient-to-r  from-blue-600 to-blue-800 sm:w-5/12 w-7/12 rounded-md shadow-lg hover:shadow-lg hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-400 active:shadow-sm p-2 pb-2.5  text-gray-50 font-semibold md:text-2xl sm:text-xl text-lg mx-auto text-center block justify-center relative`}>Create Project</button>
+         class = {`mt-4 ${projectCon.projects.length>0?'lg:-mb-[152px] xl:-mb-[149px] -mb-[145px] lg:top-[70px] top-[65px]':'md:-mb-[4.1rem] sm:-mb-[3.1rem] -mb-[2.7rem] top-40 '} left-[4px] z-40 pointer-events-auto  bg-gradient-to-r  from-blue-600 to-blue-800 sm:w-5/12 w-7/12 rounded-md shadow-lg hover:shadow-lg hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-400 active:shadow-sm p-2 pb-2.5  text-gray-50 font-semibold md:text-2xl sm:text-xl text-lg mx-auto text-center block justify-center relative`}>Create Project</button>
         </>
     )
 }

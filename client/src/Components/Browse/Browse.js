@@ -182,7 +182,7 @@ style={{'background-image': 'url(https://media.istockphoto.com/photos/dark-blue-
       <div className="w-full mx-auto py-9 pt-16 px-4 sm:px-6 lg:py-12 lg:px-8 lg:flex lg:items-center lg:justify-between">
         <h2 className="text-3xl lg:mt-0 -ml-[32px] mt-7 font-extrabold lg:text-left text-center tracking-tight text-gray-900 sm:text-4xl">
           <span className="block">Oops..</span>
-          <span className="block text-blue-700">No Search Results Appeared.</span>
+          <span className="block text-blue-700 px-4">No Search Results Appeared.</span>
         </h2>
         <div className="-mt-2 mx-auto text-center block lg:flex relative justify-center py-3 lg:flex-shrink-0">
           <img class = 'md:w-64 w-52 lg:right-11 right-5 lg:mt-0 mt-3 relative block mx-auto md:h-64 h-52' src = {logo}></img>
