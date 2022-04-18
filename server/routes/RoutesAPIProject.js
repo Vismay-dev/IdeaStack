@@ -293,6 +293,11 @@ router.post('/addMentorshipPackage', auth, async(req,res)=> {
     const proj = await project.findOne({_id:req.body.projectID})
     proj.mentorshipPackages.push({...req.body.mentorshipPackage,numberOfSessionsRemaining:req.body.mentorshipPackage.numberOfSessions, paymentPending:true, pendingAmount: req.body.mentorshipPackage.pricing[0]*req.body.mentorshipPackage.numberOfSessions , sessionScheduled: false})
     const noOfSessions = req.body.mentorshipPackage.numberOfSessions
+
+
+    let isFirstTime = true;
+
+
     for(let i = 0; i<proj.team.length;i++) {
         if(proj.team[i].pendingPayments){
         proj.team[i].pendingPayments.push(req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions)

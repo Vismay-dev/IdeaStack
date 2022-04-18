@@ -11,8 +11,6 @@ import {useHistory} from 'react-router-dom'
 import ClipLoader from "react-spinners/ClipLoader"
 import React from "react";
 import ReactGA from "react-ga";
-const TRACKING_ID = "G-XS0K631R8T"; // OUR_TRACKING_ID
-ReactGA.initialize(TRACKING_ID);
 
 
 const LogModal = (props)=> {
