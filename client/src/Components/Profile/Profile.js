@@ -358,7 +358,7 @@ const Profile = () => {
 
 
                       <button
-                        class={`font-semibold ${!showmore?'z-[1000]':'z-30'}  pointer-events-auto top-3 p-2 text-md shadow-md mb-2 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 relative text-gray-700`}
+                        class={`font-semibold ${!showmore?'z-[100]':'z-30'}  pointer-events-auto top-3 p-2 text-md shadow-md mb-2 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 relative text-gray-700`}
                         onClick={() => {
                         setShowmore(showmore?false:true)}}
                       >
@@ -414,7 +414,7 @@ const Profile = () => {
                       </button></>
         :<>
         <div onClick={() => {setModalType('interests'); setEditModalShow(true)}}
-              class = 'hover:text-indigo-600 hover:cursor-pointer mt-2 top-1.5 relative hover:border-x-4 hover:border-indigo-500 w-1/4 mx-auto'  >
+              class = 'hover:text-indigo-600 hover:cursor-pointer mt-2 top-1.5 relative hover:border-x-4 hover:border-indigo-500 sm:w-1/3 w-full px-[30px] mx-auto'  >
      <GrChapterAdd className="text-indigo-500  text-center mx-auto mb-4  text-4xl "></GrChapterAdd>
      <p class = 'text-gray-800 font-semibold text-lg mb-16'>Add Interests</p>
      </div>

@@ -30,9 +30,9 @@ export default function Dropdown(props) {
     {name:'Blockchain', icon:<SiHiveBlockchain class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:9},
   ]
   return (
-    <Menu as="div" className="relative sm:inline-block block md:text-md text-sm z-40 sm:px-0 px-9  sm:mt-0 -mt-2.5 sm:mb-0 mb-2  sm:ml-5 mx-auto text-left">
-      <div>
-        <Menu.Button className="py-2  inline-flex justify-center w-full sm:border-2 rounded-sm sm:border-gray-300 shadow-md px-4 bg-white text-md font-medium text-gray-700 hover:bg-gray-50 focus:outline-none  ">
+    <Menu as="div" className="relative sm:inline-block block md:text-md text-sm z-[100] sm:px-0 px-9  sm:mt-0 -mt-2.5 sm:mb-0 mb-2  sm:ml-5 mx-auto text-left">
+      <div class = 'z-[100]'>
+        <Menu.Button className="py-2 z-[100]  inline-flex justify-center w-full sm:border-2 rounded-sm sm:border-gray-300 shadow-md px-4 bg-white text-md font-medium text-gray-700 hover:bg-gray-50 focus:outline-none  ">
           {catSelected?catSelected==='All'?'All Categories':'Category: '+ catSelected:'Category'}
           <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5 top-0.5 relative" aria-hidden="true" />
         </Menu.Button>

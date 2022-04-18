@@ -1,0 +1,12 @@
+
+@media (min-height:540px) {
+    #screenFixed {
+        position: fixed;
+    }
+    
+}
+
+
+#screenFixed {
+    position: relative;
+}

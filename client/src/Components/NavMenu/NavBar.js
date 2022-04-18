@@ -157,7 +157,7 @@ useEffect(
 
 
 
-    <div class={`mx-auto w-screen lg:px-20 md:px-32 px-10 shadow-lg md:h-fit ${sessionStorage.getItem('token')===null?'sm:h-[105px]':'sm:h-[142px]'} h-[90px] bg-white fixed z-[45] `}>
+    <div  class={`mx-auto w-screen lg:px-20 md:px-32 px-10 shadow-lg md:h-fit ${sessionStorage.getItem('token')===null?'sm:h-[105px]':'sm:h-[142px]'} relative sm:fixed h-[90px] bg-white  z-[60] `}>
       <div class="relative flex items-center justify-between">
         <a
           onClick = {() => {history.push('/')}}

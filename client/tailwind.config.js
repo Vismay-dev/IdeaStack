@@ -16,11 +16,12 @@ module.exports = {
         'gold':'#f59e0b'
       },
       screens : {
+        'custombp': {'raw': '(max-height: 540px)'},
+
         'xs':'530px',
         'xs2':'480px',
         'xs3':'425px',
-        'xs4':'380px',
-
+        'xs4':'380px'
       } 
 
     }

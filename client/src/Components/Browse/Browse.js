@@ -119,7 +119,9 @@ const Browse = () => {
        }
   }
 
+  const [changeZ, setChangeZ] = useState(false)
 
+console.log(changeZ)
 
     return (
         <>
@@ -139,7 +141,7 @@ style={{'background-image': 'url(https://media.istockphoto.com/photos/dark-blue-
 
       <div class="sm:flex block -space-x-4 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-5 pb-3 justify-center lg:w-10/12 w-full rounded-b-lg  mx-auto">
             
-            <div  data-aos={"fade-right"} data-aos-once='true' class="sm:flex block pointer-events-auto z-[43] items-center justify-center relative">
+            <div  data-aos={"fade-right"} data-aos-once='true' class="sm:flex block pointer-events-auto z-[40] items-center justify-center relative">
     <div class="flex justify-center sm:border-2 rounded-sm sm:-mr-3 mx-auto sm:border-gray-300">
         <input type="text" onChange={textChangeHandler} class="px-4 py-2  md:text-md text-sm sm:w-64 w-36 shadow-md border-0" placeholder="Search Project"/>
         <button onClick={()=>filterByText()} class="flex items-center hover:shadow-lg hover:bg-blue-700 active:shadow-sm shadow-md justify-center px-4 border-l bg-blue-600">
@@ -151,8 +153,10 @@ style={{'background-image': 'url(https://media.istockphoto.com/photos/dark-blue-
         </button>
     </div><br/>
 
+<div >
    <Dropdown passCategory = {getCateg} />
-
+   </div>
+   
 </div>
     </div>
 
@@ -199,16 +203,15 @@ projects.map((proj,i)=> {
      date = date.slice(0, 6) + "," + date.slice(6);
 
   return(
-    <div class="md:w-1/2 w-full xl:w-1/3  sm:px-4 px-4 pointer-events-auto">
+    <div class={`md:w-1/2 w-full xl:w-1/3  sm:px-4 px-4 z-20 pointer-events-auto`}>
     <div  data-aos={"fade-up"}  data-aos-once='true' class={`rounded-lg pointer-events-auto z-40 shadow-lg bg-gradient-to-r relative  from-blue-50 to-indigo-100 -mb-1`}>
-    <button onClick={()=> {setShowMore(true); setProjI(i) }} class = 'bg-gradient-to-br from-blue-400 to-indigo-400 absolute md:bottom-6 bottom-6 z-40 active:shadow-md mx-auto lg:left-1/3 md:left-1/4 w-2/5  justify-center lg:w-1/3 md:w-1/2 left-[30%]  md:mt-0 mt-0  mb-2 items-center shadow-lg hover:from-blue-700 hover:to-blue-600 z-40 text-white p-1.5  pointer-events-auto px-2 rounded-md sm:text-lg text-md  hover:cursor-pointer'>View More</button>
 
        <img
           src={proj.projPic}
           alt="image"
           class="w-full h-56 object-contain py-7 -mb-3 bg-gray-50 border-b-2 border-gray-400 relative"
           />
-       <div class="p-8 pb-14  text-center">
+       <div class="p-8 pb-9  text-center">
           <h3>
              <a
                 href="javascript:void(0)"
@@ -230,9 +233,12 @@ projects.map((proj,i)=> {
              <span class="text-sm mx-auto relative font-light text-gray-600 ">{date}</span>
 
           </h3>
-          <p class="sm:text-base text-sm text-body-color mt-4 leading-relaxed mb-9">
+          <p class="sm:text-base  text-sm text-body-color mt-4 leading-relaxed mb-8">
             {proj.problem}
           </p>
+
+          <button onClick={()=> {setShowMore(true); setProjI(i) }} class = 'bg-gradient-to-br  from-blue-400 to-indigo-400 relative  z-[10000] pointer-events-auto active:shadow-md mx-auto w-2/5  justify-center lg:w-1/3 md:w-1/2  -mt-2  -mb-6 items-center shadow-lg hover:from-blue-700 hover:to-blue-600 text-white p-1.5  px-2 rounded-md sm:text-lg text-md   hover:cursor-pointer'>View More</button>
+
        </div>
 
     </div>
