@@ -322,7 +322,7 @@ const JoinRequests = () => {
                 <h1 class = ' text-center w-10/12 relative mx-auto md:mb-0 -mb-3   md:mt-6 mt-4 py-4 pb-[10px] underline font-semibold text-gray-800 md:text-[47px] text-[38px] '>Join Requests ({arr1?arr1.length:''})</h1>
 
 
-        <div class = {`grid ${arr1 && arr1.length === 1 ? 'lg:grid-cols-3 grid-cols-4':'md:grid-cols-3 sm:grid-cols-2 grid-cols-1'} gap-6 xl:px-24 lg:px-16 pt-[54px] sm:px-10  px-[60px]   pointer-events-auto ${arr1 && arr1.length === 0 || loading ? 'mb-[8rem] pb-24': 'md:mb-[4rem] mb-[3rem]'}`}>
+        <div class = {`grid ${arr1 && arr1.length === 1 ? 'lg:grid-cols-3 grid-cols-4':'md:grid-cols-3 sm:grid-cols-2 grid-cols-1'} gap-6 xl:px-24 lg:px-16 pt-[54px] sm:px-10  px-[60px]   pointer-events-auto ${arr1 && arr1.length === 0 || loading ? 'mb-[6.35rem] sm:mb-[8rem] pb-24': 'md:mb-[4rem] mb-[3rem]'}`}>
 {
 loading?
 
@@ -336,7 +336,7 @@ arr1?
 arr1.length===0?
 
 
-<p class = 'smd:text-4xl sm:text-3xl text-2xl font-semibold md:col-span-3 sm:col-span-2 col-span-1 text-center mt-[50px] -mb-80 right-1 mx-auto relative'><svg xmlns="http://www.w3.org/2000/svg" class="md:h-10 sm:h-8 h-6 w-6 md:w-10 sm:w-8  inline text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+<p class = 'smd:text-4xl sm:text-3xl text-2xl font-semibold md:col-span-3 sm:col-span-2 col-span-1 text-center mt-[50px] sm:-mb-80 -mb-[360px] right-1 mx-auto relative'><svg xmlns="http://www.w3.org/2000/svg" class="md:h-10 sm:h-8 h-6 w-6 md:w-10 sm:w-8  inline text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
 </svg> <span class = 'top-0.5 relative'>No Requests Sent</span></p>
 
@@ -393,7 +393,7 @@ arr1.length===0?
 <h1 class = ' text-center w-10/12 relative mx-auto md:mb-0 -mb-3   md:mt-6 mt-4 py-4 pb-[10px] underline font-semibold text-gray-800 md:text-[47px] text-[38px] '>Invites ({arr2?arr2.length:''})</h1>
 
 
-<div class = {`grid ${arr2 && arr2.length === 1 ? 'lg:grid-cols-3 grid-cols-4':'md:grid-cols-3 sm:grid-cols-2 grid-cols-1'} gap-6 xl:px-24 lg:px-16 pt-[54px] sm:px-10  px-[60px]   pointer-events-auto ${arr2 && arr2.length === 0 || loading? 'mb-[5rem] pb-10':'md:-mb-[13.5rem] -mb-[12rem]'}`}>
+<div class = {`grid ${arr2 && arr2.length === 1 ? 'lg:grid-cols-3 grid-cols-4':'md:grid-cols-3 sm:grid-cols-2 grid-cols-1'} gap-6 xl:px-24 lg:px-16  sm:px-10  px-[60px]   pointer-events-auto ${arr2 && arr2.length === 0 || loading? 'sm:mb-[5rem] mb-[3rem] sm:pb-10 pb-6 sm:pt-[54px] pt-[46px]':'md:-mb-[13.5rem] -mb-[12rem] pt-[54px]'}`}>
 
 {
 
