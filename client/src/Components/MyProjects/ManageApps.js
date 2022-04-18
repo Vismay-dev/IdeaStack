@@ -165,7 +165,7 @@ const ManageApps = () => {
 
 
 
-<div data-aos={"fade-up"} data-aos-once='true' data-aos-delay = '200' class={`w-full pointer-events-auto z-40 relative grid-col-1`}>
+<div data-aos={"fade-up"} data-aos-once='true' data-aos-delay = '200' class={`w-full pointer-events-auto z-[65] relative grid-col-1`}>
 <div class={`rounded-lg shadow-lg bg-gradient-to-r  relative bottom-[0.7px] border-[1px] border-blue-600  from-blue-50 to-indigo-200 overflow-hidden mb-0`}>
   <div class = 'h-[235px] relative  '>
   <p className="text-center top-5 text-xl font-semibold relative">View Applications: </p><br/>
@@ -175,13 +175,13 @@ const ManageApps = () => {
     } class = 'text-center relative mx-auto text-8xl lg:top-5 md:top-[27px] top-[30px] shadow-lg cursor-pointer hover:shadow-2xl active:shadow-lg rounded-md bg-blue-700 p-3'/>
 
   </div>
-  <div class=" pt-0 pb-12 bg-gradient-to-r mt-0.5 h-fit md:h-[260px] lg:h-fit from-gray-50 to-slate-50 text-center">
+  <div class=" pt-0 pb-12 bg-gradient-to-r z-[65] mt-0.5 h-fit md:h-[260px] lg:h-fit from-gray-50 to-slate-50 text-center">
   <p className="text-center top-4 text-xl font-semibold relative px-10">Edit Application Form: </p><br/>
     
     <p class="text-sm relative text-center font-light bottom-1 text-gray-600 xl:px-[50px] lg:px-[40px]  sm:px-[50px] px-[25px]   md:block  lg:w-full  ">This form will be submitted by applicants when requesting core team membership in<span class = 'text-indigo-500 font-semibold'> IdeaStack</span></p>     
     <BiEditAlt onClick = {
         () => setShowEditApp(true)
-    } class = 'text-center z-30 relative mx-auto text-8xl top-5 shadow-lg cursor-pointer hover:shadow-2xl active:shadow-lg rounded-md bg-blue-700 p-2'/>
+    } class = 'text-center z-[75] pointer-events-auto relative mx-auto text-8xl top-5 shadow-lg cursor-pointer hover:shadow-2xl active:shadow-lg rounded-md bg-blue-700 p-2'/>
 
  
  

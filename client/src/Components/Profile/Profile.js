@@ -358,7 +358,7 @@ const Profile = () => {
 
 
                       <button
-                        class={`font-semibold ${!showmore?'z-[100]':'z-30'}  pointer-events-auto top-3 p-2 text-md shadow-md mb-2 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 relative text-gray-700`}
+                        class={`font-semibold ${!showmore?'z-[75]':'z-30'}  pointer-events-auto top-3 p-2 text-md shadow-md mb-2 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 relative text-gray-700`}
                         onClick={() => {
                         setShowmore(showmore?false:true)}}
                       >
