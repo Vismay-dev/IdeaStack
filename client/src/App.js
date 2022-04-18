@@ -11,7 +11,7 @@ import projectContext from "./context/projectContext";
 import axios from "axios";
 
 import ReactGA from 'react-ga';
-const TRACKING_ID = "G-XS0K631R8T"; // OUR_TRACKING_ID
+const TRACKING_ID = "G-NGYG7NYSLT"; // OUR_TRACKING_ID
 ReactGA.initialize(TRACKING_ID);
 
 function App() {
