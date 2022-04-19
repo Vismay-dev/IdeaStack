@@ -55,6 +55,9 @@ function App() {
 
 const [projects, setProjects] = useState(user.projects)
 
+useEffect(()=> {
+  ReactGA.pageview(location.pathname);
+},[location.pathname])
 
 
 useEffect(()=> {

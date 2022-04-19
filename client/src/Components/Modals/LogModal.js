@@ -95,7 +95,7 @@ axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com
     localStorage.removeItem('cookieID');
     localStorage.removeItem('cookieExpires');
   }
-  gaEventTracker('Log In')
+  gaEventTracker('Logged In')
   history.push('/profile')
   props.close()
   setLoading(false)
