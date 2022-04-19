@@ -182,10 +182,10 @@ style={{'background-image': 'url(https://media.istockphoto.com/photos/dark-blue-
 
    projects.length===0?
 
-   <div className="bg-gray-50 ring-2 ring-indigo-500 w-full pl-9 mb-10 mt-4 rounded-sm relative shadow-lg">
-      <div className="w-full mx-auto md:py-6 py-9 pt-16 px-4 sm:px-6 lg:py-12 lg:px-8 lg:flex lg:items-center lg:justify-between">
+   <div className="bg-gray-50 ring-2 ring-indigo-500 w-full pl-9 mb-7 mt-4 rounded-sm relative shadow-lg">
+      <div className="w-full mx-auto md:py-10 md:pt-16 py-9 pt-16 px-4 sm:px-6 lg:py-12 lg:px-8 lg:flex lg:items-center lg:justify-between">
         <h2 className="text-3xl lg:mt-0 -ml-[32px] mt-7 font-extrabold lg:text-left text-center tracking-tight text-gray-900 sm:text-4xl">
-          <span className="block">Oops..</span>
+          <span className="block lg:px-12">Oops..</span>
           <span className="block text-blue-700 px-12">No Search Results Appeared.</span>
         </h2>
         <div className="-mt-2 lg:mx-0 mx-auto text-center block lg:flex relative justify-center py-3 lg:flex-shrink-0">

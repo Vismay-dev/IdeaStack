@@ -185,7 +185,7 @@ const resetPass = (e) => {
 
 
 const useAnalyticsEventTracker = (category="Logins") => {
-  const eventTracker = (action = "Logged In", label = "Event Tracking") => {
+  const eventTracker = (action = "Logged In", label = "Log In Modal") => {
     ReactGA.event({category, action, label});
   }
   return eventTracker;

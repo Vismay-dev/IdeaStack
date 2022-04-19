@@ -12,6 +12,9 @@ import logo from './logo.png'
 import AOS from 'aos';
 import "aos/dist/aos.css";
 
+import React from "react";
+import ReactGA from "react-ga";
+
 
 
 const NavBar = (props) => {
@@ -42,6 +45,7 @@ const NavBar = (props) => {
       if(res.data!=='Invalid Token'&&res.data.isValid){
         sessionStorage.setItem('token',res.data.userToken);
         props.loginFunc(res.data.user);
+        ReactGA.event({category:'Log In',action:'Logged In', label:'Cookie Login'});
         history.push('/profile')
       }else {
         setLogModalShow(true);
