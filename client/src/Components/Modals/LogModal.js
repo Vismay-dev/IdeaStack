@@ -308,7 +308,7 @@ passReset?
     <ClipLoader color={'#0b0bbf'} loading={loading}  size={70} />
     </div>
 :
-  <form class="mt-24 space-y-6 pb-2 relative">
+  <form class="mt-24 space-y-6 pb-2 relative" onSubmit={resetPass}>
     <input class="text-md" type="hidden" name="remember"  id = 'remember'/>
     <div class="rounded-md relative sm:mb-0 sm:w-full w-[117%] sm:right-0 right-[6%] -mb-4 block -space-y-px ">
 
@@ -330,7 +330,7 @@ passReset?
         
         Cancel
       </button>
-      <button onClick={resetPass} class="sm:mt-3 -mt-1  sm:col-span-2 col-span-3 group relative sm:left-0 left-[3px] sm:w-full w-[150px] mx-auto sm:right-0 right-[2px] flex justify-center py-1.5 pb-1.5 px-4 border border-transparent text-md font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+      <button type = 'submit' class="sm:mt-3 -mt-1  sm:col-span-2 col-span-3 group relative sm:left-0 left-[3px] sm:w-full w-[150px] mx-auto sm:right-0 right-[2px] flex justify-center py-1.5 pb-1.5 px-4 border border-transparent text-md font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
         <span class="absolute left-0 inset-y-0 flex items-center pl-3">
           <svg class="h-5 w-5 text-blue-600 group-hover:text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
@@ -373,7 +373,7 @@ passReset?
     <ClipLoader color={'#0b0bbf'} loading={loading}  size={70} />
     </div>
 :
-  <form class="mt-24 space-y-6 pb-2 relative" onSubmit={handleSubmit}>
+  <form class="mt-24 space-y-6 pb-2 relative" onSubmit={checkResetCode}>
     <input class="text-md" type="hidden" name="remember"  id = 'remember'/>
     <div class="rounded-md relative sm:mb-0 sm:w-full w-[117%] sm:right-0 right-[6%] -mb-4 block -space-y-px ">
     {error==='Invalid Code'?<p class="text-red-500 text-center text-md relative bottom-5  pt-1  pb-2 mb-2">Failed: Invalid/Expired Reset Code</p>:null}
@@ -396,7 +396,7 @@ passReset?
         
         Cancel
       </button>
-      <button onClick={checkResetCode } type = 'button' class="sm:mt-3 -mt-1  sm:col-span-2 col-span-3 group relative sm:left-0 left-[3px] sm:w-full w-[150px] mx-auto sm:right-0 right-[2px] flex justify-center py-1.5 pb-1.5 px-4 border border-transparent text-md font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+      <button type = 'submit' class="sm:mt-3 -mt-1  sm:col-span-2 col-span-3 group relative sm:left-0 left-[3px] sm:w-full w-[150px] mx-auto sm:right-0 right-[2px] flex justify-center py-1.5 pb-1.5 px-4 border border-transparent text-md font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
         <span class="absolute left-0 inset-y-0 flex items-center pl-3">
           <svg class="h-5 w-5 text-blue-600 group-hover:text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
