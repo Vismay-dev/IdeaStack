@@ -22,6 +22,10 @@ const projectSchema = new mongoose.Schema({
       type: String,
       required: true
     },
+    isFirstFree:{
+      type:Boolean,
+      required:false
+    },
     projPic: {
       type: String,
       required: true

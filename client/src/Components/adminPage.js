@@ -312,7 +312,7 @@ setProjects(projectsRequested);
 
     return (
         <>
-        <div class = {`w-full  -mb-[400px] relative top-2 ${showPanel?addingMentor||detailModifying==='details'?'h-[1500px]':projects.length===0?'pt-12 h-[688px]':managing==='requests'?"h-[1000px] pt-12":'h-[690px] pt-20':'pt-20 h-[688px]'} overflow-hidden`}>
+        <div class = {`w-full  -mb-[380px] relative top-2 ${showPanel?addingMentor||detailModifying==='details'?'h-[1500px]':projects.length===0?'pt-12 h-[688px]':managing==='requests'?"h-[1050px] pt-12":'h-[690px] pt-20':'pt-20 h-[688px]'} overflow-hidden`}>
             <h1 className={`font-bold text-center text-5xl mb-3 ${addingMentor||detailModifying==='details'?'mt-14':managing===''?'mt-7':'mt-1'} relative `}>Admin Panel {projects.length===0?<p class = 'inline text-3xl underline'>- minimum UI :p</p>:''}</h1>
 
 
@@ -349,16 +349,17 @@ setProjects(projectsRequested);
                 <p class ='text-sm'><strong>Mentor Background/Speciality:</strong> {mentorship.role}</p>
                 <p class ='text-sm'><strong>Mentor Mail:</strong> {mentorship.contact[0]}</p>
                 <p class = 'relative text-sm mb-5'><strong>Mentor No.:</strong> {mentorship.contact[1]}</p>
-                <p class  = 'text-lg uppercase left-[1px] relative'><strong><span class = 'underline'>Status:</span></strong> {statusM}</p>
+                <p class = 'relative text-md mb-5 uppercase'><strong class = 'underline'>Total Payment:</strong> {mentorship.individualTotalCost*mentorship.teamSize} AED {mentorship.isFirstFree?'(First Session Free)':''}</p>
+                <p class  = 'text-md uppercase left-[1px] relative'><strong><span class = 'underline'>Status:</span></strong> {statusM}</p>
 
 
-                <p class  = 'text-lg uppercase left-[1px] my-6 relative'>Session <strong>{mentorship.numberOfSessions-mentorship.numberOfSessionsRemaining+1}</strong> of  <strong>{mentorship.numberOfSessions}</strong></p>
+                <p class  = 'text-md uppercase left-[1px] my-6 relative'>Session <strong>{mentorship.numberOfSessions-mentorship.numberOfSessionsRemaining+1}</strong> of  <strong>{mentorship.numberOfSessions}</strong></p>
 
 
                 {
                     statusM == 'Appointment Requested' ?
                     <>
-                    <p class  = 'text-lg uppercase underline'><strong>Requested Time: {new Date(mentorship.scheduleSelected).toDateString()+' '+new Date(mentorship.scheduleSelected).toLocaleString().substring(10)}</strong></p>
+                    <p class  = 'text-md uppercase underline'><strong>Requested Time: {new Date(mentorship.scheduleSelected).toDateString()+' '+new Date(mentorship.scheduleSelected).toLocaleString().substring(10)}</strong></p>
 
                     <button onClick = {()=>acceptDate(i)} class = ' bg-indigo-500 left-[2px]  uppercase p-3 hover:ring-1 hover:ring-blue-400 hover:bg-indigo-600 hover:shadow-lg active:shadow-sm rounded-lg text-sm mx-auto relative block  shadow-md py-2 mt-6 mb-4 text-white font-semibold '>Accept & Ask for Confirmation</button>
                     </>
@@ -497,13 +498,13 @@ detailModifying==='details'?
         <input class = 'p-3 mb-2 w-[30%]' name = 'contact-number' id = 'mentorNumberMod' placeholder = {mentorSelected.contact[0]}></input><br/>
         <input class = 'p-3 mb-2 w-[30%]'  name = 'contact-mail' id = 'mentorMailMod' placeholder={mentorSelected.contact[1]}></input><br/>
     
-        <button onClick= {modifyMentor} class  = ' mt-12  font-semibold uppercase bg-blue-700 text-white  p-3 shadow-md mx-auto w-[200px] relative block mb-1 z-50'>
+        <button onClick= {modifyMentor} class  = ' mt-12 z-[70]  font-semibold uppercase bg-blue-700 text-white  p-3 shadow-md mx-auto w-[200px] relative block mb-1 '>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1.5 relative bottom-[2px] inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
 </svg>
             <span class = 'inline'>
                 SUBMIT</span></button>
-        <button onClick= {()=>setDetailModifying('')} class  = 'z-40 mt-3 font-semibold uppercase bg-blue-700 text-white  p-3 shadow-md mx-auto w-[200px] relative block mb-5'>
+        <button onClick= {()=>setDetailModifying('')} class  = 'z-[70] pointer-events-auto mt-3 font-semibold uppercase bg-blue-700 text-white  p-3 shadow-md mx-auto w-[200px] relative block mb-5'>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline bottom-[2px] relative mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
 </svg>
@@ -544,7 +545,7 @@ detailModifying === 'dates'?
 <input type = 'text' id="txtbox" onFocus={(e) => e.target.type = 'datetime-local'} onBlur={(e) => e.target.type = 'text'} onChange = {changeDate} class = {`z-40 p-3 mb-2 w-[20%] ${new Date(dateMentor.availableDates[3])<new Date()?'bg-orange-100 text-red-500':''}`} name = 'date4' id = 'date4' placeholder = {dateMentor.availableDates[3]?formatDate(new Date(dateMentor.availableDates[3])):''}></input><br/>
 </div>
 
-<button onClick= {()=>{changeDates()}} class  = 'z-40 mt-6 mb-12 font-semibold uppercase bg-blue-700 text-white  p-3 shadow-md mx-auto w-[200px] relative block'>
+<button onClick= {()=>{changeDates()}} class  = 'z-[70]  mt-6 mb-12 font-semibold uppercase bg-blue-700 text-white  p-3 shadow-md mx-auto w-[200px] relative block'>
 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline mr-1.5 relative bottom-[2px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
 </svg>
@@ -673,13 +674,13 @@ detailModifying === 'dates'?
     <input class = 'p-3 mb-2 w-[30%]' name = 'contact-number' id = 'mentorNumber' placeholder='Enter Contact Number'></input><br/>
     <input class = 'p-3 mb-2 w-[30%]'  name = 'contact-mail' id = 'mentorMail' placeholder='Enter Contact Email'></input><br/>
 
-    <button onClick= {addMentor} class  = ' mt-12 font-semibold uppercase bg-blue-700 text-white  p-3 shadow-md mx-auto w-[200px] relative block mb-1 z-50'>
+    <button onClick= {addMentor} class  = ' mt-12 z-[70]  font-semibold uppercase bg-blue-700 text-white  p-3 shadow-md mx-auto w-[200px] relative block mb-1'>
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline mr-1.5 relative bottom-[2px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
 </svg>
             <span class = 'inline'>
         SUBMIT</span></button>
-    <button onClick= {closeAddMentor} class  = 'z-40 mt-3 font-semibold uppercase bg-blue-700 text-white  p-3 shadow-md mx-auto w-[200px] relative block mb-5'>
+    <button onClick= {closeAddMentor} class  = 'z-[70]  mt-3 font-semibold uppercase bg-blue-700 text-white  p-3 shadow-md mx-auto w-[200px] relative block mb-5'>
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline bottom-[2px] relative mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
 </svg>
@@ -710,7 +711,7 @@ detailModifying === 'dates'?
 </svg>
                             
                             <span class = 'inline'>Manage Experts/Mentors</span></button>
-                        <button class = 'bg-blue-700 z-40 font-semibold uppercase text-white  p-3 shadow-md mx-auto w-[200px] relative block mb-0' onClick={()=> setManaging('requests')}>
+                        <button class = 'bg-blue-700 z-[70] font-semibold uppercase text-white  p-3 shadow-md mx-auto w-[200px] relative block mb-0' onClick={()=> setManaging('requests')}>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1.5 relative bottom-[2px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
 </svg>
@@ -728,7 +729,7 @@ detailModifying === 'dates'?
 
                 <p class = 'font-semibold mt-9 text-center relative top-20'>Hi Abhay/Vismay, Enter your admin code here:</p>
                 <input id = {'inputAdmin'} class = 'p-3 rounded-md shadow-md text-center mx-auto block relative top-28'></input>
-                <button onClick={checkInput} class = 'p-14 py-2 z-40 pointer-events-auto rounded-md shadow-md hover:shadow-xl active:shadow-sm text-center mx-auto block relative top-48 uppercase font-semibold bg-indigo-600 text-white'>
+                <button onClick={checkInput} class = 'p-14 py-2 z-[70]  pointer-events-auto rounded-md shadow-md hover:shadow-xl active:shadow-sm text-center mx-auto block relative top-48 uppercase font-semibold bg-indigo-600 text-white'>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 inline w-6 mr-1.5 relative bottom-[2px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
 </svg>

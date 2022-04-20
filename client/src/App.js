@@ -56,6 +56,7 @@ function App() {
 const [projects, setProjects] = useState(user.projects)
 
 useEffect(()=> {
+  if(location.pathname!=='/admin-operations-passcode-IdeaStackOperations300305')
   ReactGA.pageview(location.pathname);
 },[location.pathname])
 

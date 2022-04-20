@@ -20,7 +20,7 @@ const upload = multer({ storage: fileStorageEngine })
 router.post('/sendUserQuery',(req,res)=> {
         async function sendMail(){
         try {
-            const transport = nodemailer.createTransport({
+            const transport = await nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
                     user: 'ideastackapp@gmail.com',
@@ -63,7 +63,7 @@ router.post('/sendUserQuery',(req,res)=> {
                     }
                   ]
             }
-            const result = transport.sendMail(mailOptions)
+            const result = await transport.sendMail(mailOptions)
             return result
         }catch (err) {
             return(err)
@@ -329,6 +329,21 @@ router.post('/uploadProfPic',upload.single('image'),async(req,res)=> {
     res.send(userUpdated);
 })
 
+router.post('/removeAvailableDate',auth,async(req,res)=> {
+    const mentor = await Mentor.findById(req.body.mentorID);
+    mentor.availableDates = mentor.availableDates.filter(date=> {
+        console.log(new Date(date))
+        console.log(new Date(req.body.date))
+       return String(new Date(date)) !== String(new Date(req.body.date))
+    })
+
+    mentor.markModified('availableDates');
+   await mentor.save();
+   console.log(mentor.availableDates)
+   res.send('Succesfully Booked A Time')
+
+})
+
 router.post('/createProject',auth, async(req,res)=> {
     const user = await studentUser.findById(req.user._id);
     const userName = user.firstName + ' ' + user.lastName;
@@ -339,6 +354,7 @@ router.post('/createProject',auth, async(req,res)=> {
         category: projectData.category,
         maxCap: projectData.maxCap,
         problem: projectData.problem,
+        isFirstFree:true,
         admin: {
             name: userName,
             pic: user.profilePic,

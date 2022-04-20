@@ -16,6 +16,8 @@ import PulseLoader from "react-spinners/PulseLoader"
 import { useLocation } from 'react-router-dom';
 import projectContext from '../../context/projectContext'
 
+import CancelModal from '../Modals/CancelModal'
+
 import AOS from 'aos';
 import "aos/dist/aos.css";
 
@@ -27,7 +29,7 @@ const Mentorship = () => {
     });
   },[]);
 
-
+  const [cancel,setCancel] = useState(false)
   const location = useLocation()
   const projCon = useContext(projectContext)
 
@@ -48,14 +50,32 @@ const Mentorship = () => {
 
     return (
         <>
+
+        {
+          cancel?
+          <CancelModal close = {()=>setCancel(false)}/>:''
+        }
             <h2 style = {{'backgroundImage':'url(https://www.venafi.com/themes/venafi/images/redesign/blog-detail/blog_detail.jpg)'}}
      class = 'text-center bg-no-repeat bg-center bg-cover py-9 pb-[54px] font-bold shadow-lg xl:px-[365px] lg:px-[250px] md:px-[150px] sm:px-[100px] sm:w-fit sm:left-0 left-[0.1px] w-full mx-auto rounded-md right-0.5 text-gray-100 top-1 mt-10  mb-[67px] relative'><p class = 'md:text-[50px] sm:text-[40px] text-[32px]'>Industry Mentorship</p>
             <p class = 'sm:text-2xl text-xl'>Learn from STEM experts</p>
             </h2>
+
+            {
+               mentorshipPackages && mentorshipPackages.length > 0 &&  mentorshipPackages[mentorshipPackages.length-1].paymentPending ===true?
+              <>
+            <p class = ' top-2 -mt-6  px-6 relative text-center ' ><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline relative mr-1 bottom-[1.35px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>
+ <span class = 'inline'>Payments are only processed after all members have paid</span></p>
+          <button onClick={()=>setCancel(true)} class = 'uppercase bg-gradient-to-tr bottom-3  from-orange-600 to-orange-300 hover:from-orange-600 hover:to-orange-400 hover:shadow-xl active:shadow-sm text-white font-semibold mt-3 shadow-md relative top-5 w-1/2 mx-auto block mb-10 p-3 px-3 rounded-md'><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1.5 relative bottom-[1.3px] inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg><span class = 'inline'>Cancel Latest Mentor Booking (Admin Only)</span> </button>
+</>:''}
            
-            <div className="flex flex-wrap xl:px-16 lg:px-14 md:px-9 sm:px-6 px-3  md:right-0.5 relative mt-[55px] xl:-mb-[277px] md:-mb-[250px] -mb-[240px]">
+            <div className={`flex ${    mentorshipPackages && mentorshipPackages.length > 0 &&  mentorshipPackages[mentorshipPackages.length-1].paymentPending ===true?
+            'mt-[80px] relative':'mt-[43px]'} flex-wrap xl:px-16 lg:px-14 md:px-9 sm:px-6 px-3  md:right-0.5 relative  xl:-mb-[277px] md:-mb-[250px] -mb-[240px]`}>
 
-
+      
 
 {
 

@@ -89,7 +89,7 @@ const location = useLocation()
       }
     }
 
-    const [packageyum, setPackageyum] = useState([])
+    const [packageyum, setPackageyum] = useState(false)
 
     const [expert,setExpert] = useState();
     const [teamSize, setTeamSize] = useState();
@@ -98,7 +98,8 @@ const location = useLocation()
     })
 
     const [isMentor, setIsMentor] = useState(false)
-
+    const [isFirstFree, setIsFirstFree] = useState(false)
+console.log(isMentor)
     useEffect(()=> {
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/getTeamContacts':'http://localhost:4000/api/project/getTeamContacts',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
             setTeamSize(res.data.length)
@@ -119,6 +120,14 @@ const location = useLocation()
                       setPackageyum(true)
                     }
                   }
+                }).catch(err=> {
+                    console.log(err)
+                })
+
+
+                axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/getFirstFree':'http://localhost:4000/api/project/getFirstFree',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
+                  setIsFirstFree(res.data)
+                  console.log(res.data)
                 }).catch(err=> {
                     console.log(err)
                 })
@@ -250,7 +259,7 @@ const location = useLocation()
           <div className="mt-10 lg:mt-0 lg:row-span-3">
             <h2 className="sr-only">Product information</h2>
             <p className="md:text-3xl text-2xl text-gray-900"><span class = 'font-bold'>AED {expert && expert.pricing[0]}</span> per session</p>
-            {expert && expert.pricing[1]!==0 ? <p className="md:text-xl text-md text-gray-600">First {expert.pricing[1]!==1?expert.pricing[1]:''} session{expert.pricing[1]>1?'s':''} <span class = 'font-semibold'>free of cost</span></p>:''}
+            {expert && expert.pricing[1]!==0 && isFirstFree ? <p className="md:text-xl text-md text-gray-600">First {expert.pricing[1]!==1?expert.pricing[1]:''} session{expert.pricing[1]>1?'s':''} <span class = 'font-semibold'>free of cost</span></p>:''}
 
 
             {/* Reviews */}
@@ -391,7 +400,7 @@ expert.contact[1]===''||expert.contact[1]===null?'Phone Number: Unavailable':
               <p class = 'text-center -mb-8 mt-8 font-semibold text-red-600 text-md'>Please select no. of sessions..</p>:''}
 
 
-{!isMentor?<p class = 'uppercase text-sm font-semibold text-center top-8 -mb-1 right-0.5 relative'>
+ {!isMentor?<p class = 'uppercase text-sm font-semibold text-center top-8 -mb-1 right-0.5 relative'>
 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
 </svg>
@@ -402,8 +411,8 @@ expert.contact[1]===''||expert.contact[1]===null?'Phone Number: Unavailable':
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
 </svg>
 <span class = 'inline ml-1.5'>Mentor Already Selected</span>
-</p>:''
-}
+</p>:<p class = 'relative -mb-2'></p>
+} 
               <button
 onClick={submitHandler}
 
@@ -518,7 +527,9 @@ disabled = {!isMentor||packageyum}
 
               <button
 onClick={submitHandler}
-                className="mt-12 mb-4 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+disabled = {!isMentor||packageyum}
+
+                className={`mt-12 mb-4 ${!isMentor||packageyum?'bg-indigo-400':'bg-indigo-600 hover:bg-indigo-700'} w-full  border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
               >
                 Seek Mentorship - Paid
               </button></div>
@@ -549,6 +560,9 @@ onClick={submitHandler}
           <h2 class="mb-7 relative bottom-3 md:text-left text-center lg:text-4xl sm:text-xl text-lg lg:hidden block font-bold font-heading text-gray-200">{expert&& expert.role} </h2>
 
             <h2 class="lg:mb-8 sm:mb-10 mb-9 underline relative bottom-3 lg:text-4xl md:text-3xl md:text-left text-center sm:text-2xl text-xl font-bold font-heading text-white">Total Required Payment By Team</h2>
+            {
+              isFirstFree?<h1 class = 'mb-5 -mt-2 uppercase relative text-xl text-center font-semibold text-white'>First Session Free!</h1>:''
+            }
             <div class="flex mb-8 items-center justify-between pb-5 border-b border-blue-100">
               <span class="text-blue-50 text-md">No. of Sessions</span>
               <span class="text-xl font-bold font-heading text-white">{numberOfSessions}</span>
@@ -560,11 +574,11 @@ onClick={submitHandler}
             </div>
             <div class="sm:flex sm:mb-10 mb-7 sm:justify-between  items-center">
               <span class="text-blue-50 text-md sm:no-underline underline">Total Individual Payment</span><br class = 'sm:hidden block'/>
-              <span class="text-lg font-bold block font-heading text-white">AED {numberOfSessions&&numberOfSessions*expert.pricing[0]/parseFloat(teamSize)}</span>
+              <span class="text-lg font-bold block font-heading text-white">AED {numberOfSessions&&(isFirstFree?numberOfSessions-1:numberOfSessions)*expert.pricing[0]/parseFloat(teamSize)}</span>
             </div>
             <div class="sm:flex mb-10 sm:justify-between items-center">
               <span class="text-xl font-bold font-heading text-white">Subtotal Cost</span><br class = 'sm:hidden block'/>
-              <span class="text-xl font-bold font-heading text-white">AED {expert.pricing[0]&&expert.pricing[0]*numberOfSessions}</span>
+              <span class="text-xl font-bold font-heading text-white">AED {expert.pricing[0]&&expert.pricing[0]*(isFirstFree?numberOfSessions-1:numberOfSessions)}</span>
             </div>
             <div class = 'grid-cols-3 grid sm:w-[340px] w-full sm:mx-0 mx-auto  gap-3 lg:mt-10 mt-12 mb-4'>
 <button

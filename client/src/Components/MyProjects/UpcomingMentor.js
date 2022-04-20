@@ -93,7 +93,10 @@ const UpcomingMentor = props => {
       sessionConfirmed:true
     }}).then(res=> {
       console.log(res.data);
-      setSessionConfirmed(true)
+      setSessionConfirmed(true);
+      axios.post(process.env.NODE_ENV==='production'?'https://ideastack.herokuapp.com/api/user/removeAvailableDate':'http://localhost:4000/api/user/removeAvailableDate',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing'), mentorID:consultant._id, date:consultant.scheduleSelected}).then(res=> {
+        console.log(res.data)
+      })
 }).catch(err=> {
           console.log(err);
   })  

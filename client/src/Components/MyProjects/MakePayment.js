@@ -3,6 +3,7 @@ import PaymentModal from '../Modals/PaymentModal';
 import { useState, useEffect } from 'react';
 import axios from 'axios'
 import ClipLoader from "react-spinners/ClipLoader"
+import CancelModal from '../Modals/CancelModal';
 
 const MakePayment = (props) => {
 
@@ -38,15 +39,21 @@ const MakePayment = (props) => {
   })
       },[props.mentorshipPackages])
       
+      const [cancel, setCancel] = useState(false)
 
     return (
         <>
 
         {
           showPaymentModal?
-          <PaymentModal close = {()=>{setShowPaymentModal(false)}} expert = {consultant}/>:
+          <PaymentModal showCancel = {()=>{setShowPaymentModal(false); setCancel(true); }} close = {()=>{setShowPaymentModal(false)}} expert = {consultant}/>:
           ''
         }
+
+{
+            cancel?
+            <CancelModal close = {()=>setCancel(false)}/>:''
+          }
     <div data-aos={"fade-up"} data-aos-once='true' data-aos-delay = '150' style = {{'backgroundImage':payment===0? 'url(https://c0.wallpaperflare.com/preview/134/372/59/abstract-background-copyspace-brainstorm.jpg)':"url(https://www.vapulus.com/en/wp-content/uploads/2021/02/challenge-accepting-online-payments-technical-issue-1024x768-1.png)"}} 
           class={`rounded-md  mb-8 bg-cover shadow-lg bg-gradient-to-r h-[380px] border-[0.005px] bg-right border-blue-600  from-blue-50 to-indigo-200 overflow-hidden`}>
                   <div class = 'bg-gray-900 h-full z-10 bg-opacity-[.75]'>

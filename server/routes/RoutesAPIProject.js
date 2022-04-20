@@ -289,28 +289,38 @@ router.post('/checkAvailability', auth, async(req,res)=> {
 
 })  
 
+
+router.post('/getFirstFree', auth, async(req,res)=> {
+    const proj = await project.findOne({_id:req.body.projectID})
+    console.log(proj.isFirstFree)
+    res.send(proj.isFirstFree)
+})
+
 router.post('/addMentorshipPackage', auth, async(req,res)=> {
     const proj = await project.findOne({_id:req.body.projectID})
-    proj.mentorshipPackages.push({...req.body.mentorshipPackage,numberOfSessionsRemaining:req.body.mentorshipPackage.numberOfSessions, paymentPending:true, pendingAmount: req.body.mentorshipPackage.pricing[0]*req.body.mentorshipPackage.numberOfSessions , sessionScheduled: false})
-    const noOfSessions = req.body.mentorshipPackage.numberOfSessions
-
-
     let isFirstTime = true;
+
+    const noOfSessions = req.body.mentorshipPackage.numberOfSessions
+    let newInfo = {...req.body.mentorshipPackage,numberOfSessionsRemaining:noOfSessions, isFirstFree:isFirstTime, paymentPending:true, pendingAmount:  req.body.mentorshipPackage.pricing[0]*(isFirstTime?noOfSessions-1:noOfSessions) , sessionScheduled: false}
+    if(isFirstTime){
+        newInfo = {...newInfo, individualTotalCost: newInfo.pendingAmount/proj.team.length}
+    }
+    proj.mentorshipPackages.push(newInfo)
 
 
     for(let i = 0; i<proj.team.length;i++) {
         if(proj.team[i].pendingPayments){
-        proj.team[i].pendingPayments.push(req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions)
+        proj.team[i].pendingPayments.push(req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*(isFirstTime?noOfSessions-1:noOfSessions))
         }else {
-            proj.team[i].pendingPayments = [req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions]
+            proj.team[i].pendingPayments = [req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*(isFirstTime?noOfSessions-1:noOfSessions)]
         }
 
 
         const user = await studentUser.findById(proj.team[i].id);
 
         let paymentInfo = {
-            amounts: [req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions],
-            totalAmountForThisProject:req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions,
+            amounts: [req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*(isFirstTime?noOfSessions-1:noOfSessions)],
+            totalAmountForThisProject:req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*(isFirstTime?noOfSessions-1:noOfSessions),
             projectID: req.body.projectID,
             projectName: proj.name,
     }
@@ -334,9 +344,9 @@ router.post('/addMentorshipPackage', auth, async(req,res)=> {
             user.pendingPayments.push(paymentInfo)
         } else {
             let pendingPaymentObj = user.pendingPayments[finI]
-            pendingPaymentObj.amounts.push(req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions)
+            pendingPaymentObj.amounts.push(req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*(isFirstTime?noOfSessions-1:noOfSessions))
             paymentInfo.amounts = pendingPaymentObj.amounts
-            paymentInfo.totalAmountForThisProject = pendingPaymentObj.totalAmountForThisProject+req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*req.body.mentorshipPackage.numberOfSessions;
+            paymentInfo.totalAmountForThisProject = pendingPaymentObj.totalAmountForThisProject+req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*(isFirstTime?noOfSessions-1:noOfSessions);
             user.pendingPayments[finI] = paymentInfo;
         }
 
@@ -347,16 +357,56 @@ router.post('/addMentorshipPackage', auth, async(req,res)=> {
         }
 
         user.markModified('pendingPayments');
+        console.log(user.pendingPayments)
         await user.save()
 
     }
+
 
     proj.markModified('team');
     proj.markModified('mentorshipPackages');
 
     let newProj = await proj.save()
 
+   
     res.send(newProj);
+})
+
+router.post('/cancelLatestMentorship',auth, async(req,res)=> {
+    const proj = await project.findOne({_id:req.body.projectID});
+    if(proj.mentorshipPackages[proj.mentorshipPackages.length-1].isFirstFree===true){
+        proj.isFirstFree = true;
+        proj.markModified('isFirstFree');
+        await proj.save()
+    }
+
+    proj.mentorshipPackages = proj.mentorshipPackages.filter(pcage=> {
+        return pcage !== proj.mentorshipPackages[proj.mentorshipPackages.length-1];
+    })
+
+    proj.markModified('mentorshipPackages');
+    await proj.save()
+
+    for(let i = 0; i<proj.team.length;i++){
+        let costreduced = proj.team[i].pendingPayments.splice(proj.team[i].pendingPayments.length-1,1);
+        proj.markModified('team')
+        await proj.save()
+        if(costreduced!==0){
+            let id = proj.team[i].id;
+            let user = await studentUser.findById(id);
+            for(let k = 0;k<user.pendingPayments.length;k++){
+                if(JSON.stringify(user.pendingPayments[k].projectID) === JSON.stringify(proj._id)){
+                    user.pendingPayments[k].totalAmountForThisProject -= costreduced;
+                    let dummy = user.pendingPayments[k].amounts.pop();
+                }
+            }
+            user.markModified('pendingPayments');
+            await user.save()
+        }
+    }
+
+    res.send('Done Succesfully')
+
 })
 
 router.post('/getMentorshipPackages',auth,async(req,res)=> {

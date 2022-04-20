@@ -194,14 +194,14 @@ useEffect(() => {
      <ClipLoader color={'#0055b3'} loading={loading}  size={100} />
      </div>
 :
-          <div class="grid grid-cols-1 z-30 pointer-events-none md:mb-14 mb-20 md:mt-1 sm:mt-3 mt-1 relative top-[13px] md:px-4 sm:px-7 px-7 left-[3px]   sm:gap-y-12 gap-y-14 sm:grid-cols-2 gap-x-10 lg:grid-cols-3 xl:grid-cols-4 ">
+          <div class="grid grid-cols-1 z-30 pointer-events-none md:mb-14 mb-20 md:mt-1 sm:mt-3 mt-1 relative top-[13px] md:px-1 sm:px-7 px-7 left-[4px]   sm:gap-y-12 gap-y-14 sm:grid-cols-2 gap-x-10 lg:grid-cols-3 xl:grid-cols-4 ">
             {
 
 
               
             [...experts,...experts,...experts,...experts,...experts,...experts,...experts].map((expert,i) => (
               <a data-aos={"fade-up"} data-aos-once='true' delay = {`${i%3}00`} key={expert.id} onClick={()=> {setShowExpert(true); setExpertId(expert.id)}} class={`group z-20 pointer-events-auto  rounded-md cursor-pointer`}>
-                <div  class="w-full z-20      overflow-hidden ">
+                <div  class="w-full z-20  shadow-md     overflow-hidden ">
                   <img
                     src={i%2==0?'https://images.unsplash.com/photo-1531891437562-4301cf35b7e4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aGFuZHNvbWUlMjBndXl8ZW58MHx8MHx8&w=1000&q=80':'https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80'}
                     alt="expert"

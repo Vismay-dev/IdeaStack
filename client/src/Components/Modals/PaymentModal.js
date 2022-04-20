@@ -7,6 +7,7 @@ import { RadioGroup } from '@headlessui/react'
 import {useHistory} from 'react-router-dom'
 import { useLocation } from "react-router-dom";
 import logo from './logo.png'
+import CancelModal from "./CancelModal";
 
   
 function classNames(...classes) {
@@ -132,6 +133,7 @@ const location = useLocation()
 
     return (
         <div class="fixed z-[100] inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+          
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             {/* Background overlay, show/hide based on modal state. */}
           <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
@@ -295,12 +297,12 @@ showConfirm ?
                expert && 
 
                <>
-               <svg xmlns="http://www.w3.org/2000/svg" class="xl:h-16 xl:w-16 w-14 h-14 absolute text-center justify-center xl:left-[36.3%] left-[35.5%] text-blue-700 lg:block hidden mx-auto top-[51%] translate-y-[-60%]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+               <svg xmlns="http://www.w3.org/2000/svg" class="xl:h-16 xl:w-16 w-14 h-14 absolute text-center justify-center xl:left-[37.5%] left-[36.5%] text-blue-700 xl:block hidden mx-auto top-[51%] translate-y-[-60%]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
              </svg>
             
              
-                     <div class = 'grid grid-cols-2 lg:right-[42px] lg:px-0 md:px-16 sm:px-10 px-2 my-40 mt-28 relative'>
+                     <div class = 'grid grid-cols-2 xl:right-[42px] lg:px-0 md:px-16 sm:px-10 px-2 my-40 mt-28 relative'>
              
                      <div 
                  class="max-w-xs bg-cover mb-6 mt-[72px] hidden relative lg:block mx-auto  bg-white rounded-lg bottom-5 shadow-lg dark:bg-gray-800">
@@ -314,6 +316,9 @@ showConfirm ?
 
                <div class="p-5 pt-10 md:pb-7 px-6 md:p-12 lg:col-span-1 lg:left-0 left-3 relative col-span-2 rounded-sm shadow-lg bg-blue-700">
             <h2 class="mb-8 relative bottom-3 lg:text-4xl md:text-3xl text-2xl font-bold font-heading text-white">Your Pending Payment For This Mentor <span class = 'lg:hidden inline'> - {expert&& expert.name}</span></h2>
+            {
+              mentorshipPackage.isFirstFree?<h1 class = 'mb-6 -mt-2.5 uppercase relative text-xl text-center underline font-semibold text-white'>First Session Free!</h1>:''
+            }
             <div class="flex mb-8 items-center justify-between pb-5 border-b border-blue-100">
               <span class="text-blue-50 text-md">No. of Sessions</span>
               <span class="sm:text-xl text-lg sm:font-bold font-semibold font-heading text-white">{numberOfSessions}</span>
@@ -321,7 +326,7 @@ showConfirm ?
             <h4 class="sm:mb-2 text-xl relative bottom-2 font-bold font-heading text-white">Pricing</h4>
             <div class="sm:flex sm:mb-2 mb-4 sm:mt-0 mt-2 justify-between items-center">
               <span class="text-blue-50 text-md sm:no-underline underline">Total Payment Required By Team</span><br class = 'sm:hidden block'/>
-              <span class="sm:text-lg sm:mt-0 mt-6 sm:mb-0 mb-16 relative text-base sm:font-bold font-semibold font-heading text-white">AED {numberOfSessions&&numberOfSessions*expert.pricing[0]}</span>
+              <span class="sm:text-lg sm:mt-0 mt-6 sm:mb-0 mb-16 relative text-base sm:font-bold font-semibold font-heading text-white">AED {numberOfSessions&&(mentorshipPackage.isFirstFree?numberOfSessions-1:numberOfSessions)*expert.pricing[0]}</span>
             </div>
             <div class="sm:flex sm:mb-10 mb-7 justify-between items-center">
               <span class="text-blue-50 text-md sm:no-underline underline ">Individual Payment Per Session</span><br class = 'sm:hidden block'/>
@@ -340,9 +345,24 @@ showConfirm ?
  Confirm & Continue
     </button>
     </div>
+
           </div>
+
+            <p class = 'col-span-2 top-12 xl:left-[34px] left-2.5 px-6 relative text-center ' ><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline relative mr-1 bottom-[1.35px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>
+ <span class = 'inline'>Payments are only processed after all members have paid</span></p>
+          <button onClick = {
+            ()=> {props.showCancel();}
+          } class = 'uppercase bg-gradient-to-tr  from-orange-500 to-orange-300 hover:from-orange-600 hover:to-orange-400 hover:shadow-xl active:shadow-sm text-white font-semibold col-span-2 mt-12 md:left-[1.5%] left-[2%] xl:left-[4%] shadow-md relative top-5 w-1/2 mx-auto block mb-0 p-3 px-3 rounded-md'>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1 relative bottom-[1.3px] inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg><span class = 'inline'>Cancel Latest Mentor Booking (Admin Only)</span>
+            
+            </button>
+
           </div>
-             
+
          </>  
            }
 
