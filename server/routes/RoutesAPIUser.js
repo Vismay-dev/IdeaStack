@@ -189,7 +189,7 @@ router.post('/sendResetCode',async(req,res)=> {
         }else {
             async function sendMail(){
                 try {
-                    const transport = nodemailer.createTransport({
+                    const transport = await nodemailer.createTransport({
                         service: 'gmail',
                         auth: {
                             user: 'ideastackapp@gmail.com',
@@ -231,7 +231,7 @@ router.post('/sendResetCode',async(req,res)=> {
                             }
                           ]
                     }
-                    const result = transport.sendMail(mailOptions)
+                    const result = await transport.sendMail(mailOptions)
                     return result
                 }catch (err) {
                     return(err)
