@@ -28,7 +28,7 @@ const Landing = () => {
       <div  class="  sm:left-14 left-16 xl:px-14 xs2:px-20 px-4 xl:left-12 xl:bottom-0 bottom-4 relative container mx-auto flex flex-wrap flex-col md:flex-row items-center">
         <div class="flex flex-col  xl:w-2/5 lg:w-[46%] relative xl:-right-6 xl:bottom-2 lg:-bottom-5 lg:right-72 md:right-6 sm:right-40 right-16 bottom-5 md:pl-0 sm:pl-8 pl-0 sm:w-full w-full mx-auto justify-center items-start text-left">
           <p class="uppercase font-medium  text-sm  text-center lg:right-0 md:right-20 sm:-right-12 sm:left-20 md:-left-[52px] lg:-left-0 xl:left-[1px] right-0 mx-auto  top-5 -mt-10   relative md:w-full w-80">IdeaStack - STEM Development Platform</p>
-          <h1 class="relative my-4 mb-7 md:-ml-[46px] text-center mx-auto lg:text-6xl md:text-7xl  xl:-ml-[87px] lg:-ml-[90px] sm:text-6xl text-5xl sm:left-20 left-1 px-3 font-bold leading-tight">
+          <h1 class="relative my-4 mb-7 md:-ml-[46px] text-center mx-auto lg:text-6xl md:text-7xl  xl:-ml-[87px] lg:-ml-[90px] sm:text-6xl text-5xl sm:left-20 left-1 px-3x font-bold leading-tight">
             Launch <span class = " text-blue-700">Your Idea!</span> 
           </h1>
           <p class="leading-normal font-medium mx-auto xl:text-xl xl:-right-3 lg:-right-2 lg:left-0 md:right-10  sm:-right-24 sm:left-20 md:-left-[40px] xs:right-3 right-0   xs:w-96 md:w-3/4  lg:w-full md:text-xl sm:text-xl xl:w-80 w-72 text-lg mb-12 mt-5 relative text-center">
@@ -90,7 +90,7 @@ class="sm:ml-40 mx-auto xl:left-[11px] lg:left-2 left-[3px] md:left-[108px] md:m
              The Problem We Solve
             </h3>
             <p class="text-gray-600  leading-7 ">
-            STEM (Science, Engineering, Tech, Mathematics) projects are planned and launched by students via a problematic process full of obstacles, including:              <br /><br />
+            STEM (Science, Tech, Engineering, Mathematics) projects are planned and launched by students via a problematic process full of obstacles, including:              <br /><br />
             <ul class = 'leading-8'><strong><li><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 relative bottom-[1.8px] mr-0.5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
 </svg> <span class = 'inline'>Lack of Networking Opportunities</span></li>
