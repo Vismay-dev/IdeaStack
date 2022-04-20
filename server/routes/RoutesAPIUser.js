@@ -90,7 +90,7 @@ router.post('/register', async(req,res)=> {
             const newUser = new studentUser({
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
-                email: req.body.email,
+                email: req.body.email.toLowerCase().trim(),
                 password: hash,
                 school: req.body.school,
                 country: req.body.country,
@@ -138,7 +138,7 @@ router.post('/checkCookie',async(req,res)=> {
 router.post('/login',   
   async(req,res)=> {
     try {
-        const user = await studentUser.findOne({email:req.body.email.trim()})
+        const user = await studentUser.findOne({email:req.body.email.toLowerCase().trim()})
         if(!user) {
             console.log('- User not found')
             res.status(401) .send('User not found')
@@ -182,7 +182,7 @@ router.post('/login',
 
 router.post('/sendResetCode',async(req,res)=> {
     console.log(req.body.mail.trim())
-        const user = await studentUser.findOne({email:req.body.mail.trim()})
+        const user = await studentUser.findOne({email:req.body.mail.toLowerCase().trim()})
         if(!user) {
             console.log('- User not found')
             res.status(401).send('User Email ID not found')
