@@ -208,7 +208,7 @@ projLoading?
 <div class="flex items-center  md:justify-between justify-center sm:mr-0 mr-2 sm:mb-0 sm:pb-0 pb-3 -mb-4 relative">
      
      <div class="md:flex block items-center relative bottom-0.5">
-        <img class="object-cover sm:w-10 sm:h-10 w-6 h-6 mx-2  rounded-full md:block sm:inline  hidden" src={project.admin?project.admin.pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
+        <img class="object-cover sm:w-10 sm:h-10 w-6 h-6 mx-2  rounded-full md:block sm:inline  hidden" src={project.admin && project.admin.pic?project.admin.pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
         <a class="font-bold text-gray-700 cursor-pointer inline sm:text-md text-sm mx-auto text-center relative left-1 ">
              {project.admin?project.admin.name:''} - Project Admin
         </a><br class = 'md:hidden block'/>
