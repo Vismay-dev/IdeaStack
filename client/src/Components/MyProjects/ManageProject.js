@@ -209,9 +209,9 @@ const [dateOfUpload, setDateOfUpload] = useState()
 
 
     if(projSelected.joinRequests.length>0) {
-      let dateNew1 = Date(projSelected.joinRequests[0].dateReceived)
-      for(let x = 0; x<projSelected.team.length;x++) {
-        if(Date(projSelected.joinRequests[x].dateReceived)>dateNew1) {
+      let dateNew1 = new Date(projSelected.joinRequests[0].dateReceived)
+      for(let x = 0; x<projSelected.joinRequests.length;x++) {
+        if(new Date(projSelected.joinRequests[x].dateReceived)>dateNew1) {
           dateNew1 = projSelected.joinRequests[x].dateReceived
         }
       }
@@ -219,9 +219,9 @@ const [dateOfUpload, setDateOfUpload] = useState()
     }
 
     if(projSelected.documents.length>0) {
-      let dateNew = Date(projSelected.documents[0].dateOfUpload)
+      let dateNew = new Date(projSelected.documents[0].dateOfUpload)
       for(let x = 0; x<projSelected.documents.length;x++) {
-        if(Date(projSelected.documents[x].dateOfUpload)>dateNew) {
+        if(new Date(projSelected.documents[x].dateOfUpload)>dateNew) {
           dateNew = projSelected.documents[x].dateOfUpload
         }
       }

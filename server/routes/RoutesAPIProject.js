@@ -89,7 +89,8 @@ router.post('/sendInvite',auth, async(req,res)=> {
         isInvite:true,
         projID:req.body.projectID,
         id:req.body.user.id,
-        appStatus: 'Invited'
+        appStatus: 'Invited',
+        dateReceived: new Date()
     }
 
 

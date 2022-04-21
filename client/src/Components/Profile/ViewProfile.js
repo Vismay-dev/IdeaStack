@@ -231,7 +231,7 @@ const ViewProfile = () => {
 
 
                   <button
-                    class="font-semibold top-3 p-2 z-40 text-md shadow-md mb-2 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 relative text-gray-700"
+                    class={`font-semibold top-3  ${!showmore?'z-[75]':'z-30'} p-2 z-40 text-md shadow-md mb-2 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 relative text-gray-700`}
                     onClick={() => {
                     setShowmore(showmore?false:true)}}
                   >

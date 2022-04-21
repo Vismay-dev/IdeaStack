@@ -84,6 +84,8 @@ const NavBar = (props) => {
               pathParamArr[i] = 'Manage Applications'
             } else if(param === 'admin-operations-passcode-IdeaStackOperations300305'){
               pathParamArr[i] = 'Secret Operations'
+            } else if(param === 'viewProfile'){
+              pathParamArr[i] = 'View Profile'
             }
           })
 
