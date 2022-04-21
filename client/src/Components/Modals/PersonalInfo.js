@@ -37,18 +37,21 @@ const [error,setError] = useState(null)
 const handleSubmit = (e) => {
 e.preventDefault()
 setError()
+props.isLoading()
 setLoading(true)
 console.log(studentUser)
-// axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/register':'http://localhost:4000/api/user/register',studentUser).then(res=> {
-//     sessionStorage.setItem('token',res.data.userToken)
-//     currentUser.setUser(res.data.user)
-//     history.push('/profile')
-//     props.close()
-//     setLoading(false)
-//   }).catch(err=> {
-//     setError(err.response?err.response.data:null)
-//     setLoading(false)
-//   })
+axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/register':'http://localhost:4000/api/user/register',studentUser).then(res=> {
+    sessionStorage.setItem('token',res.data.userToken)
+    currentUser.setUser(res.data.user)
+    history.push('/profile')
+    props.close()
+    setLoading(false)
+props.isNotLoading()
+  }).catch(err=> {
+    setError(err.response?err.response.data:null)
+    setLoading(false)
+props.isNotLoading()
+  })
   
   }
 
@@ -56,9 +59,9 @@ console.log(studentUser)
     return (
 
 
-    <div class="mt-10 sm:mt-0  relative mx-auto block justify-center">
-    <div class={`md:grid md:grid-cols-3 ${loading?'relative mx-auto block text-center bg-blue-500':'w-fit'}  md:gap-6`}>
-      <div class="md:col-span-1">
+    <div class="mt-10 sm:mt-0 relative mx-auto block justify-center">
+    <div class={`md:grid md:grid-cols-3    md:gap-6`}>
+      <div class="md:col-span-1 ">
         <div class="px-8 sm:px-3 md:left-0 sm:left-3 left-4 relative mr-3">
           <h3 class={`  ${loading?'xl:mt-28 md:mt-24 sm:-mt-3 -mt-10 ':'-mt-10 sm:-mt-4 md:mt-48'} md:mb-0 mb-4 relative  md:left-0 sm:left-1.5 left-1   lg:text-3xl md:text-2xl text-3xl font-bold text-gray-900 text-center`}>Sign Up for IdeaStack</h3>
           <p class = 'text-xs font-medium leading-6 mt-2 text-gray-400 uppercase text-center'>Join The Movement</p>
@@ -75,7 +78,7 @@ console.log(studentUser)
             {
 
 loading?
-<div class ='relative mx-auto my-8 mb-14  mt-40 sm:pb-3 pb-0 sm:mr-4 pt-1.5 sm:left-0  text-center sm:top-[50%] top-[65%] translate-y-[-50%] block justify-center'>
+<div class ='relative mx-auto my-8 mb-14  mt-40 sm:pb-3 pb-0 sm:mr-0 md:mr-0.5 pt-1.5 sm:left-0  text-center sm:top-[50%] top-[65%] translate-y-[-50%] block justify-center'>
 <ClipLoader color={'#0b0bbf'} loading={loading}  size={70} />
 </div>
 :
@@ -84,7 +87,7 @@ loading?
 
             {
               error!==null&&error?
-              <p class = 'text-center mb-4 text-red-500'><span class = 'black underline text-black font-semibold'>Error:</span> {error?error:''}</p>
+              <p class = 'xl:text-center lg:text-base text-sm font-semibold lg:font-normal xl:mb-4 mb-6 text-red-500'><span class = 'black underline text-black font-semibold'>Error:</span> {error?error:''}</p>
             :''}
             
               
@@ -385,7 +388,7 @@ loading?
               
             </div>
             <div class="px-4 py-1 bg-gray-50 sm:px-6 text-center">
-            <button type="submit" class="mr-6 mx-auto px-16 relative h-12 w-full justify-center rounded-md border border-gray-300 shadow-sm py-1 bg-white text-lg font-semibold text-gray-700 hover:text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  mt-3 mb-3 sm:w-auto sm:text-md">
+            <button type="submit" class="md:mr-2.5 mx-auto px-16 relative h-12 w-full justify-center rounded-md border border-gray-300 shadow-sm py-1 bg-white text-lg font-semibold text-gray-700 hover:text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  mt-3 mb-3 sm:w-auto sm:text-md">
               Register
             </button>
             </div>

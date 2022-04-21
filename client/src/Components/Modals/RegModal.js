@@ -8,12 +8,13 @@ import { useEffect, useState, useRef } from "react";
 
 const RegModal = (props)=> {
 
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     AOS.init({
       duration : 1000
     });
-  }, []);
+  }, [loading]);
 
   const myRef = useRef()
 
@@ -55,7 +56,7 @@ useEffect(
         
           {/* Modal panel, show/hide based on modal state. */}
     
-        <div ref = {myRef} data-aos={"fade-up"} data-aos-once='true' class="pr-6 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mt-5 sm:align-middle lg:w-10/12 sm:w-11/12 w-[98%]">
+        <div ref = {myRef} data-aos={"fade-up"} data-aos-once='true' class={`pr-6 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mt-5 sm:align-middle lg:w-10/12 ${loading?'sm:w-8/12':'sm:w-11/12'} md:w-11/12 w-[98%]`}>
           <div  class="bg-white px-1 pt-2 pb-2 sm:p-6 sm:pb-4">
             <div class="sm:flex sm:items-start">
               <div class=" text-center sm:mt-0 sm:ml-4 sm:text-left">   
@@ -64,7 +65,7 @@ useEffect(
     
 
 
-                    <PersonalInfo close = {props.close}/>    
+                    <PersonalInfo isLoading = {()=>setLoading(true)} isNotLoading = {()=>setLoading(false)} close = {props.close}/>    
     
     
     
