@@ -112,7 +112,7 @@ arrPrior = arrPrior.filter(e=> e!==0)
             }
         }  
 
-      
+      console.log(arr)
         setAllUsers(arr)
        }
   const textChangeHandler = (e) => {
