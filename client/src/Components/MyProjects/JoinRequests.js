@@ -424,7 +424,7 @@ arr2.length===0?
 {projects2&&arr2&&arr2.map((joinR,i)=> {
 
 return(
-<div data-aos={"fade-up"} data-aos-once='true' class={`rounded-lg col-span-1 -mt-1 z-[90] pointer-events-auto ${arr2 && arr2.length === 1 ? 'md:col-start-2 lg:col-start-2 sm:col-start-2  col-start-1 lg:col-span-1 sm:col-span-2 col-span-4 relative' :''} shadow-lg bg-white `}>
+<div data-aos={"fade-up"} data-aos-once='true' class={`rounded-lg col-span-1 -mt-1 z-[75] pointer-events-auto ${arr2 && arr2.length === 1 ? 'md:col-start-2 lg:col-start-2 sm:col-start-2  col-start-1 lg:col-span-1 sm:col-span-2 col-span-4 relative' :''} shadow-lg bg-white `}>
 <a href="#!">
 <img class="rounded-t-lg scale-75 -my-5 " src={projects2[i]?projects2[i].projPic:''} alt=""/>
 </a>
@@ -447,9 +447,9 @@ View profile:   <p onClick={()=> {
 <div class = 'z-[90] relative  lg:text-base text-sm pointer-events-auto'>
 {joinR.appStatus === 'Invited'? 
 
-<div class = 'relative mt-6 mb-1 mx-auto z-[90]   grid grid-cols-2 gap-2'>
-<button onClick={()=>confirmRejectionInvite(i,2)} class = 'shadow-md z-[90] text-sm hover:shadow-xl cursor-pointer active:shadow-sm  text-center justify-center pointer-events-auto bg-gradient-to-r from-orange-600 to-orange-500  p-3 py-2 pt-1.5 rounded-lg text-white font-semibold'>Cancel Invite</button>
-<button onClick={()=>confirmInvite(i)} class = 'shadow-md text-sm hover:shadow-xl z-[90]   cursor-pointer active:shadow-sm  text-center justify-center bg-gradient-to-r pointer-events-auto from-blue-600 to-indigo-500 p-3 py-2 rounded-lg text-white font-semibold'>Confirm Invite and Join</button>
+<div class = 'relative mt-6 mb-1 mx-auto z-[75]   grid grid-cols-2 gap-2'>
+<button onClick={()=>confirmRejectionInvite(i,2)} class = 'shadow-md z-[75] text-sm hover:shadow-xl cursor-pointer active:shadow-sm  text-center justify-center pointer-events-auto bg-gradient-to-r from-orange-600 to-orange-500  p-3 py-2 pt-1.5 rounded-lg text-white font-semibold'>Cancel Invite</button>
+<button onClick={()=>confirmInvite(i)} class = 'shadow-md text-sm hover:shadow-xl z-[75]   cursor-pointer active:shadow-sm  text-center justify-center bg-gradient-to-r pointer-events-auto from-blue-600 to-indigo-500 p-3 py-2 rounded-lg text-white font-semibold'>Confirm Invite and Join</button>
 </div>
 
 :joinR.appStatus === 'Rejected'?
