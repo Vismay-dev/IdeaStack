@@ -124,6 +124,7 @@ arrPrior = arrPrior.filter(e=> e!==0)
 const location = useLocation()
  
   const filterByText = (s)=> {
+    setAllUsers(origUsers)
     if(s!=='') {
     textFilter(s);
     }else {
@@ -167,9 +168,6 @@ const [dateOfUpload, setDateOfUpload] = useState()
            return member.id;
           })
           setOrigUsers(res.data.filter(user=> {
-            return !teamArr.includes(user._id)
-          }))
-          setAllUsers(res.data.filter(user=> {
             return !teamArr.includes(user._id)
           }))
           setLoading(false)
