@@ -69,7 +69,7 @@ loading?
                                 return (
                                     <>
                                     <div class={`flex items-center lg:top-0 top-1 text-md justify-center mx-auto relative   bg-gradient-to-r from-indigo-300 to-blue-200 border-b-[1px] py-2.5   border-blue-600`}>
-                   <img class="hidden object-cover w-10 h-10 shadow-md mx-2 relative right-1 rounded-full sm:block" src={proj.team[i].pic!==null?proj.team[i].pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
+                   <img class="hidden object-cover w-10 h-10 shadow-md mx-2 relative right-1 rounded-full sm:block" src={proj.team[i]&&proj.team[i].pic?proj.team[i].pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
                    <a class="font-bold text-gray-700 mr-6  relative cursor-pointer ">
                    {proj?proj.team[i].name:''}{i==0?' (Admin)':''}
                    
