@@ -120,6 +120,9 @@ arrPrior = arrPrior.filter(e=> e!==0)
     setText(e.target.value)
     filterByText(e.target.value);
  }
+
+
+
   const filterByText = (s)=> {
     if(s!=='') {
     textFilter(s);
@@ -155,6 +158,10 @@ setProj(projSelected?projSelected:'')
 
 const [mentorDate, setMentorDate] = useState()
 const [dateOfUpload, setDateOfUpload] = useState()
+useEffect(()=> {
+  setAllUsers(origUsers)
+},[origUsers])
+
   useEffect(()=> {
     setLoading(true)
 
@@ -164,9 +171,6 @@ const [dateOfUpload, setDateOfUpload] = useState()
            return member.id;
           })
           setOrigUsers(res.data.filter(user=> {
-            return !teamArr.includes(user._id)
-          }))
-          setAllUsers(res.data.filter(user=> {
             return !teamArr.includes(user._id)
           }))
           setLoading(false)
