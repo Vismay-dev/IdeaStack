@@ -3,13 +3,35 @@ import { useEffect, useContext,useState } from "react";
 import projectContext from "../../../context/projectContext";
 import {RiTeamFill} from 'react-icons/ri'
 
-// components
-
-
+import axios from 'axios'
+import {useLocation} from 'react-router-dom'
 
 export default function CardTeam() {
    const projectsCurr = useContext(projectContext)
     const [proj, setProj] = useState('')
+
+    const location = useLocation()
+
+
+    useEffect(()=> {
+      if(sessionStorage.getItem('token')!==null){
+        axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/getUserProjects':'http://localhost:4000/api/user/getUserProjects',
+        {token: sessionStorage.getItem('token')}).then(res=> {
+          projectsCurr.setProjects(res.data)
+          let projSelected = ''
+ if(sessionStorage.getItem('managing')){
+     projSelected = projectsCurr.projects.filter((proj)=> {
+       return proj._id === String(sessionStorage.getItem('managing'))
+     })[0]      
+ }
+ setProj(projSelected?projSelected:'')
+
+        })
+      }
+    },[location.pathname])
+ 
+    
+
 
 useEffect(()=> {
  let projSelected = ''
@@ -50,7 +72,9 @@ useEffect(()=> {
             <tbody class = 'overflow-scroll'>
 
               {proj && proj.team.map((teamMember,i) => {
-
+if(i==1){
+  // window.prompt(teamMember.name)
+}
 
 return (
   <>

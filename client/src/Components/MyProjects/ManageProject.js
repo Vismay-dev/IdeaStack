@@ -273,8 +273,8 @@ const [dateOfUpload, setDateOfUpload] = useState()
       <div  className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 xl:left-0 left-0.5  relative justify-center mx-auto sm:px-[60px] px-[18px] mt-[63px]  xl:gap-5 gap-9 ">
 
 
-<div style = {{'backgroundImage':'url(https://upload.wikimedia.org/wikipedia/commons/8/81/Maxresdefault_%281%29.jpg)'}} data-aos={"fade-up"} data-aos-once='true' class = {`xl:col-span-3 lg:col-span-2 col-span-1 ${project&&(project.maxCap - project.team.length===0||user._id!==project.admin.id)?'hidden':'block'} bg-gradient-to-br md:h-[330px] h-[385px] mb-1.5 relative border-[1px] border-blue-700 rounded-md from-blue-50 to-indigo-200`}>
-      <div class = 'bg-gradient-to-br from-blue-50 to-indigo-200 h-full lg:w-[60%] md:w-[85%] w-[100%] sm:pt-[21px] pt-[28px] relative mx-auto block'>
+<div style = {{'backgroundImage':'url(https://upload.wikimedia.org/wikipedia/commons/8/81/Maxresdefault_%281%29.jpg)'}} data-aos={"fade-up"} data-aos-once='true' class = {`xl:col-span-3 lg:col-span-2 col-span-1 ${project&&(project.maxCap - project.team.length===0||user._id!==project.admin.id)?'hidden':'block'} bg-gradient-to-br z-[75] md:h-[330px] h-[385px] mb-1.5 relative border-[1px] border-blue-700 rounded-md from-blue-50 to-indigo-200`}>
+      <div class = 'bg-gradient-to-br from-blue-50 to-indigo-200 h-full lg:w-[60%] md:w-[85%]  w-[100%] sm:pt-[21px] pt-[28px] relative mx-auto block'>
       
       <h3 class = 'font-semibold text-center mx-auto relative mr-1 text-2xl underline'><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1 relative bottom-[2px] font-semibold text-blue-800 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
@@ -283,8 +283,8 @@ const [dateOfUpload, setDateOfUpload] = useState()
 
     
 
-      <input type="text" onChange={textChangeHandler} class={`w-[270px] relative mx-auto block ${memberSelected?'mt-7':'md:mt-9 mt-12'}  py-2   pr-4  text-gray-900 bg-white border-0 pl-4 shadow-md rounded-md  focus:border-blue-00  focus:ring-blue-700 focus:ring-opacity-40 focus:outline-none focus:ring`} placeholder="Search User"/>
-      <ul ref = {myRef} class={`bg-white border border-gray-100 ${allUsers.length ===0 || text === ''?'hidden':'block'} w-[270px] mx-auto absolute mt-[3px] left-0 right-0 mr-auto ml-auto z-40 shadow-md mb-8`}>
+      <input type="text" onChange={textChangeHandler} class={`w-[270px] relative mx-auto block ${memberSelected?'mt-7':'md:mt-9 mt-12'}  py-2   pr-4   text-gray-900 bg-white border-0 pl-4 shadow-md rounded-md  focus:border-blue-00  focus:ring-blue-700 focus:ring-opacity-40 focus:outline-none focus:ring`} placeholder="Search User"/>
+      <ul ref = {myRef} class={`bg-white border border-gray-100 ${allUsers.length ===0 || text === ''?'hidden':'block'} w-[270px] mx-auto absolute mt-[3px] h-[159px] overflow-hidden z-[75] left-0 right-0 mr-auto ml-auto shadow-md mb-8`}>
             {
               allUsers&&allUsers.map(user=> {
                 return (
@@ -296,7 +296,7 @@ const [dateOfUpload, setDateOfUpload] = useState()
 });
 setText('');
 }
- } class="pl-8 pr-2 py-2 border-b-2 border-gray-100 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900">
+ } class="pl-8 pr-2 py-2 z-[75] border-b-2 border-gray-200 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900">
                 <svg class="absolute w-4 h-4 left-2 top-[18px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
                 </svg>
