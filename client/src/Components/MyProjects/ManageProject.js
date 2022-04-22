@@ -234,7 +234,7 @@ const [dateOfUpload, setDateOfUpload] = useState()
     let currdate = new Date(projSelected.createdAt).toDateString().substring(4)
   setDate(currdate.slice(0, 6) + "," + currdate.slice(6))
     }
-  },[])
+  },[origUsers])
 
   const [inviteSent, setInviteSent] = useState(false)
 
