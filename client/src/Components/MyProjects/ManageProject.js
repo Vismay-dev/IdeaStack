@@ -284,7 +284,7 @@ const [dateOfUpload, setDateOfUpload] = useState()
     
 
       <input type="text" onChange={textChangeHandler} class={`w-[270px] relative mx-auto block ${memberSelected?'mt-7':'md:mt-9 mt-12'}  py-2   pr-4   text-gray-900 bg-white border-0 pl-4 shadow-md rounded-md  focus:border-blue-00  focus:ring-blue-700 focus:ring-opacity-40 focus:outline-none focus:ring`} placeholder="Search User"/>
-      <ul ref = {myRef} class={`bg-white border border-gray-100 ${allUsers.length ===0 || text === ''?'hidden':'block'} w-[270px] mx-auto absolute mt-[3px] h-[159px] overflow-hidden z-[75] left-0 right-0 mr-auto ml-auto shadow-md mb-8`}>
+      <ul ref = {myRef} class={`bg-white border border-gray-100 ${allUsers.length ===0 || text === ''?'hidden':'block'} w-[270px] mx-auto absolute mt-[3px] h-[179px] overflow-hidden z-[75] left-0 right-0 mr-auto ml-auto shadow-md mb-8`}>
             {
               allUsers&&allUsers.map(user=> {
                 return (
