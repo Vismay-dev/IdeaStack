@@ -122,7 +122,7 @@ arrPrior = arrPrior.filter(e=> e!==0)
  }
 
 
-
+ 
   const filterByText = (s)=> {
     if(s!=='') {
     textFilter(s);
@@ -158,10 +158,6 @@ setProj(projSelected?projSelected:'')
 
 const [mentorDate, setMentorDate] = useState()
 const [dateOfUpload, setDateOfUpload] = useState()
-useEffect(()=> {
-  setAllUsers(origUsers)
-},[origUsers])
-
   useEffect(()=> {
     setLoading(true)
 
@@ -171,6 +167,9 @@ useEffect(()=> {
            return member.id;
           })
           setOrigUsers(res.data.filter(user=> {
+            return !teamArr.includes(user._id)
+          }))
+          setAllUsers(res.data.filter(user=> {
             return !teamArr.includes(user._id)
           }))
           setLoading(false)
@@ -235,7 +234,7 @@ useEffect(()=> {
     let currdate = new Date(projSelected.createdAt).toDateString().substring(4)
   setDate(currdate.slice(0, 6) + "," + currdate.slice(6))
     }
-  },[projects, proj])
+  },[])
 
   const [inviteSent, setInviteSent] = useState(false)
 
