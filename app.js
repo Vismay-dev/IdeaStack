@@ -38,7 +38,7 @@ app.use(cors())
 const io = socketIo(http,{ 
     cors: {
     //   origin: 'https://localhost:3000'
-    origin:"https://ideastack.org"
+    origin:"https://www.ideastack.org"
     }
 })
 
