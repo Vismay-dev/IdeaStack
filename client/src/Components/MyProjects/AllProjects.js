@@ -42,7 +42,7 @@ const AllProjects = () => {
         projectCon.projects.length===0?
 
 
-        <p class = 'text-4xl font-semibold col-span-2 text-center mt-[77px] -mb-3.5 right-1 mx-auto relative'><svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 inline text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <p class = 'text-4xl font-semibold col-span-2 text-center mt-[81px] -mb-3.2 right-1 mx-auto relative'><svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 inline text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
       </svg> <span class = 'top-0.5 relative'>No Projects</span></p>
 

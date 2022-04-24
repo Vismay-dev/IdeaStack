@@ -14,6 +14,7 @@ import ReactGA from 'react-ga';
 const TRACKING_ID = "UA-226293861-1"; // OUR_TRACKING_ID
 ReactGA.initialize(TRACKING_ID);
 
+
 function App() {
 
   const [loading, setLoading] = useState(false)

@@ -11,11 +11,13 @@ import { CircleLoader } from "react-awesome-loaders";
 import BeatLoader from "react-spinners/BeatLoader";
 
 const ViewApplications = (props) => {
+  const [currentI, setCurrentI] = useState(0)
+
     useEffect(() => {
         AOS.init({
           duration : 1000
         });
-      }, []);
+      }, [currentI]);
     
       const myRef = useRef()
     
@@ -69,7 +71,6 @@ const ViewApplications = (props) => {
                 for(let x = 0; x<projCon.projects[k].joinRequests.filter(jR=>jR.isInvite!==true).length;x++) {
                     axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/getProjUser':'http://localhost:4000/api/project/getProjUser',
                     {token:sessionStorage.getItem('token'),id:projCon.projects[k].joinRequests[x].id}).then(res=> {     
-                     console.log(res.data)
                       applicantsTemp.push(res.data)
                       setApplicants(applicantsTemp)
                     }).catch(err=> {
@@ -115,7 +116,6 @@ const ViewApplications = (props) => {
        })
       }
 
-      const [currentI, setCurrentI] = useState(0)
 
 
       const openProfile = (id) => {
@@ -123,7 +123,7 @@ const ViewApplications = (props) => {
         window.open(process.env.NODE_ENV ==='production'?'https://ideastack.org/viewProfile':'http://localhost:3000/viewProfile', '_blank')
       }
 
-
+     
 
 
     return (
@@ -201,9 +201,9 @@ const ViewApplications = (props) => {
 {
 addedNewMember?
 <>
-<h3 class = 'text-center font-semibold text-3xl my-9 mt-8'><span class = 'text-blue-500'>Adding the Applicant</span> as a Team Member...</h3>
+<h3 class = 'text-center font-semibold text-3xl my-9 mt-8'><span class = 'text-black'>Sending the Applicant</span> - Team Acceptance...</h3>
 <div class ='relative mx-auto pb-4 left-1.5 mt-3  pt-1.5 text-center block justify-center'>
-<BeatLoader color={'#3896FF'} loading={true} margin = {6}  size={20} />
+<BeatLoader color={'#6366F1'} loading={true} margin = {6}  size={20} />
 </div>
 </>
 
@@ -219,9 +219,11 @@ rejectedMember?
 
 
 applications && applicants && applicants.map((app,i) => {
+  
+
 return (
 
-<div data-aos={"zoom-in-up"}  data-aos-once='true' key = {i} class = {i===currentI?'visible':'hidden'}>
+<div data-aos={"zoom-in-up"}  data-aos-once='true' key = {i} class = {i===currentI?'block':'hidden'}>
 
 
 <div class = 'relative mx-auto z-40 text-center top-[210px]  align-middle justify-center block '>

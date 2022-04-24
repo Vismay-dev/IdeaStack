@@ -67,7 +67,6 @@ const ManageApps = () => {
     }
   },[projects])
 
-  console.log(project&&project.admin)
   
 
   const [acceptingApp, setAcceptingApp] = useState() 
@@ -146,7 +145,7 @@ const ManageApps = () => {
 <div class={`rounded-lg shadow-lg bg-gradient-to-r  border-[1px] border-blue-600  from-blue-50 to-indigo-200 overflow-hidden mb-0`}>
   <div class = 'h-[114px] pt-2.5 pb-2'>
   <p className="text-center top-3 text-xl font-semibold relative">Status: </p><br/>
-    <p class={`sm:text-3xl text-2xl ${acceptingApp?'text-blue-700':'text-red-500'} relative text-center bottom-1.5 lg:px-[50px] sm:px-[20px] px-[15px]`}>{acceptingApp?'Accepting Applications':'Not Accepting Applications'}</p>     
+    <p class={`sm:text-[27px] text-[23px] ${acceptingApp?'text-blue-700':'text-red-500'} relative text-center bottom-[5px] lg:px-[50px] sm:px-[20px] px-[15px]`}>{acceptingApp?'Accepting Applications':'Not Accepting Applications'}</p>     
   </div>
   <div class={`${!latestAccepted?'pt-4 pb-[49px]':'pt-2 lg:pb-8 pb-9'}  mt-2 bg-gradient-to-r from-gray-50 to-slate-50 text-center`}>
   <p className="text-center top-4 text-xl font-semibold relative px-10">Applications Accepted: </p><br/>

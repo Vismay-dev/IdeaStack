@@ -117,25 +117,30 @@ router.post('/confirmAcceptance',auth, async(req,res)=> {
     }
 
     proj.team.push(appObj)
+    proj.markModified('team');
+    await proj.save()
+
     applicant.projects.push(proj._id)
+    applicant.markModified('projects');
+    await applicant.save()
 
     proj.joinRequests = proj.joinRequests.filter(jR=> {
-        jR!==req.body.application
+        console.log(JSON.stringify(jR.id))
+        console.log(JSON.stringify(req.body.application.id))
+        return (JSON.stringify(jR.id)!==JSON.stringify(req.body.application.id))
     })
 
+    proj.markModified('joinRequests');
+    await proj.save()
+
     applicant.joinRequests = applicant.joinRequests.filter(jR=> {
-        jR!==req.body.application
+        return(JSON.stringify(jR.id)!==JSON.stringify(req.body.application.id))
     })
 
 
     applicant.markModified('joinRequests');
-    proj.markModified('joinRequests');
-
-
     await applicant.save()
 
-    await proj.save()
-     
 
     res.send(applicant.joinRequests)
 })
@@ -211,9 +216,36 @@ router.post('/confirmRejectionInvite',auth, async(req,res)=> {
 
 router.post('/updateFeed',auth, async(req,res)=> {
     const proj = await project.findOne({_id:req.body.projectID})
+    const io = req.io;
     proj.messages = req.body.feed;
     let newProj = await proj.save()
+    io.emit('redistributeMessages',{feed:proj.messages,id:req.body.projectID})
     res.send(newProj.messages);
+})
+
+router.post('/seeMessages',auth,async(req,res)=> {
+    const proj = await project.findOne({_id:req.body.projectID})
+    const viewer = await studentUser.findOne({_id:req.user._id});
+
+
+    if(proj){
+    for(let x = 0; x<proj.messages.length;x++){
+        if(!(proj.messages[x].seenBy)){
+            proj.messages[x].seenBy = [viewer.firstName + ' ' + viewer.lastName]
+        }
+        if(!(proj.messages[x].seenBy.includes(viewer.firstName + ' ' + viewer.lastName))){
+       proj.messages[x].seenBy.push(viewer.firstName + ' ' + viewer.lastName)
+    }
+
+    }
+
+    proj.markModified('messages');
+    await proj.save().catch(err=> {
+        console.log(err)
+    })
+}
+res.send(proj.messages)
+
 })
 
 router.post('/uploadProjectFile',auth, async(req,res)=> {

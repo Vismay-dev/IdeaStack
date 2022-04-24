@@ -11,28 +11,17 @@ const jwt = require('jsonwebtoken')
 const User = require('./server/models/studentUser')
 const cloudinary = require('cloudinary')
 const session = require('express-session')
-
-
 const MongoDBSession = require('connect-mongodb-session')(session)
+const socketIo = require('socket.io')
 
 dotenv.config()
 
-app.use(cors())
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET
 })
-
-const io = require('socket.io')(http, {
-    cors: {
-      origin: process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com:3000':'http://localhost:3000',
-      methods: ["GET", "POST"]
-    }
-  }) 
-
-
 
 
 mongoose.connect(process.env.MONGODB,{useUnifiedTopology:true,useNewUrlParser:true },
@@ -44,10 +33,27 @@ mongoose.connection.on('error', function (err) { console.log(err) });
 
 app.use(express.json())
 
+app.use(cors())
 
-io.on('connection', (socket) => {
-   
+const io = socketIo(http,{ 
+    cors: {
+      origin: process.env.NODE_ENV==='production'?'https://www.ideastack.org':'http://localhost:3000'
+    }
 })
+
+
+io.on('connection',(socket)=>{   
+    socket.on('disconnect',(reason)=>{
+
+    })
+  })
+
+app.use((req,res,next)=> {
+    req.io = io;
+    next()
+})
+
+
 
 const port = process.env.PORT||4000;
 
