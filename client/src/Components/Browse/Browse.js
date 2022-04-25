@@ -48,7 +48,7 @@ const Browse = () => {
           var boolean = false;
           for(let j = 0; j<wordFilterArr.length;j++) {
               for(let k = 0; k<wordsContained.length; k++){
-                  if(wordsContained[k]===wordFilterArr[j]){
+                if(wordsContained[k].indexOf(wordFilterArr[j])>-1){
                       arrPrior[i]++
                       boolean = true;
                   }
@@ -204,14 +204,14 @@ projects.map((proj,i)=> {
 
   return(
     <div class={`md:w-1/2 w-full xl:w-1/3  sm:px-4 px-4 z-[50] pointer-events-auto`}>
-    <div  data-aos={"fade-up"}  data-aos-once='true' class={`rounded-lg pointer-events-auto z-40 shadow-lg bg-gradient-to-r relative  from-blue-50 to-indigo-100 -mb-1`}>
+    <div  data-aos={"fade-up"}  data-aos-once='true' class={`rounded-lg pointer-events-auto z-40 shadow-lg bg-gradient-to-r relative  from-blue-50 to-indigo-100 `}>
 
        <img
           src={proj.projPic}
           alt="image"
           class="w-full h-56 object-contain py-7 -mb-3 bg-gray-50 border-b-2 border-gray-400 relative"
           />
-       <div class="p-8 pb-9  text-center">
+       <div class="p-8 pb-9 h-[315px] align-middle  text-center">
           <h3>
              <a
                 href="javascript:void(0)"
@@ -233,12 +233,14 @@ projects.map((proj,i)=> {
              <span class="text-sm mx-auto relative font-light text-gray-600 ">{date}</span>
 
           </h3>
+
+          <div class = {`align-middle inline-block relative ${String(proj.problem).length<155?'top-4':''}`}>
           <p class="sm:text-base  text-sm text-body-color mt-4 leading-relaxed mb-8">
             {proj.problem}
           </p>
 
-          <button onClick={()=> {setShowMore(true); setProjI(i) }} class = 'bg-gradient-to-br  from-blue-400 to-indigo-400 relative  z-[10000] pointer-events-auto active:shadow-md mx-auto w-2/5  justify-center lg:w-1/3 md:w-1/2  -mt-2  -mb-6 items-center shadow-lg hover:from-blue-700 hover:to-blue-600 text-white p-1.5  px-2 rounded-md sm:text-lg text-md   hover:cursor-pointer'>View More</button>
-
+          <button onClick={()=> {setShowMore(true); setProjI(i) }} class = 'bg-gradient-to-br  from-blue-400 to-indigo-400 relative  z-[75] pointer-events-auto active:shadow-md mx-auto w-2/5  justify-center xl:w-2/5 lg:w-1/3 md:w-1/2  -mt-2  -mb-6 items-center shadow-lg hover:from-blue-700 hover:to-blue-600 text-white p-1.5  px-2 rounded-md sm:text-lg text-md   hover:cursor-pointer'>View More</button>
+          </div>
        </div>
 
     </div>

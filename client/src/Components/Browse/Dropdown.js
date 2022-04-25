@@ -8,6 +8,7 @@ import {GiVintageRobot, GiPowerGenerator, GiArtificialIntelligence} from 'react-
 import {GrDeliver} from 'react-icons/gr'
 import {SiHiveBlockchain} from 'react-icons/si'
 import {BsCheckAll} from 'react-icons/bs'
+import {CgCodeClimate} from 'react-icons/cg'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -20,14 +21,16 @@ export default function Dropdown(props) {
   let categories = [
     {name:'All', icon:<BsCheckAll class = 'inline mr-[3.5px] w-[18px] right-[1px] bottom-[0.85px] relative h-[18px]'/>,id:0},
     {name:'Robotics', icon:<GiVintageRobot class = 'inline mr-[3.5px] w-[18px] right-[1px] bottom-[0.85px] relative h-[18px]'/>,id:1},
+    {name:'Environment', icon: <CgCodeClimate class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:10},
+    {name:'Energy',icon:<GiPowerGenerator class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:7},
     {name:'Web Development',icon:<MdWeb class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:2},
     {name:'Mobile App Development',icon:<MdDeveloperMode class = 'inline mr-[3.5px] w-[18px] right-[1px] bottom-[0.85px] relative h-[18px]'/>,id:3},
-    {name:'Logistics (Transport and Storage of Goods)' ,icon:<GrDeliver class = 'inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]'/>,id:4},
     {name:'EdTech (Educational Technology)',icon:<MdOutlineCastForEducation class = 'inline mr-[4px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]'/>,id:5},
     {name:'Healthcare',icon:<MdHealthAndSafety class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:6},
-    {name:'Energy',icon:<GiPowerGenerator class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:7},
     {name:'AI',icon:<GiArtificialIntelligence class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:8},
     {name:'Blockchain', icon:<SiHiveBlockchain class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:9},
+    {name:'Logistics (Transport and Storage of Goods)' ,icon:<GrDeliver class = 'inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]'/>,id:4}
+
   ]
   return (
     <Menu as="div" className="relative sm:inline-block block md:text-md text-sm z-[100] sm:px-0 px-9  sm:mt-0 -mt-2.5 sm:mb-0 mb-2  sm:ml-5 mx-auto text-left">

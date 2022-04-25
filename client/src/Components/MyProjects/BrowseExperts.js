@@ -57,7 +57,7 @@ useEffect(() => {
           var boolean = false;
           for(let j = 0; j<wordFilterArr.length;j++) {
               for(let k = 0; k<wordsContained.length; k++){
-                  if(wordsContained[k]===wordFilterArr[j]){
+                if(wordsContained[k].indexOf(wordFilterArr[j])>-1){
                       arrPrior[i]++
                       boolean = true;
                   }

@@ -351,7 +351,7 @@ setText('');
      class="w-full h-56 object-contain py-3 -mb-3 bg-gray-50 border-b-2 border-gray-400 relative"
      />
   <div class="p-8 sm:p-9 md:px-7 md:pt-9 md:pb-10 lg:p-7 xl:py-9 xl:px-6 text-center">
-  <button onClick={()=>setEditing(true)} class = 'relative -top-1 flex justify-start -mb-[34px] rounded-md shadow-md hover:shadow-xl active:shadow-sm left-3 font-semibold text-white bg-blue-600 hover:bg-blue-700 p-1 px-3'>EDIT</button>
+  <button onClick={()=>setEditing(true)} class = 'relative xl:-top-1 flex justify-start -mb-[34px] rounded-md shadow-md hover:shadow-xl active:shadow-sm sm:left-0 -left-1.5 font-semibold text-white bg-blue-600 hover:bg-blue-700 sm:text-base text-sm p-1 sm:px-3 px-2'>EDIT</button>
 
      <h3>
 
@@ -375,7 +375,7 @@ setText('');
         <span class="text-sm mx-auto relative font-light text-gray-600 ">{date?date:''}</span>
 
      </h3>
-     <p class="text-base text-body-color mt-4 lg:w-full xl:w-[300px]  md:w-[630px] md:block md:mx-auto md:justify-center md:text-center leading-relaxed mb-7">
+     <p class="text-base text-body-color mt-4 lg:w-full xl:w-[320px]  md:w-[590px] md:block md:mx-auto md:justify-center md:text-center leading-relaxed mb-7">
        {project?project.problem:''}<br/>
        <p class = 'relative top-3 xl:top-7 -mb-5'><strong>Category:</strong> {project?project.category:''}<br/>
        </p>

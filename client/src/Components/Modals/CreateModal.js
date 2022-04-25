@@ -12,20 +12,24 @@ import {MdDeveloperMode, MdWeb, MdOutlineCastForEducation, MdHealthAndSafety} fr
 import {GiVintageRobot, GiPowerGenerator, GiArtificialIntelligence} from 'react-icons/gi'
 import {GrDeliver} from 'react-icons/gr'
 import {SiHiveBlockchain} from 'react-icons/si'
-
+import {CgCodeClimate} from 'react-icons/cg'
+import {BsCheckAll} from 'react-icons/bs'
 
 const CreateProjectModal = (props) => {
 
-  let categories = [
+   let categories = [
+    {name:'All', icon:<BsCheckAll class = 'inline mr-[3.5px] w-[18px] right-[1px] bottom-[0.85px] relative h-[18px]'/>,id:0},
     {name:'Robotics', icon:<GiVintageRobot class = 'inline mr-[3.5px] w-[18px] right-[1px] bottom-[0.85px] relative h-[18px]'/>,id:1},
+    {name:'Environment', icon: <CgCodeClimate class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:10},
+    {name:'Energy',icon:<GiPowerGenerator class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:7},
     {name:'Web Development',icon:<MdWeb class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:2},
     {name:'Mobile App Development',icon:<MdDeveloperMode class = 'inline mr-[3.5px] w-[18px] right-[1px] bottom-[0.85px] relative h-[18px]'/>,id:3},
-    {name:'Logistics (Transport and Storage of Goods)' ,icon:<GrDeliver class = 'inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]'/>,id:4},
     {name:'EdTech (Educational Technology)',icon:<MdOutlineCastForEducation class = 'inline mr-[4px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]'/>,id:5},
     {name:'Healthcare',icon:<MdHealthAndSafety class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:6},
-    {name:'Energy',icon:<GiPowerGenerator class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:7},
     {name:'AI',icon:<GiArtificialIntelligence class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:8},
     {name:'Blockchain', icon:<SiHiveBlockchain class = 'inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]'/>,id:9},
+    {name:'Logistics (Transport and Storage of Goods)' ,icon:<GrDeliver class = 'inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]'/>,id:4}
+
   ]
 
     useEffect(() => {
@@ -184,7 +188,7 @@ useEffect(
 </div>
 
 <div class="relative z-0 mb-10 md:mt-0 w-full group">
-<textarea type="number" name = 'problem' onChange={changeHandler}  id="problem" class="block top-3 relative  w-full text-sm text-gray-900 bg-transparent border-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer h-32 p-2  rounded-md" placeholder=" " required={true}/>
+<textarea type="number" min = {140} max = {200} name = 'problem' onChange={changeHandler}  id="problem" class="block top-3 relative  w-full text-sm text-gray-900 bg-transparent border-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer h-32 p-2  rounded-md" placeholder=" " required={true}/>
 <label  class="absolute text-sm left-0 text-gray-500 duration-300 transform -top-4 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  ">What Problem Are You Solving?</label>
 </div>
 
