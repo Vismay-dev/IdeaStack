@@ -29,6 +29,10 @@ const Feed = () => {
       if(JSON.stringify(data.id)===JSON.stringify(sessionStorage.getItem('managing'))){
       setFeed(data.feed)
       }
+      setTimeout(()=> {
+        setLoading(false)
+
+      },2000)
     })
 
    socket.on('disconnect',()=>console.log('server disconnected'))
@@ -170,10 +174,7 @@ setImage(null)
           
 
         setSendingMessage(false)
-        setTimeout(()=> {
-          setLoading(false)
-
-        },2000)
+        
     }
 
     const deleteMessage = (i) => {
@@ -189,10 +190,7 @@ setImage(null)
               console.log(err)
           })
 
-          setTimeout(()=> {
-            setLoading(false)
 
-          },2000)
 
     }
 
