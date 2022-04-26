@@ -170,7 +170,10 @@ useEffect(()=> {
           
 
         setSendingMessage(false)
-        setLoading(false)
+        setTimeout(()=> {
+          setLoading(false)
+
+        },1200)
     }
 
     const deleteMessage = (i) => {
@@ -186,7 +189,11 @@ useEffect(()=> {
               console.log(err)
           })
 
-        setLoading(false)
+          setTimeout(()=> {
+            setLoading(false)
+
+          },1200)
+
     }
 
     const [showToolTip, setShowToolTip] = useState(false);
