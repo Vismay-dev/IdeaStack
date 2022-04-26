@@ -29,8 +29,6 @@ const Feed = () => {
       if(JSON.stringify(data.id)===JSON.stringify(sessionStorage.getItem('managing'))){
       setFeed(data.feed)
       }
-      setLoading(false)
-
     })
 
    socket.on('disconnect',()=>console.log('server disconnected'))
