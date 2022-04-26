@@ -388,7 +388,7 @@ setText('');
 
 <div data-aos={"fade-up"} data-aos-once='true'  data-aos-delay = '200' class={`w-full  relative h-fit lg:h-[480px] xl:h-[530px] col-span-1`}>
 <div class={`rounded-lg shadow-lg bg-gradient-to-r  border-[1px] border-blue-600 h-fit lg:h-[480px] xl:h-[530px]  from-blue-50 to-indigo-200 overflow-hidden mb-0`}>
-  <div class = 'xl:h-[168px] lg:h-[160px] h-[152px] sm:pt-1.5 xl:pb-7 pt-0'>
+  <div class = 'xl:h-[168px] lg:h-[160px] sm:h-[152px] h-[163px] sm:pt-1.5 xl:pb-7 pt-0'>
     <p className="text-center top-5 text-xl font-semibold relative mb-1">Applications Pending: </p><br/>
     <h1 className = 'text-center text-4xl text-blue-700 bottom-[1px] relative mb-1'>{project?project.joinRequests.filter(jR=>jR.isInvite===false).length:' '}</h1>
     <p class="text-sm relative text-center bottom-[0.2px] top-2.5 font-light text-gray-600 sm:px-[50px] px-[25px] lg:px-[15px] ">Latest Pending Application Received On: <span class = 'text-indigo-500 font-semibold' >{latestReceived&&latestReceived.date?new Date(latestReceived.date).toDateString():'No Pending Applications'}</span></p>
