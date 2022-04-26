@@ -219,7 +219,9 @@ router.post('/updateFeed',auth, async(req,res)=> {
     const io = req.io;
     proj.messages = req.body.feed;
     let newProj = await proj.save()
-    io.emit('redistributeMessages',{feed:proj.messages,id:req.body.projectID})
+    io.emit('redistributeMessages',{feed:proj.messages,id:req.body.projectID}).catch(err=> {
+        console.log(err)
+    })
     res.send(newProj.messages);
 })
 
