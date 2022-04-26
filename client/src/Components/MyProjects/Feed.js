@@ -185,6 +185,8 @@ useEffect(()=> {
           }).catch(err=> {
               console.log(err)
           })
+
+        setLoading(false)
     }
 
     const [showToolTip, setShowToolTip] = useState(false);
