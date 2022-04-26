@@ -166,7 +166,7 @@ style={{'background-image': 'url(https://media.istockphoto.com/photos/dark-blue-
         
         
         
-    <div class="flex flex-wrap mx-auto md:mt-16 mt-12  md:-mb-52 -mb-48 top-2 relative md:px-[80px] sm:px-24 px-7 ">
+    <div class="flex flex-wrap mx-auto md:mt-16 mt-12  md:-mb-52 -mb-48 top-2 relative gap-y-12 md:px-[40px] sm:px-24 lg:px-24 px-7 ">
 
 {
 
@@ -211,7 +211,7 @@ projects.map((proj,i)=> {
           alt="image"
           class="w-full h-56 object-contain py-7 -mb-3 bg-gray-50 border-b-2 border-gray-400 relative"
           />
-       <div class="p-8 pb-9 h-[315px] align-middle  text-center">
+       <div class="lg:p-8 md:p-6 p-8 pb-9 md:h-[315px] h-fit align-middle  text-center">
           <h3>
              <a
                 href="javascript:void(0)"
@@ -234,12 +234,12 @@ projects.map((proj,i)=> {
 
           </h3>
 
-          <div class = {`align-middle inline-block relative ${String(proj.problem).length<155?'top-4':''}`}>
+          <div class = {`align-middle inline-block relative ${String(proj.problem).length<155?'md:top-6':''}`}>
           <p class="sm:text-base  text-sm text-body-color mt-4 leading-relaxed mb-8">
             {proj.problem}
           </p>
 
-          <button onClick={()=> {setShowMore(true); setProjI(i) }} class = 'bg-gradient-to-br  from-blue-400 to-indigo-400 relative  z-[75] pointer-events-auto active:shadow-md mx-auto w-2/5  justify-center xl:w-2/5 lg:w-1/3 md:w-1/2  -mt-2  -mb-6 items-center shadow-lg hover:from-blue-700 hover:to-blue-600 text-white p-1.5  px-2 rounded-md sm:text-lg text-md   hover:cursor-pointer'>View More</button>
+          <button onClick={()=> {setShowMore(true); setProjI(i) }} class = 'bg-gradient-to-br  from-blue-400 to-indigo-400 relative  z-[75] pointer-events-auto active:shadow-md mx-auto w-[110px]  justify-center xl:w-[120px] lg:w-[110px] md:w-[110px]  -mt-2  -mb-6 items-center shadow-lg hover:from-blue-700 hover:to-blue-600 text-white p-1.5  px-2 rounded-md sm:text-lg text-md   hover:cursor-pointer'>View More</button>
           </div>
        </div>
 
