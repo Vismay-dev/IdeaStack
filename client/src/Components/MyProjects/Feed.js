@@ -154,7 +154,7 @@ useEffect(()=> {
           setMessage(messageTemp)
           setFeed(res.data);
     
-
+setImage(null)
 
           }).catch(err=> {
               console.log(err)
