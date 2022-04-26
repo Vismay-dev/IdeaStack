@@ -25,7 +25,6 @@ const Feed = () => {
   useEffect(()=>{
     const socket = io('http://localhost:4000')
     socket.on('redistributeMessages',(data)=> {
-      setLoading(true)
       console.log('Message Redistributed')
       if(JSON.stringify(data.id)===JSON.stringify(sessionStorage.getItem('managing'))){
       setFeed(data.feed)
@@ -141,7 +140,7 @@ useEffect(()=> {
         feedTemp = [
           ...feedTemp, messageTemp
         ]
-        
+        setLoading(true)
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/getUser':'http://localhost:4000/api/user/getUser',{token:sessionStorage.getItem('token')}).then(res=> {
         setSendingMessage(false)
         setLoading(true)
@@ -173,6 +172,7 @@ useEffect(()=> {
           
 
         setSendingMessage(false)
+        setLoading(false)
     }
 
     const deleteMessage = (i) => {
