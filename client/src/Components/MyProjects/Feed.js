@@ -159,7 +159,6 @@ useEffect(()=> {
           setFeed(res.data);
     
 
-          setLoading(false)
 
           }).catch(err=> {
               console.log(err)
@@ -187,7 +186,6 @@ useEffect(()=> {
 
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/updateFeed':'http://localhost:4000/api/project/updateFeed',{token:sessionStorage.getItem('token'), feed:feedTemp ,projectID:sessionStorage.getItem('managing')}).then(res=> {
           setFeed(res.data);
-          setLoading(false)
           }).catch(err=> {
               console.log(err)
           })
@@ -312,7 +310,7 @@ feed? feed.map((message,i)=> {
   <div class="py-2 z-40 flex flex-row items-center justify-between">
     <div class="flex flex-row items-center">
       <a href="#" class="flex flex-row items-center focus:outline-none focus:shadow-outline rounded-lg">
-        <img class="rounded-full sm:h-8 sm:w-8 h-6 w-6 object-cover" src={message.authorPicture} alt=""/>
+        <img class="rounded-full sm:h-8 sm:w-8 h-6 w-6 object-cover" src={message&message.authorPicture?message.authorPicture:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt=""/>
         <p class="ml-2 sm:text-base text-sm font-medium">{message.from}</p>
       </a>
     </div>
