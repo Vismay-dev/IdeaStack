@@ -173,7 +173,7 @@ useEffect(()=> {
         setTimeout(()=> {
           setLoading(false)
 
-        },1700)
+        },2000)
     }
 
     const deleteMessage = (i) => {
@@ -192,7 +192,7 @@ useEffect(()=> {
           setTimeout(()=> {
             setLoading(false)
 
-          },1200)
+          },2000)
 
     }
 
