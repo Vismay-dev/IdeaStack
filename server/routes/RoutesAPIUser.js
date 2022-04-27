@@ -23,6 +23,7 @@ router.post('/sendUserQuery',(req,res)=> {
             const transport = await nodemailer.createTransport({
                 service: 'gmail',
                 port:465,
+                type: 'OAuth2',
                 secure: true,
                 auth: {
                     user: 'ideastackapp@gmail.com',
@@ -206,13 +207,14 @@ router.post('/sendResetCode',async(req,res)=> {
                         subject:'Password Reset',
                         text:`
                         Hey ${user.firstName},
-                
-                        Your message has been noted.
-                        Message: ${req.body.message}.
-                        We'll get back to you as soon as possible!
+            
+                        Welcome Back to IdeaStack!
+                        Requested Password Reset Code: ${req.body.code}.
+                        Please use this code to access the privilege to reset your password. It will expire in 10 minutes
                         
                         Best Regards,
-                        Outreach, IdeaStack™`,
+                        Outreach team, IdeaStack™
+                         `,
                         html: `
                         <p>Hey ${user.firstName}!</p>
                 
