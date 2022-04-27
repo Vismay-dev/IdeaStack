@@ -33,7 +33,7 @@ const Feed = () => {
 
         setFeed(data.feed)
       setTimeout(()=> {
-        setLoading(false)
+        // setLoading(false)
       },2000)
       }
     })
