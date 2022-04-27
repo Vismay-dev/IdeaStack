@@ -25,14 +25,17 @@ const Feed = () => {
   useEffect(()=>{
     const socket = io('http://localhost:4000')
     socket.on('redistributeMessages',(data)=> {
+      setLoading(true)
+
       console.log('Message Redistributed')
       if(JSON.stringify(data.id)===JSON.stringify(sessionStorage.getItem('managing'))){
-      setFeed(data.feed)
-      }
+        setLoading(true)
+
+        setFeed(data.feed)
       setTimeout(()=> {
         setLoading(false)
-
       },2000)
+      }
     })
 
    socket.on('disconnect',()=>console.log('server disconnected'))
@@ -161,12 +164,10 @@ setImage(null)
 
           }).catch(err=> {
               console.log(err)
-              // setLoading(false)
 
           })
         }).catch(err=> {
             console.log(err)
-            // setLoading(false)
 
         })
 
