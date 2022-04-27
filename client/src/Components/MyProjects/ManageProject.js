@@ -30,6 +30,7 @@ export default function ManageProject() {
   },[]);
 
   const myRef = useRef()
+  const [isHovering, setIsHovering] = useState(false)
 
   useEffect(
     () => {
@@ -38,7 +39,9 @@ export default function ManageProject() {
         if (!myRef.current || myRef.current.contains(event.target)) {
           return;
         }
-        setAllUsers([])
+        setTimeout(()=> {
+          setAllUsers([])
+        },100)
       };
       document.addEventListener("mousedown", listener);
       document.addEventListener("touchstart", listener);
@@ -47,16 +50,10 @@ export default function ManageProject() {
         document.removeEventListener("touchstart", listener);
       };
     },
-    // Add ref and handler to effect dependencies
-    // It's worth noting that because the passed-in handler is a new ...
-    // ... function on every render that will cause this effect ...
-    // ... callback/cleanup to run every render. It's not a big deal ...
-    // ... but to optimize you can wrap handler in useCallback before ...
-    // ... passing it into this hook.
+
     [myRef, () => setAllUsers([])]
   );
   
-
   const user = useContext(userContext).user
 
 
@@ -73,12 +70,11 @@ export default function ManageProject() {
     let arr = []
     let arrPrior = []
     let array = origUsers
-    const wordFilterArr = String(text).toLowerCase().split(/(?:,| )+/) //Words to be searched for in task names
-    console.log(wordFilterArr)
+    const wordFilterArr = [String(text)] //Words to be searched for in task names
     for(let i = 0; i<Array(...array).length;i++) {
         arrPrior.push(0);
         var projName = (array[i]['firstName']+' '+array[i]['lastName']).toLowerCase();
-        var wordsContained = projName.split(/(?:,| )+/)
+        var wordsContained = [projName]
         var boolean = false;
         for(let j = 0; j<wordFilterArr.length;j++) {
             for(let k = 0; k<wordsContained.length; k++){
@@ -253,7 +249,8 @@ const [dateOfUpload, setDateOfUpload] = useState()
   
   const [memberSelected, setMemberSelected] = useState()
 const inputRef = useRef()
-const [isHovering, setIsHovering] = useState(false)
+
+
   return (
     <>
     <Switch>
@@ -285,20 +282,25 @@ const [isHovering, setIsHovering] = useState(false)
 
     
 
-      <input type="text" ref = {inputRef} onFocus={()=>setIsHovering(true)} onBlur={()=>setIsHovering(false)} onChange={textChangeHandler} class={`w-[270px] relative mx-auto block ${memberSelected?'mt-7':'md:mt-9 mt-12'}  py-2   pr-4   text-gray-900 bg-white border-0 pl-4 shadow-md rounded-md  focus:border-blue-00  focus:ring-blue-700 focus:ring-opacity-40 focus:outline-none focus:ring`} placeholder="Search User"/>
-      <ul ref = {myRef} class={`bg-white border border-gray-100 ${!isHovering || allUsers.length ===0 || text === ''?'hidden':'block'} w-[270px] mx-auto absolute mt-[3px] max-h-[170px] overflow-hidden z-[75] left-0 right-0 mr-auto ml-auto shadow-md mb-8`}>
+      <input onClick={ ()=> {
+        console.log('wrok')
+      }}  type="text" onFocus={()=>setIsHovering(true)} onChange={textChangeHandler} class={`w-[270px] relative mx-auto block ${memberSelected?'mt-7':'md:mt-9 mt-12'}  py-2   pr-4   text-gray-900 bg-white border-0 pl-4 shadow-md rounded-md  focus:border-blue-00  focus:ring-blue-700 focus:ring-opacity-40 focus:outline-none focus:ring`} placeholder="Search User"/>
+      <ul ref = {myRef} onBlur={()=>setIsHovering(false)} class={`bg-white border border-gray-100 ${!isHovering || allUsers.length ===0 || text === ''?'hidden':'block'} w-[270px] mx-auto absolute mt-[3px] max-h-[170px] overflow-hidden z-[75] left-0 right-0 mr-auto ml-auto shadow-md mb-8`}>
             {
               allUsers&&allUsers.map(user=> {
                 return (
-<li onClick={()=>{
+<li 
+onClick={()=>{
  setMemberSelected({
   name: user.firstName + ' ' + user.lastName,
   pic: user.profilePic,
   id: user._id
 });
+
 setText('');
 }
- } class="pl-8 pr-2 py-2 z-[75] border-b-2 border-gray-200 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900">
+ } 
+ class="pl-8 pr-2 py-2 z-[75] pointer-events-auto border-b-2 border-gray-200 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900">
                 <svg class="absolute w-4 h-4 left-2 top-[18px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
                 </svg>

@@ -72,9 +72,7 @@ useEffect(()=> {
             <tbody class = 'overflow-scroll'>
 
               {proj && proj.team.map((teamMember,i) => {
-if(i==1){
-  console.log(teamMember.name)
-}
+
 
 return (
   <>
