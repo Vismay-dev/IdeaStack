@@ -136,16 +136,15 @@ useEffect(()=> {
     const submitHandler = (e) =>  {
 
         e.preventDefault();
+        setLoading(true)
 
         let messageTemp = message;
         let feedTemp = feed;
         feedTemp = [
           ...feedTemp, messageTemp
         ]
-        setLoading(true)
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/getUser':'http://localhost:4000/api/user/getUser',{token:sessionStorage.getItem('token')}).then(res=> {
         setSendingMessage(false)
-        setLoading(true)
         messageTemp = {
                 ...message,
                 from:res.data.firstName + ' ' + res.data.lastName,
@@ -155,19 +154,17 @@ useEffect(()=> {
         }
         feedTemp[feedTemp.length-1] = messageTemp
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/updateFeed':'http://localhost:4000/api/project/updateFeed',{token:sessionStorage.getItem('token'), feed:feedTemp ,projectID:sessionStorage.getItem('managing')}).then(res=> {
-          setMessage(messageTemp)
-          setFeed(res.data);
-    
+          setMessage(messageTemp)    
 setImage(null)
 
           }).catch(err=> {
               console.log(err)
-              setLoading(false)
+              // setLoading(false)
 
           })
         }).catch(err=> {
             console.log(err)
-            setLoading(false)
+            // setLoading(false)
 
         })
 
