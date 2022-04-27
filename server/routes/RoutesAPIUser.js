@@ -203,7 +203,6 @@ router.post('/sendResetCode',async(req,res)=> {
                     const mailOptions = {
                         from:'IdeaStack™ <ideastackapp@gmail.com>',
                         to: [user.email],
-                        bcc:['vismaysuramwar@gmail.com'],
                         subject:'Password Reset',
                         text:`
                         Hey ${user.firstName},
