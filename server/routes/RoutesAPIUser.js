@@ -22,6 +22,7 @@ router.post('/sendUserQuery',(req,res)=> {
         try {
             const transport = await nodemailer.createTransport({
                 service: 'gmail',
+                secure: true,
                 auth: {
                     user: 'ideastackapp@gmail.com',
                     pass: process.env.PASS
