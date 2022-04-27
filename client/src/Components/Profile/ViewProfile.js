@@ -76,7 +76,7 @@ const ViewProfile = () => {
         <div ref = {dummyRef}></div>
      
 
-        <h1 class = 'relative px-4 mx-auto xl:-mt-12 2xl:-mb-16 xl:-mb-6 xl:py-8 xl:pt-4   lg:mb-6 md:-mt-12 md:mb-16 sm:-mt-14 sm:mb-24 -mt-10 mb-32 xs:-mt-10 xs:mb-40  text-center sm:text-6xl text-5xl font-semibold'><span class = 'text-blue-600'>Applicant </span> Profile</h1>
+        <h1 class = 'relative px-4 mx-auto xl:-mt-12 2xl:-mb-16 xl:-mb-6 xl:py-8 xl:pt-4   lg:mb-6 md:-mt-12 md:mb-16 sm:-mt-14 sm:mb-24 -mt-10 mb-32 xs:-mt-10 xs:mb-40  text-center sm:text-6xl text-5xl font-semibold'><span class = 'text-blue-600'>View </span> Profile</h1>
         <div class="relative -mt-10 -mb-60  max-h-80">
   <svg viewBox="0 0 1428 174" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

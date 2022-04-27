@@ -22,7 +22,7 @@ const Profile = () => {
     AOS.init({
       duration : 800
     });
-  }, [projects, showmore]);
+  }, [projects, showmore,loading]);
 
     const [addDesc, setAddDesc] = useState(false)
     const [editingDesc, setEditingDesc] = useState(false)
