@@ -143,6 +143,8 @@ useEffect(()=> {
         feedTemp = [
           ...feedTemp, messageTemp
         ]
+        setFeed(feedTemp)
+        setLoading(true)
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/getUser':'http://localhost:4000/api/user/getUser',{token:sessionStorage.getItem('token')}).then(res=> {
         setSendingMessage(false)
         messageTemp = {
@@ -186,9 +188,6 @@ setImage(null)
           }).catch(err=> {
               console.log(err)
           })
-
-
-
     }
 
     const [showToolTip, setShowToolTip] = useState(false);
