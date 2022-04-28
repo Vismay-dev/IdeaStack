@@ -17,6 +17,7 @@ const Profile = () => {
   
   const [projects, setProjects] = useState([])
   const [showmore, setShowmore] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     AOS.init({
@@ -42,7 +43,6 @@ const Profile = () => {
        })
     }
 
-    const [loading, setLoading] = useState(false)
     useEffect(()=> {
       setLoading(true)
       axios.post(process.env.NODE_ENV ==='production'?"https://ideastack.herokuapp.com/api/user/getUserProjects"
