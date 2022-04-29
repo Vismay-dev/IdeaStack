@@ -486,6 +486,62 @@ router.post('/finishLatestSession', auth, async(req,res)=>
 })
 
 
+router.post('/leaveProject',auth,async(req,res)=> {
+    const proj = await project.findOne({_id:req.body.projectID})
+    const id = req.user._id
+    proj.team = proj.team.filter(member=> {
+        return(JSON.stringify(member.id) !== JSON.stringify(id))
+    })
+    proj.markModified('team')
+    await proj.save()
+    console.log(proj.team)
+
+    const user = await studentUser.findById(req.user._id);
+    user.projects =      user.projects.filter(userproj=> {
+        JSON.stringify(proj._id) !== JSON.stringify(userproj._id)
+    })
+    user.markModified('projects')
+    await user.save();
+    console.log(user.projects)
+
+
+    user.pendingPayments = user.pendingPayments.filter(payment=> {
+        JSON.stringify(proj) !== JSON.stringify(payment.projectID)
+    })
+    user.markModified('pendingPayments')
+    await user.save();
+    console.log(user.pendingPayments)
+
+    const userProjects = user.projects;
+    const projects = await project.find({_id: {$in: userProjects}});
+    res.send(projects)
+})
+
+router.post('/removeMember',auth,async(req,res)=> {
+    const proj = await project.findOne({_id:req.body.projectID})
+    const id = req.body.member.id
+
+    proj.team = proj.team.filter(mem=> {
+        return(JSON.stringify(mem.id) !== JSON.stringify(id))
+    })
+    proj.markModified('team')
+    await proj.save()
+    console.log(proj.team)
+
+    const user = await studentUser.findById(req.body.member.id);
+    for(let i = 0; i< user.projects.length;i++){
+        if(JSON.stringify(user.projects[i].id)===JSON.stringify(proj._id)){
+            proj.removed = true;
+        }
+    }
+    user.markModified('projects');
+    await user.save()
+
+    res.send(user.projects)
+
+})
+
+
 
 
 

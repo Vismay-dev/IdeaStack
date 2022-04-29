@@ -15,6 +15,7 @@ import Mentorship from './Mentorship.js'
 import BrowseExperts from "./BrowseExperts.js";
 
 import EditProjModal from '../Modals/EditProjModal'
+import LeaveModal from "../Modals/LeaveModal.js";
 
 import AOS from 'aos';
 import "aos/dist/aos.css";
@@ -231,7 +232,7 @@ const [dateOfUpload, setDateOfUpload] = useState()
   },[location.pathname, projectsCurr])
 
   const [inviteSent, setInviteSent] = useState(false)
-
+   const [showLeave, setShowLeave] = useState(false)
   const sendInvite = () => {
       setLoading(true)
     axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/sendInvite':'http://localhost:4000/api/project/sendInvite'
@@ -249,7 +250,18 @@ const [dateOfUpload, setDateOfUpload] = useState()
   
   const [memberSelected, setMemberSelected] = useState()
 const inputRef = useRef()
+const [showRemove, setShowRemove] = useState(false)
+const [currentProfile, setCurrentProfile] = useState({
 
+})
+
+const remover = (member)=>  {
+  setCurrentProfile(member);
+  setShowLeave(true)
+  setShowRemove(true)
+}
+
+console.log(user)
 
   return (
     <>
@@ -261,15 +273,28 @@ const inputRef = useRef()
     editing?
     <EditProjModal close = {()=> setEditing(false)}/>:''
   }
+
+
+{
+   showLeave?
+    <LeaveModal isRemoving = {showRemove} member = {currentProfile} close = {()=> setShowLeave(false)}/>:''
+  }
+
     
-<h2  class = 'text-center font-bold sm:text-5xl text-4xl text-gray-800 top-1 relative mt-11 mb-7'>
+<h2  class = {`text-center font-bold sm:text-5xl text-4xl text-gray-800 top-1 relative lg:mt-11 mt-12 ${project&&user&&JSON.stringify(user._id)===JSON.stringify(project.admin.id)?'lg:mb-1 mb-6 lg:pb-1 pb-4':'-mb-5'} `}>
 <svg xmlns="http://www.w3.org/2000/svg" class="sm:h-14 h-10 sm:bottom-[2.9px] bottom-[3.1px] relative inline sm:w-14 w-10 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
 </svg> Overview
 <p class = 'mt-[4px] text-xl text-center pl-3 text-gray-800  font-semibold'>View All Important Details</p>
 </h2>
+<button onClick={()=> {setShowLeave(true)}} class =  {`relative px-2.5 lg:-mb-[200px] -mb-[100px] -top-5 xl:left-[80%] ${project&&user&&JSON.stringify(user._id)===JSON.stringify(project.admin.id)?'hidden':''} lg:left-[75%] sm:left-[52%] left-[54%] translate-x-[-54%] lg:translate-x-0 sm:translate-x-[-52%] lg:-mt-32 mt-28 bg-red-600 p-2 rounded-md shadow-sm hover:bg-red-700 hover:shadow-lg text-white font-semibold`}>
+  <span class = 'inline mr-1.5 lg:text-base'>Leave Project Team</span>
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline bottom-[2px] relative" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+</svg>
+</button>
 
-      <div  className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 xl:left-0 left-0.5  relative justify-center mx-auto sm:px-[60px] px-[18px] mt-[63px]  xl:gap-5 gap-9 ">
+      <div  className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 xl:left-0 left-0.5  relative justify-center mx-auto sm:px-[60px] px-[18px] lg:mt-[63px] mt-[45px]  xl:gap-5 gap-9 ">
 
 
 <div style = {{'backgroundImage':'url(https://upload.wikimedia.org/wikipedia/commons/8/81/Maxresdefault_%281%29.jpg)'}} data-aos={"fade-up"} data-aos-once='true' class = {`xl:col-span-3 lg:col-span-2 col-span-1 ${project&&(project.maxCap - project.team.length===0||user._id!==project.admin.id)?'hidden':'block'} bg-gradient-to-br z-[75] md:h-[330px] h-[385px] mb-1.5 relative border-[1px] border-blue-700 rounded-md from-blue-50 to-indigo-200`}>
@@ -390,12 +415,12 @@ setText('');
 
 <div data-aos={"fade-up"} data-aos-once='true'  data-aos-delay = '200' class={`w-full  relative h-fit lg:h-[480px] xl:h-[530px] col-span-1`}>
 <div class={`rounded-lg shadow-lg bg-gradient-to-r  border-[1px] border-blue-600 h-fit lg:h-[480px] xl:h-[530px]  from-blue-50 to-indigo-200 overflow-hidden mb-0`}>
-  <div class = 'xl:h-[168px] lg:h-[160px] sm:h-[152px] h-[163px] sm:pt-1.5 xl:pb-7 pt-0'>
+  <div class = 'xl:h-[174px] lg:h-[168px] sm:h-[152px] h-[160px] sm:pt-1.5 xl:pb-7 pt-0'>
     <p className="text-center top-5 text-xl font-semibold relative mb-1">Applications Pending: </p><br/>
     <h1 className = 'text-center text-4xl text-blue-700 bottom-[1px] relative mb-1'>{project?project.joinRequests.filter(jR=>jR.isInvite===false).length:' '}</h1>
-    <p class="text-sm relative text-center bottom-[0.2px] top-2.5 font-light text-gray-600 sm:px-[50px] px-[25px] lg:px-[15px] ">Latest Pending Application Received On: <span class = 'text-indigo-500 font-semibold' >{latestReceived&&latestReceived.date?new Date(latestReceived.date).toDateString():'No Pending Applications'}</span></p>
+    <p class="text-sm relative text-center bottom-[0.2px] top-2.5 font-light text-gray-600 sm:px-[50px] px-[25px] lg:px-[19px] ">Latest Pending Application Received On: <span class = 'text-indigo-500 font-semibold' >{latestReceived&&latestReceived.date?new Date(latestReceived.date).toDateString():'No Pending Applications'}</span></p>
   </div>
-  <div class=" sm:pt-1.5 sm:pb-12 pt-1  lg:pt-1 xl:pt-1.5 pb-[38px] xl:h-[202px] h-fit  bg-gradient-to-r from-gray-50 to-slate-50 text-center">
+  <div class=" sm:pt-0.5 sm:pb-11 pt-0.5  lg:pt-0.5 xl:pt-1 pb-[34px]  xl:h-[187px] h-fit  bg-gradient-to-r from-gray-50 to-slate-50 text-center">
   <p className="text-center top-4 text-xl font-semibold relative sm:px-[85px] px-10">Industry Mentors Appointed: </p><br/>
     <h1 className = 'text-center relative text-4xl text-blue-700'>{project?project.mentorshipPackages.length:''}</h1>
     <p class="text-sm relative text-center font-light top-2 text-gray-600 sm:px-[95px] px-[60px] lg:px-[20px] ">{mentorDate?<p>Upcoming Session With <span class = 'text-indigo-500 font-semibold'>Vismay Suramwar</span> On: <span class = 'text-indigo-500 font-semibold' >{mentorDate.date}</span></p>:<span class = 'text-indigo-500 font-semibold relative top-2' >No Upcoming Session</span>}</p>     
@@ -409,7 +434,7 @@ setText('');
 </div>
 
       <div data-aos={"fade-up"} data-aos-once='true' data-aos-delay = '400' className=" col-span-1 lg:left-[50%] xl:left-0 lg:relative  xl:mb-0">
-          <CardTeam />
+          <CardTeam triggerRemover = {remover} />
         </div>
       </div>
 

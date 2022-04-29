@@ -66,6 +66,8 @@ useEffect(()=> {
   
     if(projects.projects && projSelected){
     setProject(projSelected);
+    setLoading(false)
+
     if(projSelected.messages){
       axios.post(process.env.NODE_ENV ==='production'?"https://ideastack.herokuapp.com/api/project/seeMessages"
       :"http://localhost:4000/api/project/seeMessages",{token:sessionStorage.getItem('token'),projectID:sessionStorage.getItem('managing')}).then(res=> {
@@ -76,7 +78,6 @@ useEffect(()=> {
       setFeed([]);
     }
   }
-  setLoading(false)
 
   
 
@@ -269,9 +270,13 @@ feed? feed.map((message,i)=> {
 
 
   let seenBy = '';
+  if(message.seenBy){
   for(let y = 0; y<message.seenBy.length;y++){
     seenBy+= (message.seenBy&&y===message.seenBy.length-1 && message.seenBy.length!==1 ? '& ':'')+  message.seenBy[y] + ' '
   }
+}else {
+  seenBy = null
+}
 
 
   var seconds = Math.floor((new Date() - new Date(message.timestamp)) / 1000);

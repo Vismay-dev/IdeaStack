@@ -2,16 +2,17 @@ import React from "react";
 import { useEffect, useContext,useState } from "react";
 import projectContext from "../../../context/projectContext";
 import {RiTeamFill} from 'react-icons/ri'
-
+import LeaveModal from '../../Modals/LeaveModal'
 import axios from 'axios'
 import {useLocation} from 'react-router-dom'
+import userContext from "../../../context/userContext";
 
-export default function CardTeam() {
+export default function CardTeam(props) {
    const projectsCurr = useContext(projectContext)
-    const [proj, setProj] = useState('')
+   const [proj, setProj] = useState('')
+   const user = useContext(userContext).user
 
-    const location = useLocation()
-
+   const location = useLocation();
 
     useEffect(()=> {
       if(sessionStorage.getItem('token')!==null){
@@ -48,6 +49,8 @@ useEffect(()=> {
       
   return (
     <>
+
+
       <div className="relative border-[1px] border-blue-600 h-fit lg:h-[480px] xl:h-[530px] flex flex-col min-w-0 break-words  w-full mb-4 bg-gradient-to-r from-white to-indigo-200 shadow-lg rounded-md">
         <div className="rounded-t mb-0 px-4 py-3 border-0">
           <div className="flex flex-wrap items-center">
@@ -76,14 +79,20 @@ useEffect(()=> {
 
 return (
   <>
-            <tr class = '-mb-1 relative'>
+            <tr class = {`-mb-1 relative ${proj.team.length===2&&i===1?'bottom-[38px]':''}`}>
               <div class={`flex items-center text-md justify-center mx-auto relative bottom-1 my-0  bg-gradient-to-r from-indigo-200 to-green-100 border-b-[1px] py-4 pb-5 border-blue-600`}>
                    <img class="hidden object-cover w-10 h-10 shadow-md mx-2 relative right-1 rounded-full sm:block" src={teamMember.pic?teamMember.pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
                    <a class="font-bold text-gray-700 mr-6  relative cursor-pointer ">
                         {proj?teamMember.name:''}{i==0?' (Admin)':''}
                    </a>
-                   
-                   
+                   {
+i!==0 && JSON.stringify(user._id) === JSON.stringify(proj.admin.id)?                   
+<svg onClick={()=> {
+                     props.triggerRemover(teamMember)
+                   }} xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 cursor-pointer bg-red-600 rounded-full shadow-sm hover:shadow-lg p-1 right-4 absolute text-white inline  " fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M13 7a4 4 0 11-8 0 4 4 0 018 0zM9 14a6 6 0 00-6 6v1h12v-1a6 6 0 00-6-6zM21 12h-6" />
+</svg>:''
+              }
                </div>
                 
               </tr>

@@ -63,7 +63,11 @@ return(
     
     <div class="flex items-center justify-between ">
         <span class="text-sm font-light text-gray-600 ">{date}</span>
-      
+        <span class = 'font-semibold text-lg'>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+</svg>
+            <p class = 'inline'> You've Been Removed</p></span>}
        <button type="button" class="text-white bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg px-3.5 py-1.5 -mr-2 mt-1 pt-1 text-md text-center mb-2" onClick={()=> {
            history.push('/myprojects/manageproject/')
            sessionStorage.setItem('managing',proj._id)
@@ -107,6 +111,7 @@ return(
                <div class="flex items-center justify-between">
                    <span class="text-sm font-light text-gray-600 ">{date}</span>
                  
+                 You've Been Removed
                   <button type="button" class="text-white bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg px-3.5 py-1.5 -mr-2 mt-1 pt-1 text-md text-center mb-2" onClick={()=> {
                       history.push('/myprojects/manageproject/')
                       sessionStorage.setItem('managing',proj._id)
@@ -132,8 +137,8 @@ return(
                       }
     
                
-               <div class="flex items-center justify-between mt-4">
-                   <a onClick = {()=>readMore(i)} class="text-blue-600 z-40 hover:cursor-pointer sm:bottom-0 bottom-[2px] relative  hover:underline">View {showMore[0]&&showMore[1]===i?'less':'more'}</a>
+               <div class="flex items-center justify-between z-[75] mt-4">
+                   <a onClick = {()=>readMore(i)} class="text-blue-600 z-[75] hover:cursor-pointer sm:bottom-0 bottom-[2px] relative  hover:underline">View {showMore[0]&&showMore[1]===i?'less':'more'}</a>
                     <div class="flex items-center relative bottom-0.5">
                        <img class="hidden object-cover w-10 h-10 mx-2 rounded-full sm:block" src={proj.admin.pic?proj.admin.pic:'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0='} alt="avatar"/>
                        <a class="font-bold text-gray-700 cursor-pointer ">
