@@ -97,11 +97,18 @@ router.post('/sendInvite',auth, async(req,res)=> {
     proj.joinRequests.push(joinRequest)
     proj.markModified('joinRequests');
     await proj.save()
-
+    let chk = false;
+    for(let i = 0;i<invitee.joinRequests.length;i++){
+        if(JSON.stringify(invitee.joinRequests[i].projID)===JSON.stringify(joinRequest.projID)){
+            chk = true;
+        }
+    }
+    if(!chk){
     invitee.joinRequests.push(joinRequest)
     invitee.markModified('joinRequests')
     console.log(invitee.joinRequests)
     await invitee.save()
+    }
 
     res.send('Worked..')
 })  
