@@ -529,13 +529,20 @@ router.post('/removeMember',auth,async(req,res)=> {
     console.log(proj.team)
 
     const user = await studentUser.findById(req.body.member.id);
-    for(let i = 0; i< user.projects.length;i++){
-        if(JSON.stringify(user.projects[i].id)===JSON.stringify(proj._id)){
-            proj.removed = true;
-        }
-    }
-    user.markModified('projects');
-    await user.save()
+    user.projects =      user.projects.filter(userproj=> {
+        JSON.stringify(proj._id) !== JSON.stringify(userproj._id)
+    })
+    user.markModified('projects')
+    await user.save();
+    console.log(user.projects)
+
+
+    user.pendingPayments = user.pendingPayments.filter(payment=> {
+        JSON.stringify(proj) !== JSON.stringify(payment.projectID)
+    })
+    user.markModified('pendingPayments')
+    await user.save();
+    console.log(user.pendingPayments)
 
     res.send(user.projects)
 
