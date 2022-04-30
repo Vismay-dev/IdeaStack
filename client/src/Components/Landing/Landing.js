@@ -291,7 +291,7 @@ class="sm:ml-40 mx-auto xl:left-[11px] lg:left-2 left-[3px] md:left-[108px] md:m
                 Network
               </div>
               <p class="text-gray-800 text-base px-3 mb-7 xl:top-0 relative lg:top-9">
-                IdeaStack™ connects students to STEM project teams looking to recruit like-minded members. Our service allows students to be a part of projects that interest them. 
+                IdeaStack connects students to STEM project teams looking to recruit like-minded members. Our service allows students to be a part of projects that interest them. 
               </p>
             </a>
           </div>
@@ -311,7 +311,7 @@ class="sm:ml-40 mx-auto xl:left-[11px] lg:left-2 left-[3px] md:left-[108px] md:m
               Collaborate
               </div>
               <p class="text-gray-800 text-base px-3 mb-7 border-b-1 border-gray-100 xl:top-0 relative lg:top-9">
-                  By providing for a powerful collaborative dashboard, IdeaStack™ helps teams form their ideal STEM solutions and projects.
+                  By providing for a powerful collaborative dashboard, IdeaStack helps teams form their ideal STEM solutions and projects.
               </p>
             </a>
           </div>

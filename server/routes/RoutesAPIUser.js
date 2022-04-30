@@ -32,10 +32,10 @@ router.post('/sendUserQuery',(req,res)=> {
             })
         
             const mailOptions = {
-                from:'IdeaStack™ <ideastackapp@gmail.com>',
+                from:'IdeaStack <ideastackapp@gmail.com>',
                 to: [req.body.mailId],
                 bcc:['vismaysuramwar@gmail.com'],
-                subject:'Contacting IdeaStack™',
+                subject:'Contacting IdeaStack',
                 text:`
                 Hey ${req.body.name} !
         
@@ -44,17 +44,17 @@ router.post('/sendUserQuery',(req,res)=> {
                 We'll get back to you as soon as possible!
                 
                 Best Regards,
-                Outreach, IdeaStack™`,
+                Outreach, IdeaStack`,
                 html: `
                 <p>Hey ${req.body.name}!</p>
         
                 <p>Your message has been noted.<br/>
                 <h4>Message: "${req.body.message}".</h4>
-                Thank you for showing interest in IdeaStack™.<br/> 
+                Thank you for showing interest in IdeaStack.<br/> 
                 We'll get back to you as soon as possible!</p>
                 
                 <p>Best Regards,<br/>
-                Outreach team, IdeaStack™</p>
+                Outreach team, IdeaStack</p>
                 <br/><br/>
                 <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
                 `,
@@ -201,7 +201,7 @@ router.post('/sendResetCode',async(req,res)=> {
                     })
                 
                     const mailOptions = {
-                        from:'IdeaStack™ <ideastackapp@gmail.com>',
+                        from:'IdeaStack <ideastackapp@gmail.com>',
                         to: [user.email],
                         subject:'Password Reset',
                         text:`
@@ -212,7 +212,7 @@ router.post('/sendResetCode',async(req,res)=> {
                         Please use this code to access the privilege to reset your password. It will expire in 10 minutes
                         
                         Best Regards,
-                        Outreach team, IdeaStack™
+                        Outreach team, IdeaStack
                          `,
                         html: `
                         <p>Hey ${user.firstName}!</p>
@@ -222,7 +222,7 @@ router.post('/sendResetCode',async(req,res)=> {
                         Please use this code to access the privilege to reset your password. It will expire in 10 minutes<br/>
                         
                         <p>Best Regards,<br/>
-                        Outreach team, IdeaStack™</p>
+                        Outreach team, IdeaStack</p>
                         <br/><br/>
                         <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
                         `,
