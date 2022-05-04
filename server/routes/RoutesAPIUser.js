@@ -25,7 +25,7 @@ router.post('/sendUserQuery',(req,res)=> {
                 port:587,
                 type: 'OAuth2',
                 auth: {
-                    user: 'ideastackapp@gmail.com',
+                    user: process.env.MAIL_ID,
                     pass: process.env.PASS
                 } 
             })
@@ -197,7 +197,7 @@ router.post('/sendResetCode',async(req,res)=> {
                 port:587,
                 type: 'OAuth2',
                         auth: {
-                            user: 'ideastackapp@gmail.com',
+                            user: process.env.MAIL_ID,
                             pass: process.env.PASS
                         } 
                     })
