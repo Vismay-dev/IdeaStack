@@ -72,11 +72,12 @@ router.post('/sendUserQuery',(req,res)=> {
         }
         } 
         sendMail().then(result=> {
+            res.send('Successfully sent Email !')
             console.log(result)
         }).catch(err=> {
             console.log(err)
+            res.status(400).send(err)
         })
-        res.send('Successfully sent Email !')
 })
 
 //receives user data and registers user in database

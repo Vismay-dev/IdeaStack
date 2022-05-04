@@ -42,7 +42,7 @@ const Contact = () => {
             setMailer({})
             
         }).catch(err=> {
-            console.log(err)
+            console.log(err.response)
         })
     }
 
