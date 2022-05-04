@@ -22,9 +22,8 @@ router.post('/sendUserQuery',(req,res)=> {
         try {
             const transport = await nodemailer.createTransport({
                 service: 'gmail',
-                port:465,
+                port:587,
                 type: 'OAuth2',
-                secure: true,
                 auth: {
                     user: 'ideastackapp@gmail.com',
                     pass: process.env.PASS
@@ -194,6 +193,8 @@ router.post('/sendResetCode',async(req,res)=> {
                 try {
                     const transport = await nodemailer.createTransport({
                         service: 'gmail',
+                port:587,
+                type: 'OAuth2',
                         auth: {
                             user: 'ideastackapp@gmail.com',
                             pass: process.env.PASS
