@@ -50,7 +50,7 @@ const Contact = () => {
 
     return (
 
-            <section id = "contact" class=" xl:py-32 mt-2 xl:pb-36 py-[90px] pb-36 lg:py-[120px] -mb-[550px] border-t-2 border-dashed border-blue-700  overflow-hidden relative z-20">
+            <section id = "contact" class=" xl:py-32 lg:mt-12 mt-4 xl:pb-36 py-[125px] pb-36 lg:py-[120px] -mb-[510px] border-t-2 border-dashed border-blue-700  overflow-hidden relative z-20">
                <div class="container mx-auto">
                   <div class="flex flex-wrap  top-4     mx-auto justify-center">
                      <div class="w-full xl:ml-12 xl:mr-0 lg:w-full  justify-center  mx-auto xl:w-6/12 px-8">
