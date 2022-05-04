@@ -25,7 +25,7 @@ const Landing = () => {
     return (
         <>
         <div class="lg:pt-44 md:pt-48 pt-[168px] lg:pb-12 pb-0 overflow-hidden bg-gradient-to-r from-gray-200 to-blue-200">
-      <div  class="  sm:left-14 left-16 xl:px-14 xs2:px-20 px-4 xl:left-12 xl:bottom-0 bottom-4 relative container mx-auto flex flex-wrap flex-col md:flex-row items-center">
+      <div  class="  sm:left-14 left-16 xl:px-14 xs2:px-20 px-4 xl:left-12 xl:bottom-0 bottom-4 relative container mx-auto flex lg:pt-0 pt-2 flex-wrap flex-col md:flex-row items-center">
         <div class="flex flex-col  xl:w-2/5 lg:w-[46%] relative xl:-right-6 xl:bottom-2 lg:-bottom-5 lg:right-72 md:right-6 sm:right-40 right-16 bottom-5 md:pl-0 sm:pl-8 pl-0 sm:w-full w-full mx-auto justify-center items-start text-left">
           <p class="uppercase font-medium  text-sm  text-center lg:right-0 md:right-20 sm:-right-12 sm:left-20 md:-left-[52px] lg:-left-0 xl:left-[1px] right-0 mx-auto  top-5 -mt-10   relative md:w-full w-80">IdeaStack - STEM Development Platform</p>
           <h1 class="relative my-4 mb-7 md:-ml-[46px] text-center mx-auto lg:text-6xl md:text-7xl  xl:-ml-[87px] lg:-ml-[90px] sm:text-6xl text-5xl sm:left-20 left-1 px-3x font-bold leading-tight">
