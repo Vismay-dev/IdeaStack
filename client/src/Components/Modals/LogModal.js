@@ -313,7 +313,7 @@ passReset?
     <div class="rounded-md relative sm:mb-0 sm:w-full w-[117%] sm:right-0 right-[6%] -mb-4 block -space-y-px ">
 
       <div>
-      <p class = 'text-sm text-gray-700 text-center relative -mt-3 mb-3 uppercase font-semibold underline'>Enter New Password</p>
+      <p class = 'text-sm text-gray-700 text-center relative -mt-1.5 mb-3 uppercase font-semibold underline'>Enter New Password</p>
 
         <label for="reset-code" class="sr-only">Enter New Password</label>
         <input id="reset-code" name="reset-code" type="text" onChange = {handleChangePassNew} required class={`appearance-none rounded-none border-gray-300 relative block sm:w-[90%] sm:shadow-none shadow-sm w-[86%] sm:right-0 right-[1px] mx-auto px-2 py-1 mb-3 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-md`} placeholder="Enter new password"/>
@@ -325,12 +325,12 @@ passReset?
 
     <div class = ' w-fit relative sm:left-0 left-[7px] mx-auto block'>
 
-      <div class = 'mt-2 grid grid-cols-3 gap-4 relative  sm:w-full w-[175px] mx-auto  justify-center py-1 pb-1.5 sm:px-4 '>
-      <button onClick={()=>{setForgot(false);setResetCodeSent(false);setResetCodeValid(false)}} class="mt-3 sm:col-span-1 col-span-3 group relative sm:left-0 left-[3px] sm:w-full w-[150px] mx-auto sm:right-0 right-[2px] flex justify-center py-1.5 pb-1.5 px-4 border border-transparent text-md font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+      <div class = 'mt-2 grid grid-cols-3 gap-4 relative sm:w-full w-[175px] mx-auto  justify-center py-1 pb-1.5 sm:px-4 '>
+      <button onClick={()=>{setForgot(false);setResetCodeSent(false);setResetCodeValid(false)}} class="mt-3 sm:col-span-1 col-span-3 text-md  group relative sm:left-0 left-[3px] sm:w-full w-[150px] mx-auto sm:right-0 right-[2px] flex justify-center py-1 pb-1 px-4 border border-transparent font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
         
         Cancel
       </button>
-      <button type = 'submit' class="sm:mt-3 -mt-1  sm:col-span-2 col-span-3 group relative sm:left-0 left-[3px] sm:w-full w-[150px] mx-auto sm:right-0 right-[2px] flex justify-center py-1.5 pb-1.5 px-4 border border-transparent text-md font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+      <button type = 'submit' class="sm:mt-3 -mt-1 text-md  sm:col-span-2 col-span-3 group relative sm:left-0 left-[3px] sm:w-full w-[150px] mx-auto sm:right-0 right-[2px] flex justify-center py-1 pb-1 px-4 border border-transparent font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
         <span class="absolute left-0 inset-y-0 flex items-center pl-3">
           <svg class="h-5 w-5 text-blue-600 group-hover:text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
@@ -379,7 +379,7 @@ passReset?
     {error==='Invalid Code'?<p class="text-red-500 text-center text-md relative bottom-5  pt-1  pb-2 mb-2">Failed: Invalid/Expired Reset Code</p>:null}
 
       <div>
-      <p class = 'text-sm text-gray-700 text-center relative -mt-3 mb-3 uppercase font-semibold underline'>A RESET CODE HAS BEEN MAILED TO YOU</p>
+      <p class = 'text-sm text-gray-700 text-center relative -mt-1.5 mb-3 uppercase font-semibold underline'>A RESET CODE HAS BEEN MAILED TO YOU</p>
 
         <label for="reset-code" class="sr-only">Reset Code</label>
         <input id="reset-code" name="reset-code" type="number" onChange = {handleChangeCode} required class={`appearance-none rounded-none border-gray-300 relative block sm:w-[90%] ${error==='Invalid Code'?'bg-orange-100 text-orange-300 border-orange-300 border-2':'border-gray-300'} sm:shadow-none shadow-sm w-[86%] sm:right-0 right-[1px] mx-auto px-2 py-1 mb-3 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-md`} placeholder="Enter Reset Code"/>
@@ -392,11 +392,11 @@ passReset?
     <div class = ' w-fit relative sm:left-0 left-[7px] mx-auto block'>
 
       <div class = 'mt-2 grid grid-cols-3 gap-4 relative  sm:w-full w-[175px] mx-auto  justify-center py-1 pb-1.5 sm:px-4 '>
-      <button onClick={()=>setForgot(false)} type = 'button' class="mt-3 sm:col-span-1 col-span-3 group relative sm:left-0 left-[3px] sm:w-full w-[150px] mx-auto sm:right-0 right-[2px] flex justify-center py-1.5 pb-1.5 px-4 border border-transparent text-md font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+      <button onClick={()=>setForgot(false)} type = 'button' class="mt-3 sm:col-span-1 col-span-3 group relative sm:left-0 left-[3px] sm:w-full w-[150px] mx-auto sm:right-0 right-[2px] flex justify-center py-1 pb-1 px-4 border border-transparent text-md font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
         
         Cancel
       </button>
-      <button type = 'submit' class="sm:mt-3 -mt-1  sm:col-span-2 col-span-3 group relative sm:left-0 left-[3px] sm:w-full w-[150px] mx-auto sm:right-0 right-[2px] flex justify-center py-1.5 pb-1.5 px-4 border border-transparent text-md font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+      <button type = 'submit' class="sm:mt-3 -mt-1  sm:col-span-2 col-span-3 group relative sm:left-0 left-[3px] sm:w-full w-[150px] mx-auto sm:right-0 right-[2px] flex justify-center py-1 pb-1 px-4 border border-transparent text-md font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
         <span class="absolute left-0 inset-y-0 flex items-center pl-3">
           <svg class="h-5 w-5 text-blue-600 group-hover:text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
@@ -443,7 +443,7 @@ passReset?
     {error==='User Email ID not found'?<p class="text-red-500 text-center text-md relative bottom-3 mt-2 pt-3 pb-2 mb-2">Login Failed: User Mail Not Found</p>:null}
 
       <div>
-        <p class = 'text-sm text-gray-700 text-center relative -mt-3 mb-3 uppercase font-semibold underline'>Enter Email ID:</p>
+        <p class = 'text-sm text-gray-700 text-center relative -mt-1.5 mb-3 uppercase font-semibold underline'>Enter Email ID:</p>
         <label for="email" class="sr-only">Enter Email-ID</label>
         <input id="email" name="email" type="email" onChange = {handleChangeMailReset} required = {true} class={`appearance-none rounded-none border-gray-300 ${error==='User Email ID not found'?'bg-orange-100 text-orange-300 border-orange-300 border-2':'border-gray-300'} relative block sm:w-[90%] sm:shadow-none shadow-sm w-[200px] sm:right-0 right-[1px] mx-auto px-2 py-1 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-md`} placeholder="Enter Registered Email"/>
       </div>
@@ -455,11 +455,11 @@ passReset?
     <div class = ' w-fit relative sm:left-0 left-[7px] mx-auto block'>
 
       <div class = 'mt-2 grid grid-cols-3 gap-4 relative  sm:w-full w-[175px] mx-auto  justify-center py-1 pb-1.5 sm:px-4 '>
-      <button onClick={()=>setForgot(false)} type = 'button' class="mt-3 sm:col-span-1 col-span-3 group relative sm:left-0 left-[3px] sm:w-full w-[150px] mx-auto sm:right-0 right-[2px] flex justify-center py-1.5 pb-1.5 px-4 border border-transparent text-md font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+      <button onClick={()=>setForgot(false)} type = 'button' class="mt-3 sm:col-span-1 col-span-3 group relative sm:left-0 left-[3px] sm:w-full w-[150px] mx-auto sm:right-0 right-[2px] flex justify-center py-1 pb-1 px-4 border border-transparent text-md font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
         
         Cancel
       </button>
-      <button onClick={sendResetCode} type = 'button' class="sm:mt-3 -mt-1  sm:col-span-2 col-span-3 group relative sm:left-0 left-[3px] sm:w-full w-[150px] mx-auto sm:right-0 right-[2px] flex justify-center py-1.5 pb-1.5 px-4 border border-transparent text-md font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+      <button onClick={sendResetCode} type = 'button' class="sm:mt-3 -mt-1  sm:col-span-2 col-span-3 group relative sm:left-0 left-[3px] sm:w-full w-[150px] mx-auto sm:right-0 right-[2px] flex justify-center py-1 pb-1 px-4 border border-transparent text-md font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
         <span class="absolute left-0 inset-y-0 flex items-center pl-3">
           <svg class="h-5 w-5 text-blue-600 group-hover:text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
