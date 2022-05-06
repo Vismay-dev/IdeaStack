@@ -467,13 +467,13 @@ setText('');
       </Route>
       
 
-      <Route path = '/myprojects/manageproject/mentorship/'>
+      <Route path = '/myprojects/manageproject/mentorship'>
       <Mentorship/>
       </Route>
 
       
 
-      <Route path = '/myprojects/manageproject/'>
+      <Route path = '/myprojects/manageproject'>
         <Redirect to = '/myprojects/manageproject/overview'/>
       </Route>
 

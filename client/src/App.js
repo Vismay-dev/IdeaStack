@@ -76,7 +76,7 @@ useEffect(()=> {
   return (
     <projectContext.Provider value={{projects:projects, setProjects:setProjects}}>
     <userContext.Provider value = {{user:user, setUser:setUser}}>
-    <div class = {` w-screen bg-gradient-to-r from-gray-200 to-blue-200 relative z-0 ${location.pathname === '/home' || loading ? ' h-screen':' max-h-full'}` }>
+    <div class = {` w-screen bg-gradient-to-r from-gray-200 to-blue-200 relative z-0 ${location.pathname === '/home'  || loading ? ' h-screen':' max-h-full'}` }>
                 {!loading?<>
                   <NavBar loginFunc = {logIn}/>
                   <MainContent class = "-z-10"/>

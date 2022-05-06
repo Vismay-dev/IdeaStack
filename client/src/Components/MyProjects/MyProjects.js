@@ -136,7 +136,7 @@ style={{'background-image': 'url(https://airwallpaper.com/wp-content/uploads/wal
 
             <div class="flex space-x-1 overflow-hidden bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pt-5 justify-center xl:w-10/12 w-full md:pr-16 sm:pr-32 pr-[130px] rounded-b-lg mx-auto">
         {!sessionStorage.getItem('managing')?<><button onClick = {()=> {
-            history.push('/myprojects/')
+            history.push('/myprojects')
         }} class={`flex items-center h-12 pt-0.5 relative ml-[132px]  text-sm text-center text-gray-100 
         ${location.pathname==='/myprojects/allprojects'?'bg-gray-800':'bg-gray-500'} space-x-1 sm:px-7 sm:py-2 px-4 py-1 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
             <p class = 'mr-1'>All</p> Projects
@@ -215,7 +215,7 @@ onClick = {()=> {setShowHeader(showHeader?false:true)}}
             history.push('/myprojects/manageproject/mentorship')
         }}
         class={`flex items-center h-12 py-2   text-sm text-center text-gray-100 
-        ${location.pathname==='/myprojects/manageproject/mentorship'||location.pathname==='/myprojects/manageproject/mentorship/'?'bg-gray-800':'bg-gray-500'} md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+        ${location.pathname==='/myprojects/manageproject/mentorship'||location.pathname==='/myprojects/manageproject/mentorship'?'bg-gray-800':'bg-gray-500'} md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
             <span class = 'lg:inline hidden mr-1.5'>Industry </span> Mentorship
         </button>
         </div>
@@ -272,7 +272,7 @@ onClick = {()=> {setShowHeader(showHeader?false:true)}}
             history.push('/myprojects/manageproject/mentorship')
         }}
         class={`flex items-center h-12 py-2 ${ location.pathname==='/myprojects/manageproject/mentorship/browse'?'hidden':''}   text-sm text-center text-gray-100 
-        ${location.pathname==='/myprojects/manageproject/mentorship'||location.pathname==='/myprojects/manageproject/mentorship/'?'bg-gray-800':'bg-gray-500'} md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
+        ${location.pathname==='/myprojects/manageproject/mentorship'||location.pathname==='/myprojects/manageproject/mentorship'?'bg-gray-800':'bg-gray-500'} md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}>
             <span class = 'lg:inline hidden'>Industry</span> Mentorship
         </button>
         </div>

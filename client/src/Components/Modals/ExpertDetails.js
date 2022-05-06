@@ -175,7 +175,7 @@ console.log(isMentor)
 
     const addMentorshipPackage = () => {
       axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/addMentorshipPackage':'http://localhost:4000/api/project/addMentorshipPackage',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing'),mentorshipPackage}).then(res=> {
-          history.push('/myprojects/manageproject/mentorship/')
+          history.push('/myprojects/manageproject/mentorship')
           props.close()
         }).catch(err=> {
                 console.log(err)
