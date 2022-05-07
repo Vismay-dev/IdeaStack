@@ -50,7 +50,7 @@ const Contact = () => {
 
     return (
 
-            <section id = "contact" class=" xl:py-36 lg:mt-12 mt-4 xl:pb-32 py-[125px] pb-36 lg:py-[120px] -mb-[520px] border-t-2 border-dashed border-blue-700  overflow-hidden relative z-20">
+            <section id = "contact" class=" xl:py-36 lg:mt-12 mt-4 xl:pb-32 py-[125px] pb-36 lg:py-[120px] -mb-[550px] border-t-2 border-dashed border-blue-700  overflow-hidden relative z-20">
                <div class="container mx-auto">
                   <div class="flex flex-wrap  top-4     mx-auto justify-center">
                      <div class="w-full xl:ml-12 xl:mr-0 lg:w-full  justify-center  mx-auto xl:w-6/12 px-8">
@@ -115,7 +115,7 @@ const Contact = () => {
                               </div>
                            </div>
                          
-                           <div class="flex mb-8 xl:mx-0 mx-auto max-w-[370px] w-full">
+                           <div class="flex mb-2 xl:mx-0 mx-auto max-w-[370px] w-full">
                               <div
                                  class="
                                  max-w-[60px]
