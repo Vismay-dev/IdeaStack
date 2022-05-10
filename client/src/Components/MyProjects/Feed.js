@@ -29,11 +29,10 @@ const Feed = () => {
 
       console.log('Message Redistributed')
       if(JSON.stringify(data.id)===JSON.stringify(sessionStorage.getItem('managing'))){
-        setLoading(true)
 
         setFeed(data.feed)
       setTimeout(()=> {
-        // setLoading(false)
+        setLoading(false)
       },2000)
       }
     })
