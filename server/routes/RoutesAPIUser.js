@@ -16,6 +16,9 @@ const fileStorageEngine = multer.diskStorage({
 })
 const upload = multer({ storage: fileStorageEngine })
 
+const request = require('request');
+
+
 
 router.post('/sendUserQuery',(req,res)=> {
         async function sendMail(){
@@ -71,6 +74,7 @@ router.post('/sendUserQuery',(req,res)=> {
             return(err)
         }
         } 
+ 
         sendMail().then(result=> {
             res.send('Successfully sent Email !')
             console.log(result)
@@ -78,6 +82,7 @@ router.post('/sendUserQuery',(req,res)=> {
             console.log(err)
             res.status(400).send(err)
         })
+        
 })
 
 //receives user data and registers user in database
@@ -195,8 +200,8 @@ router.post('/sendResetCode',async(req,res)=> {
                     const transport = await nodemailer.createTransport({
                         service: 'gmail',
                 port:587,
-                type: 'OAuth2',
                         auth: {
+                            type: 'OAuth2',
                             user: process.env.MAIL_ID,
                             pass: process.env.PASS
                         } 

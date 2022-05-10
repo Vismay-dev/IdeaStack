@@ -50,7 +50,7 @@ const Contact = () => {
 
     return (
 
-            <section id = "contact" class=" xl:py-36 lg:mt-12 mt-4 xl:pb-32 py-[125px] pb-36 lg:py-[120px] -mb-[550px] border-t-2 border-dashed border-blue-700  overflow-hidden relative z-20">
+            <section id = "contact" class=" xl:py-[160px] lg:mt-8 mt-4 xl:pb-28 py-[125px] pb-36 lg:py-[120px] lg:pb-[100px] -mb-[516px] border-t-2 border-dashed border-blue-700  overflow-hidden relative z-75">
                <div class="container mx-auto">
                   <div class="flex flex-wrap  top-4     mx-auto justify-center">
                      <div class="w-full xl:ml-12 xl:mr-0 lg:w-full  justify-center  mx-auto xl:w-6/12 px-8">
@@ -155,9 +155,9 @@ const Contact = () => {
                            </div>
                         </div>
                      </div>
-                     <div class="w-full lg:w-1/2 xl:w-5/12 xl:right-12 top-4  z-40 relative px-4">
-                        <div data-aos="fade-up" data-aos-once='true' delay = '200' class="bg-gradient-to-r z-40 from-blue-100 to-indigo-300  relative rounded-lg p-8 sm:p-12 shadow-lg">
-                        {!loading?<form onSubmit = {formSub} class = 'z-40'>
+                     <div class="w-full lg:w-1/2 xl:w-5/12 xl:right-12 top-4  z-75 relative px-4">
+                        <div data-aos="fade-up" data-aos-once='true' delay = '200' class="bg-gradient-to-r  z-75 from-blue-100 to-indigo-300  relative rounded-lg p-8 sm:p-12 shadow-lg">
+                        {!loading?<form onSubmit = {formSub} class = 'z-75'>
                               <div class="mb-6">
                                  <input
                                  onChange = {nameHandler}
@@ -234,6 +234,7 @@ const Contact = () => {
                                     text-white
                                     bg-blue-700
                                     rounded
+                                    z-[75]
                                     border border-primary
                                     p-3
                                     transition

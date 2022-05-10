@@ -312,7 +312,7 @@ setProjects(projectsRequested);
 
     return (
         <>
-        <div class = {`w-full  -mb-[380px] relative top-2 ${showPanel?addingMentor||detailModifying==='details'?'h-[1500px]':projects.length===0?'pt-12 h-[688px]':managing==='requests'?"h-[1050px] pt-12":'h-[690px] pt-20':'pt-20 h-[688px]'} overflow-hidden`}>
+        <div class = {`w-full  -mb-[380px] relative top-2 ${showPanel?addingMentor||detailModifying==='details'?'h-[1500px]':projects.length===0?'pt-12 h-[688px]':managing==='requests'?"h-[1050px] pt-12":'h-[720px] pt-20':'pt-20 h-[688px]'} overflow-hidden`}>
             <h1 className={`font-bold text-center text-5xl mb-3 ${addingMentor||detailModifying==='details'?'mt-14':managing===''?'mt-7':'mt-1'} relative `}>Admin Panel {projects.length===0?<p class = 'inline text-3xl underline'>- minimum UI :p</p>:''}</h1>
 
 

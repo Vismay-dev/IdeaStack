@@ -81,7 +81,7 @@ user&& projectCon.projects&&projectCon.projects.filter(proj=>user._id===proj.adm
     <span class="text-sm font-light text-gray-600 ">{date}</span>
   
    <button type="button" class="text-white bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg px-3.5 py-1.5 -mr-2 mt-1 pt-1 text-md text-center mb-2" onClick={()=> {
-       history.push('/myprojects/manageproject/')
+       history.push('/myprojects/manageproject')
        sessionStorage.setItem('managing',proj._id)
    }}>Manage</button>
 
