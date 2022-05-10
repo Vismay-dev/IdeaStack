@@ -170,7 +170,7 @@ useEffect(() => {
 </div>
     </div>
 
-   { experts&&experts.length===0?
+   { experts&&!loading&&experts.length===0?
 
 <div className="bg-gray-50 ring-2 ring-indigo-500 w-full pl-9 mb-7 mt-4 rounded-sm relative shadow-lg">
 <div className="w-full mx-auto md:py-10 md:pt-16 py-9 pt-16 px-4 sm:px-6 lg:py-12 lg:px-8 lg:flex lg:items-center lg:justify-between">
