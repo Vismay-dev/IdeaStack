@@ -46,7 +46,7 @@ const CreateProject = () => {
 <h1 class = ' text-center w-10/12 relative mx-auto lg:mt-5 mt-5 py-4 lg:pb-8 pb-7 font-semibold text-gray-800 md:text-[47px] text-[38px] underline'>Projects Created ({user&& projectCon.projects&&projectCon.projects.filter(proj=>user._id===proj.admin.id).length})</h1>
 
 
-        <div class = 'grid grid-cols-2 gap-4 align-middle content-center mb-2 mt-[19px] md:px-[20px]   lg:px-[120px] sm:px-[70px] px-[19px]  -mr-4 relative'>
+        <div class = 'grid grid-cols-2 gap-4 align-middle content-center -mb-4 mt-[22px] md:px-[20px]   lg:px-[120px] sm:px-[70px] px-[19px]  -mr-4 relative'>
             {
 
 

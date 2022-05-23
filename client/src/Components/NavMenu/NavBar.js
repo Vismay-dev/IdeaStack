@@ -226,7 +226,11 @@ useEffect(
 
 
     <li class="inline-flex items-center">
-      <a class="inline-flex items-center lg:text-md text-sm font-medium text-gray-700 hover:text-gray-900 ">
+      <a  onClick = {
+      ()=> {
+        history.push('/')
+      }
+    }  class="inline-flex items-center lg:text-md text-sm font-medium text-gray-700 hover:cursor-pointer hover:text-gray-900 ">
         <svg class="relative lg:w-6 w-5 lg:h-6 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
       </a>
     </li>
@@ -236,12 +240,24 @@ useEffect(
 
           const param = pathParam.charAt(0).toUpperCase() + pathParam.slice(1)
           const isLastParam = i === pathParams.length-1?true:false
+          pathParam = pathParam.replace(' ','');
+          if(pathParam === 'MyJoinRequests') {
+            pathParam =  'joinrequests'
+          } else if(pathParam === 'ManageApplications'){
+            pathParam = 'manageapps'
+          } else if(pathParam === 'SecretOperations' ){
+            pathParam = 'admin-operations-passcode-IdeaStackOperations300305'
+          } else if(pathParam === 'ViewProfile'){
+            pathParam =  'viewProfile'
+          }
           return(
 
-            <li>
+            <li >
               <div class="flex items-center">
                 <svg class="w-7 h-7 mt-0.5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-                <a class={`lg:ml-1 ml-[2px] top-0.5 lg:text-md text-sm font-medium ${isLastParam?'text-gray-900':'text-gray-500'} md:ml-[1px]`}>{param}</a>
+                <a onClick={()=> {
+                    history.push(location.pathname.substring(0,location.pathname.indexOf(pathParam.replace(' ','').toLowerCase()) + pathParam.length + 1))
+}} class={`lg:ml-1 ml-[2px] top-0.5 hover:cursor-pointer lg:text-md text-sm font-medium ${isLastParam?'text-gray-900':'text-gray-500'} md:ml-[1px]`}>{param}</a>
               </div>
             </li>)
         })

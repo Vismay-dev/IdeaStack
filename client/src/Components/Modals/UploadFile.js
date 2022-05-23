@@ -27,17 +27,20 @@ const UploadFile = (props) => {
 
     const [uploading, setUploading] = useState(false);
 const [loading, setLoading] = useState(false)
-
+const [file, setFile] = useState(null)
     const fileUploadHandler = (e) => {
         const data = new FormData();
         setUploading(true)
         data.append('image',e.target.files[0]);
+        setFile(e.target.files[0])
         data.append('token',sessionStorage.getItem('token') )
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/uploadPic':'http://localhost:4000/api/user/uploadPic'
         ,data).then(res=> {
             setUpload({
               ...upload,
-              file:res.data
+              file:res.data,
+              title: upload.title + upload.title.split('.').pop()
+
           })
         setUploading(false)
           console.log(res.data)
@@ -47,20 +50,27 @@ const [loading, setLoading] = useState(false)
         })
     }
 
+    const [error, setError] = useState(false)
+
     const submitHandler = (e) => {
         e.preventDefault();
-        setLoading(true)
-        axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/uploadProjectFile':'http://localhost:4000/api/project/uploadProjectFile'
-        ,{upload,projectID:sessionStorage.getItem('managing'), token:sessionStorage.getItem('token')}).then(res=> {
-          props.passDocs(res.data)
-          console.log(res.data)
-          setTimeout(()=> {
-            setLoading(false)
-            props.close()
-          },1000)   
-        }).catch(err=> {
-            console.log(err.response)
-        })
+        if(file===null) {
+            setError('Not Uploaded')
+        }else {
+            setLoading(true)
+            axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/uploadProjectFile':'http://localhost:4000/api/project/uploadProjectFile'
+            ,{upload,projectID:sessionStorage.getItem('managing'), token:sessionStorage.getItem('token')}).then(res=> {
+              props.passDocs(res.data)
+              console.log(res.data)
+              setTimeout(()=> {
+                setLoading(false)
+                props.close()
+              },1000)   
+            }).catch(err=> {
+                console.log(err.response)
+            })
+        }
+        
     }
 
     let inputRef = useRef()
@@ -95,14 +105,14 @@ const [loading, setLoading] = useState(false)
 
                     <div class="grid grid-cols-1 space-y-2 mb-9">
                         <label class="text-sm font-bold text-gray-500 tracking-wide">File Title</label>
-                            <input max={34} maxLength={34} class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" type="" placeholder="Ex: Background Research Doc" onChange = {titleHandler}/>
+                            <input max={34} maxLength={34} required class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" type="" placeholder="Ex: Background Research Doc" onChange = {titleHandler}/>
                     </div>
 
                     <input id="remember" aria-describedby="remember" type="checkbox" class="cursor-pointer bottom-[16.5px] mt-1.5 mb-1 relative w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300" onChange={isImportantHandler}/>
 <p class = 'inline ml-2 -top-[10.2px] text-sm font-bold text-gray-500 relative'>Is this important?</p>
                     <div class="grid grid-cols-1 space-y-2 mt-3">
                                     <label class="text-sm font-bold text-gray-500 tracking-wide">Attach Document</label>
-                        <div class="flex items-center justify-center w-full">                            <label class="flex flex-col rounded-lg border-4 border-dashed w-full h-60 sm:p-10 p-10 px-3 group text-center">
+                        <div class="flex items-center justify-center w-full">                            <label class={`flex flex-col ${error==='Not Uploaded'?'border-red-400':''} rounded-lg border-4 border-dashed w-full h-60 sm:p-10 p-10 px-3 group text-center`}>
 {
                             uploading?
 
@@ -121,7 +131,7 @@ const [loading, setLoading] = useState(false)
                                     <p class="pointer-none  sm:text-base text-sm text-gray-500 relative sm:top-2 ">
                                         {upload.file?<p class = 'text-green-600 sm:bottom-0 bottom-5 relative font-semibold'>File Succesfully Uploaded!</p>:
                                         <>
-                                        <span class="text-sm">Drag and drop</span> file here <br /> or <a  onClick = {()=> inputRef.click()}  class="text-blue-600 sm:text-base text-sm cursor-pointer hover:underline">select a file</a> from your computer</>}</p>
+                                        <span class="text-sm">Drag and drop</span> file here <br /> or <a  onClick = {()=> inputRef.click()}  class={`${error==='Not Uploaded'?'text-red-600':'text-blue-600'} sm:text-base text-sm cursor-pointer hover:underline`}>select a file</a> from your computer</>}</p>
                                 </div>
                                 <input type="file" ref={inputRef} class="hidden"  onClick={e => e.stopPropagation()} onChange = {fileUploadHandler}/>
                        </>

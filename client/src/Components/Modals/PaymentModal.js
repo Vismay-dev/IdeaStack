@@ -8,6 +8,7 @@ import {useHistory} from 'react-router-dom'
 import { useLocation } from "react-router-dom";
 import logo from './logo.png'
 import CancelModal from "./CancelModal";
+import userContext from "../../context/userContext";
 
   
 function classNames(...classes) {
@@ -15,6 +16,9 @@ function classNames(...classes) {
   }
 
 const PaymentModal = (props) => {
+
+  const user = useContext(userContext).user
+
 const location = useLocation()
   
       const myRef = useRef()
@@ -128,6 +132,17 @@ const location = useLocation()
             securityCode: e.target.value
         })
     }   
+
+    const [isMentor, setIsMentor] = useState(false)
+    useEffect(()=> {
+  
+      axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/getTeam':'http://localhost:4000/api/project/getTeam',{token:sessionStorage.getItem('token'), projectID:sessionStorage.getItem('managing')}).then(res=> {
+        if(JSON.stringify(user._id) === JSON.stringify(res.data[0].id)){
+          setIsMentor(true)
+        }})
+  
+  
+  },[])
   
   
 
@@ -302,7 +317,7 @@ showConfirm ?
              </svg>
             
              
-                     <div class = 'grid grid-cols-2 xl:right-[42px] lg:px-0 md:px-16 sm:px-10 px-2 my-40 mt-28 relative'>
+                     <div class = {`grid grid-cols-2 xl:right-[42px] lg:px-0 md:px-16 sm:px-10 px-2 ${!isMentor? 'mb-44 mt-[104px]':'my-40 mt-[108px]'}  relative`}>
              
                      <div 
                  class="max-w-xs bg-cover mb-6 mt-[72px] hidden relative lg:block mx-auto  bg-white rounded-lg bottom-5 shadow-lg dark:bg-gray-800">
@@ -348,18 +363,18 @@ showConfirm ?
 
           </div>
 
-            <p class = 'col-span-2 top-12 xl:left-[34px] left-2.5 px-6 relative text-center ' ><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline relative mr-1 bottom-[1.35px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <p class = {`col-span-2 ${isMentor?'top-12':' top-10'}  xl:left-[34px] left-2.5 px-6 relative text-center`} ><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline relative mr-1 bottom-[1.35px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
 </svg>
  <span class = 'inline'>Payments are only processed after all members have paid</span></p>
-          <button onClick = {
+         { isMentor? <button onClick = {
             ()=> {props.showCancel();}
           } class = 'uppercase bg-gradient-to-tr  from-orange-500 to-orange-300 hover:from-orange-600 hover:to-orange-400 hover:shadow-xl active:shadow-sm text-white font-semibold col-span-2 mt-12 md:left-[1.5%] left-[2%] xl:left-[4%] shadow-md relative top-5 w-1/2 mx-auto block mb-0 p-3 px-3 rounded-md'>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1 relative bottom-[1.3px] inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
 </svg><span class = 'inline'>Cancel Latest Mentor Booking (Admin Only)</span>
             
-            </button>
+            </button> : '' }
 
           </div>
 
