@@ -16,7 +16,10 @@ const socketIo = require('socket.io')
 
 dotenv.config()
 
-app.use(cors())
+app.use(cors({
+    origin: 'https://www.ideastack.org',
+    //   :'http://localhost:3000'
+}))
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
@@ -35,9 +38,11 @@ mongoose.connection.on('error', function (err) { console.log(err) });
 app.use(express.json())
 
 
-const io = socketIo(http,{ 
+const io = socketIo(http,
+    { 
     cors: {
-      origin: 'https://www.ideastack.org'
+      origin: 'https://www.ideastack.org',
+        credentials: true
     //   :'http://localhost:3000'
     }
 })
