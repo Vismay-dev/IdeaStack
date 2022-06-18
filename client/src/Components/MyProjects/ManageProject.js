@@ -261,8 +261,6 @@ const remover = (member)=>  {
   setShowRemove(true)
 }
 
-console.log(user)
-
   return (
     <>
     <Switch>
