@@ -16,6 +16,7 @@ const socketIo = require('socket.io')
 
 dotenv.config()
 
+app.use(cors())
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
@@ -36,12 +37,11 @@ app.use(express.json())
 
 const io = socketIo(http,{ 
     cors: {
-      origin: "https://www.ideastack.org"
+      origin: 'https://www.ideastack.org'
     //   :'http://localhost:3000'
     }
 })
 
-app.use(cors())
 
 
 io.on('connection',(socket)=>{   
