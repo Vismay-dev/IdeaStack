@@ -13,7 +13,7 @@ const AdminPage = () => {
     const [showPanel, setShowPanel] = useState(false)
 
     const checkInput = () => {
-        if(document.getElementById('inputAdmin').value === 'TeamIdeaStackWins300305') {
+        if(document.getElementById('inputAdmin').value === 'xw') {
             axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/getAllProjectsAdmin':'http://localhost:4000/api/user/getAllProjectsAdmin').then(res=> {
             projectsTemp = res.data
     let projectsRequested = [];

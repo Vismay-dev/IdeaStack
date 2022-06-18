@@ -34,16 +34,16 @@ const [file, setFile] = useState(null)
         data.append('image',e.target.files[0]);
         setFile(e.target.files[0])
         data.append('token',sessionStorage.getItem('token') )
+
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/uploadPic':'http://localhost:4000/api/user/uploadPic'
         ,data).then(res=> {
             setUpload({
               ...upload,
               file:res.data,
-              title: upload.title + upload.title.split('.').pop()
+              title: upload.title.replace(' ','_') + '.'+ (e.target.files[0].name.split('.')[e.target.files[0].name.split('.').length-1])
 
           })
         setUploading(false)
-          console.log(res.data)
         }).catch(err=> {
             console.log(err)
             setUploading(false)

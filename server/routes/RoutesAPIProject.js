@@ -239,6 +239,7 @@ router.post('/seeMessages',auth,async(req,res)=> {
 
     if(proj){
     for(let x = 0; x<proj.messages.length;x++){
+
         if(!(proj.messages[x].seenBy)){
             proj.messages[x].seenBy = [viewer.firstName + ' ' + viewer.lastName]
         }
@@ -249,11 +250,11 @@ router.post('/seeMessages',auth,async(req,res)=> {
     }
 
     proj.markModified('messages');
-    await proj.save().catch(err=> {
-        console.log(err)
-    })
+    await proj.save()
+    res.send(proj.messages)
+}else {
+    res.send([])
 }
-res.send(proj.messages)
 
 })
 
@@ -381,15 +382,13 @@ router.post('/addMentorshipPackage', auth, async(req,res)=> {
             }
         }
 
-
+        console.log(chk)
+        console.log(finI)
         if(!chk){
             user.pendingPayments.push(paymentInfo)
         } else {
-            let pendingPaymentObj = user.pendingPayments[finI]
-            pendingPaymentObj.amounts.push(req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*(isFirstTime?noOfSessions-1:noOfSessions))
-            paymentInfo.amounts = pendingPaymentObj.amounts
-            paymentInfo.totalAmountForThisProject = pendingPaymentObj.totalAmountForThisProject+req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*(isFirstTime?noOfSessions-1:noOfSessions);
-            user.pendingPayments[finI] = paymentInfo;
+            user.pendingPayments[finI].amounts.push(req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*(isFirstTime?noOfSessions-1:noOfSessions))
+            user.pendingPayments[finI].totalAmountForThisProject = user.pendingPayments[finI].totalAmountForThisProject+req.body.mentorshipPackage.pricing[0]/parseFloat(proj.team.length)*(isFirstTime?noOfSessions-1:noOfSessions);
         }
 
 

@@ -24,12 +24,15 @@ router.post('/sendUserQuery',(req,res)=> {
         async function sendMail(){
         try {
             const transport = await nodemailer.createTransport({
-                service: 'gmail',
-                port:587,
-                type: 'OAuth2',
+                host: "smtp.gmail.com",
+  port: 465,
                 auth: {
-                    user: process.env.MAIL_ID,
-                    pass: process.env.PASS
+                    type: "OAuth2",
+                    user: "ideastackapp@gmail.com",
+                    clientId: "450866139265-b665ppkrbctnrk3goe3gtblunovnmh53.apps.googleusercontent.com",
+                    clientSecret: "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",
+                    accessToken: 'ya29.a0ARrdaM8fhGYX_65PxhAEF1tmQpjbwSpTKfMRZr3YQVsFe0n_EZ-OQrqTynb89O5cEK3QBHxHCF6sEM-L5hykkCMx0kUBGKnLev5uBvtxRDMeWP48RaosZTxeVoCmX6HKObo6jB7zJv_k-YDmTCpEE_-H9GnO',
+                    refreshToken:'1//04OTLkA6BqaV3CgYIARAAGAQSNwF-L9Ir8SeBvv5YwUHm_oxXtp1UfmVaLxYWU3ptAyingHFZbSehZ14LjB80Iuw7YNqEnr0PWFQ'
                 } 
             })
         
@@ -198,13 +201,16 @@ router.post('/sendResetCode',async(req,res)=> {
             async function sendMail(){
                 try {
                     const transport = await nodemailer.createTransport({
-                        service: 'gmail',
-                port:587,
-                        auth: {
-                            type: 'OAuth2',
-                            user: process.env.MAIL_ID,
-                            pass: process.env.PASS
-                        } 
+                        host: "smtp.gmail.com",
+                        port: 465,
+                                      auth: {
+                                          type: "OAuth2",
+                                          user: "ideastackapp@gmail.com",
+                                          clientId: "450866139265-b665ppkrbctnrk3goe3gtblunovnmh53.apps.googleusercontent.com",
+                                          clientSecret: "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",
+                                          accessToken: 'ya29.a0ARrdaM8fhGYX_65PxhAEF1tmQpjbwSpTKfMRZr3YQVsFe0n_EZ-OQrqTynb89O5cEK3QBHxHCF6sEM-L5hykkCMx0kUBGKnLev5uBvtxRDMeWP48RaosZTxeVoCmX6HKObo6jB7zJv_k-YDmTCpEE_-H9GnO',
+                                          refreshToken:'1//04OTLkA6BqaV3CgYIARAAGAQSNwF-L9Ir8SeBvv5YwUHm_oxXtp1UfmVaLxYWU3ptAyingHFZbSehZ14LjB80Iuw7YNqEnr0PWFQ'
+                                      } 
                     })
                 
                     const mailOptions = {
@@ -507,27 +513,30 @@ router.post('/completeLatestPendingPayment', auth, async(req,res)=> {
     await user.save();
 
     proj = await project.findOne({_id: req.body.projectID});
-    mentorshipPackage = proj.mentorshipPackages[0];
-    mentorshipPackage.pendingAmount -= amnt;
-    if(mentorshipPackage.pendingAmount==0) {
-        proj.mentorshipPackages[0].paymentPending = false;
+    proj.mentorshipPackages[proj.mentorshipPackages.length-1].pendingAmount -= amnt;
+    if(proj.mentorshipPackages[proj.mentorshipPackages.length-1].pendingAmount==0) {
+        proj.mentorshipPackages[proj.mentorshipPackages.length-1].paymentPending = false;
     }
 
+
     proj.markModified('mentorshipPackages');
+    await proj.save();
+
 
     for(let i = 0; i<proj.team.length;i++){
         let member = proj.team[i];
+        console.log(member)
         if(JSON.stringify(member.id)===JSON.stringify(req.user._id)) {
-            if(parseInt(member.pendingPayments[0])===parseInt(amnt)){
-               proj.team[i].pendingPayments[0] = 0;
+            if(parseInt(member.pendingPayments[member.pendingPayments.length-1])===parseInt(amnt)){
+               proj.team[i].pendingPayments[proj.team[i].pendingPayments.length-1] = 0;
             }
         }
     }
 
     proj.markModified('team');
-
-
     await proj.save()
+
+
     res.send('Payment Completed!')
 })
 
@@ -590,7 +599,6 @@ router.post('/modifyMentorAdmin', async(req,res)=> {
         for(let y = 0; y<projects[x].mentorshipPackages.length;y++){
             if(JSON.stringify(projects[x].mentorshipPackages[y]._id)===JSON.stringify(newMentor._id)){
                 projects[x].mentorshipPackages[y] = {...projects[x].mentorshipPackages[y], ...updateInfo}
-                console.log(projects[x].mentorshipPackages[y])
                 projects[x].markModified('mentorshipPackages');
                 projects[x].save()
             }
