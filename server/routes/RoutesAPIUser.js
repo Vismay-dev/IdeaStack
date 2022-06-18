@@ -29,10 +29,10 @@ router.post('/sendUserQuery',(req,res)=> {
                 auth: {
                     type: "OAuth2",
                     user: "ideastackapp@gmail.com",
-                    clientId: "450866139265-b665ppkrbctnrk3goe3gtblunovnmh53.apps.googleusercontent.com",
-                    clientSecret: "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",
-                    accessToken: 'ya29.a0ARrdaM8fhGYX_65PxhAEF1tmQpjbwSpTKfMRZr3YQVsFe0n_EZ-OQrqTynb89O5cEK3QBHxHCF6sEM-L5hykkCMx0kUBGKnLev5uBvtxRDMeWP48RaosZTxeVoCmX6HKObo6jB7zJv_k-YDmTCpEE_-H9GnO',
-                    refreshToken:'1//04OTLkA6BqaV3CgYIARAAGAQSNwF-L9Ir8SeBvv5YwUHm_oxXtp1UfmVaLxYWU3ptAyingHFZbSehZ14LjB80Iuw7YNqEnr0PWFQ'
+                    clientId: process.env.CLIENT_ID,
+                    clientSecret:process.env.CLIENT_SECRET,
+                    accessToken: process.env.ACCESS_TOKEN,   
+                    refreshToken: process.env.REFRESH_TOKEN
                 } 
             })
         
@@ -206,10 +206,10 @@ router.post('/sendResetCode',async(req,res)=> {
                                       auth: {
                                           type: "OAuth2",
                                           user: "ideastackapp@gmail.com",
-                                          clientId: "450866139265-b665ppkrbctnrk3goe3gtblunovnmh53.apps.googleusercontent.com",
-                                          clientSecret: "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",
-                                          accessToken: 'ya29.a0ARrdaM8fhGYX_65PxhAEF1tmQpjbwSpTKfMRZr3YQVsFe0n_EZ-OQrqTynb89O5cEK3QBHxHCF6sEM-L5hykkCMx0kUBGKnLev5uBvtxRDMeWP48RaosZTxeVoCmX6HKObo6jB7zJv_k-YDmTCpEE_-H9GnO',
-                                          refreshToken:'1//04OTLkA6BqaV3CgYIARAAGAQSNwF-L9Ir8SeBvv5YwUHm_oxXtp1UfmVaLxYWU3ptAyingHFZbSehZ14LjB80Iuw7YNqEnr0PWFQ'
+                                          clientId: process.env.CLIENT_ID,
+                                          clientSecret:process.env.CLIENT_SECRET,
+                                          accessToken: process.env.ACCESS_TOKEN,   
+                                          refreshToken: process.env.REFRESH_TOKEN
                                       } 
                     })
                 
