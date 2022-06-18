@@ -16,10 +16,6 @@ const socketIo = require('socket.io')
 
 dotenv.config()
 
-app.use(cors({
-    origin: 'https://www.ideastack.org',
-    //   :'http://localhost:3000'
-}))
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
@@ -59,6 +55,9 @@ app.use((req,res,next)=> {
     req.io = io;
     next()
 })
+
+
+app.use(cors())
 
 
 
