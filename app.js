@@ -33,13 +33,15 @@ mongoose.connection.on('error', function (err) { console.log(err) });
 
 app.use(express.json())
 
-app.use(cors())
 
 const io = socketIo(http,{ 
     cors: {
-      origin: process.env.NODE_ENV==='production'?"https://www.ideastack.org":'http://localhost:3000'
+      origin: "https://www.ideastack.org"
+    //   :'http://localhost:3000'
     }
 })
+
+app.use(cors())
 
 
 io.on('connection',(socket)=>{   
