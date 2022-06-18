@@ -37,8 +37,7 @@ app.use(cors())
 
 const io = socketIo(http,{ 
     cors: {
-    //   origin: 'https://localhost:3000'
-    origin:"https://www.ideastack.org"
+      origin: process.env.NODE_ENV==='production'?"https://www.ideastack.org":'http://localhost:3000'
     }
 })
 
