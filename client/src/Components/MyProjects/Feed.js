@@ -162,6 +162,8 @@ useEffect(()=> {
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/updateFeed':'http://localhost:4000/api/project/updateFeed',{token:sessionStorage.getItem('token'), feed:feedTemp ,projectID:sessionStorage.getItem('managing')}).then(res=> {
           setMessage(messageTemp)    
 setImage(null)
+setLoading(false)
+
           }).catch(err=> {
               console.log(err)
 
@@ -184,7 +186,10 @@ setImage(null)
         setFeed(feedTemp)
         setLoading(true)
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/updateFeed':'http://localhost:4000/api/project/updateFeed',{token:sessionStorage.getItem('token'), feed:feedTemp ,projectID:sessionStorage.getItem('managing')}).then(res=> {
-        }).catch(err=> {
+          setLoading(false)
+
+      
+      }).catch(err=> {
               console.log(err)
           })
 
