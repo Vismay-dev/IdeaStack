@@ -37,14 +37,16 @@ app.use(express.json())
 const io = socketIo(http,
     { 
     cors: {
-      origin: 'https://www.ideastack.org'
+      origin: 'https://www.ideastack.org',
+      credentials: true
     //   :'http://localhost:3000'
     // 'https://www.ideastack.org'
     }
 })
 
 app.use(cors({
-    origin:'https://www.ideastack.org'
+    origin:'https://www.ideastack.org',
+    credentials:true
     // :'http://localhost:3000'
     // 'https://www.ideastack.org'
 
