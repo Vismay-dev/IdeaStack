@@ -29,6 +29,7 @@ const Feed = () => {
       withCredentials: true,
     });
     socket.on('redistributeMessages',(data)=> {
+      setLoading(true)
       console.log(data)
       console.log(user)
       setLoading(true)
@@ -76,17 +77,16 @@ useEffect(()=> {
       axios.post(process.env.NODE_ENV ==='production'?"https://ideastack.herokuapp.com/api/project/seeMessages"
       :"http://localhost:4000/api/project/seeMessages",{token:sessionStorage.getItem('token'),projectID:sessionStorage.getItem('managing')}).then(res=> {
         setFeed(res.data);
+        console.log('Changed')
+        setLoading(false)
     })
 
     }
     else {
       setFeed([]);
     }
-    setLoading(false)
-
   }
 
-  setLoading(false)
 
 
     },[projects])
