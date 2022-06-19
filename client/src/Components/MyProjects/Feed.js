@@ -26,7 +26,7 @@ const Feed = () => {
     const socket = io('http://localhost:4000', {
       withCredentials: true,
       extraHeaders: {
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": true
       }
     });
     socket.on('redistributeMessages',(data)=> {
