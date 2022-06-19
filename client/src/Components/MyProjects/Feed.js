@@ -89,7 +89,7 @@ useEffect(()=> {
 
 
 
-    },[projects])
+    },[projects,feed])
 
     const user = useContext(userContext).user
 
