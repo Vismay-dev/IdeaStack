@@ -21,17 +21,22 @@ const Feed = () => {
     });
   },[]);
 
+  const userT = useContext(userContext).user
+
 
   useEffect(()=>{
     const socket = io('http://localhost:4000', {
       withCredentials: true,
     });
     socket.on('redistributeMessages',(data)=> {
+      console.log(data)
+      console.log(user)
       setLoading(true)
 
       console.log('Message Redistributed')
       if(JSON.stringify(data.id)===JSON.stringify(sessionStorage.getItem('managing'))){
         setFeed(data.feed)
+        console.log('Changed')
       }
 
       setLoading(false)
@@ -106,11 +111,6 @@ useEffect(()=> {
 
     const [picLoading, setPicLoading] = useState(false)
 
-
-    useEffect(()=> {
-
-    },[])
-
     const picUpload = (e) => {
         e.preventDefault()
         const data = new FormData();
@@ -150,6 +150,8 @@ useEffect(()=> {
         feedTemp = [
           ...feedTemp, messageTemp
         ]
+        console.log(feedTemp)
+        setFeed(feedTemp)
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/getUser':'http://localhost:4000/api/user/getUser',{token:sessionStorage.getItem('token')}).then(res=> {
         setSendingMessage(false)
         messageTemp = {
@@ -182,6 +184,7 @@ setImage(null)
         let feedTemp = new Array(...feed);
         feedTemp = feedTemp.filter(elem => elem!==feedTemp[i]);
         console.log(feedTemp)
+        setFeed(feedTemp)
         setLoading(true)
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/updateFeed':'http://localhost:4000/api/project/updateFeed',{token:sessionStorage.getItem('token'), feed:feedTemp ,projectID:sessionStorage.getItem('managing')}).then(res=> {
         }).catch(err=> {
