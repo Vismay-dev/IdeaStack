@@ -39,8 +39,19 @@ const io = socketIo(http,
     cors: {
       origin: 'https://www.ideastack.org'
     //   :'http://localhost:3000'
+    // 'https://www.ideastack.org'
     }
 })
+
+app.use(cors({
+    origin:'https://www.ideastack.org'
+    // :'http://localhost:3000'
+    // 'https://www.ideastack.org'
+
+}))
+
+
+
 
 
 
@@ -56,7 +67,6 @@ app.use((req,res,next)=> {
 })
 
 
-app.use(cors())
 
 
 
