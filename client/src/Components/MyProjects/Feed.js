@@ -164,7 +164,7 @@ useEffect(()=> {
 setImage(null)
 setTimeout(()=> {
   setLoading(false)
- },[1500])
+ },1500)
           }).catch(err=> {
               console.log(err)
 
@@ -189,7 +189,7 @@ setTimeout(()=> {
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/updateFeed':'http://localhost:4000/api/project/updateFeed',{token:sessionStorage.getItem('token'), feed:feedTemp ,projectID:sessionStorage.getItem('managing')}).then(res=> {
          setTimeout(()=> {
           setLoading(false)
-         },[1500])
+         },1500)
 
       
       }).catch(err=> {
