@@ -32,7 +32,7 @@ const Feed = () => {
       if(JSON.stringify(data.id)===JSON.stringify(sessionStorage.getItem('managing'))){
 
         setFeed(data.feed)
-  
+
       }
     })
 
@@ -146,7 +146,6 @@ useEffect(()=> {
           ...feedTemp, messageTemp
         ]
         setFeed(feedTemp)
-        setLoading(true)
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/getUser':'http://localhost:4000/api/user/getUser',{token:sessionStorage.getItem('token')}).then(res=> {
         setSendingMessage(false)
         messageTemp = {
@@ -175,7 +174,8 @@ setImage(null)
           
 
         setSendingMessage(false)
-        
+        setLoading(false)
+
     }
 
     const deleteMessage = (i) => {
@@ -196,6 +196,8 @@ setImage(null)
           
 
           setSendingMessage(false)
+          setLoading(false)
+
     }
 
     const [showToolTip, setShowToolTip] = useState(false);
