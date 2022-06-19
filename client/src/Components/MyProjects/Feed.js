@@ -30,10 +30,11 @@ const Feed = () => {
 
       console.log('Message Redistributed')
       if(JSON.stringify(data.id)===JSON.stringify(sessionStorage.getItem('managing'))){
-
         setFeed(data.feed)
-        setLoading(false)
       }
+
+      setLoading(false)
+
     })
 
    socket.on('disconnect',()=>console.log('server disconnected'))
@@ -150,7 +151,6 @@ useEffect(()=> {
         feedTemp = [
           ...feedTemp, messageTemp
         ]
-        setFeed(feedTemp)
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/user/getUser':'http://localhost:4000/api/user/getUser',{token:sessionStorage.getItem('token')}).then(res=> {
         setSendingMessage(false)
         messageTemp = {
@@ -164,9 +164,6 @@ useEffect(()=> {
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/updateFeed':'http://localhost:4000/api/project/updateFeed',{token:sessionStorage.getItem('token'), feed:feedTemp ,projectID:sessionStorage.getItem('managing')}).then(res=> {
           setMessage(messageTemp)    
 setImage(null)
-setFeed(feedTemp)
-
-
           }).catch(err=> {
               console.log(err)
 
@@ -179,11 +176,6 @@ setFeed(feedTemp)
         })
 
         setSendingMessage(false); setImage(null); setMessage({});
-
-          
-
-        setSendingMessage(false)
-
     }
 
     const deleteMessage = (i) => {
@@ -191,20 +183,14 @@ setFeed(feedTemp)
         let feedTemp = new Array(...feed);
         feedTemp = feedTemp.filter(elem => elem!==feedTemp[i]);
         console.log(feedTemp)
-        setFeed(feedTemp)
         setLoading(true)
         axios.post(process.env.NODE_ENV ==='production'?'https://ideastack.herokuapp.com/api/project/updateFeed':'http://localhost:4000/api/project/updateFeed',{token:sessionStorage.getItem('token'), feed:feedTemp ,projectID:sessionStorage.getItem('managing')}).then(res=> {
-          setFeed(feedTemp)
         }).catch(err=> {
               console.log(err)
           })
 
+
           setSendingMessage(false); setImage(null); setMessage({});
-
-          
-
-          setSendingMessage(false)
-
     }
 
     const [showToolTip, setShowToolTip] = useState(false);
