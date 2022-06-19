@@ -37,7 +37,7 @@ app.use(express.json())
 const io = socketIo(http,
     { 
     cors: {
-      origin: 'http://localhost:3000',
+      origin: 'https://www.ideastack.org',
       credentials: true
     //   :'http://localhost:3000'
     // 'https://www.ideastack.org'
@@ -45,7 +45,7 @@ const io = socketIo(http,
 })
 
 app.use(cors({
-    origin:'http://localhost:3000',
+    origin:'https://www.ideastack.org',
     credentials:true
     // :'http://localhost:3000'
     // 'https://www.ideastack.org'
