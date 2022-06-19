@@ -23,7 +23,12 @@ const Feed = () => {
 
 
   useEffect(()=>{
-    const socket = io('http://localhost:4000')
+    const socket = io('http://localhost:4000', {
+      withCredentials: true,
+      extraHeaders: {
+        "Access-Control-Allow-Origin": "*"
+      }
+    });
     socket.on('redistributeMessages',(data)=> {
       setLoading(true)
 
