@@ -222,7 +222,7 @@ setTimeout(()=> {
 picLoading?
 
 
-  <div class ='relative mx-auto my-8 mb-10 top-3 pb-3 pt-4 text-center block justify-center'>
+  <div class ='relative mx-auto my-8 mb-10 top-3.5 pb-3 pt-4 text-center block justify-center'>
       <ClipLoader color={'#0b0bbf'} loading={picLoading}  size={70} />
     </div>:
             
