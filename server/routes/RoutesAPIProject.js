@@ -227,7 +227,7 @@ router.post('/updateFeed',auth, async(req,res)=> {
     proj.messages = req.body.feed;
     let newProj = await proj.save()
     await io.emit('redistributeMessages',{feed:proj.messages,id:req.body.projectID})
-    
+
     res.send(newProj.messages);
 })
 
@@ -251,9 +251,9 @@ router.post('/seeMessages',auth,async(req,res)=> {
     proj.markModified('messages');
     await proj.save()
     res.send(proj.messages)
-}else {
-    res.send([])
 }
+
+res.end()
 
 })
 

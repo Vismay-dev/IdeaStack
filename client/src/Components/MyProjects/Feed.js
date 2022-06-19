@@ -32,7 +32,7 @@ const Feed = () => {
       if(JSON.stringify(data.id)===JSON.stringify(sessionStorage.getItem('managing'))){
 
         setFeed(data.feed)
-
+        setLoading(false)
       }
     })
 
@@ -64,20 +64,25 @@ useEffect(()=> {
   
     if(projects.projects && projSelected){
     setProject(projSelected);
-    setLoading(false)
 
     if(projSelected.messages){
       axios.post(process.env.NODE_ENV ==='production'?"https://ideastack.herokuapp.com/api/project/seeMessages"
       :"http://localhost:4000/api/project/seeMessages",{token:sessionStorage.getItem('token'),projectID:sessionStorage.getItem('managing')}).then(res=> {
         setFeed(res.data);
+        setLoading(false)
+
     })
+
     }
     else {
       setFeed([]);
     }
+    setLoading(false)
+
   }
 
-  
+  setLoading(false)
+
 
     },[projects])
 
@@ -160,12 +165,15 @@ useEffect(()=> {
           setMessage(messageTemp)    
 setImage(null)
 
+
           }).catch(err=> {
               console.log(err)
+
 
           })
         }).catch(err=> {
             console.log(err)
+
 
         })
 
@@ -174,7 +182,6 @@ setImage(null)
           
 
         setSendingMessage(false)
-        setLoading(false)
 
     }
 
@@ -196,7 +203,6 @@ setImage(null)
           
 
           setSendingMessage(false)
-          setLoading(false)
 
     }
 
