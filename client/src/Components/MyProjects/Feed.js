@@ -27,15 +27,12 @@ const Feed = () => {
       withCredentials: true,
     });
     socket.on('redistributeMessages',(data)=> {
-      setLoading(true)
 
       console.log('Message Redistributed')
       if(JSON.stringify(data.id)===JSON.stringify(sessionStorage.getItem('managing'))){
 
         setFeed(data.feed)
-      setTimeout(()=> {
-        setLoading(false)
-      },2000)
+  
       }
     })
 
