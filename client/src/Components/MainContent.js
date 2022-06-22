@@ -6,6 +6,8 @@ import MyProjects from './MyProjects/MyProjects'
 import AdminPage from "./adminPage"
 import ViewProfile from './Profile/ViewProfile'
 import {Switch, Route, Redirect, useLocation} from 'react-router-dom'
+import Team from "./Team/Team"
+import OurJourney from "./Our Journey/Our Journey"
 
 
 const MainContent = () => {
@@ -23,6 +25,20 @@ const MainContent = () => {
             <Route  path = '/home'>
                 {!(sessionStorage.getItem('token'))  ? 
                     <Landing/>:
+                    <Redirect to = '/'/>
+                }
+            </Route>
+
+            <Route  path = '/team'>
+                {!(sessionStorage.getItem('token'))  ? 
+                    <Team/>:
+                    <Redirect to = '/'/>
+                }
+            </Route>
+
+            <Route  path = '/ourjourney'>
+                {!(sessionStorage.getItem('token'))  ? 
+                    <OurJourney/>:
                     <Redirect to = '/'/>
                 }
             </Route>

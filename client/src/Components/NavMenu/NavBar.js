@@ -1,12 +1,29 @@
-import {useState, useRef, useEffect} from 'react'
+import {useState, useRef, useEffect, Fragment} from 'react'
 import {useHistory, useLocation} from 'react-router-dom'
 import LogModal from '../Modals/LogModal'
 import RegModal from '../Modals/RegModal';
 import ExitModal from '../Modals/ExitModal';
 import SideModal from '../Modals/SideModal';
 import axios from 'axios'
+import { ChevronDownIcon } from '@heroicons/react/solid'
 
+import {
+  BookmarkAltIcon,
+  CalendarIcon,
+  ChartBarIcon,
+  CursorClickIcon,
+  MenuIcon,
+  PhoneIcon,
+  PlayIcon,
+  RefreshIcon,
+  ShieldCheckIcon,
+  SupportIcon,
+  ViewGridIcon,
+  XIcon,
+  UserGroupIcon
+} from '@heroicons/react/outline'
 import logo from './logo.png'
+import { Popover, Transition } from '@headlessui/react'
 
 
 import AOS from 'aos';
@@ -18,6 +35,8 @@ import ReactGA from "react-ga";
 
 
 const NavBar = (props) => {
+
+  
   useEffect(() => {
     AOS.init({
       duration : 650
@@ -132,7 +151,54 @@ useEffect(
   [myRef, () => props.close()]
 );
 
+const resources = [
 
+  {
+    name: 'About Us',
+    description: 'What is IdeaStack? What do we do?',
+    icon: BookmarkAltIcon,
+    action: 'about',
+    doc: 'about'
+  },
+  {
+    name: 'Features',
+    description: 'Why IdeaStack? How do we help you?',
+    icon: MenuIcon,
+    action: 'features',
+    doc: 'features'
+  },
+  {
+    name: 'Partners',
+    description: "Organizations that have recognized, supported and enabled us.",
+    icon: SupportIcon,
+    action: 'partners',
+    doc: 'partners'
+  },
+  {
+    name: 'Contact',
+    description: 'Get in touch with us',
+    icon: PhoneIcon,
+    action: 'contact',
+    doc: 'contact'
+  }
+
+]
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+function findPos(obj) {
+  var curtop = 0;
+  if (obj.offsetParent) {
+      do {
+          curtop += obj.offsetTop;
+      } while (obj = obj.offsetParent);
+  return [curtop];
+  }
+}
+const callsToAction = [
+  // { name: 'Our Team', href: '#', icon: UserGroupIcon , action: 'contact' },
+]
 
 
 
@@ -175,50 +241,114 @@ useEffect(
             
         </a>
         {sessionStorage.getItem('token')===null?
-        <ul class="items-center space-x-10 py-8 top-0.5 relative  lg:flex left-8 xl:-left-52 lg:-left-28 hidden uppercase">
-        <li data-aos={"fade-left"} data-aos-once='true'>
+        <ul class="items-center space-x-10 py-8 top-0.5 relative  lg:flex left-2 xl:-left-[310px] lg:-left-[177px] hidden uppercase">
+         <Popover.Group  data-aos={"fade-left"} data-aos-once='true' as="nav" className="hidden md:flex space-x-10">
+           
+
+         
+
+           <Popover className="relative">
+             {({ open }) => (
+               <>
+                 <Popover.Button
+                    
+                   className={classNames(
+                    
+                     'group font-semibold tracking-wide text-gray-700 transition-colors duration-200 hover:text-indigo-500  bg-white px-2 pr-1 py-[2px] top-[1px]  rounded-md inline-flex items-center text-base  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                   )}
+                 >
+                   <span  >HOME</span>
+                   <ChevronDownIcon
+                     className={classNames(
+                       open ? 'text-gray-600' : 'text-gray-400',
+                       'ml-2  h-5 w-5 group-hover:text-gray-500'
+                     )}
+                     aria-hidden="true"
+                   />
+                 </Popover.Button>
+
+                 <Transition
+                   as={Fragment}
+                   enter="transition ease-out duration-200"
+                   enterFrom="opacity-0 translate-y-1"
+                   enterTo="opacity-100 translate-y-0"
+                   leave="transition ease-in duration-150"
+                   leaveFrom="opacity-100 translate-y-0"
+                   leaveTo="opacity-0 translate-y-1"
+                 >
+                   <Popover.Panel ref = {buttonRef1} className="absolute z-20  left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-md sm:px-0">
+                     <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                       <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                         {resources.map((item) => (
+                           <a
+                             key={item.name}
+                             onClick = {()=> {
+                              history.push('/home')
+                              setTimeout(()=> {
+                                window.scroll(0,findPos(document.getElementById(item.doc))-70);
+                              },300)
+                            }}
+                             className="-m-3 p-3 flex hover:cursor-pointer items-start rounded-lg hover:bg-gray-50"
+                           >
+                             <item.icon className="flex-shrink-0 h-6 w-6 top-[1px] relative -mr-1.5 text-indigo-600" aria-hidden="true" />
+                             <div className="ml-4">
+                               <p className="text-base font-medium text-gray-900">{item.name}</p>
+                               <p className="mt-1 text-sm text-gray-500">{item.description}</p>
+                             </div>
+                           </a>
+                         ))}
+                       </div>
+                       <div  className="px-5 py-1 bg-gray-200 sm:px-8 sm:py-8">
+                         <div>
+                         {callsToAction.map((item) => (
+                           <div key={item.name} className="flow-root">
+                             <a
+                          
+                         className="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-900 hover:bg-gray-100"
+                             >
+                               <item.icon className="flex-shrink-0 h-6 w-6 text-gray-400" aria-hidden="true" />
+                               <span className="ml-3">{item.name}</span>
+                             </a>
+                           </div>
+                         ))}
+                         </div>
+                       </div>
+                     </div>
+                   </Popover.Panel>
+                 </Transition>
+               </>
+             )}
+           </Popover>
+         </Popover.Group>
+       
+        <li data-aos={"fade-left"} data-aos-once='true' data-aos-delay = '200'>
             <a
             
-              href='#about'
+              onClick={()=> {
+                history.push('/team')
+            
+              }}
               aria-label="About us"
               title="About us"
-              class="font-semibold tracking-wide text-gray-700 transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer"
+              class="font-semibold tracking-wide  right-[7px] relative text-gray-700 transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer"
             >
-              About us
-            </a>
-          </li>
-          <li data-aos={"fade-left"} data-aos-once='true' data-aos-delay='200'>
-            <a
-                           href='#features'
-
-              aria-label="Features"
-              title="Features"
-              class="font-semibold tracking-wide text-gray-700 transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer"
-            >
-              Features
+              Team
             </a>
           </li>
           <li data-aos={"fade-left"} data-aos-once='true' data-aos-delay='400'>
             <a
-                href='#partners'
-              aria-label="About us"
-              title="About us"
-              class="font-semibold tracking-wide text-gray-700 transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer"
+  onClick={()=> {
+    history.push('/ourjourney')
+   
+  }}
+              aria-label="Features"
+              title="Features"
+              class="font-semibold tracking-wide text-gray-700  right-1.5 relative transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer"
             >
-              Partners
+              Our Journey
             </a>
           </li>
-          <li data-aos={"fade-left"} data-aos-once='true' data-aos-delay='600'>
-            <a
-              
-               href='#contact'
-              aria-label="About us"
-              title="About us"
-              class=" mr-20 font-semibold tracking-wide text-gray-700 transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer"
-            >
-              Contact
-            </a>
-          </li> 
+          
         </ul>
         :
         <nav class="flex" aria-label="Breadcrumb">
@@ -268,9 +398,9 @@ useEffect(
   </ol>
 </nav>
         }
-        <div className="flex items-center justify-end  w-0 xl:left-80 lg:left-[260px] md:left-[210px] sm:left-[20px] left-[80px] md:bottom-0 sm:bottom-3 bottom-2 mt-0.5 md:mt-0 ml-1 relative">
+        <div className="flex items-center justify-end  w-0 xl:left-[280px] lg:left-[220px] md:left-[210px] sm:left-[20px] left-[80px] md:bottom-0 sm:bottom-3 bottom-2 mt-0.5 md:mt-0 ml-1 relative">
             {sessionStorage.getItem('token')===null?<>
-            <a  href="#" onClick = {showModalLog} className="uppercase whitespace-nowrap text-md xl:-left-72 lg:-left-48 relative  tracking-wide lg:block hidden font-semibold text-gray-700 hover:text-gray-900">
+            <a  href="#" onClick = {showModalLog} className="uppercase whitespace-nowrap text-md xl:-left-[306px] lg:-left-[210px] relative  tracking-wide lg:block hidden font-semibold text-gray-700 hover:text-gray-900">
               Sign in
             </a>
             <a 
@@ -401,23 +531,83 @@ useEffect(
            
              <nav class = ''>
                
-               <ul class="space-y-4  relative bottom-8  sm:bottom-6">
-               <li class = "text-center">
-                   <a
-                     onClick={()=> {
-                       setIsMenuOpen(false)
-                       window.scrollTo({
-                       top:710,
-                       left:0,
-                       behavior:'smooth'
-                     })}}
-                     aria-label="About us"
-                     title="About us"
-                     class="hover:cursor-pointer  font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-indigo-500"
-                   >
-                     About us
-                   </a>
-                 </li>
+               <ul class="space-y-4  relative bottom-8  sm:bottom-8">
+               <Popover.Group  as="nav" className="text-center">
+           
+
+         
+
+           <Popover className="relative">
+             {({ open }) => (
+               <>
+                 <Popover.Button
+                    
+                   className={classNames(
+                    
+                     'group font-semibold tracking-wide text-gray-700 transition-colors duration-200 hover:text-indigo-500  bg-white px-2 pr-1 py-[2px] top-[1px]  rounded-md inline-flex items-center text-base  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                   )}
+                 >
+                   <span  >Home</span>
+                   <ChevronDownIcon
+                     className={classNames(
+                       open ? 'text-gray-600' : 'text-gray-400',
+                       'ml-2  h-5 w-5 group-hover:text-gray-500'
+                     )}
+                     aria-hidden="true"
+                   />
+                 </Popover.Button>
+
+                 <Transition
+                   as={Fragment}
+                   enter="transition ease-out duration-200"
+                   enterFrom="opacity-0 translate-y-1"
+                   enterTo="opacity-100 translate-y-0"
+                   leave="transition ease-in duration-150"
+                   leaveFrom="opacity-100 translate-y-0"
+                   leaveTo="opacity-0 translate-y-1"
+                 >
+                   <Popover.Panel ref = {buttonRef1} className="absolute z-20  left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-[340px] sm:px-0">
+                     <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 text-center overflow-hidden">
+                       <div className="relative grid gap-6 bg-white px-5 pt-6 pb-4 sm:gap-8 sm:p-8">
+                         {resources.map((item) => (
+                           <a
+                             key={item.name}
+                             onClick = {()=> {
+                              history.push('/home')
+                              window.scroll(0,findPos(document.getElementById(item.doc)));
+                            }}
+                             className="-m-3 sm:p-3 p-3 pb-3.5 flex hover:cursor-pointer sm:-mb-3 -mb-2 items-start rounded-lg hover:bg-gray-50"
+                           >
+                             <item.icon className="flex-shrink-0 h-6 w-6 top-[1px] relative mr-1 text-indigo-600" aria-hidden="true" />
+                             <div className="ml-4 text-left">
+                               <p className="text-base font-medium text-gray-900">{item.name}</p>
+                               <p className="mt-1 text-sm text-gray-500">{item.description}</p>
+                             </div>
+                           </a>
+                         ))}
+                       </div>
+                       <div  className="px-5 py-1 bg-gray-200 sm:px-8 sm:py-8">
+                         <div>
+                         {callsToAction.map((item) => (
+                           <div key={item.name} className="flow-root">
+                             <a
+                          
+                         className="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-900 hover:bg-gray-100"
+                             >
+                               <item.icon className="flex-shrink-0 h-6 w-6 text-gray-400" aria-hidden="true" />
+                               <span className="ml-3">{item.name}</span>
+                             </a>
+                           </div>
+                         ))}
+                         </div>
+                       </div>
+                     </div>
+                   </Popover.Panel>
+                 </Transition>
+               </>
+             )}
+           </Popover>
+         </Popover.Group>
                  <li class = "text-center">
                    <a
                         onClick={()=> {
@@ -429,9 +619,9 @@ useEffect(
                        })}}
                      aria-label="Our product"
                      title="Our product"
-                     class="hover:cursor-pointer font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-indigo-500"
+                     class="hover:cursor-pointer font-semibold tracking-wide text-gray-700  right-1.5 relative transition-colors duration-200 hover:text-indigo-500"
                    >
-                     Features
+                     Team
                    </a>
                  </li>
                  <li class = "text-center">
@@ -445,27 +635,12 @@ useEffect(
                      })}}
                      aria-label="Product pricing"
                      title="Product pricing"
-                     class="hover:cursor-pointer font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-indigo-500"
+                     class="hover:cursor-pointer font-semibold tracking-wide text-gray-700  right-1.5 relative transition-colors duration-200 hover:text-indigo-500 "
                    >
-                     Partners
+                     Our Journey
                    </a>
                  </li>
-                 <li class = "text-center">
-                   <a
-                      onClick={()=> {
-                       setIsMenuOpen(false)
-                        window.scrollTo({
-                       top:2800,
-                       left:0,
-                       behavior:'smooth'
-                     })}}
-                     aria-label="Product pricing"
-                     title="Product pricing"
-                     class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer"
-                   >
-                     Contact
-                   </a>
-                 </li>
+                
                
                  
                </ul>
