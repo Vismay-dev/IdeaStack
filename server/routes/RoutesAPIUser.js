@@ -23,14 +23,7 @@ const request = require('request');
 router.post('/sendUserQuery',(req,res)=> {
         async function sendMail(){
         try {
-            console.log({
-                type: "OAuth2",
-                user: "ideastackapp@gmail.com",
-                clientId: process.env.CLIENT_ID,
-                clientSecret:process.env.CLIENT_SECRET,
-                accessToken: process.env.ACCESS_TOKEN,   
-                refreshToken: process.env.REFRESH_TOKEN
-            } )
+          
             const transport = await nodemailer.createTransport({
                 host: "smtp.gmail.com",
   port: 465,

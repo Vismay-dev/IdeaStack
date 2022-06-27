@@ -14,10 +14,10 @@ const OurJourney = () => {
 
     return (<>
         <section class="pt-20 lg:pt-[63px] pb-12 lg:pb-[150px] -mb-72 overflow-hidden">
-           <div  class="container relative mx-auto left-4">
+           <div  class="container relative mx-auto md:left-4 left-2">
               <div data-aos={"fade-up"} data-aos-once='true' class="flex flex-wrap justify-between items-center -mx-4">
-                 <div  class="w-full lg:w-6/12 px-4 -mr-3 ml-8 relative">
-                    <div class="flex items-center -mx-3 sm:-mx-4">
+                 <div  class="xl:w-6/12 lg:w-7/12 w-8/12  px-4 xl:-mr-3 xl:ml-8 mx-auto relative">
+                    <div class="flex items-center relative xl:-mx-4 mx-auto">
                        <div class="w-full xl:w-1/2 px-3 sm:px-4">
                           <div class="py-3 sm:py-4">
                              <img
@@ -615,7 +615,7 @@ const OurJourney = () => {
                        </div>
                     </div>
                  </div>
-                 <div class="w-full lg:w-1/2 xl:w-5/12 px-4 right-20 relative">
+                 <div class="lg:w-1/2 w-3/4 xl:w-5/12 px-4 xl:text-left text-center xl:mx-0 mx-auto xl:mt-0 lg:mt-20 mt-7 lg:mb-0 mb-[90px]  xl:right-20 relative">
                     <div class="mt-10 lg:mt-0">
                        <span class="font-semibold text-lg text-primary mb-2 block">
                        How We Started
@@ -623,13 +623,13 @@ const OurJourney = () => {
                        <h2 class="font-bold text-3xl sm:text-4xl text-dark mb-8">
                           Our Journey
                        </h2>
-                       <p class="text-base text-body-color mb-8">
+                       <p class="sm:text-base text-sm text-body-color mb-8">
                        "Arduino, Robotics, Programming, 3D Modeling and Internet of Things; As a STEM student, I’ve built and pitched numerous STEM projects over the course of my school journey. However, as you might expect of most students, I failed.<br/><br/> I failed to deliver those projects to market or even refine them for commercial applications/research. 
 
 I realized that it was customary for students to be unable to carry their STEM projects forward. Most people boiled this down to a lack of experience.<br/><br/> In contrast, there were just 2 primary factors I observed that held me back: a lack of networking services and an unavailable industry mentorship."<br/><br/><span class = 'font-semibold underline'>- Vismay Suramwar, Founder</span>
 
                        </p>
-                       <p class="text-base text-indigo-700 bottom-3 relative text-body-color mb-12">
+                       <p class="sm:text-base text-sm text-indigo-700 bottom-3 relative text-body-color mb-12">
                        And so, as a team committed to solving the problem at hand, we built the next big thing in the STEM EdTech Industry.
 
                        </p>
@@ -664,25 +664,25 @@ I realized that it was customary for students to be unable to carry their STEM p
 
         </section>
 
-<section class="pt-20 lg:pt-[100px] pb-12 lg:pb-[88px] -mb-[330px] mt-44 border-dashed border-blue-700 border-t-2  overflow-hidden">
-<div class="container relative mx-auto left-4 ">
+<section class="pt-[67px] lg:pt-[100px] pb-12 lg:pb-[98px] -mb-[330px] mt-44 border-dashed border-blue-700 border-t-2  overflow-hidden">
+<div class="container relative mx-auto md:left-4 sm:left-2 left-1 ">
    <div data-aos={"fade-up"} data-aos-once='true' class="flex flex-wrap justify-between items-center -mx-4">      
 
-<div class="w-full lg:w-1/2 xl:w-5/12 px-4 left-[97px] bottom-7  relative">
-         <div class="mt-10 lg:mt-0 text-center -mr-14">
+<div class="lg:w-2/3 w-2/3 xl:w-5/12 px-4 xl:left-[97px] -left-[27px] block  xl:bottom-7 bottom-11 xl:mb-0 mb-[58px] xl:mx-0 mx-auto  relative">
+         <div class="mt-10 lg:mt-0 text-center xl:mx-0 mx-auto -mr-14">
             <span class="font-semibold text-lg text-primary mb-2 block">
             Crowdfunding Campaign
             </span>
             <h2 class="font-bold text-3xl sm:text-4xl text-dark mb-8">
                Support Us
             </h2>
-            <p class="text-base text-body-color mb-8">
+            <p class="sm:text-base text-sm text-body-color mb-8">
             <strong>IdeaStack.org</strong> is now live on <strong>Dubai SME’s crowdfunding platform: Dubai Next</strong>, established by HH Sheikh Hamdan Bin Mohammed Bin Rashid Al Maktoum, Crown Prince of Dubai and Chairman of the Executive Council.
             </p>
-            <p class="text-base text-body-color mb-8">
+            <p class="sm:text-base text-sm  text-body-color mb-8">
             Support us in this crowdfunding campaign, and  <strong>help us revolutionize the traditional project planning process in STEM.</strong> We’re actively expanding our group of STEM experts and academicians, and <strong>we need your help to scale and grow.</strong>
             </p>
-            <p class="text-base text-body-color mb-12">
+            <p class="sm:text-base text-sm  text-body-color mb-12">
             We reward contributors with acknowledgement of <strong>early support and sponsorship,</strong> additionally offering <strong>other mentorship benefits.</strong> 
             </p>
             <a
@@ -709,7 +709,7 @@ I realized that it was customary for students to be unable to carry their STEM p
             </a>
          </div>
       </div>
-<div class  = 'w-full lg:w-1/2 xl:w-5/12 px-4 right-24 bottom-[35px] relative'>
+<div class  = 'w-full lg:w-1/2 xl:w-5/12 px-4 mx-auto bottom-[35px] lg:-mb-0 md:mb-16 sm:mb-14 mb-10 relative'>
 <iframe target = '_top' class = 'relative rounded-sm mx-auto shadow-lg border-blue-600 border-2' width="310" height="580" onClick={() => {
     window.open('https://www.dubainext.ae/embed/card-view/1730', '_blank')
 }} src = 'https://www.dubainext.ae/embed/card-view/1730' frameborder="0" scrolling="no"></iframe>

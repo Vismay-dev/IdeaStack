@@ -284,6 +284,7 @@ const callsToAction = [
                              key={item.name}
                              onClick = {()=> {
                               history.push('/home')
+                              open = false;
                               setTimeout(()=> {
                                 window.scroll(0,findPos(document.getElementById(item.doc))-70);
                               },300)
@@ -574,7 +575,10 @@ const callsToAction = [
                              key={item.name}
                              onClick = {()=> {
                               history.push('/home')
-                              window.scroll(0,findPos(document.getElementById(item.doc)));
+                              setTimeout(()=>{
+                                window.scroll(0,findPos(document.getElementById(item.doc)));
+                              },100)
+                              setIsMenuOpen(false)
                             }}
                              className="-m-3 sm:p-3 p-3 pb-3.5 flex hover:cursor-pointer sm:-mb-3 -mb-2 items-start rounded-lg hover:bg-gray-50"
                            >
@@ -612,11 +616,8 @@ const callsToAction = [
                    <a
                         onClick={()=> {
                          setIsMenuOpen(false)
-                          window.scrollTo({
-                         top:1450,
-                         left:0,
-                         behavior:'smooth'
-                       })}}
+                         history.push('/team')
+                       }}
                      aria-label="Our product"
                      title="Our product"
                      class="hover:cursor-pointer font-semibold tracking-wide text-gray-700  right-1.5 relative transition-colors duration-200 hover:text-indigo-500"
@@ -628,11 +629,8 @@ const callsToAction = [
                    <a
                      onClick={()=> {
                        setIsMenuOpen(false)
-                       window.scrollTo({
-                       top:2100,
-                       left:0,
-                       behavior:'smooth'
-                     })}}
+                       history.push('/ourjourney')
+                     }}
                      aria-label="Product pricing"
                      title="Product pricing"
                      class="hover:cursor-pointer font-semibold tracking-wide text-gray-700  right-1.5 relative transition-colors duration-200 hover:text-indigo-500 "
