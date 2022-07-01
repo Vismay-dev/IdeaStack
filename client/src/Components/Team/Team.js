@@ -20,12 +20,12 @@ const Team = () => {
         <div class="flex flex-col mx-auto relative overflow-hidden  lg:top-[40px] top-[64px] -mb-[266px] ">
             <div  class="container max-w-7xl lg:px-4 px-8  relative mx-auto">
                 <div  class="flex flex-wrap justify-center text-center mb-12">
-                    <div class="w-full lg:w-6/12 px-4 md:my-2.5 my-2 mt-1.5">
+                    <div class="md:w-full w-10/12 lg:w-6/12 px-4 md:my-2.5 mb-4 -mt-2">
                         <h1 class="text-gray-900 text-4xl font-bold mb-8">
                             Meet the Team
                         </h1>
 
-                        <p class="text-gray-700 text-lg mb-1 font-light">
+                        <p class="text-gray-700 text-lg md:mb-1 -mb-6 font-light">
                             With a passion for STEM projects, and an even stronger purpose of facilitating the modern generation's attempts at redefining the future, we've got a well-seasoned team at the helm.
                         </p>
                     </div>
@@ -1181,7 +1181,7 @@ const Team = () => {
                     <div  data-aos={"fade-left"} data-aos-once='true' class="w-full md:w-6/12 lg:w-3/12 mb-6 px-6 md:mt-0 mt-4 sm:px-8 lg:px-6">
                         <div class="flex flex-col">
                             <a href="#" class="mx-auto">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200  md:h-full h-[70%] md:px-0 sm:px-24 px-8   data-aos-delay-100"
+                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200  md:h-auto h-auto  md:w-auto w-[70%] md:mx-0 mx-auto block md:px-0 sm:px-24 px-8   data-aos-delay-100"
                                     src={vismay}/>
                             </a>
 
@@ -1238,7 +1238,7 @@ const Team = () => {
                     <div data-aos={"fade-left"} data-aos-delay = '250' data-aos-once='true' class="w-full md:w-6/12 lg:w-3/12 md:mt-0 -mt-6 mb-6 px-6 sm:px-8 lg:px-6">
                         <div class="flex flex-col">
                             <a href="#" class="mx-auto ">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all  md:h-full h-[70%] md:px-0 sm:px-24 px-8   duration-200 data-aos-delay-100"
+                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all md:h-auto h-auto  md:w-auto w-[70%] md:mx-0 mx-auto block md:px-0 sm:px-24 px-8   duration-200 data-aos-delay-100"
                                     src={abhay}/>
                             </a>
 
@@ -1290,7 +1290,7 @@ const Team = () => {
                     <div data-aos={"fade-left"} data-aos-once='true' data-aos-delay = '500' class="w-full md:w-6/12 lg:w-3/12 lg:mb-6 md:mb-40 -mb-36 md:mt-0 mt-44 lg:bottom-0 bottom-48 relative px-6 sm:px-8 lg:px-6">
                         <div class="flex flex-col">
                             <a href="#" class="mx-auto">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 md:h-full h-[70%] md:px-0 sm:px-24 px-8   data-aos-delay-100"
+                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 md:h-auto h-auto  md:w-auto w-[70%] md:mx-0 mx-auto block md:px-0 sm:px-24 px-8   data-aos-delay-100"
                                     src={shubham}/>
                             </a>
 
@@ -1303,7 +1303,7 @@ const Team = () => {
                                     Editor-in-Chief
                                 </div>
 
-                                <div class="text-gray-900 font-medium     mt-6 mb-2">
+                                <div class="text-gray-900 font-medium md:text-sm     mt-6 mb-2">
                                 "As the Editor-In-Chief at IdeaStack, I aim to bring about a personal connect with our end-users through our communication channels to ensure a seamless experience, and to provide a minimal yet adequate glipse into who we are!"
                                     </div>
 
@@ -1343,7 +1343,7 @@ const Team = () => {
                     <div data-aos={"fade-left"} data-aos-once='true' data-aos-delay = '750' class="w-full md:w-6/12 lg:w-3/12 md:mb-12 sm:mb-14 mb-12 px-6 sm:px-8 lg:top-0 -top-5 relative lg:px-6">
                         <div class="flex flex-col">
                             <a href="#" class="mx-auto">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 lg:h-full md:h-[400px] h-[70%] md:px-0 sm:px-24 px-8   relative data-aos-delay-100"
+                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 lg:h-auto md:h-[400px] h-auto md:w-auto w-[70%] md:mx-0 mx-auto block md:px-0 sm:px-24 px-8   relative data-aos-delay-100"
                                     src={varshitaa}/>
                             </a>
 
