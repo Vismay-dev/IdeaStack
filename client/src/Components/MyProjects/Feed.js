@@ -354,7 +354,7 @@ const Feed = () => {
 
       <div class=" px-4 md:px-6 lg:px-8">
         {loading ? (
-          <div class="relative mx-auto my-8 mb-10 pb-3 pt-32 text-center block justify-center">
+          <div class="relative mx-auto my-8 mb-10 pb-3 pt-32 top-3 text-center block justify-center">
             <ClipLoader color={"#0b0bbf"} loading={loading} size={70} />
           </div>
         ) : feed.length === 0 ? (
