@@ -1,66 +1,71 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
-const projectSchema = new mongoose.Schema({
+const projectSchema = new mongoose.Schema(
+  {
     admin: {
-        type:Object,
-        required:true
+      type: Object,
+      required: true,
     },
     name: {
       type: String,
-      required: true
+      required: true,
     },
     category: {
       type: String,
-      required: true
+      required: true,
     },
- 
+
     maxCap: {
       type: String,
-      required: true
+      required: true,
     },
     problem: {
       type: String,
-      required: true
+      required: true,
     },
-    isFirstFree:{
-      type:Boolean,
-      required:false
+    mentorshipDetails: {
+      type: Array,
+      required: false,
+    },
+    isFirstFree: {
+      type: Boolean,
+      required: false,
     },
     projPic: {
       type: String,
-      required: true
+      required: true,
     },
-    accepting:{
-      type:Boolean,
-      required:false
+    accepting: {
+      type: Boolean,
+      required: false,
     },
     application: {
-      type:Array,
-      required:false
+      type: Array,
+      required: false,
     },
     team: {
-      type:Array,
-      required:true
+      type: Array,
+      required: true,
     },
-    joinRequests : {
-      type:Array,
-      required:false
+    joinRequests: {
+      type: Array,
+      required: false,
     },
-    messages : {
-      type:Array,
-      required:false
+    messages: {
+      type: Array,
+      required: false,
     },
     documents: {
-      type:Array,
-      required:false
+      type: Array,
+      required: false,
     },
     mentorshipPackages: {
-      type:Array,
-      required:false
-    }
-
+      type: Array,
+      required: false,
+    },
   },
-  { timestamps: true })
+  { timestamps: true }
+);
 
-const Project = mongoose.model('Project', projectSchema)
-module.exports = Project
+const Project = mongoose.model("Project", projectSchema);
+module.exports = Project;
