@@ -460,17 +460,20 @@ router.post("/getAllProjectsAdmin", async (req, res) => {
 router.post("/uploadPic", upload.single("image"), async (req, res) => {
   const decoded = jwt.verify(req.body.token, process.env.TOKEN_SECRET);
   let id = decoded._id;
+  try {
+    let file = req.file;
+    var fileUrl;
+    await cloudinary.v2.uploader
+      .upload(file.path, { folder: "IdeaStack" }, (err, result) => {
+        fileUrl = result.secure_url;
+        console.log("File Uploaded");
+      })
+      .catch((err) => console.log(err.response));
 
-  let file = req.file;
-  var fileUrl;
-  await cloudinary.v2.uploader
-    .upload(file.path, { folder: "IdeaStack" }, (err, result) => {
-      fileUrl = result.secure_url;
-      console.log("File Uploaded");
-    })
-    .catch((err) => console.log(err.response));
-
-  res.send(fileUrl);
+    res.send(fileUrl);
+  } catch (err) {
+    res.status(400).send(err);
+  }
 });
 
 router.post("/uploadPicAdmin", upload.single("image"), async (req, res) => {
