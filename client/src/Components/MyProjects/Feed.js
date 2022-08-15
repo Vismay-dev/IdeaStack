@@ -174,6 +174,7 @@ const Feed = () => {
         messageTemp = {
           ...message,
           from: res.data.firstName + " " + res.data.lastName,
+          id: res.data._id,
           timestamp: new Date(),
           authorPicture: res.data.profilePic,
           seenBy: [],
@@ -480,8 +481,16 @@ const Feed = () => {
                 <div class="py-2 z-40 flex flex-row items-center justify-between">
                   <div class="flex flex-row items-center">
                     <a
-                      href="#"
-                      class="flex flex-row items-center focus:outline-none focus:shadow-outline rounded-lg"
+                      onClick={() => {
+                        localStorage.setItem("viewToken", message.id);
+                        window.open(
+                          process.env.NODE_ENV === "production"
+                            ? "https://ideastack.org/viewProfile"
+                            : "http://localhost:3000/viewProfile",
+                          "_blank"
+                        );
+                      }}
+                      class="flex cursor-pointer flex-row items-center focus:outline-none focus:shadow-outline rounded-lg"
                     >
                       <img
                         class="rounded-full sm:h-8 sm:w-8 h-6 w-6 object-cover"

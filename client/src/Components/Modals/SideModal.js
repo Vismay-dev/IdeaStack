@@ -86,7 +86,7 @@ const SideModal = (props) => {
           data-aos={"fade-left"}
           data-aos-once="true"
           ref={myRef}
-          class="bg-gradient-to-r from-blue-200 to-indigo-300 h-screen w-64 z-40  right-0 absolute"
+          class="bg-gradient-to-r from-blue-200 to-indigo-300 h-screen w-72 z-40  right-0 absolute"
         >
           <div class="z-50 absolute  h-fit right-0 px-8 py-8 pb-40 border-r bg-gradient-to-r from-blue-200 to-indigo-300 border-gray-600">
             <button
@@ -283,7 +283,7 @@ const SideModal = (props) => {
                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                     />
                   </svg>
-                  <span class="mx-4 font-semibold">Browse Projects</span>
+                  <span class="ml-4 font-semibold">Search Projects</span>
                 </a>
 
                 <hr class="relative mx-auto block w-10/12 mb-[67px] mt-[65px] border-t-[1.5px]  border-gray-700" />

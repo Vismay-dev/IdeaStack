@@ -112,7 +112,7 @@ const AllProjects = () => {
                         Maximum Team Capacity: {proj.maxCap ? proj.maxCap : ""}
                       </h3>
                       <h3 class="md:text-md text-sm md:mb-0 mb-6 md:pb-0 pb-1 md:font-normal font-semibold">
-                        No. of Members:
+                        No. of Members: {proj.team ? proj.team.length : ""}
                       </h3>
 
                       <img
@@ -141,7 +141,18 @@ const AllProjects = () => {
                         }
                         alt="avatar"
                       />
-                      <a class="font-bold text-gray-700 cursor-pointer ">
+                      <a
+                        onClick={() => {
+                          localStorage.setItem("viewToken", proj.admin.id);
+                          window.open(
+                            process.env.NODE_ENV === "production"
+                              ? "https://ideastack.org/viewProfile"
+                              : "http://localhost:3000/viewProfile",
+                            "_blank"
+                          );
+                        }}
+                        class="font-bold text-gray-700 cursor-pointer "
+                      >
                         {proj.admin.name}
                       </a>
                     </div>
@@ -194,7 +205,7 @@ const AllProjects = () => {
                         Maximum Team Capacity: {proj.maxCap ? proj.maxCap : ""}
                       </h3>
                       <h3 class="md:text-md text-sm md:mb-0 mb-6 md:pb-0 pb-1 md:font-normal font-semibold">
-                        No. of Members:
+                        No. of Members: {proj.team ? proj.team.length : ""}
                       </h3>
 
                       <img
@@ -223,7 +234,18 @@ const AllProjects = () => {
                         }
                         alt="avatar"
                       />
-                      <a class="font-bold text-gray-700 cursor-pointer ">
+                      <a
+                        onClick={() => {
+                          localStorage.setItem("viewToken", proj.admin.id);
+                          window.open(
+                            process.env.NODE_ENV === "production"
+                              ? "https://ideastack.org/viewProfile"
+                              : "http://localhost:3000/viewProfile",
+                            "_blank"
+                          );
+                        }}
+                        class="font-bold text-gray-700 cursor-pointer "
+                      >
                         {proj.admin.name}
                       </a>
                     </div>
