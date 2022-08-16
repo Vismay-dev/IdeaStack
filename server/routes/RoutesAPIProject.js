@@ -49,7 +49,9 @@ router.post("/updateAppStatus", auth, async (req, res) => {
 
 router.post("/getProjUser", auth, async (req, res) => {
   try {
+    console.log(req.body.id);
     const user = await studentUser.findById(req.body.id);
+    console.log(user);
     res.send(user);
   } catch (err) {
     res.status(400).send(err);
@@ -195,8 +197,8 @@ router.post("/confirmRejection", auth, async (req, res) => {
   const applicant = await studentUser.findOne({ _id: req.body.application.id });
   applicant.joinRequests = applicant.joinRequests.filter((jR) => {
     jR !== req.body.application &&
-      ((jR.isInvite === true && req.body.application.isInvite === true) ||
-        (jR.isInvite === false && req.body.application.isInvite === false));
+      ((jR.isInvite == true && req.body.application.isInvite == true) ||
+        (jR.isInvite == false && req.body.application.isInvite == false));
   });
 
   applicant.markModified("joinRequests");
@@ -212,8 +214,8 @@ router.post("/confirmRejectionInvite", auth, async (req, res) => {
     return (
       jR !== req.body.application &&
       !(
-        (jR.isInvite === true && req.body.application.isInvite === true) ||
-        (jR.isInvite === false && req.body.application.isInvite === false)
+        (jR.isInvite == true && req.body.application.isInvite == true) ||
+        (jR.isInvite == false && req.body.application.isInvite == false)
       )
     );
   });
@@ -226,8 +228,8 @@ router.post("/confirmRejectionInvite", auth, async (req, res) => {
     return (
       jR !== req.body.application &&
       !(
-        (jR.isInvite === true && req.body.application.isInvite === true) ||
-        (jR.isInvite === false && req.body.application.isInvite === false)
+        (jR.isInvite == true && req.body.application.isInvite == true) ||
+        (jR.isInvite == false && req.body.application.isInvite == false)
       )
     );
   });
@@ -244,7 +246,7 @@ router.post("/updateFeed", auth, async (req, res) => {
   proj.messages = req.body.feed;
   let newProj = await proj.save();
   await io.emit("redistributeMessages", {
-    feed: proj.messages,
+    feed: req.body.feed,
     id: req.body.projectID,
   });
 

@@ -37,10 +37,14 @@ mongoose.connection.on("error", function (err) {
 });
 
 app.use(express.json());
+let linkUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://www.ideastack.org"
+    : "http://localhost:3000";
 
 const io = socketIo(http, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: linkUrl,
     credentials: true,
     //   :'http://localhost:3000'
     // ''
@@ -49,7 +53,7 @@ const io = socketIo(http, {
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: linkUrl,
     credentials: true,
     // :'http://localhost:3000'
     // 'https://www.ideastack.org'
@@ -57,7 +61,10 @@ app.use(
 );
 
 io.on("connection", (socket) => {
-  socket.on("disconnect", (reason) => {});
+  console.log("New client connected");
+  socket.on("disconnect", (reason) => {
+    console.log("Client disconnected");
+  });
 });
 
 app.use((req, res, next) => {

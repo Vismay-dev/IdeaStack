@@ -23,16 +23,17 @@ const Feed = () => {
   const userT = useContext(userContext).user;
 
   useEffect(() => {
-    const socket = io("http://localhost:4000", {
-      withCredentials: true,
-    });
+    const socket = io(
+      process.env.NODE_ENV === "production"
+        ? "172.67.221.174"
+        : "http://localhost:4000",
+      {
+        withCredentials: true,
+      }
+    );
     socket.on("redistributeMessages", (data) => {
-      setLoading(true);
       console.log(data);
-      console.log(user);
-      setLoading(true);
 
-      console.log("Message Redistributed");
       if (
         JSON.stringify(data.id) ===
         JSON.stringify(sessionStorage.getItem("managing"))
@@ -40,11 +41,9 @@ const Feed = () => {
         setFeed(data.feed);
         console.log("Changed");
       }
-
-      setLoading(false);
     });
 
-    socket.on("disconnect", () => console.log("server disconnected"));
+    socket.on("disconnect", () => console.log("Socket Server Disconnected"));
 
     return () => {
       socket.disconnect();

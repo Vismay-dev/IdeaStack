@@ -275,7 +275,7 @@ const Profile = () => {
                           setShowToolTip2(false);
                           removeProfPic();
                         }}
-                        className={`fas hover:cursor-pointer hover:text-orange-700  fa-trash font-semibold text-2xl absolute right-0 ${
+                        className={`fas hover:cursor-pointer hover:text-orange-700  fa-trash font-semibold text-2xl absolute lg:right-0 -right-3 ${
                           picLoading ? "bottom-5 -right-2" : "bottom-8 "
                         } text-red-600`}
                       >
@@ -302,7 +302,7 @@ const Profile = () => {
                       }}
                       className={`fas hover:cursor-pointer hover:text-indigo-700 text-2xl fa-camera font-semibold  ${
                         currentUser.user.profilePic
-                          ? "bottom-0.5 right-6 absolute"
+                          ? "lg:bottom-0.5 -bottom-2 lg:right-6 right-4 absolute"
                           : "right-2 absolute bottom-0.5"
                       } ${picLoading ? "mt-3" : ""} text-gray-800`}
                     >
