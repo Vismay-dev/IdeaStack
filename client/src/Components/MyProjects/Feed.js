@@ -25,7 +25,7 @@ const Feed = () => {
   useEffect(() => {
     const socket = io(
       process.env.NODE_ENV === "production"
-        ? "3.209.172.72"
+        ? "https://ideastack.herokuapp.com:80"
         : "http://localhost:4000",
       {
         withCredentials: true,
