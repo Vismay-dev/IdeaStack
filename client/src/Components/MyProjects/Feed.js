@@ -23,14 +23,7 @@ const Feed = () => {
   const userT = useContext(userContext).user;
 
   useEffect(() => {
-    const socket = io(
-      process.env.NODE_ENV === "production"
-        ? "https://ideastack.herokuapp.com:80"
-        : "http://localhost:4000",
-      {
-        withCredentials: true,
-      }
-    );
+    const socket = io();
     socket.on("redistributeMessages", (data) => {
       console.log(data);
 
