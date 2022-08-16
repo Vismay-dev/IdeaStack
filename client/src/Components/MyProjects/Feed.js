@@ -25,7 +25,7 @@ const Feed = () => {
   useEffect(() => {
     const socket = io(
       process.env.NODE_ENV === "production"
-        ? "172.67.221.174"
+        ? "3.209.172.72"
         : "http://localhost:4000",
       {
         withCredentials: true,
