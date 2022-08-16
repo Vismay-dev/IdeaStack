@@ -295,6 +295,12 @@ router.post("/uploadProjectFile", auth, async (req, res) => {
   }
 
   let newProj = await proj.save();
+  let io = req.io;
+  await io.emit("redistributeFiles", {
+    files: proj.documents,
+    id: req.body.projectID,
+  });
+
   console.log(upload);
   res.send(newProj.documents);
 });
@@ -308,6 +314,11 @@ router.post("/updateDocs", auth, async (req, res) => {
   const proj = await project.findOne({ _id: req.body.projectID });
   proj.documents = req.body.docs;
   proj.save();
+  let io = req.io;
+  await io.emit("redistributeFiles", {
+    files: proj.documents,
+    id: req.body.projectID,
+  });
   res.send(proj.documents);
 });
 

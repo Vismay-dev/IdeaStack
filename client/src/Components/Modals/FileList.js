@@ -4,6 +4,7 @@ import axios from "axios";
 import ReactTooltip from "react-tooltip";
 import fileDownload from "js-file-download";
 import ClipLoader from "react-spinners/ClipLoader";
+import { returnSocket } from "../../Socket";
 
 import userContext from "../../context/userContext";
 
@@ -13,6 +14,19 @@ const FileList = () => {
   const passDocs = (docsParam) => {
     setDocs(docsParam);
   };
+
+  useEffect(() => {
+    const socket = returnSocket();
+    socket.on("redistributeFiles", (data) => {
+      if (
+        JSON.stringify(data.id) ===
+        JSON.stringify(sessionStorage.getItem("managing"))
+      ) {
+        setDocs(data.files);
+        console.log("Changed");
+      }
+    });
+  }, []);
 
   const [loading, setLoading] = useState(false);
 

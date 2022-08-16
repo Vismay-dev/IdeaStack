@@ -15,7 +15,9 @@ const Notifications = (props) => {
   let user;
   const projects = useContext(projectContext).projects;
   let messageCount = 0;
+  let fileCount = 0;
   let cnt = 0;
+  let cnt2 = 0;
   const [showNotif, setShowNotif] = useState(false);
 
   useEffect(() => {
@@ -66,13 +68,64 @@ const Notifications = (props) => {
                 subtitle:
                   data.feed[data.feed.length - 1].from + " sent a message...",
                 userImg: img,
+                type: "messages",
               });
               setTimeout(() => {
                 setShowNotif(false);
-              }, 5000);
+              }, 15000);
             }
           }
           messageCount = data.feed.length;
+        }
+      });
+
+      socket.on("redistributeFiles", (data) => {
+        cnt2++;
+        let project = projects.filter((proj) => {
+          return JSON.stringify(proj._id) === JSON.stringify(data.id);
+        })[0];
+        console.log(location.pathname);
+        if (
+          location.pathname !== "/myprojects/manageproject/collaborate" &&
+          project
+        ) {
+          if (
+            (cnt2 === 0 && project.documents.length < data.files.length) ||
+            (cnt2 > 0 && fileCount < data.files.length)
+          ) {
+            if (
+              JSON.stringify(data.files[data.files.length - 1].uploadedBy) !==
+              JSON.stringify(user.firstName + " " + user.lastName)
+            ) {
+              console.log(
+                project.name +
+                  " - " +
+                  data.files[data.files.length - 1].uploadedBy +
+                  " uploaded a new file"
+              );
+              let img = null;
+              for (let i = 0; i < project.team.length; i++) {
+                if (
+                  project.team[i].name ===
+                  data.files[data.files.length - 1].uploadedBy
+                ) {
+                  img = project.team[i].pic;
+                }
+              }
+              setShowNotif({
+                title: `IdeaStack: New Files (${data.files.length})`,
+                subtitle:
+                  data.files[data.files.length - 1].uploadedBy +
+                  " uploaded a file...",
+                userImg: img,
+                type: "files",
+              });
+              setTimeout(() => {
+                setShowNotif(false);
+              }, 15000);
+            }
+          }
+          fileCount = data.files.length;
         }
       });
 
@@ -81,6 +134,7 @@ const Notifications = (props) => {
       };
     }
   }, [sessionStorage.getItem("token")]);
+  console.log(showNotif.userImg);
   return (
     <>
       {showNotif != false ? (
@@ -94,28 +148,58 @@ const Notifications = (props) => {
               <div class="flex flex-wrap justify-between -m-2">
                 <div class="flex-1 p-2">
                   <div class="flex flex-wrap -m-1">
-                    <div class="w-auto p-1">
-                      <svg
-                        class="relative top-0.5"
-                        width="16"
-                        height="16"
-                        viewbox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M12.4732 4.80667C12.4112 4.74418 12.3375 4.69458 12.2563 4.66074C12.175 4.62689 12.0879 4.60947 11.9999 4.60947C11.9119 4.60947 11.8247 4.62689 11.7435 4.66074C11.6623 4.69458 11.5885 4.74418 11.5266 4.80667L6.55989 9.78L4.47322 7.68667C4.40887 7.62451 4.33291 7.57563 4.24967 7.54283C4.16644 7.51003 4.07755 7.49394 3.9881 7.49549C3.89865 7.49703 3.81037 7.51619 3.72832 7.55185C3.64627 7.58751 3.57204 7.63898 3.50989 7.70333C3.44773 7.76768 3.39885 7.84364 3.36605 7.92688C3.33324 8.01011 3.31716 8.099 3.31871 8.18845C3.32025 8.2779 3.3394 8.36618 3.37507 8.44823C3.41073 8.53028 3.4622 8.60451 3.52655 8.66667L6.08655 11.2267C6.14853 11.2892 6.22226 11.3387 6.3035 11.3726C6.38474 11.4064 6.47188 11.4239 6.55989 11.4239C6.64789 11.4239 6.73503 11.4064 6.81627 11.3726C6.89751 11.3387 6.97124 11.2892 7.03322 11.2267L12.4732 5.78667C12.5409 5.72424 12.5949 5.64847 12.6318 5.56414C12.6688 5.4798 12.6878 5.38873 12.6878 5.29667C12.6878 5.2046 12.6688 5.11353 12.6318 5.02919C12.5949 4.94486 12.5409 4.86909 12.4732 4.80667Z"
-                          fill="#2AD168"
-                        ></path>
-                      </svg>
+                    <div class="w-auto p-1 relative left-6">
+                      {showNotif.type === "messages" ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-[17px] w-[17px] relative bottom-[0.4px] -mr-[1px] text-blue-700"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                          />
+                        </svg>
+                      ) : showNotif.type === "files" ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-[17px] w-[17px] relative bottom-[0.6px] right-[-1px] -mr-[1px] text-green-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                          />
+                        </svg>
+                      ) : (
+                        ""
+                      )}
                     </div>
-                    <div class="flex-1 p-1">
-                      <h3 class="mb-0.5 font-medium text-sm text-gray-900">
+                    <div class="flex-1 p-1 ">
+                      <h3 class="mb-2 relative left-6 bottom-[2px] font-medium text-sm text-gray-900">
                         {showNotif.title}
                       </h3>
-                      <p class="font-medium text-sm text-gray-600">
-                        {showNotif.subtitle}
-                      </p>
+                      <div class="flex mt-3 right-1 relative">
+                        <img
+                          class="mr-3 w-5 h-5 top-3.5 border-[1px] border-dashed border-gray-600 rounded-full object-cover"
+                          src={
+                            showNotif.userImg
+                              ? showNotif.userImg
+                              : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
+                          }
+                        ></img>
+                        <p class="font-medium text-sm relative right-1 text-gray-600">
+                          {showNotif.subtitle}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
