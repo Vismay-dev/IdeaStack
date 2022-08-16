@@ -6,12 +6,11 @@ import ClipLoader from "react-spinners/ClipLoader";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import ReactTooltip from "react-tooltip";
-
 import { AiOutlineSend, AiFillFileImage } from "react-icons/ai";
 import { FcCancel } from "react-icons/fc";
 import Tooltip from "react-simple-tooltip";
 
-import { io } from "socket.io-client";
+import { returnSocket } from "../../Socket";
 
 const Feed = () => {
   useEffect(() => {
@@ -23,7 +22,7 @@ const Feed = () => {
   const userT = useContext(userContext).user;
 
   useEffect(() => {
-    const socket = io();
+    const socket = returnSocket();
     socket.on("redistributeMessages", (data) => {
       console.log(data);
 
@@ -35,12 +34,6 @@ const Feed = () => {
         console.log("Changed");
       }
     });
-
-    socket.on("disconnect", () => console.log("Socket Server Disconnected"));
-
-    return () => {
-      socket.disconnect();
-    };
   }, []);
 
   const projects = useContext(projectContext);

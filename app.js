@@ -46,17 +46,16 @@ const io = socketIo(http, {
   cors: {
     origin: linkUrl,
     credentials: true,
-    //   :'http://localhost:3000'
-    // ''
+    methods: ["GET", "POST"],
+    transports: ["websocket", "polling"],
   },
+  allowEIO3: true,
 });
 
 app.use(
   cors({
     origin: linkUrl,
     credentials: true,
-    // :'http://localhost:3000'
-    // 'https://www.ideastack.org'
   })
 );
 
