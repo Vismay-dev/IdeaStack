@@ -434,7 +434,7 @@ const ViewApplications = (props) => {
                                 )}
 
                                 {showAcceptConfirm ? (
-                                  <div class="relative text-center mt-4 xl:top-0 md:top-16 top-4 xl:mb-1 mb-12">
+                                  <div class="relative text-center mt-4 xl:top-0 lg:top-9 md:top-16 top-4 xl:mb-1 mb-12">
                                     Are you sure you want to accept this
                                     applicant?
                                     <br class="md:hidden block" />
@@ -456,7 +456,7 @@ const ViewApplications = (props) => {
                                     </button>
                                   </div>
                                 ) : showRejectConfirm ? (
-                                  <div class="relative mt-4 xl:mb-1 mb-12 xl:top-0 md:top-16 top-4 text-center">
+                                  <div class="relative mt-4 xl:mb-1 mb-12 xl:top-0 lg:top-9 md:top-16 top-4 text-center">
                                     Are you sure you want to reject this
                                     applicant?
                                     <br class="md:hidden block" />
@@ -495,7 +495,7 @@ const ViewApplications = (props) => {
                                 )}
 
                                 <div class="relative mx-auto text-center bottom-4 md:mt-0 mt-36  align-middle justify-center block ">
-                                  <p class="absolute  bottom-[55px] lg:-left-4 sm:-left-12 -left-4 xl:text-md text-sm  font-semibold">
+                                  <p class="absolute  xl:bottom-[55px] lg:bottom-[50px] bottom-[55px] lg:-left-4 sm:-left-12 -left-4 xl:text-md text-sm  font-semibold">
                                     <span class="text-indigo-600">
                                       Previous
                                     </span>{" "}
@@ -511,7 +511,7 @@ const ViewApplications = (props) => {
                                           : applicants.length - 1
                                       );
                                     }}
-                                    class=" hover:h-12 hover:w-12 cursor-pointer hover:text-indigo-600  h-10 w-10 absolute lg:left-16 sm:-left-10 -left-2 bottom-[105%]"
+                                    class=" hover:h-12 hover:w-12 cursor-pointer hover:text-indigo-600  h-10 w-10 absolute lg:left-2 sm:-left-10 -left-2 bottom-[105%] lg:bottom-[97%] xl:bottom-[105%]"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -538,7 +538,7 @@ const ViewApplications = (props) => {
                                       );
                                     }}
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="hover:h-12 hover:w-12 hover:text-indigo-600 cursor-pointer h-10 w-10 absolute lg:right-16 sm:-right-10 -right-2 bottom-[105%]"
+                                    class="hover:h-12 hover:w-12 hover:text-indigo-600 cursor-pointer h-10 w-10 absolute lg:right-2 sm:-right-10 -right-2 bottom-[105%]"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -553,7 +553,7 @@ const ViewApplications = (props) => {
                                 </div>
                               </>
                             ) : applications[i].appStatus === "Accepted" ? (
-                              <h1 class="text-center px-[30%] text-indigo-600 top-0.5 font-medium text-sm relative">
+                              <h1 class="text-center px-[30%] text-indigo-600 bottom-3 font-medium text-sm relative">
                                 This applicant has been notified of his/her
                                 acceptance and will be added to the team after
                                 the acceptance has been confirmed.

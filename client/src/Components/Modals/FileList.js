@@ -26,6 +26,18 @@ const FileList = () => {
         console.log("Changed");
       }
     });
+
+    return () => {
+      socket.off("redistributeFiles", (data) => {
+        if (
+          JSON.stringify(data.id) ===
+          JSON.stringify(sessionStorage.getItem("managing"))
+        ) {
+          setDocs(data.files);
+          console.log("Changed");
+        }
+      });
+    };
   }, []);
 
   const [loading, setLoading] = useState(false);

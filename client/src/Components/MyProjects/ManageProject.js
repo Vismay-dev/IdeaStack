@@ -155,10 +155,10 @@ export default function ManageProject() {
 
   const [mentorDate, setMentorDate] = useState();
   const [dateOfUpload, setDateOfUpload] = useState();
-  useEffect(() => {
+  useEffect(async () => {
     setLoading(true);
 
-    axios
+    await axios
       .post(
         process.env.NODE_ENV === "production"
           ? "https://ideastack.herokuapp.com/api/user/getAllUsers"
@@ -169,6 +169,7 @@ export default function ManageProject() {
         let teamArr = proj.team.map((member) => {
           return member.id;
         });
+
         setOrigUsers(
           res.data.filter((user) => {
             return !teamArr.includes(user._id);
@@ -350,10 +351,8 @@ export default function ManageProject() {
               <div
                 style={{
                   backgroundImage:
-                    "url(https://www.ntaskmanager.com/wp-content/uploads/2021/06/types-of-teams.png)",
+                    "url(https://coolbackgrounds.io/images/backgrounds/index/compute-ea4c57a4.png)",
                 }}
-                data-aos={"fade-up"}
-                data-aos-once="true"
                 class={`xl:col-span-3 bg-contain bg-bottom lg:col-span-2 col-span-1 ${
                   project &&
                   (project.maxCap - project.team.length === 0 ||
@@ -362,8 +361,12 @@ export default function ManageProject() {
                     : "block"
                 } bg-gradient-to-br z-[75] md:h-[330px] h-[385px] mb-1.5 relative border-[1px] border-blue-700 rounded-md from-blue-50 to-indigo-200`}
               >
-                <div class="bg-black bg-opacity-50 h-full w-full">
-                  <div class="bg-gradient-to-br from-blue-50 to-indigo-200 border-r-2 border-[1px] border-l-2 border-blue-700 h-full lg:w-[60%] md:w-[85%]  w-[100%] sm:pt-[21px] pt-[28px] relative mx-auto block">
+                <div class=" h-full w-full">
+                  <div
+                    data-aos={"fade-right"}
+                    data-aos-once="true"
+                    class="bg-gradient-to-br rounded-xl from-blue-50 to-indigo-200 border-r-2 border-[1px] border-l-2 border-blue-700 h-full lg:w-[60%] md:w-[85%]  w-[100%] sm:pt-[21px] pt-[28px] relative mx-auto block"
+                  >
                     <h3 class="font-bold text-center mx-auto relative mr-1 text-2xl">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

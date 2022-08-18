@@ -62,12 +62,20 @@ const UpcomingMentor = (props) => {
 
   const setUser = useContext(userContext).setUser;
   const user = useContext(userContext).user;
+  console.log(
+    parseFloat(new Date().getHours()) -
+      parseFloat(new Date(upcomingSesh.date).getHours())
+  );
   if (
     sessionsConfirmed &&
     !sessionCompleted &&
-    parseFloat(new Date().getHours()) -
-      parseFloat(new Date(upcomingSesh.date).getHours()) <
-      6
+    (parseFloat(new Date().getHours()) -
+      parseFloat(new Date(upcomingSesh.date).getHours()) >
+      6 ||
+      (new Date() > new Date(upcomingSesh.date) &&
+        parseFloat(new Date().getHours()) -
+          parseFloat(new Date(upcomingSesh.date).getHours()) <
+          6))
   ) {
     setSessionCompleted(true);
   }
@@ -692,7 +700,7 @@ const UpcomingMentor = (props) => {
                                     consultant.selectedDates.length === 1
                                       ? "top-3 mb-9"
                                       : consultant.selectedDates.length === 2
-                                      ? "top-1 mb-3"
+                                      ? "top-1 mb-2"
                                       : consultant.selectedDates.length === 4
                                       ? "-mt-1.5"
                                       : ""
@@ -710,7 +718,11 @@ const UpcomingMentor = (props) => {
                         </div>
                         <button
                           onClick={() => requestSession()}
-                          class="bg-indigo-500  uppercase p-4 hover:ring-1 hover:ring-blue-400 hover:bg-indigo-600 hover:shadow-lg active:shadow-sm rounded-lg text-sm mx-auto relative block right-[10px]  shadow-md py-2 mt-3 mb-2 text-white font-semibold -left-[8px]"
+                          class={`bg-indigo-500 ${
+                            consultant.selectedDates.length === 2
+                              ? "top-2.5"
+                              : ""
+                          }  uppercase p-4 hover:ring-1 hover:ring-blue-400 hover:bg-indigo-600 hover:shadow-lg active:shadow-sm rounded-lg text-sm mx-auto relative block right-[10px]  shadow-md py-2 mt-3 mb-2 text-white font-semibold -left-[8px]`}
                         >
                           Ask for Confirmation
                         </button>

@@ -633,7 +633,7 @@ const JoinRequests = () => {
                                 onClick={() => confirmRejectionInvite(i, 2)}
                                 class="shadow-md z-[75] text-sm hover:shadow-xl cursor-pointer active:shadow-sm  text-center justify-center pointer-events-auto bg-gradient-to-r from-orange-600 to-orange-500  p-3 py-2 pt-1.5 rounded-lg text-white font-semibold"
                               >
-                                Cancel Invite
+                                Reject Invite
                               </button>
                               <button
                                 onClick={() => confirmInvite(i)}

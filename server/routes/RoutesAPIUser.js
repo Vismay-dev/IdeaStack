@@ -501,6 +501,13 @@ router.post("/createJoinRequest", auth, async (req, res) => {
     ? [...user.joinRequests, { ...req.body.application, dateReceived: date }]
     : [{ ...req.body.application, dateReceived: date }];
 
+  let io = req.io;
+
+  await io.emit("sentApplication", {
+    user: user,
+    id: req.body.projectID,
+  });
+
   user.save();
   proj.save();
 
@@ -541,7 +548,7 @@ router.post("/completeLatestPendingPayment", auth, async (req, res) => {
 
   user.markModified("pendingPayments");
   await user.save();
-
+  let io = req.io;
   proj = await project.findOne({ _id: req.body.projectID });
   proj.mentorshipPackages[proj.mentorshipPackages.length - 1].pendingAmount -=
     amnt;
@@ -552,6 +559,28 @@ router.post("/completeLatestPendingPayment", auth, async (req, res) => {
     proj.mentorshipPackages[
       proj.mentorshipPackages.length - 1
     ].paymentPending = false;
+
+    await io.emit("memberPaid", {
+      user: user,
+      mentorPackage:
+        proj.mentorshipPackages[proj.mentorshipPackages.length - 1],
+      project: proj,
+    });
+
+    await setTimeout(async () => {
+      await io.emit("paymentCompleted", {
+        mentorPackage:
+          proj.mentorshipPackages[proj.mentorshipPackages.length - 1],
+        project: proj,
+      });
+    }, 22000);
+  } else {
+    await io.emit("memberPaid", {
+      user: user,
+      mentorPackage:
+        proj.mentorshipPackages[proj.mentorshipPackages.length - 1],
+      project: proj,
+    });
   }
 
   proj.markModified("mentorshipPackages");
@@ -608,7 +637,6 @@ router.post("/updateLatestPendingSession", auth, async (req, res) => {
   proj.markModified("mentorshipPackages");
   await proj.save();
 
-  console.log("job done");
   res.send("Request Sent!");
 });
 
@@ -619,11 +647,18 @@ router.post("/updateLatestPendingSessionAdmin", async (req, res) => {
     proj.mentorshipPackages[0] = { ...mentorshipPackage, ...req.body.updated };
   }
 
+  console.log("here2");
+
+  let io = req.io;
+  await io.emit("packageApproved", {
+    project: proj,
+    package: mentorshipPackage,
+    id: req.body.projectID,
+  });
+
   proj.markModified("mentorshipPackages");
-  console.log(proj.mentorshipPackage);
   await proj.save();
 
-  console.log("job done");
   res.send("Request Sent!");
 });
 

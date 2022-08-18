@@ -34,6 +34,20 @@ const Feed = () => {
         console.log("Changed");
       }
     });
+
+    return () => {
+      socket.off("redistributeMessages", (data) => {
+        console.log(data);
+
+        if (
+          JSON.stringify(data.id) ===
+          JSON.stringify(sessionStorage.getItem("managing"))
+        ) {
+          setFeed(data.feed);
+          console.log("Changed");
+        }
+      });
+    };
   }, []);
 
   const projects = useContext(projectContext);

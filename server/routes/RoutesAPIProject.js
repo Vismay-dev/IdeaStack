@@ -80,6 +80,13 @@ router.post("/acceptApp", auth, async (req, res) => {
     }
   }
 
+  const io = req.io;
+  await io.emit("applicationAccepted", {
+    acceptedUserId: applicant._id,
+    id: req.body.application.projID,
+    project: proj,
+  });
+
   await applicant.markModified("joinRequests");
   await proj.markModified("joinRequests");
 
@@ -121,6 +128,13 @@ router.post("/sendInvite", auth, async (req, res) => {
     await invitee.save();
   }
 
+  let io = req.io;
+  await io.emit("inviteSent", {
+    invitee: invitee,
+    id: proj._id,
+    project: proj,
+  });
+
   res.send("Worked..");
 });
 
@@ -133,6 +147,12 @@ router.post("/confirmAcceptance", auth, async (req, res) => {
     pic: applicant.profilePic,
     dateAdded: new Date(),
   };
+
+  let io = req.io;
+  await io.emit("acceptanceConfirmed", {
+    user: applicant,
+    id: req.body.application.projID,
+  });
 
   proj.team.push(appObj);
   proj.markModified("team");
@@ -237,6 +257,12 @@ router.post("/confirmRejectionInvite", auth, async (req, res) => {
   proj.markModified("joinRequests");
   await proj.save();
 
+  const io = req.io;
+  await io.emit("flagInviteRejection", {
+    user: applicant,
+    project: proj,
+  });
+
   res.send(applicant.joinRequests);
 });
 
@@ -301,7 +327,6 @@ router.post("/uploadProjectFile", auth, async (req, res) => {
     id: req.body.projectID,
   });
 
-  console.log(upload);
   res.send(newProj.documents);
 });
 
@@ -389,7 +414,8 @@ router.post("/getFirstFree", auth, async (req, res) => {
 router.post("/addMentorshipPackage", auth, async (req, res) => {
   const proj = await project.findOne({ _id: req.body.projectID });
   let isFirstTime = req.body.isFirstFree;
-  console.log(isFirstTime);
+
+  let io = req.io;
 
   const noOfSessions = req.body.mentorshipPackage.numberOfSessions;
   let newInfo = {
@@ -476,6 +502,11 @@ router.post("/addMentorshipPackage", auth, async (req, res) => {
       user.pendingPayments = [paymentInfo];
     }
 
+    await io.emit("mentorBooked", {
+      info: newInfo,
+      id: req.body.projectID,
+    });
+
     user.markModified("pendingPayments");
     console.log(user.pendingPayments);
     await user.save();
@@ -499,7 +530,7 @@ router.post("/addMentorshipPackage", auth, async (req, res) => {
       name: req.body.mentorshipPackage.name,
       sessionsHeld: 0,
       paymentPending: 0,
-      paymentMade: 0,
+      paymentMade: parseInt(0),
     });
   }
   proj.mentorshipDetails = mentorshipDetails;
@@ -515,14 +546,21 @@ router.post("/addMentorshipPackage", auth, async (req, res) => {
 
 router.post("/cancelLatestMentorship", auth, async (req, res) => {
   const proj = await project.findOne({ _id: req.body.projectID });
-  if (
-    proj.mentorshipPackages[proj.mentorshipPackages.length - 1].isFirstFree ===
-    true
-  ) {
-    proj.isFirstFree = true;
-    proj.markModified("isFirstFree");
-    await proj.save();
+
+  let mentorshipDetails = proj.mentorshipDetails;
+
+  for (let i = 0; i < mentorshipDetails.length; i++) {
+    if (
+      proj.mentorshipPackages[proj.mentorshipPackages.length - 1] &&
+      mentorshipDetails[i].name ===
+        proj.mentorshipPackages[proj.mentorshipPackages.length - 1].name
+    ) {
+      mentorshipDetails[i].paymentPending = 0;
+    }
   }
+  proj.mentorshipDetails = mentorshipDetails;
+  proj.markModified("mentorshipDetails");
+  await proj.save();
 
   proj.mentorshipPackages = proj.mentorshipPackages.filter((pcage) => {
     return (
@@ -556,6 +594,12 @@ router.post("/cancelLatestMentorship", auth, async (req, res) => {
       await user.save();
     }
   }
+
+  let io = req.io;
+  await io.emit("latestMentorCancelled", {
+    info: proj.mentorshipPackages[proj.mentorshipPackages.length - 1],
+    id: req.body.projectID,
+  });
 
   res.send("Done Succesfully");
 });
@@ -631,6 +675,13 @@ router.post("/finishPackage", auth, async (req, res) => {
     proj.markModified("mentorshipDetails");
     await proj.save();
   }
+  let io = req.io;
+  await io.emit("packageCompleted", {
+    id: proj._id,
+    project: proj,
+    package: mentorshipPackage,
+  });
+
   res.send("Works");
 });
 
