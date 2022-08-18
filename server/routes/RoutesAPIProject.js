@@ -89,10 +89,20 @@ router.post("/acceptApp", auth, async (req, res) => {
 
   await applicant.markModified("joinRequests");
   await proj.markModified("joinRequests");
-
   await applicant.save();
-
   await proj.save();
+
+  let notifications = applicant.notifications ? applicant.notifications : [];
+  notifications.push({
+    seen: false,
+    type: "application",
+    title: "Join Request Accepted!",
+    subtitle: "Your Application to " + proj.name + " has been accepted",
+    icon: proj.projPic,
+  });
+  applicant.notifications = notifications;
+  await applicant.markModified("notifications");
+  await applicant.save();
 
   res.send(proj.joinRequests);
 });
@@ -134,6 +144,18 @@ router.post("/sendInvite", auth, async (req, res) => {
     id: proj._id,
     project: proj,
   });
+
+  let notifications = invitee.notifications ? invitee.notifications : [];
+  notifications.push({
+    seen: false,
+    type: "invite",
+    title: "New Project Invite",
+    subtitle: "You've been invited to join " + proj.name,
+    icon: proj.projPic,
+  });
+  invitee.notifications = notifications;
+  await invitee.markModified("notifications");
+  await invitee.save();
 
   res.send("Worked..");
 });
@@ -177,6 +199,19 @@ router.post("/confirmAcceptance", auth, async (req, res) => {
 
   applicant.markModified("joinRequests");
   await applicant.save();
+
+  const projAdmin = await studentUser.findOne({ _id: proj.admin.id });
+  let notifications = projAdmin.notifications ? projAdmin.notifications : [];
+  notifications.push({
+    seen: false,
+    type: "new member",
+    title: "New Team Member!",
+    subtitle: applicant.firstName + " has joined " + proj.name + "!",
+    icon: applicant.profilePic,
+  });
+  projAdmin.notifications = notifications;
+  await projAdmin.markModified("notifications");
+  await projAdmin.save();
 
   res.send(applicant.joinRequests);
 });
@@ -263,18 +298,56 @@ router.post("/confirmRejectionInvite", auth, async (req, res) => {
     project: proj,
   });
 
+  const projAdmin = await studentUser.findOne({ _id: proj.admin.id });
+  let notifications = projAdmin.notifications ? projAdmin.notifications : [];
+  notifications.push({
+    seen: false,
+    type: "invite rejected",
+    title: "Invite Rejected",
+    subtitle: applicant.firstName + " rejected your invite to " + proj.name,
+    icon: applicant.profilePic,
+  });
+  projAdmin.notifications = notifications;
+  await projAdmin.markModified("notifications");
+  await projAdmin.save();
+
   res.send(applicant.joinRequests);
 });
 
 router.post("/updateFeed", auth, async (req, res) => {
   const proj = await project.findOne({ _id: req.body.projectID });
   const io = req.io;
+  let origNum = proj.messages.length;
   proj.messages = req.body.feed;
   let newProj = await proj.save();
   await io.emit("redistributeMessages", {
     feed: req.body.feed,
     id: req.body.projectID,
   });
+
+  if (proj.messages.length > origNum) {
+    for (let i = 0; i < proj.team.length; i++) {
+      console.log(proj.team[i].name);
+      console.log(req.body.feed[req.body.feed.length - 1].from);
+
+      if (proj.team[i].name !== req.body.feed[req.body.feed.length - 1].from) {
+        let member = await studentUser.findOne({ _id: proj.team[i].id });
+        let notifications = member.notifications ? member.notifications : [];
+        notifications.push({
+          seen: false,
+          type: "message",
+          title: "New Message - " + proj.name,
+          subtitle:
+            req.body.feed[req.body.feed.length - 1].from +
+            " sent a new message..",
+          icon: req.body.feed[req.body.feed.length - 1].authorPicture,
+        });
+        member.notifications = notifications;
+        await member.markModified("notifications");
+        await member.save();
+      }
+    }
+  }
 
   res.send(newProj.messages);
 });
@@ -326,6 +399,30 @@ router.post("/uploadProjectFile", auth, async (req, res) => {
     files: proj.documents,
     id: req.body.projectID,
   });
+
+  for (let i = 0; i < proj.team.length; i++) {
+    console.log(proj.team[i].name);
+    console.log(proj.documents[proj.documents.length - 1].uploadedBy);
+
+    if (
+      proj.team[i].name !== proj.documents[proj.documents.length - 1].uploadedBy
+    ) {
+      let member = await studentUser.findOne({ _id: proj.team[i].id });
+      let notifications = member.notifications ? member.notifications : [];
+      notifications.push({
+        seen: false,
+        type: "files",
+        title: "New Document - " + proj.name,
+        subtitle:
+          proj.documents[proj.documents.length - 1].uploadedBy +
+          " uploaded a new document...",
+        icon: proj.projPic,
+      });
+      member.notifications = notifications;
+      await member.markModified("notifications");
+      await member.save();
+    }
+  }
 
   res.send(newProj.documents);
 });
@@ -471,13 +568,13 @@ router.post("/addMentorshipPackage", auth, async (req, res) => {
       let chk = false;
       let finI = 0;
 
-      for (let i = 0; i < user.pendingPayments.length; i++) {
+      for (let j = 0; j < user.pendingPayments.length; j++) {
         if (
-          JSON.stringify(user.pendingPayments[i].projectID) ===
+          JSON.stringify(user.pendingPayments[j].projectID) ===
           JSON.stringify(req.body.projectID)
         ) {
           chk = true;
-          finI = i;
+          finI = j;
           break;
         }
       }
@@ -502,14 +599,33 @@ router.post("/addMentorshipPackage", auth, async (req, res) => {
       user.pendingPayments = [paymentInfo];
     }
 
-    await io.emit("mentorBooked", {
-      info: newInfo,
-      id: req.body.projectID,
-    });
-
     user.markModified("pendingPayments");
     console.log(user.pendingPayments);
     await user.save();
+  }
+
+  await io.emit("mentorBooked", {
+    info: newInfo,
+    id: req.body.projectID,
+  });
+
+  for (let i = 0; i < proj.team.length; i++) {
+    console.log(proj.team[i].name);
+
+    if (proj.team[i].name !== proj.admin.name) {
+      let member = await studentUser.findOne({ _id: proj.team[i].id });
+      let notifications = member.notifications ? member.notifications : [];
+      notifications.push({
+        seen: false,
+        type: "mentor",
+        title: "Mentor Booked! - " + proj.name,
+        subtitle: req.body.mentorshipPackage.name + " has been booked!!",
+        icon: req.body.mentorshipPackage.pic,
+      });
+      member.notifications = notifications;
+      await member.markModified("notifications");
+      await member.save();
+    }
   }
 
   let mentorshipDetails = proj.mentorshipDetails;
@@ -601,6 +717,28 @@ router.post("/cancelLatestMentorship", auth, async (req, res) => {
     id: req.body.projectID,
   });
 
+  for (let i = 0; i < proj.team.length; i++) {
+    console.log(proj.team[i].name);
+
+    if (proj.team[i].name !== proj.admin.name) {
+      let member = await studentUser.findOne({ _id: proj.team[i].id });
+      let notifications = member.notifications ? member.notifications : [];
+      notifications.push({
+        seen: false,
+        type: "mentor",
+        title: "Booking Cancelled! - " + proj.name,
+        subtitle:
+          "Mentorship by - " +
+          req.body.mentorshipPackage.name +
+          " - has been cancelled!",
+        icon: req.body.mentorshipPackage.pic,
+      });
+      member.notifications = notifications;
+      await member.markModified("notifications");
+      await member.save();
+    }
+  }
+
   res.send("Done Succesfully");
 });
 
@@ -681,6 +819,23 @@ router.post("/finishPackage", auth, async (req, res) => {
     project: proj,
     package: mentorshipPackage,
   });
+
+  for (let i = 0; i < proj.team.length; i++) {
+    console.log(proj.team[i].name);
+    let member = await studentUser.findOne({ _id: proj.team[i].id });
+    let notifications = member.notifications ? member.notifications : [];
+    notifications.push({
+      seen: false,
+      type: "package",
+      title: "Mentorship Package Completed! - " + proj.name,
+      subtitle: "Mentorship Package Completed - " + mentorshipPackage.name,
+      icon: mentorshipPackage.pic,
+    });
+
+    member.notifications = notifications;
+    await member.markModified("notifications");
+    await member.save();
+  }
 
   res.send("Works");
 });

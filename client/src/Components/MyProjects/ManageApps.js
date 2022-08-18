@@ -163,7 +163,7 @@ const ManageApps = () => {
         <div class="relative py-1.5"> </div>
       )}
 
-      <div className="grid md:grid-cols-2 grid-cols-1 gap-8 xl:px-52 lg:px-24 md:px-4 sm:px-20 px-6 mt-[70px]  lg:-mb-[222px] -mb-[200px]">
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-8 xl:px-52 lg:px-24 md:px-4 sm:px-20 px-6 mt-[70px]  lg:-mb-[208px] -mb-[200px]">
         <div
           data-aos={"fade-up"}
           data-aos-once="true"

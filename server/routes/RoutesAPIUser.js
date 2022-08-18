@@ -511,6 +511,20 @@ router.post("/createJoinRequest", auth, async (req, res) => {
   user.save();
   proj.save();
 
+  const projAdmin = await studentUser.findOne({ _id: proj.admin.id });
+
+  let notifications = projAdmin.notifications ? projAdmin.notifications : [];
+  notifications.push({
+    seen: false,
+    type: "application",
+    title: "New Join Request",
+    subtitle: user.firstName + " sent an application to join " + proj.name,
+    icon: user.profilePic,
+  });
+  projAdmin.notifications = notifications;
+  await projAdmin.markModified("notifications");
+  await projAdmin.save();
+
   res.send("Join Request Succesfully Sent!");
 });
 
@@ -532,6 +546,21 @@ router.post("/getLatestPendingPayment", auth, async (req, res) => {
     console.log(err);
     res.send("error");
   }
+});
+
+router.post("/getNotifications", auth, async (req, res) => {
+  const user = await studentUser.findById(req.user._id);
+  res.send(user.notifications);
+});
+
+router.post("/updateNotifications", auth, async (req, res) => {
+  const user = await studentUser.findById(req.user._id);
+  user.notifications = req.body.notifs;
+  await studentUser.updateOne(
+    { _id: user._id },
+    { notifications: req.body.notifs }
+  );
+  res.send(user.notifications);
 });
 
 router.post("/completeLatestPendingPayment", auth, async (req, res) => {
@@ -565,15 +594,8 @@ router.post("/completeLatestPendingPayment", auth, async (req, res) => {
       mentorPackage:
         proj.mentorshipPackages[proj.mentorshipPackages.length - 1],
       project: proj,
+      allPaymentsCompleted: true,
     });
-
-    await setTimeout(async () => {
-      await io.emit("paymentCompleted", {
-        mentorPackage:
-          proj.mentorshipPackages[proj.mentorshipPackages.length - 1],
-        project: proj,
-      });
-    }, 22000);
   } else {
     await io.emit("memberPaid", {
       user: user,
@@ -581,6 +603,28 @@ router.post("/completeLatestPendingPayment", auth, async (req, res) => {
         proj.mentorshipPackages[proj.mentorshipPackages.length - 1],
       project: proj,
     });
+  }
+
+  for (let i = 0; i < proj.team.length; i++) {
+    console.log(proj.team[i].name);
+    if (JSON.stringify(user._id) !== JSON.stringify(proj.team[i].id)) {
+      let member = await studentUser.findOne({ _id: proj.team[i].id });
+      let notifications = member.notifications ? member.notifications : [];
+      notifications.push({
+        seen: false,
+        type: "member paid",
+        title: "Payment by " + user.firstName + " completed!",
+        subtitle:
+          user.firstName +
+          " paid for package with " +
+          proj.mentorshipPackages[proj.mentorshipPackages.length - 1].name,
+        icon: proj.mentorshipPackages[proj.mentorshipPackages.length - 1].pic,
+      });
+
+      member.notifications = notifications;
+      await member.markModified("notifications");
+      await member.save();
+    }
   }
 
   proj.markModified("mentorshipPackages");
@@ -658,6 +702,23 @@ router.post("/updateLatestPendingSessionAdmin", async (req, res) => {
 
   proj.markModified("mentorshipPackages");
   await proj.save();
+
+  for (let i = 0; i < proj.team.length; i++) {
+    console.log(proj.team[i].name);
+    let member = await studentUser.findOne({ _id: proj.team[i].id });
+    let notifications = member.notifications ? member.notifications : [];
+    notifications.push({
+      seen: false,
+      type: "package",
+      title: "Mentorship Package Approved!",
+      subtitle: mentorshipPackage.name + "  - Mentorship Schedule",
+      icon: mentorshipPackage.pic,
+    });
+
+    member.notifications = notifications;
+    await member.markModified("notifications");
+    await member.save();
+  }
 
   res.send("Request Sent!");
 });

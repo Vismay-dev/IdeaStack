@@ -1,9 +1,10 @@
-import { useState, useRef, useEffect, Fragment } from "react";
+import { useState, useRef, useEffect, Fragment, useContext } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import LogModal from "../Modals/LogModal";
 import RegModal from "../Modals/RegModal";
 import ExitModal from "../Modals/ExitModal";
 import SideModal from "../Modals/SideModal";
+import NotifModal from "../Modals/NotifModal";
 import axios from "axios";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
@@ -30,6 +31,7 @@ import "aos/dist/aos.css";
 
 import React from "react";
 import ReactGA from "react-ga";
+import userContext from "../../context/userContext";
 
 const NavBar = (props) => {
   useEffect(() => {
@@ -40,6 +42,7 @@ const NavBar = (props) => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+  const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [logModalShow, setLogModalShow] = useState(false);
   const [regModalShow, setRegModalShow] = useState(false);
   const [exitModalShow, setExitModalShow] = useState(false);
@@ -57,7 +60,12 @@ const NavBar = (props) => {
     setIsSideMenuOpen(false);
   };
 
+  const closeFuncNotif = () => {
+    setIsNotifOpen(false);
+  };
+
   const history = useHistory();
+  const user = useContext(userContext).user;
 
   const showModalLog = () => {
     if (localStorage.getItem("cookieID") !== null) {
@@ -215,7 +223,7 @@ const NavBar = (props) => {
       )}
       {regModalShow ? <RegModal close={closeFuncReg} /> : ""}
       {exitModalShow ? <ExitModal close={closeFuncOut} /> : ""}
-
+      {isNotifOpen ? <NotifModal close={closeFuncNotif} /> : ""}
       {isSideMenuOpen ? <SideModal close={closeFuncSide} /> : ""}
 
       <div
@@ -238,10 +246,10 @@ const NavBar = (props) => {
               data-aos={"fade-left"}
               data-aos-once="true"
               src={logo}
-              className={`lg:w-40  lg:py-0 py-6 pb-8  lg:top-[41px] sm:top-[36px]  top-[34px] xl:-left-10 lg:-left-12 ${
+              className={`lg:w-40   lg:py-0 py-6 pb-8  lg:top-[41px] sm:top-[36px]  top-[34px] xl:-left-10 lg:-left-12 ${
                 sessionStorage.getItem("token") === null
                   ? "md:-left-[96px] md:w-32 w-28 sm:top-[40px]"
-                  : "md:-left-[110px] md:top-[30px] w-28 md:w-[123px] md:mb-[7px] lg:mb-0 sm:top-[30px]"
+                  : "md:-left-[110px] sm:visible invisible  md:top-[30px] w-28 md:w-[123px] md:mb-[7px] lg:mb-0 sm:top-[30px]"
               } -left-[10px] relative block  -mt-16 lg:top-10`}
             />
           </a>
@@ -376,7 +384,7 @@ const NavBar = (props) => {
             </ul>
           ) : (
             <nav class="flex" aria-label="Breadcrumb">
-              <ol class=" items-center space-x-0 absolute  lg:left-[275px] left-[50px] md:top-[74px] sm:top-[93px] lg:top-[32px] sm:inline-flex hidden mx-auto md:right-0 right-14 md:mt-0.5  md:space-x-0 lg:space-x-3">
+              <ol class=" items-center space-x-0 absolute xl:left-[275px]  lg:left-[165px] left-[50px] md:top-[74px] sm:top-[93px] lg:top-[32px] sm:inline-flex hidden mx-auto md:right-0 right-14 md:mt-0.5  md:space-x-0 lg:space-x-3">
                 <li class="inline-flex items-center">
                   <a
                     onClick={() => {
@@ -499,18 +507,46 @@ const NavBar = (props) => {
               </>
             ) : (
               <>
+                <button
+                  onClick={() => setIsNotifOpen(true)}
+                  type="button"
+                  class="relative items-center visible sm:invisible lg:p-3 p-2.5 lg:py-[11px] py-[8px] lg:bottom-0 md:bottom-2.5 sm:-bottom-[7px] -bottom-[1px]  xl:right-0 lg:-right-3.5 md:-right-7 sm:-right-24   xl:mr-4 lg:-mr-2  text-sm font-medium text-center text-white bg-gradient-to-r from-blue-300 to-blue-500 sm:mr-0  hover:from-indigo-300 hover:to-indigo-500 rounded-lg shadow-sm hover:shadow-xl active:shadow-sm focus:ring-2 focus:outline-none focus:ring-blue-700 "
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                  </svg>
+                  <span class="sr-only">Notifications</span>
+                  <div
+                    class={` ${
+                      (user && user.notifications == null) ||
+                      (user &&
+                        user.notifications &&
+                        user.notifications.length == 0)
+                        ? "hidden"
+                        : "inline-flex"
+                    } absolute -top-2 -right-2 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-white dark:border-gray-900`}
+                  >
+                    {user && user.notifications && user.notifications.length}
+                  </div>
+                </button>
+
                 <a
                   onClick={() => {
                     showModalOut();
                   }}
-                  className="ml-5 whitespace-nowrap order-2 lg:left-0 sm:left-[135px] md:left-8  lg:bottom-0 md:bottom-2.5 -bottom-0.5  sm:-bottom-2   relative inline-flex uppercase items-center justify-center lg:px-3 sm:px-2 px-2.5 py-2 md:pb-2.5 sm:py-2 pt-1.5 pb-2  border border-transparent rounded-md shadow-sm text-base   font-semibold hover:cursor-pointer hover:shadow-lg  text-white bg-gradient-to-r from-blue-300 to-blue-500 sm:mr-0 mr-1 hover:from-indigo-300 hover:to-indigo-500 active:bg-blue-500"
+                  className="ml-5 whitespace-nowrap order-2 xl:left-6 lg:left-12 sm:left-[135px] -left-2 md:left-9  lg:bottom-0 md:bottom-2.5 -bottom-0.5  sm:-bottom-2   relative inline-flex uppercase items-center justify-center lg:px-3 sm:px-2 px-2.5 py-2 md:pb-2.5 sm:py-2 pt-1.5 pb-2  border border-transparent rounded-md shadow-sm hover:shadow-xl active:shadow-sm text-base   font-semibold hover:cursor-pointer   text-white bg-gradient-to-r from-blue-300 to-blue-500 sm:mr-0 mr-1 hover:from-indigo-300 hover:to-indigo-500 active:bg-blue-500"
                 >
                   Log Out
                 </a>
                 <button
                   aria-label="Open Menu"
                   title="Open Menu"
-                  class="py-0.5 px-1.5 sm:-bottom-2 md:bottom-2.5 lg:bottom-0  order-1 lg:ml-5 ml-2 mr-2 relative lg:left-0 sm:left-[150px] md:left-[48px] left-4 transition duration-200 rounded focus:outline-none focus:shadow-outline hover:from-blue-200 hover:to-indigo-300 hover:bg-gradient-to-r"
+                  class="py-0.5 px-1.5 sm:-bottom-2 -bottom-[1px] md:bottom-2.5 lg:bottom-0  order-1 lg:ml-5 ml-2 mr-2 relative xl:left-6 lg:left-14 sm:left-[146px] md:left-[48px] left-[5px] transition duration-200 rounded focus:outline-none focus:shadow-outline hover:from-blue-200 hover:to-indigo-300  hover:bg-gradient-to-r"
                   onClick={() => setIsSideMenuOpen(true)}
                 >
                   <svg class="w-9 text-gray-600 sm:top-2" viewBox="0 0 24 24">
@@ -527,6 +563,37 @@ const NavBar = (props) => {
                       d="M23,20H1c-0.6,0-1-0.4-1-1s0.4-1,1-1h22c0.6,0,1,0.4,1,1S23.6,20,23,20z"
                     />
                   </svg>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setIsNotifOpen(true)}
+                  class="relative items-center sm:visible invisible lg:p-3 p-2.5 lg:py-[11px] py-[8px] lg:bottom-0 md:bottom-2.5 sm:-bottom-[7px] -bottom-[2px]  xl:right-0 lg:-right-3.5 md:-right-7 sm:-right-24   xl:mr-4 lg:-mr-2  text-sm font-medium text-center text-white bg-gradient-to-r from-blue-300 to-blue-500 sm:mr-0  hover:from-indigo-300 hover:to-indigo-500 rounded-lg shadow-sm hover:shadow-xl active:shadow-sm focus:ring-2 focus:outline-none focus:ring-blue-700 "
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                  </svg>
+                  <span class="sr-only">Notifications</span>
+                  <div
+                    class={` ${
+                      user &&
+                      user.notifications &&
+                      user.notifications.filter((notif) => notif.seen === false)
+                        .length === 0
+                        ? "hidden"
+                        : "inline-flex"
+                    } absolute -top-2 -right-2 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-white dark:border-gray-900`}
+                  >
+                    {user &&
+                      user.notifications &&
+                      user.notifications.filter((notif) => notif.seen === false)
+                        .length}
+                  </div>
                 </button>
               </>
             )}

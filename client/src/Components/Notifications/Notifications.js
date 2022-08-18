@@ -4,6 +4,9 @@ import projectContext from "../../context/projectContext";
 import { createSocket } from "../../Socket";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import userContext from "../../context/userContext";
+import axios from "axios";
+
 const Notifications = (props) => {
   useEffect(() => {
     AOS.init({
@@ -13,6 +16,7 @@ const Notifications = (props) => {
   var currTimeout;
   const location = useLocation();
   let user;
+  const userCont = useContext(userContext);
   const projects = useContext(projectContext).projects;
   let messageCount = 0;
   let fileCount = 0;
@@ -29,19 +33,32 @@ const Notifications = (props) => {
 
       socket.on("disconnect", () => console.log("Socket Server Disconnected"));
 
-      socket.on("redistributeMessages", (data) => {
+      socket.on("redistributeMessages", async (data) => {
         setShowNotif(false);
+        console.log("here");
         window.clearTimeout(currTimeout);
+        await setTimeout(async () => {
+          await axios
+            .post(
+              process.env.NODE_ENV === "production"
+                ? "https://ideastack.herokuapp.com/api/user/getNotifications"
+                : "http://localhost:4000/api/user/getNotifications",
+              { token: sessionStorage.getItem("token") }
+            )
+            .then(async (res) => {
+              userCont.setUser({ ...user, notifications: res.data });
+            });
+        }, 3000);
         cnt++;
         let project = projects.filter((proj) => {
           return JSON.stringify(proj._id) === JSON.stringify(data.id);
         })[0];
         console.log(
-          location.pathname != "/myprojects/manageproject/collaborate" &&
+          location.pathname !== "/myprojects/manageproject/collaborate" &&
             project
         );
         if (
-          location.pathname != "/myprojects/manageproject/collaborate" &&
+          location.pathname !== "/myprojects/manageproject/collaborate" &&
           project
         ) {
           if (
@@ -82,9 +99,21 @@ const Notifications = (props) => {
         }
       });
 
-      socket.on("redistributeFiles", (data) => {
+      socket.on("redistributeFiles", async (data) => {
         setShowNotif(false);
         window.clearTimeout(currTimeout);
+        await setTimeout(async () => {
+          await axios
+            .post(
+              process.env.NODE_ENV === "production"
+                ? "https://ideastack.herokuapp.com/api/user/getNotifications"
+                : "http://localhost:4000/api/user/getNotifications",
+              { token: sessionStorage.getItem("token") }
+            )
+            .then(async (res) => {
+              userCont.setUser({ ...user, notifications: res.data });
+            });
+        }, 3000);
         cnt2++;
         let project = projects.filter((proj) => {
           return JSON.stringify(proj._id) === JSON.stringify(data.id);
@@ -138,9 +167,21 @@ const Notifications = (props) => {
         }
       });
 
-      socket.on("sentApplication", (data) => {
+      socket.on("sentApplication", async (data) => {
         setShowNotif(false);
         window.clearTimeout(currTimeout);
+        await setTimeout(async () => {
+          await axios
+            .post(
+              process.env.NODE_ENV === "production"
+                ? "https://ideastack.herokuapp.com/api/user/getNotifications"
+                : "http://localhost:4000/api/user/getNotifications",
+              { token: sessionStorage.getItem("token") }
+            )
+            .then(async (res) => {
+              userCont.setUser({ ...user, notifications: res.data });
+            });
+        }, 3000);
         let project = projects.filter((proj) => {
           return JSON.stringify(proj._id) === JSON.stringify(data.id);
         })[0];
@@ -181,9 +222,21 @@ const Notifications = (props) => {
         }
       });
 
-      socket.on("acceptanceConfirmed", (data) => {
+      socket.on("acceptanceConfirmed", async (data) => {
         setShowNotif(false);
         window.clearTimeout(currTimeout);
+        await setTimeout(async () => {
+          await axios
+            .post(
+              process.env.NODE_ENV === "production"
+                ? "https://ideastack.herokuapp.com/api/user/getNotifications"
+                : "http://localhost:4000/api/user/getNotifications",
+              { token: sessionStorage.getItem("token") }
+            )
+            .then(async (res) => {
+              userCont.setUser({ ...user, notifications: res.data });
+            });
+        }, 3000);
         let project = projects.filter((proj) => {
           return JSON.stringify(proj._id) === JSON.stringify(data.id);
         })[0];
@@ -217,9 +270,21 @@ const Notifications = (props) => {
         }
       });
 
-      socket.on("applicationAccepted", (data) => {
+      socket.on("applicationAccepted", async (data) => {
         setShowNotif(false);
         window.clearTimeout(currTimeout);
+        await setTimeout(async () => {
+          await axios
+            .post(
+              process.env.NODE_ENV === "production"
+                ? "https://ideastack.herokuapp.com/api/user/getNotifications"
+                : "http://localhost:4000/api/user/getNotifications",
+              { token: sessionStorage.getItem("token") }
+            )
+            .then(async (res) => {
+              userCont.setUser({ ...user, notifications: res.data });
+            });
+        }, 3000);
         let project = data.project;
         console.log("here1");
 
@@ -243,9 +308,21 @@ const Notifications = (props) => {
         }
       });
 
-      socket.on("inviteSent", (data) => {
+      socket.on("inviteSent", async (data) => {
         setShowNotif(false);
         window.clearTimeout(currTimeout);
+        await setTimeout(async () => {
+          await axios
+            .post(
+              process.env.NODE_ENV === "production"
+                ? "https://ideastack.herokuapp.com/api/user/getNotifications"
+                : "http://localhost:4000/api/user/getNotifications",
+              { token: sessionStorage.getItem("token") }
+            )
+            .then(async (res) => {
+              userCont.setUser({ ...user, notifications: res.data });
+            });
+        }, 3000);
         let project = data.project;
 
         if (project) {
@@ -274,9 +351,21 @@ const Notifications = (props) => {
         }
       });
 
-      socket.on("flagInviteRejection", (data) => {
+      socket.on("flagInviteRejection", async (data) => {
         setShowNotif(false);
         window.clearTimeout(currTimeout);
+        await setTimeout(async () => {
+          await axios
+            .post(
+              process.env.NODE_ENV === "production"
+                ? "https://ideastack.herokuapp.com/api/user/getNotifications"
+                : "http://localhost:4000/api/user/getNotifications",
+              { token: sessionStorage.getItem("token") }
+            )
+            .then(async (res) => {
+              userCont.setUser({ ...user, notifications: res.data });
+            });
+        }, 3000);
         let project = data.project;
 
         if (project) {
@@ -304,9 +393,21 @@ const Notifications = (props) => {
         }
       });
 
-      socket.on("applicationRejected", (data) => {
+      socket.on("applicationRejected", async (data) => {
         setShowNotif(false);
         window.clearTimeout(currTimeout);
+        await setTimeout(async () => {
+          await axios
+            .post(
+              process.env.NODE_ENV === "production"
+                ? "https://ideastack.herokuapp.com/api/user/getNotifications"
+                : "http://localhost:4000/api/user/getNotifications",
+              { token: sessionStorage.getItem("token") }
+            )
+            .then(async (res) => {
+              userCont.setUser({ ...user, notifications: res.data });
+            });
+        }, 3000);
         let project = data.project;
         console.log("here1");
 
@@ -327,9 +428,21 @@ const Notifications = (props) => {
         }
       });
 
-      socket.on("mentorBooked", (data) => {
+      socket.on("mentorBooked", async (data) => {
         setShowNotif(false);
         window.clearTimeout(currTimeout);
+        await setTimeout(async () => {
+          await axios
+            .post(
+              process.env.NODE_ENV === "production"
+                ? "https://ideastack.herokuapp.com/api/user/getNotifications"
+                : "http://localhost:4000/api/user/getNotifications",
+              { token: sessionStorage.getItem("token") }
+            )
+            .then(async (res) => {
+              userCont.setUser({ ...user, notifications: res.data });
+            });
+        }, 3000);
         let project = projects.filter((proj) => {
           return JSON.stringify(proj._id) === JSON.stringify(data.id);
         })[0];
@@ -365,9 +478,21 @@ const Notifications = (props) => {
         }
       });
 
-      socket.on("latestMentorCancelled", (data) => {
+      socket.on("latestMentorCancelled", async (data) => {
         setShowNotif(false);
         window.clearTimeout(currTimeout);
+        await setTimeout(async () => {
+          await axios
+            .post(
+              process.env.NODE_ENV === "production"
+                ? "https://ideastack.herokuapp.com/api/user/getNotifications"
+                : "http://localhost:4000/api/user/getNotifications",
+              { token: sessionStorage.getItem("token") }
+            )
+            .then(async (res) => {
+              userCont.setUser({ ...user, notifications: res.data });
+            });
+        }, 3000);
         let project = projects.filter((proj) => {
           return JSON.stringify(proj._id) === JSON.stringify(data.id);
         })[0];
@@ -400,9 +525,21 @@ const Notifications = (props) => {
         }
       });
 
-      socket.on("memberPaid", (data) => {
+      socket.on("memberPaid", async (data) => {
         setShowNotif(false);
         window.clearTimeout(currTimeout);
+        await setTimeout(async () => {
+          await axios
+            .post(
+              process.env.NODE_ENV === "production"
+                ? "https://ideastack.herokuapp.com/api/user/getNotifications"
+                : "http://localhost:4000/api/user/getNotifications",
+              { token: sessionStorage.getItem("token") }
+            )
+            .then(async (res) => {
+              userCont.setUser({ ...user, notifications: res.data });
+            });
+        }, 3000);
         let project = data.project;
 
         if (
@@ -442,9 +579,21 @@ const Notifications = (props) => {
         }
       });
 
-      socket.on("paymentCompleted", (data) => {
+      socket.on("paymentCompleted", async (data) => {
         setShowNotif(false);
         window.clearTimeout(currTimeout);
+        await setTimeout(async () => {
+          await axios
+            .post(
+              process.env.NODE_ENV === "production"
+                ? "https://ideastack.herokuapp.com/api/user/getNotifications"
+                : "http://localhost:4000/api/user/getNotifications",
+              { token: sessionStorage.getItem("token") }
+            )
+            .then(async (res) => {
+              userCont.setUser({ ...user, notifications: res.data });
+            });
+        }, 3000);
         let project = data.project;
 
         if (project) {
@@ -464,11 +613,22 @@ const Notifications = (props) => {
         }
       });
 
-      socket.on("packageApproved", (data) => {
+      socket.on("packageApproved", async (data) => {
         setShowNotif(false);
         window.clearTimeout(currTimeout);
         let project = data.project;
-
+        await setTimeout(async () => {
+          await axios
+            .post(
+              process.env.NODE_ENV === "production"
+                ? "https://ideastack.herokuapp.com/api/user/getNotifications"
+                : "http://localhost:4000/api/user/getNotifications",
+              { token: sessionStorage.getItem("token") }
+            )
+            .then(async (res) => {
+              userCont.setUser({ ...user, notifications: res.data });
+            });
+        }, 3000);
         if (project) {
           console.log(project.name + " - " + " Mentorship Package Approved!");
 
@@ -486,9 +646,21 @@ const Notifications = (props) => {
         }
       });
 
-      socket.on("packageCompleted", (data) => {
+      socket.on("packageCompleted", async (data) => {
         setShowNotif(false);
         window.clearTimeout(currTimeout);
+        await setTimeout(async () => {
+          await axios
+            .post(
+              process.env.NODE_ENV === "production"
+                ? "https://ideastack.herokuapp.com/api/user/getNotifications"
+                : "http://localhost:4000/api/user/getNotifications",
+              { token: sessionStorage.getItem("token") }
+            )
+            .then(async (res) => {
+              userCont.setUser({ ...user, notifications: res.data });
+            });
+        }, 3000);
         let project = data.project;
         console.log("here");
 
@@ -521,7 +693,7 @@ const Notifications = (props) => {
         <section
           data-aos={"fade-up"}
           data-aos-once="true"
-          class="from-blue-200 to-indigo-200 bg-gradient-to-b rounded-lg shadow-xl fixed z-[500] right-10 top-[105px] py-2"
+          class="from-blue-200 to-indigo-200 bg-gradient-to-b rounded-lg shadow-xl fixed z-[35] right-10 top-[105px] py-2"
         >
           <div class="container px-2 mx-auto">
             <div
