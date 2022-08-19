@@ -30,22 +30,68 @@ const AllProjects = () => {
 
   return (
     <>
-      <h1 class=" text-center w-10/12 relative mx-auto   lg:mt-6 mt-5 py-4 pb-8  font-semibold text-gray-800 md:text-[47px] text-[38px] underline">
-        All Projects ({projectCon.projects.length})
+      <h1 class=" text-center w-10/12 relative mx-auto   lg:mt-6 mt-5 py-4 pb-5  font-bold text-gray-800 md:text-[47px] sm:text-[38px] text-[33px]">
+        All <span class="text-blue-700">Projects</span> (
+        {projectCon.projects.length})
       </h1>
 
       <div
         class={`grid grid-cols-2 gap-4 align-middle content-center ${
           projectCon.projects.length === 0
-            ? "-mb-16"
+            ? "-mb-[106px]"
             : "-mb-[187px] top-2 relative"
         } mt-6 pb-3 md:px-[20px]    lg:px-[120px] sm:px-[70px] px-[19px]  sm:left-1.5 left-1`}
       >
         {projectCon.projects.length === 0 ? (
-          <p class="text-4xl font-semibold col-span-2 text-center mt-[81px] -mb-3.2 right-1 mx-auto relative">
+          <p class="sm:text-4xl text-3xl font-semibold col-span-2 text-center mt-[63px] -mb-3.2 right-1 mx-auto relative">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-9 w-9 inline text-blue-700"
+              viewBox="0 0 64 64"
+              class="mx-auto block  relative  w-28 mb-8 h-auto text-center"
+            >
+              <g data-name="Stationery-Office Supplies-Planning-Management-Business">
+                <path
+                  fill="#e6e7e8"
+                  d="M54 11v46a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4h32v6a2.006 2.006 0 0 0 2 2Z"
+                />
+                <path
+                  fill="#ee8700"
+                  d="m10 42-7-7v26h26Zm0 15H7V44.66l3 3L19.34 57Z"
+                />
+                <path
+                  fill="#d8d7da"
+                  d="M54 49v8H34l-3-2h-2a2.006 2.006 0 0 1-2-2 2.015 2.015 0 0 1 2-2h2l3-2Z"
+                />
+                <path fill="#ffa733" d="M52 47h3v8h-3z" />
+                <path fill="#e6e7e8" d="M57 47a4 4 0 0 1 0 8h-2v-8Z" />
+                <path
+                  fill="#787680"
+                  d="M29 49v4h-2a2.006 2.006 0 0 1-2-2 2.015 2.015 0 0 1 2-2Z"
+                />
+                <path fill="#898890" d="M33 51v4h-1l-3-2v-4l3-2h1v4z" />
+                <path fill="#d8d7da" d="M27 37h27v8H27z" />
+                <path fill="#1e81ce" d="M25 35h36v8H25z" />
+                <path fill="#ffa733" d="M16 19h12v12H16z" />
+                <path fill="#bcbec0" d="M54 11h-6a2.006 2.006 0 0 1-2-2V3Z" />
+                <path fill="#00b39d" d="M33 51h19v4H33z" />
+                <path fill="#00ccb3" d="M33 47h19v4H33z" />
+                <path
+                  fill="#c6c5ca"
+                  d="M15 8h2v2h-2zM19 8h6v2h-6zM15 12h10v2H15z"
+                />
+                <path
+                  fill="#1a6fb0"
+                  d="M42 38h2v5h-2zM54 38h2v5h-2zM46 40h2v3h-2zM50 40h2v3h-2zM30 38h2v5h-2zM38 40h2v3h-2zM34 40h2v3h-2z"
+                />
+                <path
+                  fill="#c6c5ca"
+                  d="M31 18h8v2h-8zM41 18h8v2h-8zM31 22h8v2h-8zM41 22h8v2h-8zM31 26h8v2h-8zM41 26h8v2h-8zM31 30h8v2h-8zM41 30h8v2h-8zM15 34h6v2h-6zM15 38h6v2h-6zM15 42h6v2h-6z"
+                />
+              </g>
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="sm:h-9 sm:w-9 h-8 w-8 inline text-blue-700"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

@@ -46,7 +46,7 @@ const NotifModal = (props) => {
             key={i}
           >
             <div class="flex items-center mb-3">
-              <span class="mb-1 text-base font-semibold text-white">
+              <span class="mb-1 sm:text-base text-sm font-semibold text-white">
                 {notif.title}
               </span>
               <button
@@ -61,7 +61,7 @@ const NotifModal = (props) => {
                 <span class="sr-only">Close</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
+                  class="sm:h-5 sm:w-5 h-4 w-4"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -76,16 +76,16 @@ const NotifModal = (props) => {
               </button>
             </div>
             <div class="flex items-center top-2 relative ">
-              <div class="inline-block relative shrink-0">
+              <div class="inline-block relative xl:left-2 shrink-0">
                 <img
-                  class="w-12 h-12 bg-white relative left-3 rounded-full"
+                  class="w-12 h-12 bg-white relative sm:left-5 left-3 rounded-full"
                   src={
                     notif.icon
                       ? notif.icon
                       : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
                   }
                 />
-                <span class="inline-flex absolute -right-4 bottom-0 justify-center items-center w-6 h-6 bg-blue-600 rounded-full">
+                <span class="inline-flex absolute sm:-right-6 -right-4 bottom-0 justify-center items-center w-6 h-6 bg-blue-600 rounded-full">
                   <svg
                     aria-hidden="true"
                     class="w-4 h-4 text-white"
@@ -103,7 +103,7 @@ const NotifModal = (props) => {
                 </span>
               </div>
               <div class="ml-3 relative left-1 mb-1 text-sm font-normal">
-                <div class="text-sm font-semibold text-white">
+                <div class="sm:text-sm text-xs font-semibold text-white">
                   {notif.subtitle}
                 </div>
               </div>
@@ -159,7 +159,7 @@ const NotifModal = (props) => {
                 <span class="sr-only">Close</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
+                  class="sm:h-5 sm:w-5 h-4 w-4"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -173,17 +173,17 @@ const NotifModal = (props) => {
                 </svg>
               </button>
             </div>
-            <div class="flex items-center top-2 relative">
-              <div class="inline-block relative shrink-0">
+            <div class="flex items-center top-2 relative ">
+              <div class="inline-block relative xl:left-2 shrink-0">
                 <img
-                  class="w-12 h-12 bg-white relative left-3 rounded-full"
+                  class="w-12 h-12 bg-white relative sm:left-5 left-3 rounded-full"
                   src={
                     notif.icon
                       ? notif.icon
                       : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
                   }
                 />
-                <span class="inline-flex absolute -right-4 bottom-0 justify-center items-center w-6 h-6 bg-blue-600 rounded-full">
+                <span class="inline-flex absolute sm:-right-6 -right-4 bottom-0 justify-center items-center w-6 h-6 bg-blue-600 rounded-full">
                   <svg
                     aria-hidden="true"
                     class="w-4 h-4 text-white"
@@ -270,7 +270,7 @@ const NotifModal = (props) => {
                 <span class="sr-only">Close</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
+                  class="sm:h-5 sm:w-5 h-4 w-4"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -284,17 +284,17 @@ const NotifModal = (props) => {
                 </svg>
               </button>
             </div>
-            <div class="flex items-center top-2 relative">
-              <div class="inline-block relative shrink-0">
+            <div class="flex items-center top-2 relative ">
+              <div class="inline-block relative xl:left-2 shrink-0">
                 <img
-                  class="w-12 h-12 bg-white relative left-3 rounded-full"
+                  class="w-12 h-12 bg-white relative sm:left-5 left-3 rounded-full"
                   src={
                     notif.icon
                       ? notif.icon
                       : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
                   }
                 />
-                <span class="inline-flex absolute -right-4 bottom-0 justify-center items-center w-6 h-6 bg-blue-600 rounded-full">
+                <span class="inline-flex absolute sm:-right-6 -right-4 bottom-0 justify-center items-center w-6 h-6 bg-blue-600 rounded-full">
                   <svg
                     aria-hidden="true"
                     class="w-4 h-4 text-white"
@@ -352,9 +352,9 @@ const NotifModal = (props) => {
           data-aos={"fade-left"}
           data-aos-once="true"
           ref={myRef}
-          class="bg-gradient-to-r from-blue-200 to-indigo-300 h-screen w-[430px] z-40 right-0 absolute"
+          class="bg-gradient-to-r from-blue-200 to-indigo-300 h-screen sm:w-[430px] w-[300px] z-40 right-0 absolute"
         >
-          <div class="z-50 absolute flex flex-col  h-full right-0  py-8 pb-3  px-8  w-[430px] border-r bg-gradient-to-r from-blue-200 to-indigo-300 border-gray-600">
+          <div class="z-50 absolute flex flex-col  h-full right-0  py-8 pb-3  px-8 sm:w-[430px] w-[300px] border-r bg-gradient-to-r from-blue-200 to-indigo-300 border-gray-600">
             <div class="h-[250px]">
               <button
                 onClick={props.close}
@@ -417,19 +417,20 @@ const NotifModal = (props) => {
               id="scrollbar"
               class={`bg-white mb-4 absolute ${
                 notifArray && notifArray.length === 0
-                  ? "top-[316px]"
+                  ? "sm:top-[316px] top-[380px]"
                   : "top-[280px]"
-              } w-[425px] left-[30px]  mx-auto flex-grow -ml-7  overflow-y-scroll shadow-md  p-3 rounded-md`}
+              } sm:w-[425px] w-[300px] left-[30px]  mx-auto flex-grow -ml-7  overflow-y-scroll shadow-md  p-3 rounded-md`}
             >
               {notifArray}
               {notifArray && notifArray.length === 0 ? (
-                <div class="top-[16%] mb-8 relative">
+                <div class="top-[16%]  mb-8 relative">
                   <img
+                    class="sm:w-full w-[150px] h-auto mx-auto"
                     src={
                       "https://cdn.dribbble.com/users/1373705/screenshots/6457914/no_notification_yiran.png?compress=1&resize=400x300&vertical=top"
                     }
                   ></img>
-                  <h1 class="font-semibold uppercase text-gray-700 mt-3 text-3xl">
+                  <h1 class="font-semibold uppercase text-gray-700 mt-3 sm:text-3xl text-xl">
                     No Notifications
                   </h1>
                 </div>

@@ -365,7 +365,7 @@ export default function ManageProject() {
                   <div
                     data-aos={"fade-right"}
                     data-aos-once="true"
-                    class="bg-gradient-to-br rounded-xl from-blue-50 to-indigo-200 border-r-2 border-[1px] border-l-2 border-blue-700 h-full lg:w-[60%] md:w-[85%]  w-[100%] sm:pt-[21px] pt-[28px] relative mx-auto block"
+                    class="bg-gradient-to-br  from-blue-50 to-indigo-200 border-r-2 border-[1px] border-l-2 border-blue-700 h-full lg:w-[60%] md:w-[85%]  w-[100%] sm:pt-[21px] pt-[28px] relative mx-auto block"
                   >
                     <h3 class="font-bold text-center mx-auto relative mr-1 text-2xl">
                       <svg
