@@ -321,7 +321,7 @@ const CreateProjectModal = (props) => {
                       <textarea
                         type="number"
                         min={140}
-                        max={200}
+                        max={190}
                         name="problem"
                         onChange={changeHandler}
                         id="problem"

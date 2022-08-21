@@ -342,7 +342,7 @@ const EditProjModal = (props) => {
                         type="number"
                         name="problem"
                         min={140}
-                        max={180}
+                        max={190}
                         onChange={changeHandler}
                         value={project.problem}
                         id="problem"
