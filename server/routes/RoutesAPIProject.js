@@ -474,14 +474,19 @@ router.post("/checkAvailability", auth, async (req, res) => {
   for (let i = 0; i < projects.length; i++) {
     for (let j = 0; j < projects[i].mentorshipPackages.length; j++) {
       if (
-        projects[i].mentorshipPackages[j].scheduleSelected &&
         JSON.stringify(projects[i].mentorshipPackages[j]._id) ===
-          JSON.stringify(mentor._id)
+        JSON.stringify(mentor._id)
       ) {
+        console.log(
+          projects[i].mentorshipPackages[j].selectedDates.map((dateStr) =>
+            String(new Date(dateStr))
+          )
+        );
+        console.log(String(new Date(date)));
         if (
-          String(
-            new Date(projects[i].mentorshipPackages[j].scheduleSelected)
-          ) === String(new Date(date))
+          projects[i].mentorshipPackages[j].selectedDates
+            .map((dateStr) => String(new Date(dateStr)))
+            .includes(String(new Date(date)))
         ) {
           console.log("Date Taken");
           availability = false;
@@ -496,15 +501,12 @@ router.post("/checkAvailability", auth, async (req, res) => {
 router.post("/getFirstFree", auth, async (req, res) => {
   const proj = await project.findOne({ _id: req.body.projectID });
   let chk = false;
-  console.log(req.body.expertName);
-  console.log(proj.mentorshipDetails);
   for (let i = 0; i < proj.mentorshipDetails.length; i++) {
     let mentorName = proj.mentorshipDetails[i].name;
     if (mentorName === req.body.expertName) {
       chk = true;
     }
   }
-  console.log(chk);
   res.send(!chk);
 });
 
@@ -520,7 +522,8 @@ router.post("/addMentorshipPackage", auth, async (req, res) => {
     numberOfSessionsRemaining: noOfSessions,
     packageCompleted: false,
     isFirstFree: isFirstTime,
-    paymentPending: isFirstTime ? false : true,
+    paymentPending:
+      isFirstTime || req.body.mentorshipPackage.pricing[0] === 0 ? false : true,
     individualCostPerSession: isFirstTime
       ? 0
       : req.body.mentorshipPackage.individualCostPerSession,
@@ -579,8 +582,6 @@ router.post("/addMentorshipPackage", auth, async (req, res) => {
         }
       }
 
-      console.log(chk);
-      console.log(finI);
       if (!chk) {
         user.pendingPayments.push(paymentInfo);
       } else {
@@ -600,7 +601,6 @@ router.post("/addMentorshipPackage", auth, async (req, res) => {
     }
 
     user.markModified("pendingPayments");
-    console.log(user.pendingPayments);
     await user.save();
   }
 
@@ -610,8 +610,6 @@ router.post("/addMentorshipPackage", auth, async (req, res) => {
   });
 
   for (let i = 0; i < proj.team.length; i++) {
-    console.log(proj.team[i].name);
-
     if (proj.team[i].name !== proj.admin.name) {
       let member = await studentUser.findOne({ _id: proj.team[i].id });
       let notifications = member.notifications ? member.notifications : [];

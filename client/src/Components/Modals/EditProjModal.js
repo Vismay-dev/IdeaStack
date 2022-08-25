@@ -337,7 +337,7 @@ const EditProjModal = (props) => {
                       </div>
                     </div>
 
-                    <div class="relative z-0 mb-10 md:mt-0 w-full group">
+                    <div class="relative z-0 mb-10 md:mts-0 w-full group">
                       <textarea
                         type="number"
                         name="problem"

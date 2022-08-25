@@ -32,7 +32,7 @@ const CreateProject = () => {
   const history = useHistory();
 
   return (
-    <>
+    <div class="block mr-10">
       {showCreateModal ? (
         <CreateProjectModal
           close={() => {
@@ -60,7 +60,10 @@ const CreateProject = () => {
           <>
             <p
               class={`sm:text-4xl text-3xl font-semibold col-span-2 text-center mt-[20px] ${
-                projectCon.projects.length === 0 ? "-mb-10 block" : "mb-24"
+                projectCon.projects.filter((proj) => user._id === proj.admin.id)
+                  .length === 0
+                  ? "mb-12 "
+                  : "mb-24 "
               } right-1 mx-auto relative`}
             >
               <svg
@@ -369,12 +372,12 @@ const CreateProject = () => {
         class={`mt-4 ${
           projectCon.projects.length > 0
             ? "lg:-mb-[152px] xl:-mb-[149px] -mb-[145px] lg:top-[70px] top-[65px]"
-            : "md:-mb-[3.9rem] sm:-mb-[2.9rem] -mb-[2.5rem] top-40 "
+            : "md:-mb-[3.9rem] sm:-mb-[2.9rem] -mb-[2.5rem] top-36 "
         } sm:left-[15px] z-[65] pointer-events-auto  bg-gradient-to-r  from-blue-600 to-blue-800 sm:w-5/12 w-7/12 rounded-md shadow-lg hover:shadow-lg hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-400 active:shadow-sm p-2 pb-2.5  text-gray-50 font-semibold md:text-2xl sm:text-xl text-lg mx-auto text-center block justify-center relative`}
       >
         Create Project
       </button>
-    </>
+    </div>
   );
 };
 
