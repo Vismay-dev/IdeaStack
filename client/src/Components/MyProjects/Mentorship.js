@@ -158,7 +158,7 @@ const Mentorship = () => {
           <p
             class={` ${
               isMentor ? " top-2" : " -mt-7 top-[5px] -mb-[27px]"
-            }  -mt-6  px-6 relative text-center `}
+            }  -mt-2  px-6 relative text-center `}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
