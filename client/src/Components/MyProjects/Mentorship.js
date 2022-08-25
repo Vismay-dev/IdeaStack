@@ -155,6 +155,30 @@ const Mentorship = () => {
               Payments are only processed after all members have paid
             </span>
           </p>
+          <p
+            class={` ${
+              isMentor ? " top-2" : " -mt-7 top-[5px] -mb-[27px]"
+            }  -mt-6  px-6 relative text-center `}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 inline relative mr-1 bottom-[1.35px]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span class={"inline"}>
+              Mentorship will be cancelled if session schedule isn't confirmed
+              within 24 hours of booking
+            </span>
+          </p>
           {isMentor ? (
             <button
               onClick={() => setCancel(true)}
