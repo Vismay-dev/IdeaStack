@@ -780,7 +780,10 @@ const ExpertDetails = (props) => {
                             ""
                           )}
 
-                          {!loading && isFirstFree ? (
+                          {!loading &&
+                          isFirstFree(
+                            expert && expert.availableDates.length !== 0
+                          ) ? (
                             <p class="text-center top-4 mt-2 text-sm relative font-semibold">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -870,9 +873,15 @@ const ExpertDetails = (props) => {
                           )}
                           <button
                             onClick={submitHandler}
-                            disabled={!isMentor || packageyum}
+                            disabled={
+                              !isMentor ||
+                              packageyum ||
+                              (expert && expert.availableDates.length === 0)
+                            }
                             className={`sm:mt-12 mt-6 mb-4 w-full ${
-                              !isMentor || packageyum
+                              !isMentor ||
+                              packageyum ||
+                              (expert && expert.availableDates.length === 0)
                                 ? "bg-indigo-400"
                                 : "bg-indigo-600 hover:bg-indigo-700"
                             } border border-transparent rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
