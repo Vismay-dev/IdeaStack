@@ -153,7 +153,10 @@ const ExpertDetails = (props) => {
                   available = res.data;
                 });
 
-              if (available) {
+              if (
+                available &&
+                new Date(props.experts[i].availableDates[z]) >= new Date()
+              ) {
                 avDates.push(props.experts[i].availableDates[z]);
               }
             }
@@ -538,11 +541,18 @@ const ExpertDetails = (props) => {
                       <h2 className="sr-only">Product information</h2>
                       <p className="md:text-3xl text-2xl text-gray-900">
                         <span class="font-bold">
-                          AED {expert && expert.pricing[0]}
+                          {expert && expert.pricing[0]
+                            ? `AED ${expert && expert.pricing[0]}`
+                            : expert && !expert.pricing[0]
+                            ? "No Cost"
+                            : ""}
                         </span>{" "}
                         per session
                       </p>
-                      {expert && expert.pricing[1] !== 0 && isFirstFree ? (
+                      {expert &&
+                      expert.pricing[1] !== 0 &&
+                      expert.pricing[0] !== 0 &&
+                      isFirstFree ? (
                         <p className="md:text-xl text-md text-gray-600">
                           First{" "}
                           {expert.pricing[1] !== 1 ? expert.pricing[1] : ""}{" "}
@@ -702,7 +712,9 @@ const ExpertDetails = (props) => {
                                       value={seshNum}
                                       className={({ active }) =>
                                         classNames(
-                                          isFirstFree && i !== 0
+                                          (isFirstFree && i !== 0) ||
+                                            (expert &&
+                                              expert.availableDates.length <= i)
                                             ? "bg-gray-50 text-gray-400 cursor-not-allowed"
                                             : size.inStock
                                             ? "bg-white shadow-sm text-gray-900 cursor-pointer"
@@ -830,6 +842,29 @@ const ExpertDetails = (props) => {
                                 Mentor Already Selected
                               </span>
                             </p>
+                          ) : expert.availableDates.length < 4 ? (
+                            <p class="uppercase text-sm font-semibold text-center top-7 -mb-1 right-0.5 relative">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-6 w-6 inline"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                                />
+                              </svg>
+                              <span class="inline ml-1.5">
+                                {expert.availableDates.length === 0
+                                  ? "No"
+                                  : `Only ${expert.availableDates.length}`}{" "}
+                                Available Dates Remaining
+                              </span>
+                            </p>
                           ) : (
                             <p class="relative -mb-2"></p>
                           )}
@@ -842,7 +877,7 @@ const ExpertDetails = (props) => {
                                 : "bg-indigo-600 hover:bg-indigo-700"
                             } border border-transparent rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                           >
-                            Seek Mentorship - {isFirstFree ? "Free Trial" : ""}
+                            Seek Mentorship {isFirstFree ? "- Free Trial" : ""}
                           </button>
                         </div>
                       </form>
@@ -926,7 +961,7 @@ const ExpertDetails = (props) => {
                           Choose a size
                         </RadioGroup.Label>
                         <div className="grid sm:gap-4 gap-2 mt-6 relative grid-cols-4">
-                          {product.sizes.map((size) => {
+                          {product.sizes.map((size, i) => {
                             let seshNum = Number(size.name);
                             return (
                               <RadioGroup.Option
@@ -937,7 +972,9 @@ const ExpertDetails = (props) => {
                                 value={seshNum}
                                 className={({ active }) =>
                                   classNames(
-                                    size.inStock
+                                    size.inStock ||
+                                      (expert &&
+                                        expert.availableDates.length > i)
                                       ? "bg-white shadow-sm text-gray-900 cursor-pointer"
                                       : "bg-gray-50 text-gray-200 cursor-not-allowed",
                                     active ? "ring-2 ring-indigo-500" : "",
