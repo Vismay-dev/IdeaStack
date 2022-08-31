@@ -781,9 +781,9 @@ const ExpertDetails = (props) => {
                           )}
 
                           {!loading &&
-                          isFirstFree(
-                            expert && expert.availableDates.length !== 0
-                          ) ? (
+                          isFirstFree &&
+                          expert &&
+                          expert.availableDates.length !== 0 ? (
                             <p class="text-center top-4 mt-2 text-sm relative font-semibold">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
