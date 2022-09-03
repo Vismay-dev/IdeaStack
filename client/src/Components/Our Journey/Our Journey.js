@@ -677,73 +677,50 @@ const OurJourney = () => {
         </div>
       </section>
 
-      <section class="pt-[67px]  lg:pt-[100px] pb-12 lg:pb-[98px] -mb-[330px] mt-44 border-dashed border-blue-700 border-t-2  overflow-hidden">
+      <section class="pt-[67px]  lg:pt-[100px] pb-12 lg:pb-[90px] -mb-[330px] mt-44 border-dashed border-blue-700 border-t-2  overflow-hidden">
         <div class="container relative mx-auto md:left-4 sm:left-2 left-1 ">
           <div
             data-aos={"fade-up"}
             data-aos-once="true"
             class="flex flex-wrap justify-between items-center -mx-4"
           >
-            <div class="lg:w-2/3 w-2/3 xl:w-5/12 px-4 xl:left-[97px] -left-[27px]  block  xl:bottom-7 bottom-11 xl:mb-0 mb-[58px] xl:mx-0 mx-auto  relative">
-              <div class="mt-10 lg:mt-0 text-center z-[40] xl:mx-0 mx-auto -mr-14">
+            <div class="lg:w-2/3 w-2/3 xl:w-5/12 px-8 xl:left-[97px] -left-[27px]  block  xl:bottom-7 bottom-11 xl:mb-0 sm:mb-[50px] mb-[40px] lg:mb-[12px] xl:mx-0 mx-auto  relative">
+              <div class="sm:mt-10 mt-7 lg:mt-1 xl:mt-10 text-center z-[40] xl:mx-0 mx-auto -mr-14">
                 <span class="font-semibold text-lg text-primary mb-2 block">
                   Crowdfunding Campaign
                 </span>
-                <h2 class="font-bold text-3xl sm:text-4xl text-dark mb-8">
-                  Support Us
+                <h2 class="font-bold text-3xl sm:text-4xl text-dark mt-2 mb-10">
+                  Thank you!
                 </h2>
-                <p class="sm:text-base text-sm text-body-color mb-8">
-                  <strong>IdeaStack.org</strong> is now live on{" "}
+                <p class="sm:text-base mt-4 top-4  text-sm text-body-color mb-8">
+                  <strong>JUNE 2022 - IdeaStack.org</strong> was live on{" "}
                   <strong>Dubai SME’s crowdfunding platform: Dubai Next</strong>
                   , established by HH Sheikh Hamdan Bin Mohammed Bin Rashid Al
                   Maktoum, Crown Prince of Dubai and Chairman of the Executive
                   Council.
                 </p>
-                <p class="sm:text-base text-sm  text-body-color mb-8">
-                  Support us in this crowdfunding campaign, and{" "}
+                <p class="sm:text-base mt-4 text-sm italic text-gray-700  text-body-color mb-8">
+                  "Support us in this crowdfunding campaign, and{" "}
                   <strong>
                     help us revolutionize the traditional project planning
                     process in STEM.
                   </strong>{" "}
                   We’re actively expanding our group of STEM experts and
                   academicians, and{" "}
-                  <strong>we need your help to scale and grow.</strong>
+                  <strong>we need your help to scale and grow."</strong>
                 </p>
-                <p class="sm:text-base text-sm  text-body-color mb-12">
-                  We reward contributors with acknowledgement of{" "}
+                <p class="sm:text-base text-sm mt-4  text-body-color mb-12">
+                  We rewarded contributors with acknowledgement of{" "}
                   <strong>early support and sponsorship,</strong> additionally
                   offering <strong>other mentorship benefits.</strong>
                 </p>
-                <a
-                  href="javascript:void(0)"
-                  class="
-               py-3
-               px-8
-               lg:px-6
-               xl:px-8
-               inline-flex
-               items-center
-               justify-center
-               pointer-events-auto
-               text-center text-white text-base
-               to-blue-600
-               from-blue-500
-               bg-gradient-to-r
-               font-semibold
-               hover:bg-opacity-90
-               rounded-lg
-               hover:shadow-md
-               "
-                >
-                  Our Crowdfunding Campaign
-                </a>
               </div>
             </div>
-            <div class="w-full lg:w-1/2 xl:w-5/12 px-4 mx-auto bottom-[35px] lg:-mb-0 md:mb-16 sm:mb-14 mb-10 relative">
+            <div class="w-full lg:w-1/2 xl:w-5/12 px-4 mx-auto bottom-[35px] lg:-mb-0 md:mb-16 lg:mt-0 -mt-10 sm:mb-14 mb-10 relative">
               <iframe
                 class="relative rounded-sm mx-auto shadow-lg border-blue-600 border-2"
                 width="310"
-                height="580"
+                height="545"
                 src="https://www.dubainext.ae/embed/card-view/1730"
                 onClick={() => {
                   window.open(

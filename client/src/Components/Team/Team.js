@@ -19,10 +19,10 @@ const Team = () => {
     <div class="flex flex-col mx-auto relative overflow-hidden  lg:top-[40px] top-[64px] -mb-[266px] ">
       <div class="container max-w-7xl lg:px-4 px-8  relative mx-auto">
         <div class="flex flex-wrap justify-center text-center mb-12">
-          <div class="md:w-full w-10/12 lg:w-6/12 px-4 md:my-2.5 mb-4 -mt-2">
+          <div class="md:w-full w-10/12 lg:w-6/12 px-4 md:my-2.5 mb-4 lg:-mt-2 mt-1 ">
             <h1 class="text-gray-900 text-4xl font-bold mb-8">Meet the Team</h1>
 
-            <p class="text-gray-700 text-lg md:mb-1 -mb-6 font-light">
+            <p class="text-gray-700 text-lg md:mb-1 -mb-6 md:mt-2 lg:mt-0 mt-4 lg:px-0 sm:px-4 px-2 font-light">
               With a passion for STEM projects, and an even stronger purpose of
               facilitating the modern generation's attempts at redefining the
               future, we've got a well-seasoned team at the helm.
@@ -602,7 +602,7 @@ const Team = () => {
           </svg>
         </span>
 
-        <span class="absolute  -z-[100000000]  lg:bottom-[400px] bottom-[350px]">
+        <span class="absolute md:visible invisible  -z-[100000000]  lg:bottom-[400px] lg:left-0 left-[3px]  md:bottom-[344px] bottom-[360px]">
           <svg
             class="top-96 relative"
             width="134"
@@ -1174,11 +1174,11 @@ const Team = () => {
           </svg>
         </span>
 
-        <div className="grid md:max-w-[550px] sm:max-w-full max-w-[260px] lg:max-w-[1000px] mx-auto xl:max-w-full gap-10 relative sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid md:max-w-[550px] sm:max-w-[85%] max-w-[260px] lg:max-w-[1000px] lg:mb-36 mb-[180px] md:top-0 top-6 mx-auto xl:max-w-full gap-10 md:mb-[300px]  relative sm:grid-cols-2 lg:grid-cols-4">
           <div data-aos="fade-left" data-aos-once="true" data-aos-delay="100">
-            <div className="relative overflow-hidden transition duration-300 transform rounded-md shadow-lg lg:hover:-translate-y-2 hover:shadow-2xl">
+            <div className="relative overflow-hidden  transition duration-300 transform rounded-md shadow-lg lg:hover:-translate-y-2 hover:shadow-2xl">
               <img
-                className="object-cover p-1.5 bg-blue-700 grayscale w-full sm:h-56 h-[250px] md:h-64 xl:h-80"
+                className="object-cover p-1.5 bg-blue-700 grayscale w-full sm:h-[290px] h-[290px] md:h-64 xl:h-80"
                 src={vismay}
                 alt="Person"
               />
@@ -1192,9 +1192,12 @@ const Team = () => {
                 <p className="mb-10 text-xs font-semibold tracking-wide text-gray-200">
                   "IdeaStack strives to become society's go-to instrument for
                   accelerating and empowering the youth where its potential has
-                  not been realised. STEM has become the modern tool to
-                  development and growth, and we are here to nurture it within
-                  students. Ad Meliora."
+                  not been realised.{" "}
+                  <p class="xl:inline hidden">
+                    STEM has become the modern tool to development and growth,
+                    and we are here to nurture it within students.
+                  </p>{" "}
+                  Ad Meliora."
                 </p>
                 <div className="flex xl:bottom-0 lg:bottom-5 md:bottom-3 bottom-5  relative items-center justify-center space-x-3">
                   <a
@@ -1238,7 +1241,7 @@ const Team = () => {
           <div data-aos="fade-left" data-aos-once="true" data-aos-delay="200">
             <div className="relative overflow-hidden transition duration-300 transform rounded-md shadow-lg lg:hover:-translate-y-2 hover:shadow-2xl">
               <img
-                className="object-cover p-1.5 bg-blue-700 grayscale w-full sm:h-56 h-[250px] md:h-64 xl:h-80"
+                className="object-cover p-1.5 bg-blue-700 grayscale w-full sm:h-[290px] h-[290px] md:h-64 xl:h-80"
                 src={abhay}
                 alt="Person"
               />
@@ -1250,11 +1253,19 @@ const Team = () => {
                   Head of Operations
                 </p>
                 <p className="mb-10 text-xs font-semibold tracking-wide text-gray-200">
-                  "I believe that STEM projects are the nexus of the modern
-                  youth's redefinition of the future. Given the immense social
-                  responsibility placed on us, we prioritize technical
-                  efficiency and operational excellence in connecting mentors
-                  with students."
+                  "I believe that STEM projects are the nexus of the{" "}
+                  <span class="xl:inline hidden">modern</span>
+                  youth's redefinition of the future.{" "}
+                  <span class="xl:inline hidden">
+                    Given the immense social responsibility placed on us, we
+                    prioritize technical efficiency and operational excellence
+                    in connecting mentors with students.
+                  </span>
+                  <span class="xl:hidden inline">
+                    IdeaStack has an immense social responsibility placed upon
+                    it
+                  </span>
+                  "
                 </p>
                 <div className="flex  xl:bottom-0 lg:bottom-5 md:bottom-4 bottom-5  relative items-center justify-center space-x-3">
                   <a
@@ -1299,7 +1310,7 @@ const Team = () => {
           <div data-aos="fade-left" data-aos-once="true" data-aos-delay="300">
             <div className="relative overflow-hidden transition duration-300 transform rounded-md shadow-lg lg:hover:-translate-y-2 hover:shadow-2xl">
               <img
-                className="object-cover sm:object-center  p-1.5 bg-blue-700 grayscale w-full sm:sm:h-56 h-[250px] md:h-64 xl:h-80"
+                className="object-cover sm:object-center  p-1.5 bg-blue-700 grayscale w-full sm:h-[290px] h-[290px] md:h-64 xl:h-80"
                 src={varshitaa}
                 alt="Person"
               />
@@ -1312,9 +1323,12 @@ const Team = () => {
                 </p>
                 <p className="mb-10 text-xs font-semibold tracking-wide text-gray-200">
                   "Hi everyone! I am thrilled to be working as the Head of
-                  Marketing for IdeaStack! I hope to achieve great things within
-                  the organization and take its objective of facilitating STEM
-                  projects to great heights!"
+                  Marketing for IdeaStack! I hope to{" "}
+                  <span class="xl:inline hidden">
+                    achieve great things within the organization and{" "}
+                  </span>
+                  take its objective of facilitating STEM projects to great
+                  heights!"
                 </p>
                 <div className="flex  xl:bottom-0 lg:bottom-5 md:bottom-3 bottom-5 relative  items-center justify-center space-x-3">
                   <a
@@ -1345,24 +1359,29 @@ const Team = () => {
           <div data-aos="fade-left" data-aos-once="true" data-aos-delay="400">
             <div className="relative overflow-hidden transition duration-300 transform rounded-md shadow-lg lg:hover:-translate-y-2 hover:shadow-2xl">
               <img
-                className="object-cover p-1.5 bg-blue-700 grayscale w-full sm:h-56 h-[250px] md:h-64 xl:h-80"
+                className="object-cover p-1.5 bg-blue-700 grayscale w-full sm:h-[290px] h-[290px] md:h-64 xl:h-80"
                 src={shubham}
                 alt="Person"
               />
-              <div className="absolute inset-0 flex flex-col justify-center px-5 py-4 text-center transition-opacity duration-300 bg-black bg-opacity-75 opacity-0 hover:opacity-100">
-                <p className="mb-1 text-lg xl:top-0 lg:top-4 md:top-2 top-4 relative font-bold text-gray-100">
+              <div className="absolute inset-0 flex flex-col justify-center px-5 py-4 text-center transition-opacity duration-300 bg-black bg-opacity-75 opacity-0 md:mt-0 -mt-[22px] hover:opacity-100">
+                <p className="mb-1 text-lg xl:top-0 lg:top-2 md:top-2 top-4 relative font-bold text-gray-100">
                   Shubham Rawat
                 </p>
-                <p className="mb-7 xl:top-0 lg:top-4 md:top-2 top-4 relative text-xs text-gray-100">
+                <p className="mb-7 xl:top-0 lg:top-2 md:top-2 top-4 relative text-xs text-gray-100">
                   Editor-in-Chief
                 </p>
-                <p className="mb-10 sm:top-1 top-2 relative text-xs font-semibold tracking-wide text-gray-200">
+                <p className="mb-10 md:-top-1 xl:top-1 top-0 relative text-xs font-semibold tracking-wide text-gray-200">
                   "As the Editor-In-Chief at IdeaStack, I aim to bring about a
-                  personal connect with our end-users through our communication
-                  channels to ensure a seamless experience, and to provide a
-                  minimal yet adequate glipse into who we are!"
+                  personal connect with our end-users
+                  <span class="xl:inline hidden">
+                    through our communication channels to ensure a seamless
+                    experience,
+                  </span>
+                  and to provide a
+                  <span class="xl:inline hidden"> minimal yet adequate</span>
+                  glipse into who we are!"
                 </p>
-                <div className="flex items-center justify-center space-x-3">
+                <div className="flex items-center xl:mt-0 md:-mt-6 -mt-5 justify-center space-x-3">
                   <a
                     target="_blank"
                     href="https://www.linkedin.com/in/sr2005/"
@@ -1407,7 +1426,7 @@ const Team = () => {
       <div class="relative lg:-bottom-16 md:block hidden  lg:rotate-0 rotate-[13deg]  lg:mb-8 mb-20  lg:right-0 right-4   max-h-96 lg:-mt-36 -mt-[330px] lg:mr-0 -mr-14 lg:top-0 top-14">
         <svg
           viewBox="0 0 1428 174"
-          class="lg:right-0 relative right-14 lg:rotate-0 rotate-12"
+          class="lg:right-0 relative right-14 md:top-12  lg:top-0 lg:rotate-0 rotate-12"
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
           xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -1442,7 +1461,7 @@ const Team = () => {
           </g>
         </svg>
         <svg
-          class="relative bottom-3 lg:hidden lg:right-0 right-16 lg:rotate-0 rotate-[190deg]"
+          class="relative bottom-3  md:top-12 lg:top-0 lg:hidden lg:right-0 right-16 lg:rotate-0 rotate-[190deg]"
           viewBox="0 0 1428 174"
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
@@ -1514,7 +1533,7 @@ const Team = () => {
           </g>
         </svg>
         <svg
-          class="relative rotate-180 bottom-[134px] left-2 lg:hidden"
+          class="relative rotate-180  bottom-[134px] left-2 lg:hidden"
           viewBox="0 0 1428 174"
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
