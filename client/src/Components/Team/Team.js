@@ -19,7 +19,7 @@ const Team = () => {
     <div class="flex flex-col mx-auto relative overflow-hidden  lg:top-[40px] top-[64px] -mb-[266px] ">
       <div class="container max-w-7xl lg:px-4 px-8  relative mx-auto">
         <div class="flex flex-wrap justify-center text-center mb-12">
-          <div class="md:w-full w-10/12 lg:w-6/12 px-4 md:my-2.5 mb-4 lg:-mt-2 mt-1 ">
+          <div class="md:w-full w-10/12 lg:w-6/12 px-4 md:my-2.5 mb-4 lg:-mt-2 sm:mt-0 -mt-1 ">
             <h1 class="text-gray-900 text-4xl font-bold mb-8">Meet the Team</h1>
 
             <p class="text-gray-700 text-lg md:mb-1 -mb-6 md:mt-2 lg:mt-0 mt-4 lg:px-0 sm:px-4 px-2 font-light">
@@ -1174,7 +1174,7 @@ const Team = () => {
           </svg>
         </span>
 
-        <div className="grid md:max-w-[550px] sm:max-w-[85%] max-w-[260px] lg:max-w-[1000px] lg:mb-36 mb-[180px] md:top-0 top-6 mx-auto xl:max-w-full gap-10 md:mb-[300px]  relative sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid md:max-w-[550px] sm:max-w-[85%] max-w-[260px] lg:max-w-[1000px] lg:mb-36 mb-[165px] md:top-0 top-6 mx-auto xl:max-w-full gap-10 md:mb-[300px]  relative sm:grid-cols-2 lg:grid-cols-4">
           <div data-aos="fade-left" data-aos-once="true" data-aos-delay="100">
             <div className="relative overflow-hidden  transition duration-300 transform rounded-md shadow-lg lg:hover:-translate-y-2 hover:shadow-2xl">
               <img
