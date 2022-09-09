@@ -35,7 +35,7 @@ const Landing = () => {
               Launch <span class=" text-blue-700">Your Idea!</span>
             </h1>
             <p class="leading-normal font-medium mx-auto xl:text-xl xl:-right-3 lg:-right-2 lg:left-0 md:right-10  sm:-right-24 sm:left-20 md:-left-[40px] xs:right-3 right-0   xs:w-96 md:w-3/4  lg:w-full md:text-xl sm:text-xl xl:w-80 w-72 text-lg mb-12 sm:mt-5 mt-2 relative text-center">
-              Networking and Consultancy Platform to Help Students Plan and
+              Networking and Mentorship Platform to Help Students Plan and
               Launch STEM Projects
             </p>
             <a

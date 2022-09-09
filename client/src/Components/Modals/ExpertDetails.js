@@ -652,15 +652,15 @@ const ExpertDetails = (props) => {
 
                         <div class="mt-6 text-gray-700 lg:mb-0 mb-4 lg:text-base text-sm font-semibold lg:text-center">
                           {showMail && expert
-                            ? expert.contact[0] === "" ||
-                              expert.contact[0] === null
+                            ? expert.contact[0] == "" ||
+                              expert.contact[0] == null
                               ? "Email ID: Unavailable"
                               : "Email ID: " + expert.contact[0]
                             : ""}
 
                           {showPhone && expert
-                            ? expert.contact[1] === "" ||
-                              expert.contact[1] === null
+                            ? expert.contact[1] == "" ||
+                              expert.contact[1] == null
                               ? "Phone Number: Unavailable"
                               : "Phone Number: " + expert.contact[1]
                             : ""}
