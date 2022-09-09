@@ -517,7 +517,7 @@ const ExpertDetails = (props) => {
                 <>
                   {/* Image gallery */}
 
-                  <div className="col-start-2  lg:w-[360px] sm:w-[300px] sm:h-[300px] w-[240px] h-[240px] lg:h-[360px] mt-14 sm:-mb-4 mb-0 object-center relative mx-auto block justify-center sm:rounded-lg sm:overflow-hidden">
+                  <div className="col-start-2  lg:w-[400px] sm:w-[330px] sm:h-[330px] w-[270px] h-[270px] lg:h-[400px] mt-14 sm:-mb-4 mb-0 object-center relative mx-auto block justify-center sm:rounded-lg sm:overflow-hidden">
                     <img
                       src={expert && expert.pic}
                       alt={expert && expert.pic}
