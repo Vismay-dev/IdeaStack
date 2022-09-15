@@ -16,8 +16,8 @@ const Footer = () => {
         <div className="flex flex-row pr-3 relative lg:top-0 sm:-top-3 top-0 lg:right-0 right-44  lg:mx-0 mx-auto space-x-4 sm:space-x-8">
           <img
             src={logo}
-            className="w-36 rounded-lg shadow-md lg:mr-16 mr-60  shadow-gray-900 lg:visible invisible"
-            style={{ width: "144px", height: "80px" }}
+            className="w-36 rounded-lg p-1 shadow-md lg:mr-16 mr-60  shadow-gray-900 lg:visible invisible"
+            style={{ width: "148px", height: "82px" }}
           ></img>
           <ul className="flex flex-wrap items-center  space-x-4  sm:w-48 w-80 sm:space-x-8 relative lg:text-base   lg:right-0  xs3:text-sm text-base">
             <li>
