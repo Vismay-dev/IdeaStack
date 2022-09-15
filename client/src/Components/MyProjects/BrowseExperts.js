@@ -245,7 +245,9 @@ export default function BrowseExperts() {
                         : "https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80"
                     }
                     alt="expert"
-                    class="w-[270px] mx-auto shadow-xl   rounded-[.25rem]  h-[270px]   object-center object-cover group-hover:opacity-75"
+                    class={`w-[270px] mx-auto shadow-xl ${
+                      expert.org === "UWR" ? "p-4" : "p-0"
+                    }  rounded-[.25rem]  h-[270px]   object-center object-cover group-hover:opacity-75`}
                   />
                 </div>
                 <h3 class="mt-4 text-md sm:text-left lg:right-0 relative md:-right-14 text-center text-gray-700">
