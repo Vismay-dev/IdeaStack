@@ -1,52 +1,58 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
-const mentorSchema = new mongoose.Schema({
+const mentorSchema = new mongoose.Schema(
+  {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     background: {
       type: String,
-      required: true
+      required: true,
     },
     strengths: {
       type: Array,
-      required: true
+      required: true,
     },
     mentorshipProp: {
       type: String,
-      required: true
+      required: true,
     },
     contact: {
       type: Array,
-      required:true
+      required: true,
+    },
+    org: {
+      type: String,
+      required: false,
     },
     pic: {
       type: String,
-      required: true
+      required: true,
     },
-    role:{
-      type:String,
-      required:true
+    role: {
+      type: String,
+      required: true,
     },
     pricing: {
-      type:Array,
-      required:true
+      type: Array,
+      required: true,
     },
-    mentorshipRequests : {
-      type:Array,
-      required:false
+    mentorshipRequests: {
+      type: Array,
+      required: false,
     },
     fields: {
-      type:Array,
-      required : true,
+      type: Array,
+      required: true,
     },
     availableDates: {
-      type:Array,
-      required:false
-    }
+      type: Array,
+      required: false,
+    },
   },
-  { timestamps: true })
+  { timestamps: true }
+);
 
-const Mentor = mongoose.model('Mentor', mentorSchema)
-module.exports = Mentor
+const Mentor = mongoose.model("Mentor", mentorSchema);
+module.exports = Mentor;
