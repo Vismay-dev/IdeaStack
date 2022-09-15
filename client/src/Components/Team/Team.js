@@ -19,7 +19,7 @@ const Team = () => {
     <div class="flex flex-col mx-auto relative overflow-hidden  lg:top-[40px] sm:top-[64px] top-[35px] -mb-[266px] ">
       <div class="container max-w-7xl lg:px-4 px-8  relative mx-auto">
         <div class="flex flex-wrap justify-center text-center mb-12">
-          <div class="md:w-full w-10/12 lg:w-6/12 px-4 md:my-2.5 mb-4 lg:-mt-2 sm:mt-0 mt-3 ">
+          <div class="md:w-full w-10/12 lg:w-6/12 px-4 md:my-2.5 mb-4  sm:mt-1 mt-3 ">
             <h1 class="text-gray-900 text-4xl font-bold md:mb-8 mb-10">
               Meet the Team
             </h1>
