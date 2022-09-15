@@ -146,13 +146,13 @@ export default function BrowseExperts() {
             backgroundImage:
               "url(https://upload.wikimedia.org/wikipedia/commons/8/81/Maxresdefault_%281%29.jpg)",
           }}
-          class="text-center bg-no-repeat z-40 bg-gradient-to-br from-cyan-400 to-cyan-600   text-gray-100 top-1  bg-right w-full ring-2 ring-offset-2 ring-offset-cyan-500 border-2 border-blue-700 ring-blue-700 rounded-sm shadow-md mb-[74px] relative"
+          class="text-center bg-no-repeat z-40 bg-gradient-to-br from-cyan-400 to-cyan-600   text-gray-100 top-1  bg-right w-full  rounded-md shadow-md mb-[74px] relative"
         >
-          <div class="bg-gray-900 bg-opacity-40 py-10 pb-11">
-            <p class="md:text-5xl text-4xl   font-bold">
+          <div class="bg-gray-900 bg-opacity-40 py-8 pb-9">
+            <p class="md:text-4xl text-3xl   font-bold">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="md:h-14 sm:h-10 h-8 bottom-[3px] mr-0.5 -ml-1.5 relative md:w-14 sm:w-10 w-8 sm:inline hidden"
+                class="md:h-11 sm:h-10 h-8 bottom-[4px] left-0.5  -ml-1 relative md:w-14 sm:w-10 w-8 sm:inline hidden"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -174,7 +174,7 @@ export default function BrowseExperts() {
           </div>
         </h2>
 
-        <div class="flex pointer-events-auto z-[35] px-4 -space-x-4 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-5 pb-3 bottom-[71.5px] relative justify-center sm:w-10/12 w-full  rounded-b-lg  mx-auto">
+        <div class="flex pointer-events-auto z-[35] px-4 -space-x-4 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-3 pb-2 bottom-[71.5px] relative justify-center sm:w-10/12 w-full  rounded-b-lg  mx-auto">
           <div class="grid grid-cols-6 sm:text-base text-sm gap-2 items-center z-40 justify-center relative">
             <div class=" border-2 md:col-span-4 col-span-6 grid sm:grid-cols-6 sm:text-base text-sm grid-cols-12 pointer-events-auto rounded-sm border-gray-300">
               <input
@@ -224,7 +224,7 @@ export default function BrowseExperts() {
             </div>
           </div>
         ) : (
-          <div class="grid grid-cols-1 z-30 pointer-events-none md:mb-14 mb-20 md:mt-1 sm:mt-3 mt-1 relative top-[13px] md:px-1 sm:px-7 px-7 left-[4px]   sm:gap-y-12 gap-y-14 sm:grid-cols-2 gap-x-10 lg:grid-cols-3 xl:grid-cols-4 ">
+          <div class="grid grid-cols-1 z-30 pointer-events-none md:mb-8 mb-20 md:-mt-1 sm:mt-3 mt-1 relative top-[8px] md:px-1 sm:px-7 px-7 left-[4px]   sm:gap-y-12 gap-y-14 sm:grid-cols-2 gap-x-12 lg:grid-cols-3 xl:grid-cols-4 ">
             {[...experts].map((expert, i) => (
               <a
                 data-aos={"fade-up"}
@@ -246,7 +246,11 @@ export default function BrowseExperts() {
                     }
                     alt="expert"
                     class={`w-[270px] mx-auto shadow-xl
-                     ${expert.org === "UWR" ? "p-4 bg-white" : "p-0"}
+                     ${
+                       expert && expert.org && expert.org === "UWR"
+                         ? "p-4 bg-white"
+                         : "p-0"
+                     }
                         rounded-[.25rem]  h-[270px]   object-center object-cover group-hover:opacity-75`}
                   />
                 </div>

@@ -349,23 +349,19 @@ export default function ManageProject() {
 
             <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 xl:left-0 left-0.5  relative justify-center mx-auto sm:px-[60px] px-[18px] lg:mt-[63px] mt-[45px]  xl:gap-5 gap-9 ">
               <div
-                style={{
-                  backgroundImage:
-                    "url(https://coolbackgrounds.io/images/backgrounds/index/compute-ea4c57a4.png)",
-                }}
-                class={`xl:col-span-3 bg-contain bg-bottom lg:col-span-2 col-span-1 ${
+                class={`xl:col-span-3  bg-bottom lg:col-span-2 col-span-1 ${
                   project &&
                   (project.maxCap - project.team.length === 0 ||
                     user._id !== project.admin.id)
                     ? "hidden"
                     : "block"
-                } bg-gradient-to-br z-[75] md:h-[330px] h-[385px] mb-1.5 relative border-[1px] border-blue-700 rounded-md from-blue-50 to-indigo-200`}
+                }  z-[75] md:h-[330px] h-[385px] mb-5 relative  rounded-md `}
               >
                 <div class=" h-full w-full">
                   <div
-                    data-aos={"fade-right"}
+                    data-aos={"zoom-in-up"}
                     data-aos-once="true"
-                    class="bg-gradient-to-br  from-blue-50 to-indigo-200 border-r-2 border-[1px] border-l-2 border-blue-700 h-full lg:w-[60%] md:w-[85%]  w-[100%] sm:pt-[21px] pt-[28px] relative mx-auto block"
+                    class="border-t-[2px] border-b-[2px] border-blue-700 border-dashed   lg:w-[60%] md:w-[85%]  w-[100%] sm:pt-[27px] pt-[34px] pb-4 h-[335px] mb-10 -mt-2 relative mx-auto block"
                   >
                     <h3 class="font-bold text-center mx-auto relative mr-1 text-2xl">
                       <svg
