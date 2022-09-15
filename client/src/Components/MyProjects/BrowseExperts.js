@@ -246,7 +246,7 @@ export default function BrowseExperts() {
                     }
                     alt="expert"
                     class={`w-[270px] mx-auto shadow-xl
-                        rounded-[.25rem]  h-[270px]   object-center object-cover group-hover:opacity-75`}
+                        rounded-[.25rem]  h-[270px] bg-white   object-center object-cover group-hover:opacity-75`}
                   />
                 </div>
                 <h3 class="mt-4 text-md sm:text-left lg:right-0 relative md:-right-14 text-center text-gray-700">
