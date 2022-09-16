@@ -3,6 +3,8 @@ import mainimg from "./images/mainimg.png";
 import team from "./images/team.jpg";
 
 import atp from "./images/atplogo.png";
+import miscible from "./images/miscible-mono.png";
+
 import steps from "./images/steps.jpg";
 
 import Contact from "./Contact";
@@ -690,15 +692,15 @@ const Landing = () => {
       </div>
 
       <hr class="border-t-2 border-blue-700 border-dashed relative bottom-24 xl:mb-[57px] lg:mb-[22px] mb-[0px] block" />
-      <div class="h-auto sm:pb-[305px] pb-[305px] xl:pb-[35px] lg:pb-[63px] md:pb-[72px] sm:pt-[20px] lg:pt-[55px] md:pt-[42px] pt-[6px]  sm:px-[30px]  px-[30px]">
-        <h1 class="w-full my-2 xl:-top-36 lg:-top-28 lg:-mb-10 md:-top-[88px] md:-mb-6 sm:-top-[65px] -top-[53px] mb-1 relative sm:text-5xl text-[44px] font-bold leading-tight  text-center text-gray-800">
+      <div class="h-auto sm:pb-[560px] pb-[560px] xl:pb-[25px] lg:pb-[63px] md:pb-[360px] sm:pt-[20px] lg:pt-[40px] md:pt-[42px] pt-[6px]  sm:px-[30px]  px-[30px]">
+        <h1 class="w-full my-2 xl:-top-[140px] lg:-top-[115px] lg:-mb-10 md:-top-[90px] md:-mb-5  sm:-top-[65px] -top-[53px] mb-2 relative  sm:text-5xl text-[44px] font-bold leading-tight  text-center text-gray-800">
           Our Trusted Partners
         </h1>
 
         <div
           data-aos={"zoom-in"}
           data-aos-once="true"
-          className="grid md:grid-cols-2 grid-cols-1 md:mt-0 sm:-mt-1  md:w-[700px] sm:w-[350px] w-[330px] xl:bottom-8 relative mx-auto xs3:h-72 h-64 gap-12"
+          className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 md:mt-0 sm:-mt-1 lg:w-[900px]  md:w-[710px] sm:w-[350px] w-[300px] xl:bottom-8 relative mx-auto xs3:h-72 h-64 gap-12"
         >
           {/* ::Partner 1 -> ALL */}
           <div
@@ -726,6 +728,19 @@ const Landing = () => {
               }
               alt=""
               className="md:max-h-40 md:w-auto w-[200px] bottom-1 relative"
+            />
+          </div>
+
+          <div
+            onClick={() => {
+              window.open("https://miscible.co", "_blank");
+            }}
+            className="col-span-1 sm:col-span-1 lg:col-span-1 lg:py-12 md:py-[90px] md:pb-[100px] py-[80px] pb-[90px] px-5 flex hover:cursor-pointer hover:shadow-lg hover:shadow-indigo-300 justify-center items-center bg-white shadow-xl rounded-md border-t-2 border-gray-300"
+          >
+            <img
+              src={miscible}
+              alt=""
+              className="lg:max-h-40 lg:w-auto md:w-[300px] w-[200px] bottom-1 relative"
             />
           </div>
         </div>
