@@ -20,7 +20,7 @@ import { SiHiveBlockchain } from "react-icons/si";
 import { BsCheckAll } from "react-icons/bs";
 import { CgCodeClimate } from "react-icons/cg";
 import { FcBusinessman } from "react-icons/fc";
-import { FaHouseUser } from "react-icons/fa";
+import { FaHouseUser, FaBusinessTime } from "react-icons/fa";
 import { AiOutlineAntDesign } from "react-icons/ai";
 
 function classNames(...classes) {
@@ -111,7 +111,7 @@ export default function Dropdown(props) {
     {
       name: "Business Development",
       icon: (
-        <FcBusinessman class="inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
+        <FaBusinessTime class="inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
       ),
       id: 10,
     },
