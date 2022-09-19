@@ -637,7 +637,7 @@ const OurJourney = () => {
                   <br />
                   <br /> In contrast, there were just 2 primary factors I
                   observed that held me back: a lack of networking services and
-                  an unavailable industry mentorship."
+                  unavailable industry mentorship."
                   <br />
                   <br />
                   <span class="font-semibold underline">
