@@ -398,7 +398,7 @@ export default function BrowseExperts() {
                         rounded-[.25rem]  h-[270px]   object-center object-cover group-hover:opacity-75`}
                         />
                       </div>
-                      <h3 class="mt-5 text-lg sm:text-center lg:right-0 relative md:-right-14 text-center text-gray-700">
+                      <h3 class="mt-[27px] text-lg sm:text-center lg:right-0 relative md:-right-14 text-center text-gray-700">
                         {expert.role}
                       </h3>
                       <p class="mt-1 text-xl sm:text-center lg:right-0 relative md:-right-14 text-center font-medium text-gray-900">
