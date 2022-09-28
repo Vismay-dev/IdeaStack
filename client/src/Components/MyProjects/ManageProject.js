@@ -361,7 +361,7 @@ export default function ManageProject() {
                   <div
                     data-aos={"zoom-in-up"}
                     data-aos-once="true"
-                    class="border-t-[2px] border-b-[2px] border-blue-700 border-dashed   lg:w-[60%] md:w-[85%]  w-[100%] sm:pt-[27px] pt-[34px] pb-4 h-[335px] mb-10 -mt-2 relative mx-auto block"
+                    class="border-t-[2px] border-b-[2px] border-blue-700 border-dashed   lg:w-[60%] md:w-[85%]  w-[100%] sm:pt-[27px] pt-[34px] pb-5 h-[335px] mb-[46px] -mt-2 relative mx-auto block"
                   >
                     <h3 class="font-bold text-center mx-auto relative mr-1 text-2xl">
                       <svg
@@ -380,7 +380,7 @@ export default function ManageProject() {
                       </svg>
                       <span class="inline">Invite Other Users:</span>
                     </h3>
-                    <h3 class="font-semibold text-center mx-auto relative mt-1.5 top-1 text-xl">
+                    <h3 class="font-semibold text-center mx-auto relative mt-1.5 top-1 text-lg">
                       (Remaining Team Capacity:{" "}
                       {project && project.maxCap - project.team.length})
                     </h3>

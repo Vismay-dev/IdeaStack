@@ -9,6 +9,7 @@ import {
   MdOutlineCastForEducation,
   MdHealthAndSafety,
   MdProductionQuantityLimits,
+  MdDesignServices,
 } from "react-icons/md";
 import {
   GiVintageRobot,
@@ -46,19 +47,26 @@ export default function Dropdown(props) {
       id: 1,
     },
     {
-      name: "Environment",
+      name: "Branding & Design",
       icon: (
-        <CgCodeClimate class="inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]" />
+        <MdDesignServices class="inline mr-[4.6px]  left-[0px] ml-[0px] w-[17px] bottom-[0.85px] relative h-[17px]" />
       ),
       id: 10,
     },
-    {
-      name: "Energy",
-      icon: (
-        <GiPowerGenerator class="inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]" />
-      ),
-      id: 7,
-    },
+    // {
+    //   name: "Environment",
+    //   icon: (
+    //     <CgCodeClimate class="inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]" />
+    //   ),
+    //   id: 10,
+    // },
+    // {
+    //   name: "Energy",
+    //   icon: (
+    //     <GiPowerGenerator class="inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]" />
+    //   ),
+    //   id: 7,
+    // },
     {
       name: "Web Development",
       icon: (
@@ -73,20 +81,20 @@ export default function Dropdown(props) {
       ),
       id: 3,
     },
-    {
-      name: "EdTech (Educational Technology)",
-      icon: (
-        <MdOutlineCastForEducation class="inline mr-[4px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
-      ),
-      id: 5,
-    },
-    {
-      name: "Healthcare",
-      icon: (
-        <MdHealthAndSafety class="inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]" />
-      ),
-      id: 6,
-    },
+    // {
+    //   name: "EdTech (Educational Technology)",
+    //   icon: (
+    //     <MdOutlineCastForEducation class="inline mr-[4px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
+    //   ),
+    //   id: 5,
+    // },
+    // {
+    //   name: "Healthcare",
+    //   icon: (
+    //     <MdHealthAndSafety class="inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]" />
+    //   ),
+    //   id: 6,
+    // },
     {
       name: "AI",
       icon: (
@@ -94,20 +102,20 @@ export default function Dropdown(props) {
       ),
       id: 8,
     },
-    {
-      name: "Blockchain",
-      icon: (
-        <SiHiveBlockchain class="inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]" />
-      ),
-      id: 9,
-    },
-    {
-      name: "Logistics (Transport and Storage of Goods)",
-      icon: (
-        <GrDeliver class="inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
-      ),
-      id: 4,
-    },
+    // {
+    //   name: "Blockchain",
+    //   icon: (
+    //     <SiHiveBlockchain class="inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]" />
+    //   ),
+    //   id: 9,
+    // },
+    // {
+    //   name: "Logistics (Transport and Storage of Goods)",
+    //   icon: (
+    //     <GrDeliver class="inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
+    //   ),
+    //   id: 4,
+    // },
     {
       name: "Business Development",
       icon: (

@@ -8,6 +8,8 @@ import logo from "../Modals/logo.png";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
+import miscible from "../Landing/images/miscible-mono.png";
+
 export default function BrowseExperts() {
   const [showExpert, setShowExpert] = useState(false);
   const [expertId, setExpertId] = useState(null);
@@ -140,7 +142,7 @@ export default function BrowseExperts() {
       ) : (
         ""
       )}
-      <div class="w-full mx-auto pt-10 md:pb-0 pb-1   md:px-14 sm:px-8 px-4 lg:-mb-[190px] md:-mb-[180px] -mb-[220px] relative lg:max-w-7xl ">
+      <div class="w-full mx-auto pt-10 md:pb-0 pb-1   md:px-14 sm:px-8 px-4 lg:-mb-[205px] md:-mb-[195px] -mb-[225px] relative lg:max-w-7xl ">
         <h2
           style={{
             backgroundImage:
@@ -225,43 +227,189 @@ export default function BrowseExperts() {
           </div>
         ) : (
           <div class="grid grid-cols-1 z-30 pointer-events-none md:mb-8 mb-20 md:-mt-1 sm:mt-3 mt-1 relative top-[8px] md:px-1 sm:px-7 px-7 left-[4px]   sm:gap-y-12 gap-y-14 sm:grid-cols-2 gap-x-12 lg:grid-cols-3 xl:grid-cols-4 ">
-            {[...experts].map((expert, i) => (
-              <a
-                data-aos={"fade-up"}
-                data-aos-once="true"
-                delay={`${i % 3}00`}
-                key={expert.id}
-                onClick={() => {
-                  setShowExpert(true);
-                  setExpertId(expert.id);
-                }}
-                class={`group z-20 pointer-events-auto  rounded-md cursor-pointer`}
-              >
-                <div class="w-full z-20  shadow-md     overflow-hidden ">
-                  <img
-                    src={
-                      expert.pic
-                        ? expert.pic
-                        : "https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80"
-                    }
-                    alt="expert"
-                    class={`w-[270px] mx-auto shadow-xl
+            {[...experts]
+              .filter((expert) => expert.org == null)
+              .map((expert, i) => (
+                <a
+                  data-aos={"fade-up"}
+                  data-aos-once="true"
+                  delay={`${i % 3}00`}
+                  key={expert.id}
+                  onClick={() => {
+                    setShowExpert(true);
+                    setExpertId(expert.id);
+                  }}
+                  class={`group z-20 pointer-events-auto  rounded-md cursor-pointer`}
+                >
+                  <div class="w-full z-20  shadow-md     overflow-hidden ">
+                    <img
+                      src={
+                        expert.pic
+                          ? expert.pic
+                          : "https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80"
+                      }
+                      alt="expert"
+                      class={`w-[270px] mx-auto shadow-xl
                      ${
                        expert && expert.org && expert.org === "UWR"
                          ? "p-4 bg-white"
                          : "p-0"
                      }
                         rounded-[.25rem]  h-[270px]   object-center object-cover group-hover:opacity-75`}
+                    />
+                  </div>
+                  <h3 class="mt-4 text-md sm:text-left lg:right-0 relative md:-right-14 text-center text-gray-700">
+                    {expert.role}
+                  </h3>
+                  <p class="mt-1 text-lg sm:text-left lg:right-0 relative md:-right-14 text-center font-medium text-gray-900">
+                    {expert.name}
+                  </p>
+                </a>
+              ))}
+            {experts.filter((exp) => exp.org === "UWR").length > 0 ? (
+              <>
+                {experts.filter((exp) => exp.org !== "UWR").length === 0 ? (
+                  ""
+                ) : (
+                  <hr class=" col-span-1 border-b-[1px] border-black border-dotted sm:col-span-2  lg:col-span-3 xl:col-span-4 w-[70%] mx-auto block mt-4" />
+                )}
+                <h1
+                  class={`mx-auto text-center my-6 ${
+                    experts.filter((exp) => exp.org !== "UWR").length === 0
+                      ? "-mt-4"
+                      : "mt-4"
+                  } block col-span-1 sm:col-span-2  lg:col-span-3 xl:col-span-4  font-semibold text-3xl`}
+                >
+                  <img
+                    src={
+                      "https://res.cloudinary.com/dp5dyhk3y/image/upload/v1663252341/IdeaStack/ybjfwajnj20mihxibyig.jpg"
+                    }
+                    alt=""
+                    className="w-[140px] mx-auto mb-4 rounded-full bottom-1 relative"
                   />
-                </div>
-                <h3 class="mt-4 text-md sm:text-left lg:right-0 relative md:-right-14 text-center text-gray-700">
-                  {expert.role}
-                </h3>
-                <p class="mt-1 text-lg sm:text-left lg:right-0 relative md:-right-14 text-center font-medium text-gray-900">
-                  {expert.name}
-                </p>
-              </a>
-            ))}
+                  <p class="block mt-3 relative top-2">
+                    Build a Robotics Project with{" "}
+                    <span class="text-gray-700">Unique World Robotics</span>
+                  </p>
+                </h1>
+                {[...experts]
+                  .filter((expert) => expert.org === "UWR")
+                  .map((expert, i) => (
+                    <a
+                      data-aos={"fade-up"}
+                      data-aos-once="true"
+                      delay={`${i % 3}00`}
+                      key={expert.id}
+                      onClick={() => {
+                        setShowExpert(true);
+                        setExpertId(expert.id);
+                      }}
+                      class={`group z-20 pointer-events-auto  rounded-md cursor-pointer`}
+                    >
+                      <div class="w-full z-20  shadow-md     overflow-hidden ">
+                        <img
+                          src={
+                            expert.pic
+                              ? expert.pic
+                              : "https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80"
+                          }
+                          alt="expert"
+                          class={`w-[270px] mx-auto shadow-xl
+                     ${
+                       expert && expert.org && expert.org === "UWR"
+                         ? "p-4 bg-white"
+                         : "p-0"
+                     }
+                        rounded-[.25rem]  h-[270px]   object-center object-cover group-hover:opacity-75`}
+                        />
+                      </div>
+                      <h3 class="mt-4 text-md sm:text-left lg:right-0 relative md:-right-14 text-center text-gray-700">
+                        {expert.role}
+                      </h3>
+                      <p class="mt-1 text-lg sm:text-left lg:right-0 relative md:-right-14 text-center font-medium text-gray-900">
+                        {expert.name}
+                      </p>
+                    </a>
+                  ))}
+              </>
+            ) : (
+              ""
+            )}
+
+            {experts.filter((exp) => exp.org === "MIS").length > 0 ? (
+              <>
+                {experts.filter((exp) => exp.org !== "MIS").length === 0 ? (
+                  ""
+                ) : (
+                  <hr class=" col-span-1 border-b-[1px] border-black border-dotted sm:col-span-2  lg:col-span-3 xl:col-span-4 w-[70%] mx-auto block mt-3" />
+                )}
+                <h1
+                  class={`mx-auto text-center my-6 ${
+                    experts.filter((exp) => exp.org !== "MIS").length === 0
+                      ? "-mt-4"
+                      : "mt-4"
+                  } block col-span-1 sm:col-span-2  lg:col-span-3 xl:col-span-4  font-semibold text-3xl`}
+                >
+                  <img
+                    src={miscible}
+                    alt=""
+                    className="w-[175px] mx-auto mb-5 -mt-1 bg-white p-2 rounded-lg bottom-1 relative"
+                  />
+                  <p class="block mt-3 relative top-2">
+                    Subsidized Design Services from{" "}
+                    <span class="text-indigo-800">Miscible</span>
+                  </p>
+                  <p class="block mt-1.5 relative text-base top-2">
+                    Meet with Ms. Molly Patton{" "}
+                    <span class="text-indigo-800">
+                      {" "}
+                      & Qualify for Discounts on Professional Design!
+                    </span>
+                  </p>
+                </h1>
+                {[...experts]
+                  .filter((expert) => expert.org === "MIS")
+                  .map((expert, i) => (
+                    <a
+                      data-aos={"fade-up"}
+                      data-aos-once="true"
+                      delay={`${i % 3}00`}
+                      key={expert.id}
+                      onClick={() => {
+                        setShowExpert(true);
+                        setExpertId(expert.id);
+                      }}
+                      class={`group z-20 -mt-4 -mb-3  pointer-events-auto ${"col-span-1 sm:col-span-2   lg:col-start-2 lg:col-span-1  xl:col-span-2 xl:col-start-2"} rounded-md cursor-pointer`}
+                    >
+                      <div class="w-full z-20  shadow-xl   bg-white  overflow-hidden ">
+                        <img
+                          src={
+                            expert.pic
+                              ? expert.pic
+                              : "https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80"
+                          }
+                          alt="expert"
+                          class={`w-[270px] mx-auto 
+                     ${
+                       expert && expert.org && expert.org === "MIS"
+                         ? "p-4 bg-white"
+                         : "p-0"
+                     }
+                        rounded-[.25rem]  h-[270px]   object-center object-cover group-hover:opacity-75`}
+                        />
+                      </div>
+                      <h3 class="mt-5 text-lg sm:text-center lg:right-0 relative md:-right-14 text-center text-gray-700">
+                        {expert.role}
+                      </h3>
+                      <p class="mt-1 text-xl sm:text-center lg:right-0 relative md:-right-14 text-center font-medium text-gray-900">
+                        {expert.name}
+                      </p>
+                    </a>
+                  ))}
+              </>
+            ) : (
+              ""
+            )}
           </div>
         )}
       </div>

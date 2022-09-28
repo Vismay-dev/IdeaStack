@@ -23,10 +23,13 @@ cloudinary.config({
 });
 
 mongoose
-  .connect(process.env.MONGODB, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-  })
+  .connect(
+    "mongodb+srv://Vismay3003:Momdad123@cluster0.kuil0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    }
+  )
   .then(() => {
     console.log("- Connected to IdeaStack Database...");
   })

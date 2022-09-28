@@ -757,7 +757,7 @@ const AdminPage = () => {
               ) : modifyingMentor ? (
                 mentorSelected ? (
                   detailModifying === "details" ? (
-                    <div class="mt-10 mb-[200px] h-[800px] relative mx-auto block text-center justify-center">
+                    <div class="mt-10 mb-[200px] h-[1000px] relative mx-auto block text-center justify-center">
                       <button
                         onClick={() => setDetailModifying("")}
                         class="z-40 mt-20 mb-12 font-semibold uppercase bg-blue-700 text-white  p-3 shadow-md mx-auto w-[200px] relative block"
@@ -1222,7 +1222,7 @@ const AdminPage = () => {
                   </>
                 )
               ) : (
-                <div class="mt-10 mb-[200px] h-[800px] relative mx-auto block text-center justify-center">
+                <div class="mt-10 mb-[200px] h-[1000px] relative mx-auto block text-center justify-center">
                   <button
                     onClick={closeAddMentor}
                     class="z-40 mt-12 mb-12 font-semibold uppercase bg-blue-700 text-white  p-3 shadow-md mx-auto w-[200px] relative block"
