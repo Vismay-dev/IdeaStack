@@ -341,7 +341,7 @@ export default function BrowseExperts() {
                 {experts.filter((exp) => exp.org !== "MIS").length === 0 ? (
                   ""
                 ) : (
-                  <hr class=" col-span-1 border-b-[1px] border-black border-dotted sm:col-span-2  lg:col-span-3 xl:col-span-4 w-[70%] mx-auto block mt-3" />
+                  <hr class=" col-span-1 border-b-[1px] border-black border-dotted sm:col-span-2  lg:col-span-3 xl:col-span-4 w-[70%] mx-auto block mt-[7px]" />
                 )}
                 <h1
                   class={`mx-auto text-center my-6 ${
