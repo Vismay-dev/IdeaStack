@@ -143,39 +143,15 @@ const SideModal = (props) => {
 
             <div class="flex flex-col justify-between flex-1 mt-6">
               <nav>
+                {/* {for now both are same case - profile first} */}
                 {user.projects.length > 0 ? (
                   <>
-                    <a
-                      onClick={() => {
-                        history.push("/myprojects");
-                        props.close();
-                      }}
-                      class="flex items-center px-4 py-2 text-gray-700 cursor-pointer transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900"
-                    >
-                      <svg
-                        class="w-5 h-5"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M19 11H5M19 11C20.1046 11 21 11.8954 21 13V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V13C3 11.8954 3.89543 11 5 11M19 11V9C19 7.89543 18.1046 7 17 7M5 11V9C5 7.89543 5.89543 7 7 7M7 7V5C7 3.89543 7.89543 3 9 3H15C16.1046 3 17 3.89543 17 5V7M7 7H17"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-
-                      <span class="mx-4 font-semibold">My Projects</span>
-                    </a>
-
                     <a
                       onClick={() => {
                         props.close();
                         history.push("/profile");
                       }}
-                      class="flex items-center px-4 py-2 mt-5 text-gray-700 cursor-pointer transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900"
+                      class="flex items-center px-4 py-2 text-gray-700 cursor-pointer transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900"
                     >
                       <svg
                         class="w-5 h-5"
@@ -200,6 +176,30 @@ const SideModal = (props) => {
                       </svg>
 
                       <span class="mx-4 font-semibold">Profile</span>
+                    </a>
+                    <a
+                      onClick={() => {
+                        history.push("/myprojects");
+                        props.close();
+                      }}
+                      class="flex items-center px-4 py-2 mt-5 text-gray-700 cursor-pointer transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M19 11H5M19 11C20.1046 11 21 11.8954 21 13V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V13C3 11.8954 3.89543 11 5 11M19 11V9C19 7.89543 18.1046 7 17 7M5 11V9C5 7.89543 5.89543 7 7 7M7 7V5C7 3.89543 7.89543 3 9 3H15C16.1046 3 17 3.89543 17 5V7M7 7H17"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+
+                      <span class="mx-4 font-semibold">My Projects</span>
                     </a>
                   </>
                 ) : (
@@ -286,13 +286,38 @@ const SideModal = (props) => {
                   <span class="ml-4 font-semibold">Search Projects</span>
                 </a>
 
-                <hr class="relative mx-auto block w-10/12 mb-[67px] mt-[65px] border-t-[1.5px]  border-gray-700" />
+                <a
+                  onClick={() => {
+                    props.close();
+                    history.push("/browse");
+                  }}
+                  class="flex items-center px-4 py-2 mt-5 text-gray-700  transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900 cursor-pointer"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
+                    />
+                  </svg>
+
+                  <span class="ml-4 font-semibold">Industry Mentors</span>
+                </a>
+
+                <hr class="relative mx-auto block w-10/12 mb-[60px] mt-[58px] border-t-[1.5px]  border-gray-700" />
 
                 <a
                   onClick={() => {
                     showModalOut();
                   }}
-                  class="flex items-center px-4 cursor-pointer py-2 mt-5 text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900"
+                  class="flex items-center px-4 cursor-pointer py-2 mt-4 text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

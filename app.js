@@ -45,6 +45,13 @@ let linkUrl =
     ? "https://www.ideastack.org"
     : "http://localhost:3000";
 
+app.use(
+  cors({
+    origin: linkUrl,
+    credentials: true,
+  })
+);
+
 const io = socketIo(http, {
   cors: {
     origin: linkUrl,
@@ -54,13 +61,6 @@ const io = socketIo(http, {
   },
   allowEIO3: true,
 });
-
-app.use(
-  cors({
-    origin: linkUrl,
-    credentials: true,
-  })
-);
 
 io.on("connection", (socket) => {
   console.log("- New client connected");
