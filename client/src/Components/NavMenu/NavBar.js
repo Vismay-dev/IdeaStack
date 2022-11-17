@@ -349,7 +349,7 @@ const NavBar = (props) => {
                 </Popover>
               </Popover.Group>
 
-              <li
+              {/* <li
                 data-aos={"fade-left"}
                 data-aos-once="true"
                 data-aos-delay="200"
@@ -364,7 +364,7 @@ const NavBar = (props) => {
                 >
                   Team
                 </a>
-              </li>
+              </li> */}
               <li
                 data-aos={"fade-left"}
                 data-aos-once="true"
@@ -768,7 +768,7 @@ const NavBar = (props) => {
                             )}
                           </Popover>
                         </Popover.Group>
-                        <li class="text-center">
+                        {/* <li class="text-center">
                           <a
                             onClick={() => {
                               setIsMenuOpen(false);
@@ -780,7 +780,7 @@ const NavBar = (props) => {
                           >
                             Team
                           </a>
-                        </li>
+                        </li> */}
                         <li class="text-center">
                           <a
                             onClick={() => {

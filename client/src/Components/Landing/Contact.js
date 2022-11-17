@@ -257,7 +257,6 @@ const Contact = () => {
                                     bg-blue-700
                                     rounded
                                     z-[75]
-                                    border border-primary
                                     p-3
                                     transition
                                     hover:bg-opacity-90

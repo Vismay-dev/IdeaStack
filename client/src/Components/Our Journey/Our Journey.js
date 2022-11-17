@@ -658,15 +658,11 @@ const OurJourney = () => {
                           inline-flex
                           items-center
                           justify-center
-                          text-center text-white text-base
-                          to-blue-600
-                          from-blue-500
-                          bg-gradient-to-r
-                          font-semibold
-                          hover:bg-opacity-90
-                          rounded-lg
+                          text-center  text-base
+                          bg-white text-gray-800 font-bold rounded-lg
                           bottom-6 relative
-                          hover:shadow-md
+                          shadow-lg
+                          transform transition hover:scale-105 duration-300 ease-in-out
                           "
                 >
                   Get Started

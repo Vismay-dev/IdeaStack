@@ -33,16 +33,16 @@ const Landing = () => {
             <p class="uppercase font-medium  text-sm  text-center lg:right-0 md:right-20 sm:-right-12 sm:left-20 md:-left-[52px] lg:-left-0 xl:left-[1px] right-0 mx-auto  top-5 -mt-10   relative md:w-full w-80">
               IdeaStack - STEM Development Platform
             </p>
-            <h1 class="relative my-4 mb-7 md:-ml-[46px] text-center mx-auto lg:text-6xl md:text-7xl  xl:-ml-[87px] lg:-ml-[90px] sm:text-6xl text-5xl sm:left-20 left-1 px-3 font-bold leading-tight">
+            <h1 class="relative my-4 mb-7 md:-ml-[120px] text-center mx-auto lg:text-6xl md:text-7xl  xl:-ml-[105px] top-[15px] lg:-ml-[135px] sm:text-6xl text-5xl sm:left-20 left-1 px-3 font-bold leading-tight">
               Launch <span class=" text-blue-700">Your Idea!</span>
             </h1>
-            <p class="leading-normal font-medium mx-auto xl:text-xl xl:-right-3 lg:-right-2 lg:left-0 md:right-10  sm:-right-24 sm:left-20 md:-left-[40px] xs:right-3 right-0   xs:w-96 md:w-3/4  lg:w-full md:text-xl sm:text-xl xl:w-80 w-72 text-lg mb-12 sm:mt-5 mt-2 relative text-center">
+            <p class="leading-normal font-medium mx-auto xl:text-xl xl:-right-7 lg:-right-2 lg:left-0 md:right-10  sm:-right-[100px] sm:left-20 md:-left-[47px] xl:left-[13px] xs:right-3 right-0   xs:w-96 md:w-3/4  lg:w-full md:text-xl sm:text-xl xl:w-80 w-72 text-lg mb-12 sm:mt-5 mt-2 relative text-center">
               Networking and Mentorship Platform to Help Students Plan and
               Launch STEM Projects
             </p>
             <a
               href="#about"
-              class="sm:ml-40 mx-auto xl:left-[11px] lg:left-2 left-[3px] md:left-[108px] md:mb-0 sm:left-[139px]  relative xs:-mb-4 lg:bottom-8 md:bottom-6 bottom-6  bg-white text-gray-800 font-bold rounded-lg  my-4 sm:py-4 py-3 hover:cursor-pointer z-20 md:px-6 sm:px-8 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+              class=" mx-auto xl:left-[11px] lg:-left-[0px] left-[3px] md:left-[-45px] md:mb-0 sm:left-[84px]  relative xs:-mb-4 lg:bottom-8 md:bottom-6 bottom-6  bg-white text-gray-800 font-bold rounded-lg  my-4 sm:py-4 py-3 hover:cursor-pointer z-20 md:px-6 sm:px-8 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
             >
               Learn More
             </a>
@@ -407,6 +407,32 @@ const Landing = () => {
             data-aos-once="true"
             class="w-full lg:w-1/3 p-6 flex flex-col flex-grow flex-shrink"
           >
+            <div class="flex-1 bg-white rounded-md rounded-b-none overflow-hidden shadow-lg  pt-7 text-center border-2 border-b-1 ">
+              <a class="flex flex-wrap no-underline hover:no-underline">
+                <p class="w-full text-gray-600 text-xs md:text-sm px-6 mb-2">
+                  Making Projects Feasible
+                </p>
+                <div class="w-full font-bold text-2xl text-gray-800 px-6 mb-5">
+                  Learn from STEM Experts
+                </div>
+                <p class="text-gray-800 text-base px-6 mb-7 ">
+                  Our platform allows project teams to consult with experts and
+                  academicians working within STEM-related fields. Expertise
+                  makes projects realistic and ready to implement.{" "}
+                </p>
+              </a>
+            </div>
+            <div class="flex-none mt-auto bg-yellow-600 rounded-b text-white rounded-t-none  overflow-hidden shadow-lg shadow-gray-400 border-[1px] border-t-0 border-white p-6">
+              <div class="flex items-center justify-center text-gray-100">
+                <FaUserTie class="text-6xl text-darkgold" />
+              </div>
+            </div>
+          </div>
+          <div
+            data-aos={"fade-up"}
+            data-aos-once="true"
+            class="w-full lg:w-1/3 p-6 flex flex-col flex-grow flex-shrink"
+          >
             <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow-xl pt-7">
               <a class="flex flex-wrap no-underline hover:no-underline text-center">
                 <p class="w-full text-gray-600 text-xs md:text-sm px-6 mb-2">
@@ -424,32 +450,6 @@ const Landing = () => {
             <div class="flex-none mt-auto bg-gray-200 rounded-b rounded-t-none overflow-hidden shadow-xl p-6">
               <div class="flex items-center justify-center">
                 <GiArchiveResearch class="text-6xl" />
-              </div>
-            </div>
-          </div>
-          <div
-            data-aos={"fade-up"}
-            data-aos-once="true"
-            class="w-full lg:w-1/3 p-6 flex flex-col flex-grow flex-shrink"
-          >
-            <div class="flex-1 bg-white rounded-md rounded-b-none overflow-hidden shadow-lg shadow-yellow-600 pt-7 text-center border-2 border-b-1 border-gold">
-              <a class="flex flex-wrap no-underline hover:no-underline">
-                <p class="w-full text-gray-600 text-xs md:text-sm px-6 mb-2">
-                  Making Projects Feasible
-                </p>
-                <div class="w-full font-bold text-2xl text-gray-800 px-6 mb-5">
-                  Learn from STEM Experts
-                </div>
-                <p class="text-gray-800 text-base px-6 mb-7 ">
-                  Our platform allows project teams to consult with experts and
-                  academicians working within STEM-related fields. Expertise
-                  makes projects realistic and ready to implement.{" "}
-                </p>
-              </a>
-            </div>
-            <div class="flex-none mt-auto bg-blue-700 rounded-b text-white rounded-t-none  overflow-hidden shadow-lg shadow-yellow-600 border-2 border-t-0 border-gold p-6">
-              <div class="flex items-center justify-center text-white">
-                <FaUserTie class="text-6xl text-darkgold" />
               </div>
             </div>
           </div>
