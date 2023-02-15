@@ -735,9 +735,9 @@ export default function ManageProject() {
           <BrowseExperts />
         </Route>
 
-        <Route path="/myprojects/manageproject/mentorship">
+        {/* <Route path="/myprojects/manageproject/mentorship">
           <Mentorship />
-        </Route>
+        </Route> */}
 
         <Route path="/myprojects/manageproject">
           <Redirect to="/myprojects/manageproject/overview" />

@@ -6,7 +6,6 @@ import CardSocialTraffic from "./Cards/CardPending.js";
 import UpcomingMentor from "./UpcomingMentor.js";
 import AllMentorshipSessions from "./AllMentorshipSessions.js";
 import FindMentor from "./FindMentor.js";
-import BrowseExperts from "./BrowseExperts.js";
 import MakePayment from "./MakePayment.js";
 import MentorshipSchedule from "./MentorshipSchedule.js";
 

@@ -61,6 +61,14 @@ const studentUserSchema = new mongoose.Schema({
     type: Array,
     required: false,
   },
+  workshopsOngoing: {
+    type: Array,
+    required: false,
+  },
+  workshopsCompleted: {
+    type: Array,
+    required: false,
+  },
 });
 
 const StudentUser = mongoose.model("StudentUser", studentUserSchema);

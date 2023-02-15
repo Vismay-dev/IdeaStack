@@ -10,6 +10,7 @@ import Team from "./Team/Team";
 import OurJourney from "./Our Journey/Our Journey";
 import { io } from "socket.io-client";
 import { useEffect } from "react";
+import Mentors from "../Components/Mentors/MentorsMain";
 
 const MainContent = () => {
   const location = useLocation();
@@ -78,6 +79,17 @@ const MainContent = () => {
             render={() =>
               localStorage.getItem("viewToken") ? (
                 <ViewProfile />
+              ) : (
+                <Redirect to="/" />
+              )
+            }
+          />
+
+          <Route
+            path="/mentors"
+            render={() =>
+              localStorage.getItem("viewToken") ? (
+                <Mentors />
               ) : (
                 <Redirect to="/" />
               )

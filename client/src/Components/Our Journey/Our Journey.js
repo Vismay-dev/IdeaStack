@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import founder from "../NavMenu/logo2.jpg";
-import founder1 from "./founder.jpg";
+import founder1 from "./founder 2.jpg";
 
 const OurJourney = () => {
   useEffect(() => {

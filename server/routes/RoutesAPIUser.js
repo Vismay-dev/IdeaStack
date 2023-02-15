@@ -2,6 +2,7 @@ const router = require("express").Router();
 const nodemailer = require("nodemailer");
 const studentUser = require("../models/studentUser");
 const project = require("../models/project");
+const workshop = require("../models/workshop");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const auth = require("../auth/auth");
@@ -178,6 +179,11 @@ router.post("/login", async (req, res) => {
 
         console.log("- Logged In");
 
+        if (!user.mentorshipPackages || user.mentorshipPackages.length == 0) {
+          user.mentorshipPackages = [];
+          await user.save();
+        }
+
         if (!req.body.rememberme) {
           let cookieNow = req.session.cookie;
           cookieNow.path = "www.ideastack.org/home";
@@ -201,6 +207,11 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
+});
+
+router.post("/getMentorshipPackages", auth, async (req, res) => {
+  const user = await studentUser.findOne({ _id: req.user._id });
+  res.send(user.mentorshipPackages);
 });
 
 router.post("/sendResetCode", async (req, res) => {
@@ -445,6 +456,22 @@ router.post("/getUserProjectsView", async (req, res) => {
 router.post("/getAllProjects", auth, async (req, res) => {
   const projects = await project.find();
   res.send(projects);
+});
+
+router.post("/getWorkshops", auth, async (req, res) => {
+  const workshops = await workshop.find();
+  res.send(workshops);
+});
+
+router.post("/getWorkshopsOngoing", auth, async (req, res) => {
+  const user = await studentUser.findById(req.user._id);
+  workshops = [];
+  for (let i = 0; i < user.workshopsOngoing.length; i++) {
+    const ws = await workshop.findById(JSON.parse(user.workshopsOngoing[i]));
+    workshops.push(ws);
+  }
+  console.log(workshops);
+  res.send(workshops);
 });
 
 router.post("/getAllUsers", auth, async (req, res) => {
@@ -764,6 +791,18 @@ router.post("/modifyMentorAdmin", async (req, res) => {
   }
 
   res.send("Succesfully Modified Mentor");
+});
+
+router.post("/addWorkshopBooking", auth, async (req, res) => {
+  const user = await studentUser.findOne({ _id: req.user._id });
+  if (user.workshopsOngoing) {
+    user.workshopsOngoing.push(req.body.workshopId);
+  } else {
+    user.workshopsOngoing = [req.body.workshopId];
+  }
+  await user.markModified("workshopsOngoing");
+  await user.save();
+  res.send(user);
 });
 
 router.post("/addMentorAdmin", async (req, res) => {

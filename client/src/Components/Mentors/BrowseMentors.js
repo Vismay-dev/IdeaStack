@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import ExpertDetails from "../Modals/WorkshopDetails";
+import ExpertDetails from "../Modals/ExpertDetails";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
@@ -10,7 +10,7 @@ import "aos/dist/aos.css";
 
 import miscible from "../Landing/images/miscible-mono.png";
 
-export default function BrowseExperts() {
+export default function BrowseMentors() {
   const [showExpert, setShowExpert] = useState(false);
   const [expertId, setExpertId] = useState(null);
   const [experts, setExperts] = useState([]);
@@ -148,7 +148,7 @@ export default function BrowseExperts() {
             backgroundImage:
               "url(https://upload.wikimedia.org/wikipedia/commons/8/81/Maxresdefault_%281%29.jpg)",
           }}
-          class="text-center bg-no-repeat z-40 bg-gradient-to-br from-cyan-400 to-cyan-600   text-gray-100 top-1  bg-right w-full  rounded-md shadow-md mb-[74px] relative"
+          class="text-center bg-no-repeat z-40 bg-gradient-to-br from-cyan-400 to-cyan-600   text-gray-100 top-1  bg-right w-full  rounded-md shadow-md mb-[81px] relative"
         >
           <div class="bg-gray-900 bg-opacity-40 py-8 pb-9">
             <p class="md:text-4xl text-3xl   font-bold">
@@ -171,12 +171,12 @@ export default function BrowseExperts() {
               Seek Mentorship
             </p>
             <p class="md:text-2xl text-xl  mt-0.5 left-1.5 relative font-semibold">
-              Find the Right Expert
+              Book a Course, Access a Mentor
             </p>
           </div>
         </h2>
 
-        <div class="flex pointer-events-auto z-[35] px-4 -space-x-4 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-3 pb-2 bottom-[71.5px] relative justify-center sm:w-10/12 w-full  rounded-b-lg  mx-auto">
+        <div class="flex pointer-events-auto z-[35] px-4 -space-x-4 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pb-2 bottom-[71.5px] relative justify-center sm:w-10/12 w-full  rounded-b-lg  mx-auto">
           <div class="grid grid-cols-6 sm:text-base text-sm gap-2 items-center z-40 justify-center relative">
             <div class=" border-2 md:col-span-4 col-span-6 grid sm:grid-cols-6 sm:text-base text-sm grid-cols-12 pointer-events-auto rounded-sm border-gray-300">
               <input
@@ -209,7 +209,7 @@ export default function BrowseExperts() {
             <ClipLoader color={"#0055b3"} loading={loading} size={100} />
           </div>
         ) : experts && experts.length === 0 ? (
-          <div className="bg-gray-50 ring-2 ring-indigo-500 w-full pl-9 mb-7 mt-4 rounded-sm relative shadow-lg">
+          <div className="bg-gray-50 ring-2 ring-indigo-500 w-full pl-9 mb-7 mt-2 rounded-sm relative shadow-lg">
             <div className="w-full mx-auto md:py-10 md:pt-16 py-9 pt-16 px-4 sm:px-6 lg:py-12 lg:px-8 lg:flex lg:items-center lg:justify-between">
               <h2 className="text-3xl lg:mt-0 -ml-[32px] mt-7 font-extrabold lg:text-left text-center tracking-tight text-gray-900 sm:text-4xl">
                 <span className="block lg:px-12">Oops..</span>
@@ -226,7 +226,7 @@ export default function BrowseExperts() {
             </div>
           </div>
         ) : (
-          <div class="grid grid-cols-1 z-30 pointer-events-none md:mb-8 mb-20 md:-mt-1 sm:mt-3 mt-1 relative top-[8px] md:px-1 sm:px-7 px-7 left-[4px]   sm:gap-y-12 gap-y-14 sm:grid-cols-2 gap-x-12 lg:grid-cols-3 xl:grid-cols-4 ">
+          <div class="grid grid-cols-1 z-30 pointer-events-none md:mb-8 mb-20 md:-mt-3 sm:mt-1 -mt-1 relative top-[8px] md:px-1 sm:px-7 px-7 left-[4px]   sm:gap-y-12 gap-y-14 sm:grid-cols-2 gap-x-12 lg:grid-cols-3 xl:grid-cols-4 ">
             {[...experts]
               .filter((expert) => expert.org == null)
               .map((expert, i) => (
