@@ -80,7 +80,7 @@ const Dashboard = () => {
       <div
         className={`flex ${
           workshops && workshops.length > 0 ? "mt-[80px] relative" : "mt-[80px]"
-        } flex-wrap xl:px-16 lg:px-14 md:px-9 sm:px-6 px-3  md:right-0.5 relative  xl:-mb-[277px] md:-mb-[250px] -mb-[240px]`}
+        } flex-wrap xl:px-16 lg:px-14 md:px-9 sm:px-6 px-3  -mr-[20px] relative  xl:-mb-[277px] md:-mb-[250px] -mb-[240px]`}
       >
         {loading ? (
           <div className="w-full   mb-14 xl:mb-0 px-3">

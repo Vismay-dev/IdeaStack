@@ -143,19 +143,19 @@ export default function BrowseMentors() {
       ) : (
         ""
       )}
-      <div class="w-full mx-auto pt-10 md:pb-0 pb-1   md:px-14 sm:px-8 px-4 lg:-mb-[205px] md:-mb-[195px] -mb-[225px] relative lg:max-w-7xl ">
+      <div class="w-full mx-auto pt-10 md:pb-0 pb-1 lg:-mb-[205px] md:-mb-[195px] -mb-[225px] relative  ">
         <h2
           style={{
             backgroundImage:
               "url(https://upload.wikimedia.org/wikipedia/commons/8/81/Maxresdefault_%281%29.jpg)",
           }}
-          class="text-center bg-no-repeat z-40 bg-gradient-to-br from-cyan-400 to-cyan-600   text-gray-100 top-1  bg-right w-full  rounded-md shadow-md mb-[81px] relative"
+          class="text-center bg-cover z-40 bg-gradient-to-br from-cyan-400 to-cyan-600   text-gray-100 top-1   rounded-md shadow-md mb-[81px] relative"
         >
           <div class="bg-gray-900 bg-opacity-40 py-8 pb-9">
-            <p class="md:text-4xl text-3xl   font-bold">
+            <p class="md:text-4xl text-3xl md:normal-case uppercase   font-bold">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="md:h-11 sm:h-10 h-8 bottom-[4px] left-0.5  -ml-1 relative md:w-14 sm:w-10 w-8 sm:inline hidden"
+                class="md:h-11 sm:h-10 h-8 bottom-[4px] md:left-0.5  -ml-1 relative md:w-14 sm:w-10 w-8 sm:inline hidden"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -169,22 +169,22 @@ export default function BrowseMentors() {
                   d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"
                 />
               </svg>{" "}
-              Seek Mentorship
+              Browse Courses
             </p>
-            <p class="md:text-2xl text-xl  mt-0.5 left-1.5 relative font-semibold">
-              Find the Right Expert
+            <p class="sm:text-xl tetx-lg uppercase  mt-1 left-1.5 relative font-semibold">
+              Learn from Industry Veterans
             </p>
           </div>
         </h2>
 
-        <div class="flex pointer-events-auto z-[35] px-4 -space-x-4 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pb-2 bottom-[71.5px] relative justify-center sm:w-10/12 w-full  rounded-b-lg  mx-auto">
-          <div class="grid grid-cols-6 sm:text-base text-sm gap-2 items-center z-40 justify-center relative">
+        <div class="flex pointer-events-auto  z-[35] px-4 -space-x-4 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pb-2 bottom-[71.5px] relative justify-center  w-full  rounded-b-lg  mx-auto">
+          <div class="grid grid-cols-6 sm:text-base  md:px-12 sm:px-8 px-4 text-sm gap-2 items-center z-40 justify-center relative">
             <div class=" border-2 md:col-span-4 col-span-6 grid sm:grid-cols-6 sm:text-base text-sm grid-cols-12 pointer-events-auto rounded-sm border-gray-300">
               <input
                 type="text"
                 onChange={textChangeHandler}
                 class="px-4 py-2 sm:text-base text-sm sm:col-span-5 col-span-9 shadow-sm border-0"
-                placeholder="Search Expert"
+                placeholder="Search Course"
               />
               <button
                 onClick={() => filterByText()}
@@ -227,7 +227,7 @@ export default function BrowseMentors() {
             </div>
           </div>
         ) : (
-          <div class="grid grid-cols-1 z-30 pointer-events-none md:mb-8 mb-20 md:-mt-4 sm:mt-1 -mt-1 relative top-[8px] md:px-1 sm:px-7 px-7 left-[4px]   sm:gap-y-12 gap-y-14 sm:grid-cols-2 gap-x-12 lg:grid-cols-2 ">
+          <div class="grid grid-cols-1 lg:max-w-[1250px] lg:px-12 md:max-w-[740px] max-w-[500px] mx-auto z-30 pointer-events-none md:mb-8 mb-12 md:-mt-2 sm:mt-1 -mt-3 relative top-[8px] md:px-1 sm:px-7 px-7    sm:gap-y-12 gap-y-14 md:grid-cols-2 xl:gap-x-12 gap-x-7 lg:grid-cols-2 ">
             {[...workshops].map((workshop, i) => (
               <a
                 data-aos={"fade-up"}
@@ -243,13 +243,13 @@ export default function BrowseMentors() {
                 <div class="w-full z-20 py-5 bg-gray-800  ">
                   {workshop.orgPic ? (
                     <>
-                      <span class="text-xs text-gray-50 absolute right-4 top-2.5 font-semibold">
+                      <span class="text-xs text-gray-50 absolute sm:right-4 right-[10px] top-2.5 font-semibold">
                         POWERED BY
                       </span>
                       <img
                         src={workshop.orgPic}
                         alt="expert"
-                        class={`w-[90px] mx-auto shadow-sm
+                        class={`sm:w-[90px] w-[80px] mx-auto shadow-sm
                       rounded-[.25rem] ${
                         workshop.org == "Miscible" ? "bg-gray-800" : "bg-white"
                       }  h-auto absolute right-3 top-8   object-center object-cover`}
@@ -266,19 +266,21 @@ export default function BrowseMentors() {
                         : "https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80"
                     }
                     alt="expert"
-                    class={`w-[250px] ${
-                      workshop.orgPic ? " relative" : ""
+                    class={` ${
+                      workshop.orgPic
+                        ? "xl:right-0 lg:right-6 right-10 relative"
+                        : ""
                     } mx-auto shadow-sm
-                        rounded-[.25rem] border-blue-100 border  h-[250px]   object-center object-cover group-hover:opacity-75`}
+                        rounded-[.25rem] border-blue-100 border  lg:h-[250px] lg:w-[250px] w-[180px] h-[180px]  object-center object-cover group-hover:opacity-75`}
                   />
                 </div>
-                <h3 class="mt-4 text-lg px-6 sm:text-left lg:right-0 relative font-semibold md:-right-14 text-center text-gray-900">
+                <h3 class="mt-4 text-lg px-6 sm:text-left lg:right-0 relative font-semibold  text-center text-gray-900">
                   {workshop.title}
                 </h3>
-                <p class="mt-2 pb-4 top-[7px] px-6 text-md sm:text-left lg:right-0 relative md:-right-14 text-center font-medium text-gray-700">
+                <p class="mt-2 pb-4 top-[7px] px-6 text-md sm:text-left lg:right-0 relative  text-center font-medium text-gray-700">
                   Duration: {workshop.duration} Weeks
                 </p>
-                <p class="mt-2 pb-[14px] text-md px-6 sm:text-left lg:right-0 relative md:-right-14 text-center font-medium text-gray-700">
+                <p class="mt-2 pb-[14px] text-md px-6 sm:text-left lg:right-0 relative  text-center font-medium text-gray-700">
                   Mentors:{" "}
                   {workshop.mentors.map((name, i) => {
                     return (
@@ -301,7 +303,10 @@ export default function BrowseMentors() {
                           src={workshop.pics[i]}
                           class="w-8 h-8 ml-2 mb-1 inline rounded-full"
                         ></img>{" "}
-                        <span class="ml-1">{name}</span>{" "}
+                        <span class="ml-1 lg:inline hidden">{name}</span>{" "}
+                        <span class="ml-1 lg:hidden inline">
+                          {name.split(" ")[0]}
+                        </span>{" "}
                       </span>
                     );
                   })}

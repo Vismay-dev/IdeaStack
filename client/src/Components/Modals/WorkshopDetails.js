@@ -224,7 +224,7 @@ const WorkshopDetails = (props) => {
                 <>
                   {/* Image gallery */}
 
-                  <div className="col-start-2  lg:w-[400px] sm:w-[330px] sm:h-[330px] w-[270px] h-[270px] lg:h-[400px] mt-14 sm:-mb-[72px] mb-0 object-center relative mx-auto block justify-center sm:rounded-lg sm:overflow-hidden">
+                  <div className="col-start-2  lg:w-[400px] sm:w-[330px] sm:h-[330px] w-[270px] h-[270px] lg:h-[400px] lg:mt-14 mt-[66px] -mb-[72px] object-center relative mx-auto block justify-center sm:rounded-lg sm:overflow-hidden">
                     <img
                       src={workshop && workshop.coverImage}
                       alt={workshop && workshop.coverImage}
@@ -233,7 +233,7 @@ const WorkshopDetails = (props) => {
                   </div>
 
                   {/* Product info */}
-                  <div className="max-w-2xl mx-auto -pt-2 pb-14 px-4 sm:px-6 lg:max-w-7xl lg:pt-16 lg:pb-24 lg:px-8 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
+                  <div className="max-w-2xl mx-auto pt-24 pb-14 px-4 sm:px-6 lg:max-w-7xl lg:pt-16 lg:pb-24 lg:px-8 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
                     <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
                       {workshop.orgPic ? (
                         <div>
@@ -252,11 +252,11 @@ const WorkshopDetails = (props) => {
                       ) : (
                         ""
                       )}
-                      <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 md:text-4xl lg:text-3xl">
+                      <h1 className="text-3xl lg:mt-0 mt-1 font-extrabold tracking-tight text-gray-900 md:text-4xl lg:text-3xl">
                         {workshop && workshop.title}
                       </h1>
                       <h2
-                        className={`text-lg mt-5 relative ${
+                        className={`text-lg mt-5 lg:block hidden relative ${
                           workshop.mentors.length > 2 ? "top-1.5" : ""
                         } right-2 -mb-3 font-extrabold tracking-tight text-gray-600`}
                       >
@@ -288,8 +288,8 @@ const WorkshopDetails = (props) => {
                     </div>
 
                     {/* Options */}
-                    <div className="mt-7 lg:pl-4 lg:-left-2 relative lg:mt-0 lg:-top-2 lg:row-span-3">
-                      <h1 class="font-bold text-2xl mb-4">Mentors:</h1>
+                    <div className="mt-9 lg:pl-4 lg:-left-2 relative lg:mt-0 lg:-top-2 lg:row-span-3">
+                      <h1 class="font-bold text-2xl lg:mb-4 mb-2">Mentors:</h1>
                       <div
                         class={`grid grid-cols-2 top-1 relative  ${
                           workshop.mentors.length > 2 ? "mb-1" : "mb-5 pt-5"
@@ -302,8 +302,11 @@ const WorkshopDetails = (props) => {
                                 src={workshop.pics[i]}
                                 class="w-16 h-16 mx-auto rounded-full"
                               ></img>
-                              <p class="mt-2 text-center font-semibold">
+                              <p class="mt-2 xl:block hidden text-center font-semibold">
                                 {mentor}
+                              </p>
+                              <p class="mt-2 xl:hidden block text-center font-semibold">
+                                {mentor.split(" ")[0]}
                               </p>
                               <p class="mt-1 text-xs text-gray-700 text-center">
                                 {workshop.roles[i]}
@@ -313,74 +316,12 @@ const WorkshopDetails = (props) => {
                         })}
                       </div>
 
-                      <p
-                        className={`md:text-3xl text-2xl ${
-                          workshop.mentors.length > 2 ? "mt-1" : ""
-                        } text-gray-900`}
-                      >
-                        <span class="font-bold">
-                          {workshop && workshop.pricing[0]
-                            ? `AED ${workshop && workshop.pricing[0]}`
-                            : workshop && !workshop.pricing[0]
-                            ? "Free of Cost"
-                            : ""}
-                        </span>{" "}
-                        {workshop && workshop.pricing[0]
-                          ? `per session`
-                          : workshop && !workshop.pricing[0]
-                          ? ""
-                          : ""}
-                      </p>
-                      {workshop &&
-                      workshop.pricing[1] !== 0 &&
-                      workshop.pricing[0] !== 0 &&
-                      isFirstFree ? (
-                        <p className="md:text-xl text-md text-gray-600">
-                          First{" "}
-                          {workshop.pricing[1] !== 1 ? workshop.pricing[1] : ""}{" "}
-                          session{workshop.pricing[1] > 1 ? "s" : ""}{" "}
-                          <span class="font-semibold">free of cost</span>
-                        </p>
-                      ) : (
-                        ""
-                      )}
-
-                      {/* Reviews
-                      <div className="mt-6">
-                        <h3 className="sr-only">Reviews</h3>
-                        <div className="flex items-center">
-                          <div className="flex items-center">
-                            {[0, 1, 2, 3, 4].map((rating) => (
-                              <StarIcon
-                                key={rating}
-                                className={classNames(
-                                  reviews.average > rating
-                                    ? "text-gray-900"
-                                    : "text-gray-200",
-                                  "h-5 w-5 flex-shrink-0"
-                                )}
-                                aria-hidden="true"
-                              />
-                            ))}
-                          </div>
-                          <p className="sr-only">
-                            {reviews.average} out of 5 stars
-                          </p>
-                          <a
-                            href={reviews.href}
-                            className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                          >
-                            {reviews.totalCount} reviews
-                          </a>
-                        </div>
-                      </div> */}
-
                       <form
                         className={`${
                           workshop.mentors.length > 2
-                            ? "mt-4 mb-0"
-                            : "mt-6 -mb-2"
-                        } `}
+                            ? "mt-0 mb-2"
+                            : "-mt-3 mb-4"
+                        } lg:hidden block`}
                       >
                         {/* Colors */}
                         <div
@@ -527,9 +468,9 @@ const WorkshopDetails = (props) => {
                                 workshop.mentors.length > 2
                                   ? "sm:mt-11 mt-6"
                                   : "sm:mt-14 mt-6 "
-                              } mb-3 w-full 
-                                 bg-green-600 hover:bg-green-700 hover:cursor-pointer
-                             border border-transparent rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                              } mb-6 w-full 
+                                 from-green-700 to-green-600  bg-gradient-to-br hover:from-green-800 hover:to-green-700 hover:cursor-pointer
+                               shadow-md hover:shadow-xl rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -545,7 +486,7 @@ const WorkshopDetails = (props) => {
                                   d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                 />
                               </svg>
-                              Course Booked!
+                              View - Course Booked
                             </button>
                           ) : (
                             <button
@@ -556,9 +497,9 @@ const WorkshopDetails = (props) => {
                                 workshop.mentors.length > 2
                                   ? "sm:mt-11 mt-6"
                                   : "sm:mt-14 mt-6 "
-                              } mb-3 w-full 
-                                 bg-indigo-600 hover:bg-indigo-700 hover:cursor-pointer shadow-sm hover:shadow-md
-                             border border-transparent rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                              } mb-6 w-full 
+                                 bg-indigo-600 shadow-md hover:shadow-xl hover:bg-indigo-700 hover:cursor-pointer 
+                             border border-transparen rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -584,7 +525,301 @@ const WorkshopDetails = (props) => {
                                 bg-blue-600 hover:bg-blue-700 hover:cursor-pointer
                            ${
                              showMail || showPhone ? "mb-6" : "mb-4"
-                           } border border-transparent rounded-md shadow-sm hover:shadow-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                           } border border-transparent rounded-md shadow-md hover:shadow-xl py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="w-5 h-5 mr-2"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
+                              />
+                            </svg>
+                            Invite Teammates
+                          </button>
+                        </div>
+                      </form>
+
+                      <p
+                        className={`md:text-3xl text-2xl ${
+                          workshop.mentors.length > 2
+                            ? "lg:mt-1 mt-2"
+                            : "lg:mt-0 mt-3 block"
+                        } text-gray-900`}
+                      >
+                        <span class="font-bold">
+                          {workshop && workshop.pricing[0]
+                            ? `AED ${workshop && workshop.pricing[0]}`
+                            : workshop && !workshop.pricing[0]
+                            ? "Free of Cost"
+                            : ""}
+                        </span>{" "}
+                        {workshop && workshop.pricing[0]
+                          ? `per session`
+                          : workshop && !workshop.pricing[0]
+                          ? ""
+                          : ""}
+                      </p>
+                      {workshop &&
+                      workshop.pricing[1] !== 0 &&
+                      workshop.pricing[0] !== 0 &&
+                      isFirstFree ? (
+                        <p className="md:text-xl text-md text-gray-600">
+                          First{" "}
+                          {workshop.pricing[1] !== 1 ? workshop.pricing[1] : ""}{" "}
+                          session{workshop.pricing[1] > 1 ? "s" : ""}{" "}
+                          <span class="font-semibold">free of cost</span>
+                        </p>
+                      ) : (
+                        ""
+                      )}
+
+                      {/* Reviews
+                      <div className="mt-6">
+                        <h3 className="sr-only">Reviews</h3>
+                        <div className="flex items-center">
+                          <div className="flex items-center">
+                            {[0, 1, 2, 3, 4].map((rating) => (
+                              <StarIcon
+                                key={rating}
+                                className={classNames(
+                                  reviews.average > rating
+                                    ? "text-gray-900"
+                                    : "text-gray-200",
+                                  "h-5 w-5 flex-shrink-0"
+                                )}
+                                aria-hidden="true"
+                              />
+                            ))}
+                          </div>
+                          <p className="sr-only">
+                            {reviews.average} out of 5 stars
+                          </p>
+                          <a
+                            href={reviews.href}
+                            className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                          >
+                            {reviews.totalCount} reviews
+                          </a>
+                        </div>
+                      </div> */}
+
+                      <form
+                        className={`${
+                          workshop.mentors.length > 2
+                            ? "mt-4 mb-0"
+                            : "mt-6 -mb-2"
+                        } lg:block hidden`}
+                      >
+                        {/* Colors */}
+                        <div
+                          class={`${
+                            workshop.mentors.length > 2 ? "" : "mb-9 block "
+                          }`}
+                        >
+                          <h3
+                            className={`text-sm ${
+                              workshop.mentors.length > 2 ? "" : "pt-3 block "
+                            } text-gray-900 font-medium`}
+                          >
+                            Contact
+                          </h3>
+
+                          <RadioGroup className="mt-4">
+                            <RadioGroup.Label className="sr-only">
+                              Choose a color
+                            </RadioGroup.Label>
+                            <div className="flex items-center -mb-2 space-x-3">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                onClick={() => {
+                                  if (showPhone && !showMail) {
+                                    setShowPhone(false);
+                                  }
+                                  setShowMail(!showMail);
+                                }}
+                                class="h-7 w-7 text-indigo-500 hover:text-indigo-700 hover:h-9 hover:w-9 cursor-pointer"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                                />
+                              </svg>
+
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                onClick={() => {
+                                  if (showMail && !showPhone) {
+                                    setShowMail(false);
+                                  }
+                                  setShowPhone(!showPhone);
+                                }}
+                                class="h-7 w-7 text-indigo-500 hover:text-indigo-700 hover:h-9 hover:w-9 cursor-pointer"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                                />
+                              </svg>
+                            </div>
+                          </RadioGroup>
+                        </div>
+
+                        <div class="mt-6 text-gray-700 lg:-mb-4 mb-2 lg:text-base text-sm font-semibold lg:text-center">
+                          {showMail && workshop
+                            ? workshop.mentors.map((mentor, i) => {
+                                return (
+                                  <p class="text-xs">
+                                    <span class="inline underline font-semibold">
+                                      {mentor}:
+                                    </span>
+                                    <span class="ml-2 inline">
+                                      {workshop.contact[i][0]
+                                        ? workshop.contact[i][0]
+                                        : "Unavailable"}
+                                    </span>
+                                  </p>
+                                );
+                              })
+                            : ""}
+
+                          {showPhone && workshop
+                            ? workshop.mentors.map((mentor, i) => {
+                                return (
+                                  <p class="text-xs">
+                                    <span class="inline underline font-semibold">
+                                      {mentor}:
+                                    </span>
+                                    <span class="ml-2 inline">
+                                      {workshop.contact[i][1]
+                                        ? workshop.contact[i][1]
+                                        : "Unavailable"}
+                                    </span>
+                                  </p>
+                                );
+                              })
+                            : ""}
+                        </div>
+
+                        {/* Sizes */}
+                        <div
+                          class={`lg:block hidden ${
+                            workshop.mentors.length > 2
+                              ? ""
+                              : " relative top-2 block "
+                          }`}
+                        >
+                          {!loading &&
+                          isFirstFree &&
+                          workshop &&
+                          workshop.availableDates.length !== 0 ? (
+                            <p class="text-center top-4 mt-2 text-sm relative font-semibold">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-[15px] w-[15px] inline relative bottom-[0.75px] "
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
+                              </svg>{" "}
+                              Try this mentor for free - exclusive 1st session.
+                            </p>
+                          ) : (
+                            ""
+                          )}
+                          {booked ||
+                          (bookedWorkshops &&
+                            bookedWorkshops.includes(
+                              JSON.stringify(workshop._id)
+                            )) ? (
+                            <button
+                              onClick={() => {
+                                setShowConfirm(true);
+                              }}
+                              className={`${
+                                workshop.mentors.length > 2
+                                  ? "sm:mt-11 mt-6"
+                                  : "sm:mt-14 mt-6 "
+                              } mb-6 w-full 
+                                 from-green-700 to-green-600  bg-gradient-to-br hover:from-green-800 hover:to-green-700 hover:cursor-pointer
+                               shadow-md hover:shadow-xl rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="w-[22px] h-[22px] mr-2"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
+                              </svg>
+                              View - Course Booked
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                setShowConfirm(true);
+                              }}
+                              className={`${
+                                workshop.mentors.length > 2
+                                  ? "sm:mt-11 mt-6"
+                                  : "sm:mt-14 mt-6 "
+                              } mb-6 w-full 
+                                 bg-indigo-600 shadow-md hover:shadow-xl hover:bg-indigo-700 hover:cursor-pointer 
+                             border border-transparen rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="w-5 h-5 mr-2"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                                />
+                              </svg>
+                              Book Course
+                            </button>
+                          )}
+
+                          <button
+                            onClick={() => {}}
+                            className={`mt-2  w-full 
+                                bg-blue-600 hover:bg-blue-700 hover:cursor-pointer
+                           ${
+                             showMail || showPhone ? "mb-6" : "mb-4"
+                           } border border-transparent rounded-md shadow-md hover:shadow-xl py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -644,27 +879,131 @@ const WorkshopDetails = (props) => {
                           Background Information and Interests
                         </h2>
 
-                        <div className="mt-4 space-y-6">
+                        <div className="mt-4 lg:mb-0 mb-2 space-y-6">
                           <p className="text-sm text-gray-600">
                             {workshop && workshop.background}
                           </p>
                         </div>
                       </div>
                     </div>
-                  </div>
-
-                  <div class="lg:hidden block md:px-16 px-6 mb-28">
-                    <button
-                      onClick={() => {}}
-                      disabled={!isMentor}
-                      className={`mt-12 mb-4 ${
-                        !isMentor
-                          ? "bg-indigo-400"
-                          : "bg-indigo-600 hover:bg-indigo-700"
-                      } w-full  border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                    <div
+                      class={`lg:hidden -mt-12 block ${
+                        workshop.mentors.length > 2
+                          ? ""
+                          : " relative lg:hidden block "
+                      }`}
                     >
-                      Seek Mentorship - Paid
-                    </button>
+                      {!loading &&
+                      isFirstFree &&
+                      workshop &&
+                      workshop.availableDates.length !== 0 ? (
+                        <p class="text-center top-4 mt-2 text-sm relative font-semibold">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-[15px] w-[15px] inline relative bottom-[0.75px] "
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>{" "}
+                          Try this mentor for free - exclusive 1st session.
+                        </p>
+                      ) : (
+                        ""
+                      )}
+                      {booked ||
+                      (bookedWorkshops &&
+                        bookedWorkshops.includes(
+                          JSON.stringify(workshop._id)
+                        )) ? (
+                        <button
+                          onClick={() => {
+                            setShowConfirm(true);
+                          }}
+                          className={`${
+                            workshop.mentors.length > 2
+                              ? "sm:mt-11 mt-6"
+                              : "mt-7 "
+                          } mb-3 w-full 
+                                 from-green-700 to-green-600  bg-gradient-to-br hover:from-green-800 hover:to-green-700 hover:cursor-pointer
+                               shadow-md hover:shadow-xl uppercase font-semibold rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm  text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-[22px] h-[22px] mr-2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                          View - Course Booked
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            setShowConfirm(true);
+                          }}
+                          className={`${
+                            workshop.mentors.length > 2
+                              ? "sm:mt-11 mt-6"
+                              : "mt-7"
+                          } mb-3 w-full 
+                                 bg-indigo-600 shadow-md hover:shadow-xl hover:bg-indigo-700 hover:cursor-pointer 
+                             border border-transparen uppercase font-semibold rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm  text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-5 h-5 mr-2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                            />
+                          </svg>
+                          Book Course
+                        </button>
+                      )}
+
+                      <button
+                        onClick={() => {}}
+                        className={`mt-2  w-full 
+                                bg-blue-600 hover:bg-blue-700 hover:cursor-pointer
+                          mb-12 border border-transparent uppercase rounded-md shadow-md hover:shadow-xl py-3 px-8 flex items-center justify-center sm:text-base text-sm font-semibold text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          class="w-5 h-5 mr-2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
+                          />
+                        </svg>
+                        Invite Teammates
+                      </button>
+                    </div>
                   </div>
                 </>
               ) : (
