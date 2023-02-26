@@ -39,7 +39,7 @@ const AllProjects = () => {
         class={`grid grid-cols-2 gap-4 align-middle content-center ${
           projectCon.projects.length === 0
             ? "-mb-[106px]"
-            : "-mb-[187px] top-2 relative"
+            : "-mb-[205px] top-2 relative"
         } mt-6 pb-3 md:px-[20px]    lg:px-[120px] sm:px-[70px] px-[19px]  sm:left-1.5 left-1`}
       >
         {projectCon.projects.length === 0 ? (

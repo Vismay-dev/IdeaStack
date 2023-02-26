@@ -355,14 +355,14 @@ export default function ManageProject() {
                     user._id !== project.admin.id)
                     ? "hidden"
                     : "block"
-                }  z-[75] md:h-[330px] h-[385px] mb-5 relative  rounded-md `}
+                }  z-[75] md:h-[330px] h-[385px] mb-6 relative  rounded-md `}
               >
-                <div class=" h-full w-full">
-                  <div
-                    data-aos={"zoom-in-up"}
-                    data-aos-once="true"
-                    class="border-t-[2px] border-b-[2px] border-blue-700 border-dashed   lg:w-[60%] md:w-[85%]  w-[100%] sm:pt-[27px] pt-[34px] pb-5 h-[335px] mb-[46px] -mt-2 relative mx-auto block"
-                  >
+                <div
+                  data-aos={"zoom-up"}
+                  data-aos-once="true"
+                  class=" h-full w-full"
+                >
+                  <div class="border-t-[2px] border-b-[2px] border-blue-700 border-dashed   lg:w-[60%] md:w-[85%]  w-[100%] sm:pt-[27px] pt-[34px] pb-5 h-[335px] mb-[60px] -mt-3 relative mx-auto block">
                     <h3 class="font-bold text-center mx-auto relative mr-1 text-2xl">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -562,7 +562,7 @@ export default function ManageProject() {
               <div
                 data-aos={"fade-up"}
                 data-aos-once="true"
-                class={`w-full relative lg:h-[480px] xl:h-[530px] col-span-1  `}
+                class={`w-full relative lg:h-[480px] mt-1 xl:h-[530px] col-span-1  `}
               >
                 <div
                   class={`rounded-lg shadow-lg bg-gradient-to-r border-[1px] border-blue-600 lg:h-[480px] xl:h-[530px]  from-blue-50 to-indigo-100 h-fit overflow-hidden mb-0`}
@@ -708,18 +708,7 @@ export default function ManageProject() {
               </div>
             </div>
 
-            <div
-              data-aos={"fade-up"}
-              data-aos-once="true"
-              className="flex flex-wrap  sm:px-16 px-[18px] sm:right-0.5 right-[1px] relative mt-3.5 -mb-[240px]"
-            >
-              <div className="w-full xl:w-8/12 mb-9 mt-2 lg:mt-3 relative xl:mb-0 xl:px-2 xl:left-0 left-[3px] ">
-                <CardPageVisits />
-              </div>
-              <div className="w-full xl:w-4/12 mt-3 relative xl:px-2 xl:left-0 left-[3px] ">
-                <CardSocialTraffic />
-              </div>
-            </div>
+            <div className="flex flex-wrap  sm:px-16 px-[18px] sm:right-0.5 right-[1px] relative mt-3.5 -mb-[240px]"></div>
           </>
         </Route>
 

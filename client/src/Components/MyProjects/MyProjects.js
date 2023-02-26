@@ -219,7 +219,7 @@ const MyProjects = () => {
                   onClick={() => {
                     history.push("/myprojects/allprojects");
                   }}
-                  class={`flex items-center xl:-ml-[36] xl:-left-20 md:ml-[63px] sm:ml-[125px] ml-[242px] xl:mr-0 relative h-12 py-2.5 text-sm text-center text-gray-100 
+                  class={`flex items-center xl:-ml-[10px] xl:-left-20 md:ml-[63px] sm:ml-[125px] ml-[242px] xl:mr-0 relative h-12 py-2.5 text-sm text-center text-gray-100 
    bg-gray-500 md:px-5 px-3 border border-b-0 hover:bg-gray-600  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
                 >
                   <svg
@@ -283,22 +283,6 @@ const MyProjects = () => {
         } md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
                   >
                     Collaborate
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      history.push("/myprojects/manageproject/mentorship");
-                    }}
-                    class={`flex items-center h-12 py-2   text-sm text-center text-gray-100 
-        ${
-          location.pathname === "/myprojects/manageproject/mentorship" ||
-          location.pathname === "/myprojects/manageproject/mentorship"
-            ? "bg-gray-800"
-            : "bg-gray-500"
-        } md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
-                  >
-                    <span class="lg:inline hidden mr-1.5">Industry </span>{" "}
-                    Mentorship
                   </button>
                 </div>
               </>

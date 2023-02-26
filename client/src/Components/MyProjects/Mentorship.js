@@ -38,46 +38,46 @@ const Mentorship = () => {
 
   const [mentorshipPackages, setMentorshipPackages] = useState();
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .post(
-        process.env.NODE_ENV === "production"
-          ? "https://ideastack.herokuapp.com/api/project/getMentorshipPackages"
-          : "http://localhost:4000/api/project/getMentorshipPackages",
-        {
-          token: sessionStorage.getItem("token"),
-          projectID: sessionStorage.getItem("managing"),
-        }
-      )
-      .then((res) => {
-        setMentorshipPackages(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
-  }, [location.pathname]);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   axios
+  //     .post(
+  //       process.env.NODE_ENV === "production"
+  //         ? "https://ideastack.herokuapp.com/api/project/getMentorshipPackages"
+  //         : "http://localhost:4000/api/project/getMentorshipPackages",
+  //       {
+  //         token: sessionStorage.getItem("token"),
+  //         projectID: sessionStorage.getItem("managing"),
+  //       }
+  //     )
+  //     .then((res) => {
+  //       setMentorshipPackages(res.data);
+  //       setLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       setLoading(false);
+  //     });
+  // }, [location.pathname]);
 
   const [isMentor, setIsMentor] = useState(false);
-  useEffect(() => {
-    axios
-      .post(
-        process.env.NODE_ENV === "production"
-          ? "https://ideastack.herokuapp.com/api/project/getTeam"
-          : "http://localhost:4000/api/project/getTeam",
-        {
-          token: sessionStorage.getItem("token"),
-          projectID: sessionStorage.getItem("managing"),
-        }
-      )
-      .then((res) => {
-        if (JSON.stringify(user._id) === JSON.stringify(res.data[0].id)) {
-          setIsMentor(true);
-        }
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .post(
+  //       process.env.NODE_ENV === "production"
+  //         ? "https://ideastack.herokuapp.com/api/project/getTeam"
+  //         : "http://localhost:4000/api/project/getTeam",
+  //       {
+  //         token: sessionStorage.getItem("token"),
+  //         projectID: sessionStorage.getItem("managing"),
+  //       }
+  //     )
+  //     .then((res) => {
+  //       if (JSON.stringify(user._id) === JSON.stringify(res.data[0].id)) {
+  //         setIsMentor(true);
+  //       }
+  //     });
+  // }, []);
 
   const [sessionsConfirmed, setSessionsConfirmed] = useState(false);
   return (

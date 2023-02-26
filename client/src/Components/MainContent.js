@@ -88,7 +88,7 @@ const MainContent = () => {
           <Route
             path="/mentors"
             render={() =>
-              localStorage.getItem("viewToken") ? (
+              sessionStorage.getItem("token") ? (
                 <Mentors />
               ) : (
                 <Redirect to="/" />

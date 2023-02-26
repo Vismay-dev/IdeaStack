@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import AllSessionDetails from "../Modals/AllSessionDetails";
+import AllCourseDetails from "../Modals/AllCourseDetails";
 
 const AllMentorshipSessions = () => {
   const [showDetails, setShowDetails] = useState(false);
@@ -10,7 +10,7 @@ const AllMentorshipSessions = () => {
       class={`rounded-md mb-8 shadow-lg bg-gradient-to-r h-[380px] border-[0.005px] border-blue-600  from-blue-50 to-indigo-200 overflow-hidden`}
     >
       {showDetails ? (
-        <AllSessionDetails close={() => setShowDetails(false)} />
+        <AllCourseDetails close={() => setShowDetails(false)} />
       ) : (
         ""
       )}

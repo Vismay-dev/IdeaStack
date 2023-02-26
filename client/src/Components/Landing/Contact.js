@@ -52,7 +52,7 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      class=" xl:py-[160px] lg:mt-8 mt-4 xl:pb-28  pt-[100px] pb-[130px] lg:py-[120px] lg:pb-[100px] -mb-[516px] border-t-2 border-dashed border-blue-700  overflow-hidden relative z-75"
+      class=" xl:py-[160px] xl:pb-28  pt-[100px] pb-[130px] lg:py-[120px] lg:pb-[100px] -mb-[516px] border-t-2 border-dashed border-blue-700  overflow-hidden relative z-75"
     >
       <div class="container mx-auto">
         <div class="flex flex-wrap  top-4     mx-auto justify-center">

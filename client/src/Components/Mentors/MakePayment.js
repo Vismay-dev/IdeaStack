@@ -11,13 +11,13 @@ const MakePayment = (props) => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   const [consultant, setConsultant] = useState({});
-  useEffect(() => {
-    if (props.mentorshipPackages && props.mentorshipPackages.length !== 0) {
-      setConsultant(
-        props.mentorshipPackages[props.mentorshipPackages.length - 1]
-      );
-    }
-  }, [props.mentorshipPackages]);
+  // useEffect(() => {
+  //   if (props.mentorshipPackages && props.mentorshipPackages.length !== 0) {
+  //     setConsultant(
+  //       props.mentorshipPackages[props.mentorshipPackages.length - 1]
+  //     );
+  //   }
+  // }, [props.mentorshipPackages]);
 
   const [payment, setPayment] = useState();
   const [loading, setLoading] = useState(false);

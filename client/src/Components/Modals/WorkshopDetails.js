@@ -14,7 +14,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 const product = {
   breadcrumbs: [
     { id: 1, name: "Industry Mentorship", href: "#" },
-    { id: 2, name: "Browsing Workshops", href: "#" },
+    { id: 2, name: "Browsing Courses", href: "#" },
   ],
 };
 const reviews = { href: "#", average: 4, totalCount: 117 };
@@ -255,18 +255,33 @@ const WorkshopDetails = (props) => {
                       <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 md:text-4xl lg:text-3xl">
                         {workshop && workshop.title}
                       </h1>
-                      <h2 className="text-lg mt-5 relative right-2 -mb-3 font-extrabold tracking-tight text-gray-600">
+                      <h2
+                        className={`text-lg mt-5 relative ${
+                          workshop.mentors.length > 2 ? "top-1.5" : ""
+                        } right-2 -mb-3 font-extrabold tracking-tight text-gray-600`}
+                      >
                         {workshop.mentors.map((name, i) => {
                           return (
-                            <span class="inline">
-                              {" "}
-                              {i != 0 ? "& " : ""}{" "}
-                              <img
-                                src={workshop.pics[i]}
-                                class="w-7 h-7 ml-2 mb-1 inline rounded-full"
-                              ></img>{" "}
-                              <span class="ml-1">{name}</span>{" "}
-                            </span>
+                            <>
+                              <span class="inline">
+                                {" "}
+                                {i == 2 ? (
+                                  <>
+                                    <br class="block" />
+                                    <div class="block mb-1" />
+                                  </>
+                                ) : i != 0 ? (
+                                  "& "
+                                ) : (
+                                  ""
+                                )}{" "}
+                                <img
+                                  src={workshop.pics[i]}
+                                  class="w-7 h-7 ml-2 mb-1 inline rounded-full"
+                                ></img>{" "}
+                                <span class="ml-1">{name}</span>{" "}
+                              </span>
+                            </>
                           );
                         })}
                       </h2>
@@ -277,7 +292,7 @@ const WorkshopDetails = (props) => {
                       <h1 class="font-bold text-2xl mb-4">Mentors:</h1>
                       <div
                         class={`grid grid-cols-2 top-1 relative  ${
-                          workshop.mentors.length > 2 ? "mb-1" : "mb-3 pt-3"
+                          workshop.mentors.length > 2 ? "mb-1" : "mb-5 pt-5"
                         }`}
                       >
                         {workshop.mentors.map((mentor, i) => {
@@ -370,10 +385,14 @@ const WorkshopDetails = (props) => {
                         {/* Colors */}
                         <div
                           class={`${
-                            workshop.mentors.length > 2 ? "" : "mb-4 block "
+                            workshop.mentors.length > 2 ? "" : "mb-9 block "
                           }`}
                         >
-                          <h3 className="text-sm text-gray-900 font-medium">
+                          <h3
+                            className={`text-sm ${
+                              workshop.mentors.length > 2 ? "" : "pt-3 block "
+                            } text-gray-900 font-medium`}
+                          >
                             Contact
                           </h3>
 
@@ -464,7 +483,13 @@ const WorkshopDetails = (props) => {
                         </div>
 
                         {/* Sizes */}
-                        <div class="lg:block hidden">
+                        <div
+                          class={`lg:block hidden ${
+                            workshop.mentors.length > 2
+                              ? ""
+                              : " relative top-2 block "
+                          }`}
+                        >
                           {!loading &&
                           isFirstFree &&
                           workshop &&
@@ -520,7 +545,7 @@ const WorkshopDetails = (props) => {
                                   d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                 />
                               </svg>
-                              Workshop Booked!
+                              Course Booked!
                             </button>
                           ) : (
                             <button
@@ -532,7 +557,7 @@ const WorkshopDetails = (props) => {
                                   ? "sm:mt-11 mt-6"
                                   : "sm:mt-14 mt-6 "
                               } mb-3 w-full 
-                                 bg-indigo-600 hover:bg-indigo-700 hover:cursor-pointer
+                                 bg-indigo-600 hover:bg-indigo-700 hover:cursor-pointer shadow-sm hover:shadow-md
                              border border-transparent rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                             >
                               <svg
@@ -549,7 +574,7 @@ const WorkshopDetails = (props) => {
                                   d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
                                 />
                               </svg>
-                              Book Workshop
+                              Book Course
                             </button>
                           )}
 
@@ -559,7 +584,7 @@ const WorkshopDetails = (props) => {
                                 bg-blue-600 hover:bg-blue-700 hover:cursor-pointer
                            ${
                              showMail || showPhone ? "mb-6" : "mb-4"
-                           } border border-transparent rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                           } border border-transparent rounded-md shadow-sm hover:shadow-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -668,7 +693,247 @@ const WorkshopDetails = (props) => {
                     Go Back
                   </button>
 
-                  <div class="border-2 border-dashed border-indigo-400 rounded-md shadow-sm mt-14 mx-auto block px-2 w-[95%]">
+                  <div class="border-2 border-dashed shadow-sm  w-[95%] mt-14 px-2 mx-auto block border-indigo-400">
+                    <div class="mt-8">
+                      <h1 class="font-bold text-3xl text-center ">
+                        What does this course offer?
+                      </h1>
+                      <h2 class="font-semibold text-xl text-center mt-2 text-gray-700">
+                        {workshop.title}
+                      </h2>
+
+                      <section class="">
+                        <div class="py-8 px-4 mx-auto max-w-screen-lg sm:py-16 lg:px-6">
+                          <div class="space-y-8 md:grid text-center md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
+                            <div>
+                              <div class="flex mx-auto justify-center items-center mb-4 w-10 h-10 rounded-full bg-white  lg:h-12 lg:w-12">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1.5"
+                                  stroke="currentColor"
+                                  class="w-5 h-5 text-blue-700 lg:w-6 lg:h-6 "
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                                  />
+                                </svg>
+                              </div>
+                              <h3 class="mb-2 text-xl font-bold ">
+                                One-on-one Mentorship
+                              </h3>
+                              <p class="text-gray-500 ">
+                                Mentors will meet you in "Open Discussion
+                                Sessions", helping you plan your projects.
+                              </p>
+                            </div>
+
+                            <div>
+                              <div class="flex mx-auto justify-center items-center mb-4 w-10 h-10 rounded-full bg-white  lg:h-12 lg:w-12">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1.5"
+                                  stroke="currentColor"
+                                  class="w-5 h-5 text-blue-700 lg:w-6 lg:h-6"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"
+                                  />
+                                </svg>
+                              </div>
+                              <h3 class="mb-2 text-xl font-bold ">Resources</h3>
+                              <p class="text-gray-500">
+                                Access exclusive recordings and documents for
+                                each week's concepts (unavailable elsewhere).
+                              </p>
+                            </div>
+                            <div>
+                              <div class="flex mx-auto justify-center items-center mb-4 w-10 h-10 rounded-full bg-white lg:h-12 lg:w-12">
+                                <svg
+                                  class="w-5 h-5 text-blue-700 lg:w-6 lg:h-6 "
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path>
+                                </svg>
+                              </div>
+                              <h3 class="mb-2 text-xl font-bold ">
+                                Assignments
+                              </h3>
+                              <p class="text-gray-500 ">
+                                Mentors will personally check your submitted
+                                assignments, and provide you with custom
+                                feedback .
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+
+                    <h1 class="font-bold text-3xl text-center  -mb-4">
+                      Open Discussions Timeline - Book Now!
+                    </h1>
+                    <h2 class="font-semibold text-xl text-center mt-6 text-gray-700">
+                      Limited seats - book now!
+                    </h2>
+                    <div
+                      class={`relative mx-auto gap-3   mt-[60px] mb-[110px] top-6 ${"w-[90%] lg:px-0 md:px-20 px-12"}`}
+                    >
+                      <ol class="items-center w-full  sm:flex">
+                        {workshop.timeline.map((date, i) => {
+                          return (
+                            <li class="relative mb-7 mt-1 sm:mb-0">
+                              <div class="flex items-center">
+                                <div class="flex  z-10 justify-center ml-1 items-center w-6 h-6 bg-white rounded-full ring-0 ring-white  sm:ring-8  shrink-0">
+                                  <svg
+                                    aria-hidden="true"
+                                    class="w-5 h-5 text-blue-700 "
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      fill-rule="evenodd"
+                                      d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                                      clip-rule="evenodd"
+                                    ></path>
+                                  </svg>
+                                </div>
+                                <div class="hidden sm:flex w-full relative  bg-indigo-500 h-0.5 "></div>
+                              </div>
+                              <div class="mt-5 mr-3 right-2 relative sm:pr-8">
+                                <h3 class="text-lg font-semibold text-gray-900 ">
+                                  {String(new Date(date).toDateString())}
+                                </h3>
+
+                                <p class="text-base font-normal text-gray-500 ">
+                                  {workshop.sessions[i]}
+                                </p>
+                              </div>
+                            </li>
+                          );
+                        })}
+                      </ol>
+                    </div>
+
+                    <hr class="border-t-[0.5px] border-gray-500 mb-9 w-[50%] block mx-auto mt-4 border-dotted relative bottom-4" />
+
+                    {booked ||
+                    bookedWorkshops.includes(JSON.stringify(workshop._id)) ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-12 h-12 text-green-700 bg-white rounded-full  mx-auto text-center block mb-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-10 h-10 text-blue-700  mx-auto text-center block mb-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+                        />
+                      </svg>
+                    )}
+
+                    {booked ||
+                    bookedWorkshops.includes(JSON.stringify(workshop._id)) ? (
+                      <h2 class="font-bold text-center text-lg mb-[43px] mt-3">
+                        THIS COURSE HAS BEEN BOOKED!
+                      </h2>
+                    ) : !confirmBooking ? (
+                      <>
+                        <button
+                          onClick={() => {
+                            setConfirmBooking(true);
+                          }}
+                          class="text-white uppercase text-sm bg-blue-700 hover:bg-blue-800 hover:shadow-md p-3 px-6 mb-[50px] rounded-sm font-semibold block mx-auto"
+                        >
+                          Book Course
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <h2 class="text-center">
+                          Are you sure about this booking?{" "}
+                          <span class="font-bold">"{workshop.title}"</span>
+                        </h2>
+                        <div class="block text-center items-center -mt-[2px]  relative mx-auto mb-[19px]">
+                          <button
+                            onClick={() => {
+                              bookingHandler();
+                            }}
+                            class="text-white uppercase text-sm bg-green-600 hover:bg-green-700 hover:shadow-md p-3 px-4 mb-[25px] mt-7 rounded-sm font-semibold mr-2 inline"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="w-5 h-5 mr-2 relative bottom-[1px] inline text-white"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                            Confirm Booking
+                          </button>
+
+                          <button
+                            onClick={() => {
+                              setConfirmBooking(false);
+                            }}
+                            class="text-white uppercase text-sm bg-red-600 hover:bg-red-700 hover:shadow-md p-3 px-4 mb-[25px] mt-7 ml-2 rounded-sm font-semibold inline"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="w-5 h-5 mr-2 relative bottom-[1px] inline text-white"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                            Cancel
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+
+                  <div class="border-2 border-dashed border-indigo-400 rounded-md shadow-sm mt-8 mb-32 mx-auto block px-2 w-[95%]">
                     <section class="pb-4">
                       <div class="py-8  px-4 mx-auto max-w-screen-lg sm:py-16 sm:pt-10 lg:px-6">
                         <div class="space-y-8 md:grid text-center md:grid-cols-2 lg:grid-cols-2 md:gap-12 md:space-y-0">
@@ -727,7 +992,7 @@ const WorkshopDetails = (props) => {
                       {booked ||
                       bookedWorkshops.includes(JSON.stringify(workshop._id)) ? (
                         <h2 class="font-bold mb-[30px] text-lg text-center mt-3">
-                          THIS WORKSHOP HAS BEEN BOOKED!
+                          THIS COURSE HAS BEEN BOOKED!
                         </h2>
                       ) : !confirmBooking ? (
                         <>
@@ -737,7 +1002,7 @@ const WorkshopDetails = (props) => {
                             }}
                             class="text-white uppercase text-sm bg-blue-700 hover:bg-blue-800 hover:shadow-md p-3 px-6 mb-[25px] rounded-sm font-semibold block mx-auto"
                           >
-                            Book Workshop
+                            Book Course
                           </button>
                         </>
                       ) : (
@@ -796,222 +1061,6 @@ const WorkshopDetails = (props) => {
                         </>
                       )}
                     </section>
-                  </div>
-                  <div class="border-2 border-dashed shadow-sm mt-8 mb-32 w-[95%] px-2 mx-auto block border-indigo-400">
-                    <h1 class="font-bold text-3xl text-center mt-12">
-                      Workshop Timeline - Book Now!
-                    </h1>
-                    <h2 class="font-semibold text-xl text-center mt-2 text-gray-700">
-                      {workshop.title}
-                    </h2>
-                    <div
-                      class={`relative mx-auto gap-3   mt-[52px] mb-4 top-6 ${"w-[85%] lg:px-0 md:px-20 px-12"}`}
-                    >
-                      <ol class="items-center w-full  sm:flex">
-                        {workshop.timeline.map((date, i) => {
-                          return (
-                            <li class="relative mb-7 mt-1 sm:mb-0">
-                              <div class="flex items-center">
-                                <div class="flex  z-10 justify-center ml-1 items-center w-6 h-6 bg-white rounded-full ring-0 ring-white  sm:ring-8  shrink-0">
-                                  <svg
-                                    aria-hidden="true"
-                                    class="w-5 h-5 text-blue-700 "
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      fill-rule="evenodd"
-                                      d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                                      clip-rule="evenodd"
-                                    ></path>
-                                  </svg>
-                                </div>
-                                <div class="hidden sm:flex w-full relative  bg-indigo-500 h-0.5 "></div>
-                              </div>
-                              <div class="mt-5 mr-3 right-2 relative sm:pr-8">
-                                <h3 class="text-lg font-semibold text-gray-900 ">
-                                  {String(new Date(date).toDateString())}
-                                </h3>
-
-                                <p class="text-base font-normal text-gray-500 ">
-                                  {workshop.sessions[i]}
-                                </p>
-                              </div>
-                            </li>
-                          );
-                        })}
-                      </ol>
-                    </div>
-
-                    <div class="mt-20 -mb-4">
-                      <h1 class="font-bold text-3xl text-center ">
-                        What does this workshop offer?
-                      </h1>
-                      <h2 class="font-semibold text-xl text-center mt-2 text-gray-700">
-                        Limited seats - book now!
-                      </h2>
-
-                      <section class="">
-                        <div class="py-8 px-4 mx-auto max-w-screen-lg sm:py-16 lg:px-6">
-                          <div class="space-y-8 md:grid text-center md:grid-cols-2 lg:grid-cols-2 md:gap-12 md:space-y-0">
-                            <div>
-                              <div class="flex mx-auto justify-center items-center mb-4 w-10 h-10 rounded-full bg-white  lg:h-12 lg:w-12">
-                                <svg
-                                  class="w-5 h-5 text-blue-700 lg:w-6 lg:h-6 "
-                                  fill="currentColor"
-                                  viewBox="0 0 20 20"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    fill-rule="evenodd"
-                                    d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"
-                                  ></path>
-                                </svg>
-                              </div>
-                              <h3 class="mb-2 text-xl font-bold ">
-                                One-on-one Mentorship
-                              </h3>
-                              <p class="text-gray-500 ">
-                                Mentors will meet you over Google Meets, helping
-                                you plan your projects and implement this
-                                workshop's fundamental concepts.
-                              </p>
-                            </div>
-                            <div>
-                              <div class="flex mx-auto justify-center items-center mb-4 w-10 h-10 rounded-full bg-white lg:h-12 lg:w-12">
-                                <svg
-                                  class="w-5 h-5 text-blue-700 lg:w-6 lg:h-6 "
-                                  fill="currentColor"
-                                  viewBox="0 0 20 20"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path>
-                                </svg>
-                              </div>
-                              <h3 class="mb-2 text-xl font-bold ">Resources</h3>
-                              <p class="text-gray-500">
-                                Access exclusive videos, documents and links:
-                                resources specific to the mentors and are
-                                unavailable elsewhere
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <hr class="border-t-[0.5px] border-gray-500 mb-9 w-[50%] block mx-auto mt-4 border-dotted relative bottom-4" />
-
-                        {booked ||
-                        bookedWorkshops.includes(
-                          JSON.stringify(workshop._id)
-                        ) ? (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-12 h-12 text-green-700 bg-white rounded-full  mx-auto text-center block mb-7"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"
-                            />
-                          </svg>
-                        ) : (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-10 h-10 text-blue-700  mx-auto text-center block mb-7"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
-                            />
-                          </svg>
-                        )}
-
-                        {booked ||
-                        bookedWorkshops.includes(
-                          JSON.stringify(workshop._id)
-                        ) ? (
-                          <h2 class="font-bold text-center text-lg mb-[55px] mt-3">
-                            THIS WORKSHOP HAS BEEN BOOKED!
-                          </h2>
-                        ) : !confirmBooking ? (
-                          <>
-                            <button
-                              onClick={() => {
-                                setConfirmBooking(true);
-                              }}
-                              class="text-white uppercase text-sm bg-blue-700 hover:bg-blue-800 hover:shadow-md p-3 px-6 mb-[55px] rounded-sm font-semibold block mx-auto"
-                            >
-                              Book Workshop
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            <h2 class="text-center">
-                              Are you sure about this booking?{" "}
-                              <span class="font-bold">"{workshop.title}"</span>
-                            </h2>
-                            <div class="block text-center items-center -mt-[2px]  relative mx-auto mb-[30px]">
-                              <button
-                                onClick={() => {
-                                  bookingHandler();
-                                }}
-                                class="text-white uppercase text-sm bg-green-600 hover:bg-green-700 hover:shadow-md p-3 px-4 mb-[25px] mt-7 rounded-sm font-semibold mr-2 inline"
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke-width="1.5"
-                                  stroke="currentColor"
-                                  class="w-5 h-5 mr-2 relative bottom-[1px] inline text-white"
-                                >
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                  />
-                                </svg>
-                                Confirm Booking
-                              </button>
-
-                              <button
-                                onClick={() => {
-                                  setConfirmBooking(false);
-                                }}
-                                class="text-white uppercase text-sm bg-red-600 hover:bg-red-700 hover:shadow-md p-3 px-4 mb-[25px] mt-7 ml-2 rounded-sm font-semibold inline"
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke-width="1.5"
-                                  stroke="currentColor"
-                                  class="w-5 h-5 mr-2 relative bottom-[1px] inline text-white"
-                                >
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                  />
-                                </svg>
-                                Cancel
-                              </button>
-                            </div>
-                          </>
-                        )}
-                      </section>
-                    </div>
                   </div>
                 </>
               )}

@@ -11,27 +11,7 @@ export default function CardPageVisits() {
   const [mentorshipDetails, setMentorshipDetails] = useState();
   const [loading, setLoading] = useState(true);
   const user = useContext(userContext).user;
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .post(
-        process.env.NODE_ENV === "production"
-          ? "https://ideastack.herokuapp.com/api/project/getMentorshipDetails"
-          : "http://localhost:4000/api/project/getMentorshipDetails",
-        {
-          token: sessionStorage.getItem("token"),
-          projectID: sessionStorage.getItem("managing"),
-        }
-      )
-      .then((res) => {
-        setMentorshipDetails(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -41,7 +21,7 @@ export default function CardPageVisits() {
             backgroundImage:
               "url(https://media.istockphoto.com/photos/digital-cyberspace-with-particles-and-digital-data-network-high-picture-id1302189748?b=1&k=20&m=1302189748&s=170667a&w=0&h=s0o2dhTh40lrWLPt6rg54S0jCUywkr6h04rDdfStMq8=)",
           }}
-          className="rounded-t px-4 py-3 border-0"
+          className="rounded-t bg-opacity-60 px-4 py-3 border-0"
         >
           <div className="flex flex-wrap  items-center">
             <div className="relative sm:w-full px-2  py-1.5 flex-grow flex-1">

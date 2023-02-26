@@ -84,28 +84,28 @@ const UpcomingMentor = (props) => {
   const [sessionScheduling, setSessionScheduling] = useState(false);
 
   const requestSession = () => {
-    axios
-      .post(
-        process.env.NODE_ENV === "production"
-          ? "https://ideastack.herokuapp.com/api/user/updateLatestPendingSession"
-          : "http://localhost:4000/api/user/updateLatestPendingSession",
-        {
-          token: sessionStorage.getItem("token"),
-          projectID: sessionStorage.getItem("managing"),
-          updated: {
-            sessionsConfirmed,
-            sessionRequested: true,
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res.data);
-        setSessionScheduling(false);
-        setSessionRequested(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    //   axios
+    //     .post(
+    //       process.env.NODE_ENV === "production"
+    //         ? "https://ideastack.herokuapp.com/api/user/updateLatestPendingSession"
+    //         : "http://localhost:4000/api/user/updateLatestPendingSession",
+    //       {
+    //         token: sessionStorage.getItem("token"),
+    //         projectID: sessionStorage.getItem("managing"),
+    //         updated: {
+    //           sessionsConfirmed,
+    //           sessionRequested: true,
+    //         },
+    //       }
+    //     )
+    //     .then((res) => {
+    //       console.log(res.data);
+    //       setSessionScheduling(false);
+    //       setSessionRequested(true);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
   };
 
   const confirmSession = () => {

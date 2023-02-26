@@ -44,6 +44,7 @@ export default function Mentors() {
         <a
           onClick={() => {
             history.push("/mentors/bookworkshops");
+            sessionStorage.removeItem("index");
           }}
           class={`${
             location.pathname === "/mentors/bookworkshops"

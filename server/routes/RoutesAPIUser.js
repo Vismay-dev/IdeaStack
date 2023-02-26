@@ -91,7 +91,6 @@ router.post("/sendUserQuery", (req, res) => {
 //receives user data and registers user in database
 //sends back user and token.
 router.post("/register", async (req, res) => {
-  console.log(req.body);
   try {
     let hash = await bcrypt.hash(req.body.password.trim(), 10);
     let existingUser = await studentUser.findOne({
@@ -215,7 +214,6 @@ router.post("/getMentorshipPackages", auth, async (req, res) => {
 });
 
 router.post("/sendResetCode", async (req, res) => {
-  console.log(req.body.mail.trim());
   const user = await studentUser.findOne({
     email: req.body.mail.toLowerCase().trim(),
   });
@@ -292,7 +290,6 @@ router.post("/sendResetCode", async (req, res) => {
 router.post("/resetPassword", async (req, res) => {
   try {
     const user = await studentUser.findOne({ email: req.body.email });
-    console.log(req.body.pass);
     let hash = await bcrypt.hash(req.body.pass.trim(), 10);
     user.password = hash;
     await user.save();
@@ -326,7 +323,6 @@ router.post("/updateUser", auth, async (req, res) => {
   try {
     const userPrev = await studentUser.findById(req.user._id);
     updateInfo = { ...req.body.user, password: userPrev.password };
-    console.log(updateInfo);
     const newUser = await studentUser.findByIdAndUpdate(
       req.user._id,
       updateInfo
@@ -379,14 +375,11 @@ router.post("/uploadProfPic", upload.single("image"), async (req, res) => {
 router.post("/removeAvailableDate", auth, async (req, res) => {
   const mentor = await Mentor.findById(req.body.mentorID);
   mentor.availableDates = mentor.availableDates.filter((date) => {
-    console.log(new Date(date));
-    console.log(new Date(req.body.date));
     return String(new Date(date)) !== String(new Date(req.body.date));
   });
 
   mentor.markModified("availableDates");
   await mentor.save();
-  console.log(mentor.availableDates);
   res.send("Succesfully Booked A Time");
 });
 
@@ -470,8 +463,44 @@ router.post("/getWorkshopsOngoing", auth, async (req, res) => {
     const ws = await workshop.findById(JSON.parse(user.workshopsOngoing[i]));
     workshops.push(ws);
   }
-  console.log(workshops);
   res.send(workshops);
+});
+
+router.post("/getCommonCourseTeammates", auth, async (req, res) => {
+  const user = await studentUser.findById(req.user._id);
+  const userCourses = user.workshopsOngoing;
+  const teamMates = [];
+  for (let i = 0; i < user.projects.length; i++) {
+    let proj = await project.findById(user.projects[i]);
+    if (proj) {
+      for (let j = 0; j < proj.team.length; j++) {
+        if (JSON.stringify(proj.team[j].id) !== JSON.stringify(req.user._id))
+          teamMates.push(JSON.stringify(proj.team[j].id));
+      }
+    }
+  }
+
+  let comm = [];
+
+  for (let i = 0; i < userCourses.length; i++) {
+    let course = await workshop.findById(JSON.parse(userCourses[i]));
+    for (let j = 0; j < course.currentMentees.length; j++) {
+      if (teamMates.includes(JSON.stringify(course.currentMentees[j]))) {
+        const teamMate = await studentUser.findOne({
+          _id: course.currentMentees[j],
+        });
+        comm.push({
+          courseName: course.title,
+          courseId: course._id,
+          teamMateId: course.currentMentees[j],
+          teamMateName: teamMate.firstName,
+          teamMatePic: teamMate.profilePic,
+        });
+      }
+    }
+  }
+
+  res.send(comm);
 });
 
 router.post("/getAllUsers", auth, async (req, res) => {
@@ -633,7 +662,6 @@ router.post("/completeLatestPendingPayment", auth, async (req, res) => {
   }
 
   for (let i = 0; i < proj.team.length; i++) {
-    console.log(proj.team[i].name);
     if (JSON.stringify(user._id) !== JSON.stringify(proj.team[i].id)) {
       let member = await studentUser.findOne({ _id: proj.team[i].id });
       let notifications = member.notifications ? member.notifications : [];
@@ -659,7 +687,6 @@ router.post("/completeLatestPendingPayment", auth, async (req, res) => {
 
   for (let i = 0; i < proj.team.length; i++) {
     let member = proj.team[i];
-    console.log(member);
     if (JSON.stringify(member.id) === JSON.stringify(req.user._id)) {
       if (
         Number(member.pendingPayments[member.pendingPayments.length - 1]) ===
@@ -698,57 +725,54 @@ router.post("/completeLatestPendingPayment", auth, async (req, res) => {
   res.send("Payment Completed!");
 });
 
-router.post("/updateLatestPendingSession", auth, async (req, res) => {
-  proj = await project.findOne({ _id: req.body.projectID });
-  mentorshipPackage = proj.mentorshipPackages[0];
-  if (mentorshipPackage.pendingAmount == 0) {
-    proj.mentorshipPackages[0] = { ...mentorshipPackage, ...req.body.updated };
-  }
+// router.post("/updateLatestPendingSession", auth, async (req, res) => {
+//   proj = await project.findOne({ _id: req.body.projectID });
+//   mentorshipPackage = proj.mentorshipPackages[0];
+//   if (mentorshipPackage.pendingAmount == 0) {
+//     proj.mentorshipPackages[0] = { ...mentorshipPackage, ...req.body.updated };
+//   }
 
-  proj.markModified("mentorshipPackages");
-  await proj.save();
+//   proj.markModified("mentorshipPackages");
+//   await proj.save();
 
-  res.send("Request Sent!");
-});
+//   res.send("Request Sent!");
+// });
 
-router.post("/updateLatestPendingSessionAdmin", async (req, res) => {
-  proj = await project.findOne({ _id: req.body.projectID });
-  mentorshipPackage = proj.mentorshipPackages[0];
-  if (mentorshipPackage.pendingAmount == 0) {
-    proj.mentorshipPackages[0] = { ...mentorshipPackage, ...req.body.updated };
-  }
+// router.post("/updateLatestPendingSessionAdmin", async (req, res) => {
+//   proj = await project.findOne({ _id: req.body.projectID });
+//   mentorshipPackage = proj.mentorshipPackages[0];
+//   if (mentorshipPackage.pendingAmount == 0) {
+//     proj.mentorshipPackages[0] = { ...mentorshipPackage, ...req.body.updated };
+//   }
 
-  console.log("here2");
+//   let io = req.io;
+//   await io.emit("packageApproved", {
+//     project: proj,
+//     package: mentorshipPackage,
+//     id: req.body.projectID,
+//   });
 
-  let io = req.io;
-  await io.emit("packageApproved", {
-    project: proj,
-    package: mentorshipPackage,
-    id: req.body.projectID,
-  });
+//   proj.markModified("mentorshipPackages");
+//   await proj.save();
 
-  proj.markModified("mentorshipPackages");
-  await proj.save();
+//   for (let i = 0; i < proj.team.length; i++) {
+//     let member = await studentUser.findOne({ _id: proj.team[i].id });
+//     let notifications = member.notifications ? member.notifications : [];
+//     notifications.push({
+//       seen: false,
+//       type: "package",
+//       title: "Mentorship Package Approved!",
+//       subtitle: mentorshipPackage.name + "  - Mentorship Schedule",
+//       icon: mentorshipPackage.pic,
+//     });
 
-  for (let i = 0; i < proj.team.length; i++) {
-    console.log(proj.team[i].name);
-    let member = await studentUser.findOne({ _id: proj.team[i].id });
-    let notifications = member.notifications ? member.notifications : [];
-    notifications.push({
-      seen: false,
-      type: "package",
-      title: "Mentorship Package Approved!",
-      subtitle: mentorshipPackage.name + "  - Mentorship Schedule",
-      icon: mentorshipPackage.pic,
-    });
+//     member.notifications = notifications;
+//     await member.markModified("notifications");
+//     await member.save();
+//   }
 
-    member.notifications = notifications;
-    await member.markModified("notifications");
-    await member.save();
-  }
-
-  res.send("Request Sent!");
-});
+//   res.send("Request Sent!");
+// });
 
 router.post("/getProjectsPaid", async (req, res) => {
   const proj = await project.find({});
@@ -795,6 +819,10 @@ router.post("/modifyMentorAdmin", async (req, res) => {
 
 router.post("/addWorkshopBooking", auth, async (req, res) => {
   const user = await studentUser.findOne({ _id: req.user._id });
+  const course = await workshop.findOne({
+    _id: JSON.parse(req.body.workshopId),
+  });
+
   if (user.workshopsOngoing) {
     user.workshopsOngoing.push(req.body.workshopId);
   } else {
@@ -802,11 +830,15 @@ router.post("/addWorkshopBooking", auth, async (req, res) => {
   }
   await user.markModified("workshopsOngoing");
   await user.save();
+
+  course.currentMentees.push(req.user._id);
+  await course.markModified("currentMentees");
+  await course.save();
+
   res.send(user);
 });
 
 router.post("/addMentorAdmin", async (req, res) => {
-  console.log(req.body.pic);
   const newMentor = new Mentor({
     name: req.body.name,
     background: req.body.background,

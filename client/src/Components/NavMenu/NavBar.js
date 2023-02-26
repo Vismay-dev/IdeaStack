@@ -474,7 +474,7 @@ const NavBar = (props) => {
                 <a
                   onClick={showModalReg}
                   href="#"
-                  className="uppercase ml-5  left-1.5 xl:-left-72 lg:-left-48 relative whitespace-nowrap inline-flex items-center justify-center lg:block hidden lg:px-3 px-2 py-2  border border-transparent rounded-md shadow-sm text-base tracking-wide font-semibold text-white bg-gradient-to-r from-blue-400 to-blue-600 hover:from-indigo-400 hover:to-indigo-600 active:bg-blue-500"
+                  className="uppercase ml-5  left-1.5 xl:-left-72 lg:-left-48 relative whitespace-nowrap inline-flex items-center justify-center lg:block hidden lg:px-3 px-2 py-2  border border-transparent rounded-md shadow-sm hover:shadow-md text-base tracking-wide font-semibold text-white bg-gradient-to-r from-blue-400 to-blue-600 hover:from-indigo-400 hover:to-indigo-600 active:bg-blue-500"
                 >
                   Sign up
                 </a>

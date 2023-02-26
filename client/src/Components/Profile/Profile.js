@@ -165,7 +165,7 @@ const Profile = () => {
       <h1 class="relative mx-auto xl:-mt-12 2xl:-mb-16 xl:-mb-6 xl:py-8 xl:pt-4   lg:mb-6 md:-mt-12 md:mb-16 sm:-mt-14 sm:mb-24 -mt-10 mb-40 xs:-mt-10 xs:mb-40 px-4 text-center sm:text-6xl text-5xl font-semibold">
         <span class="text-blue-600">Your</span> Profile
       </h1>
-      <div class="relative -mt-[445px] max-h-80">
+      <div class="relative xl:-mt-[295px] lg:-mt-[277px] md:-mt-[270px] sm:-mt-[300px] -mt-[310px] block max-h-80">
         <svg
           viewBox="0 0 1428 174"
           version="1.1"

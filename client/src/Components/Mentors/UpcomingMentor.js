@@ -26,38 +26,38 @@ const UpcomingMentor = (props) => {
   useEffect(() => {
     setLoading(true);
 
-    if (props.workshops && props.workshops.length !== 0) {
+    if (props.workshop) {
       setConsultantSelected(true);
       let currSessionNum = 0;
       let currentTime = new Date();
 
-      for (let i = 0; i < props.workshops[0].timeline.length; i++) {
+      for (let i = 0; i < props.workshop.timeline.length; i++) {
         if (
           (i == 0 &&
             currentTime.getTime() <
-              new Date(props.workshops[0].timeline[i]).getTime()) ||
+              new Date(props.workshop.timeline[i]).getTime()) ||
           (currentTime.getTime() <
-            new Date(props.workshops[0].timeline[i]).getTime() &&
+            new Date(props.workshop.timeline[i]).getTime() &&
             currentTime.getTime() >
-              new Date(props.workshops[0].timeline[i - 1]).getTime())
+              new Date(props.workshop.timeline[i - 1]).getTime())
         ) {
           currSessionNum = i;
         }
       }
 
       setNumSesh(currSessionNum + 1);
-      setWorkshop(props.workshops[0]);
+      setWorkshop(props.workshop);
 
       props.confirmSessions();
 
-      if (props.workshops[0].paymentPending === false) {
+      if (props.workshop.paymentPending === false) {
         setPaymentComplete(true);
-        setPackageCompleted(props.workshops[0].packageCompleted);
+        setPackageCompleted(props.workshop.packageCompleted);
       }
     }
 
     setLoading(false);
-  }, [props.workshops]);
+  }, [props.workshop]);
 
   const setUser = useContext(userContext).setUser;
   const user = useContext(userContext).user;
@@ -120,7 +120,7 @@ const UpcomingMentor = (props) => {
          sm:pt-0 sm:pb-0 pb-1.5 border-[0.005px] border-blue-600  from-blue-50 to-indigo-200 overflow-hidden`}
       >
         <div data-aos={"fade-up"} data-aos-once="true" class="h-28 pt-2.5 ">
-          <p className="text-center top-3 mb-2 text-xl sm:px-0 px-3  sm:w-full w-[270px] mx-auto block font-semibold relative">
+          <p className="text-center uppercase top-3 mb-2 text-xl sm:px-0 px-3  sm:w-full w-[270px] mx-auto block font-semibold relative">
             Upcoming Discussion Session:
           </p>
           <br />
