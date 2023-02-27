@@ -218,14 +218,14 @@ const Dashboard = () => {
                       sessionsConfirmed ? "xl:w-full" : "xl:w-4/12"
                     } mb-3 mt-1 xl:mb-0 px-3`}
                   >
-                    <p class="text-base sm:text-gray-600 text-gray-800 -mt-3  sm:font-semibold bg-yellow-50 w-[90%] text-center mb-7 p-2  px-3 border-yellow-600 border-dashed border-[1px] rounded-md font-normal shadow-md leading-5 mx-auto relative block ">
+                    <p class="text-sm sm:text-gray-600 text-gray-800 -mt-3  sm:font-semibold bg-yellow-50 w-[90%] text-center mb-7 p-2  px-3 border-yellow-600 border-dashed border-[1px] rounded-md font-normal shadow-md leading-5 mx-auto relative block ">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
-                        stroke-width="1.5"
+                        stroke-width="2"
                         stroke="currentColor"
-                        class="w-6 h-6 text-red-700 inline mr-[4px]  relative bottom-[0.6px]"
+                        class="w-[18px] h-[18px] font-bold text-red-700 inline mr-[2px]  relative bottom-[0.8px]"
                       >
                         <path
                           stroke-linecap="round"
