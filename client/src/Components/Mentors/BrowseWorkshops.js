@@ -171,7 +171,7 @@ export default function BrowseMentors() {
               </svg>{" "}
               Browse Courses
             </p>
-            <p class="sm:text-xl tetx-lg uppercase  mt-1 left-1.5 relative font-semibold">
+            <p class="sm:text-xl text-lg uppercase  mt-1 -mb-1 left-1.5 relative font-semibold">
               Learn from Industry Veterans
             </p>
           </div>
@@ -179,16 +179,16 @@ export default function BrowseMentors() {
 
         <div class="flex pointer-events-auto  z-[35] px-4 -space-x-4 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pb-2 bottom-[71.5px] relative justify-center  w-full  rounded-b-lg  mx-auto">
           <div class="grid grid-cols-6 sm:text-base  md:px-12 sm:px-8 px-4 text-sm gap-2 items-center z-40 justify-center relative">
-            <div class=" border-2 md:col-span-4 col-span-6 grid sm:grid-cols-6 sm:text-base text-sm grid-cols-12 pointer-events-auto rounded-sm border-gray-300">
+            <div class=" border-[1px] md:col-span-4 col-span-6 grid sm:grid-cols-6 sm:text-base text-sm grid-cols-12 pointer-events-auto rounded-md border-gray-300">
               <input
                 type="text"
                 onChange={textChangeHandler}
-                class="px-4 py-2 sm:text-base text-sm sm:col-span-5 col-span-9 shadow-sm border-0"
+                class="px-4 py-2 sm:text-base text-sm sm:col-span-5 col-span-9 rounded-l-md shadow-sm border-0"
                 placeholder="Search Course"
               />
               <button
                 onClick={() => filterByText()}
-                class="items-center sm:col-span-1 col-span-3 hover:shadow-lg hover:bg-blue-700 active:shadow-sm shadow-sm justify-center px-4 border-l bg-blue-600"
+                class="items-center sm:col-span-1 col-span-3 hover:shadow-lg hover:bg-blue-700 rounded-r-md active:shadow-sm shadow-sm justify-center px-4 border-l bg-blue-600"
               >
                 <svg
                   class="w-6 h-6 text-gray-100 text-center mx-auto block"

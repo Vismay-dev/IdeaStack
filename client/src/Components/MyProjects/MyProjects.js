@@ -135,7 +135,7 @@ const MyProjects = () => {
             "background-image":
               "url(https://airwallpaper.com/wp-content/uploads/wall001/Earth-Wallpaper.jpg)",
           }}
-          className="shadow-md transition-transform ease-out overflow-hidden origin-top transform xl:container bg-right bg-cover bottom-4  xl:flex block justify-center xl:w-10/12 mx-auto pt-7 bg-gradient-to-r from-gray-100 to-gray-300"
+          className="shadow-md transition-transform ease-out overflow-hidden origin-top transform  bg-center bg-cover bottom-4   block justify-center w-screen mx-auto pt-7 bg-gradient-to-r from-gray-100 to-gray-300"
         >
           <div>
             <h1 className="xl:text-7xl md:text-6xl sm:text-5xl text-[43px] sm:leading-[54px] xl:leading-[72px] md:leading-[65px] leading-10 relative text-center text-gray-100 font-extrabold pb-6 mb-1  mx-auto">
@@ -149,7 +149,7 @@ const MyProjects = () => {
         ""
       )}
 
-      <div class="flex space-x-1 overflow-hidden bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pt-5 justify-center xl:w-10/12 w-full md:pr-16 sm:pr-32 pr-[130px] rounded-b-lg mx-auto">
+      <div class="flex space-x-1 overflow-hidden bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pt-5 justify-center xl:w-full w-full md:pr-16 sm:pr-32 pr-[130px] rounded-b-lg mx-auto">
         {!sessionStorage.getItem("managing") ? (
           <>
             <button
