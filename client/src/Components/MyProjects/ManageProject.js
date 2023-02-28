@@ -380,7 +380,7 @@ export default function ManageProject() {
                       </svg>
                       <span class="inline">Invite Other Users:</span>
                     </h3>
-                    <h3 class="font-semibold text-center uppercase mx-auto relative mt-1.5 top-1 text-sm">
+                    <h3 class="font-semibold text-center uppercase mx-auto relative mt-0.5 top-1 text-sm">
                       (Remaining Team Capacity:{" "}
                       {project && project.maxCap - project.team.length})
                     </h3>
@@ -468,9 +468,9 @@ export default function ManageProject() {
                           d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
                         />
                       </svg>{" "}
-                      <p class="inline font-semibold">
-                        <span class="md:mb-0 mb-7 relative">
-                          Member Selected:
+                      <p class="inline text-lg font-semibold">
+                        <span class="md:mb-0 mb-7  relative">
+                          Member selected:
                         </span>
                         <br
                           class={`${
