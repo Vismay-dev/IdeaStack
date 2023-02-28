@@ -366,11 +366,11 @@ export default function ManageProject() {
                     <h3 class="font-bold text-center mx-auto relative mr-1 text-2xl">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6 mr-1 relative bottom-[2.6px] font-bold text-blue-800 inline"
+                        class="h-6 w-6 mr-1.5 relative bottom-[2.6px] font-bold text-blue-800 inline"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
-                        stroke-width="2"
+                        stroke-width="3"
                       >
                         <path
                           stroke-linecap="round"
