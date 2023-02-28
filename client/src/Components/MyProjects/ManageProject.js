@@ -380,7 +380,7 @@ export default function ManageProject() {
                       </svg>
                       <span class="inline">Invite Other Users:</span>
                     </h3>
-                    <h3 class="font-semibold text-center mx-auto relative mt-1.5 top-1 text-lg">
+                    <h3 class="font-semibold text-center uppercase mx-auto relative mt-1.5 top-1 text-sm">
                       (Remaining Team Capacity:{" "}
                       {project && project.maxCap - project.team.length})
                     </h3>
