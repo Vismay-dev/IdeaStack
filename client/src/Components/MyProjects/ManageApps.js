@@ -21,7 +21,7 @@ const ManageApps = () => {
 
   const user = useContext(userContext).user;
 
-  const projects = useContext(projectContext);
+  const projCon = useContext(projectContext);
   const [date, setDate] = useState();
   const [project, setProject] = useState();
 
@@ -29,40 +29,34 @@ const ManageApps = () => {
   const [latestReceived, setLatestReceived] = useState();
 
   useEffect(() => {
-    let projSelected = projects.projects.filter((proj) => {
-      return proj._id === String(sessionStorage.getItem("managing"));
-    })[0];
-    if (projects.projects && projSelected) {
-      setProject(projSelected);
+    let projSelected = projCon.project;
+    setProject(projSelected);
 
-      if (projSelected.team.length > 1) {
-        let date = projSelected.team[1].dateAdded;
-        let name = projSelected.team[1].name;
-        for (let x = 0; x < projSelected.team.length; x++) {
-          if (projSelected.team[x].dateAdded > date) {
-            date = projSelected.team[x].dateAdded;
-            name = projSelected.team[x].name;
-          }
+    if (projSelected.team && projSelected.team.length > 1) {
+      let date = projSelected.team[1].dateAdded;
+      let name = projSelected.team[1].name;
+      for (let x = 0; x < projSelected.team.length; x++) {
+        if (projSelected.team[x].dateAdded > date) {
+          date = projSelected.team[x].dateAdded;
+          name = projSelected.team[x].name;
         }
-        setLatestAccepted({ date: date, name: name });
       }
-
-      if (projSelected.joinRequests.length > 1) {
-        let newDate = projSelected.joinRequests[1].dateReceived;
-        for (let x = 0; x < projSelected.team.length; x++) {
-          if (projSelected.joinRequests[x].dateReceived > newDate) {
-            newDate = projSelected.joinRequests[x].dateReceived;
-          }
-        }
-        setLatestReceived({ date: newDate });
-      }
-
-      let currdate = new Date(projSelected.createdAt)
-        .toDateString()
-        .substring(4);
-      setDate(currdate.slice(0, 6) + "," + currdate.slice(6));
+      setLatestAccepted({ date: date, name: name });
     }
-  }, [projects]);
+
+    if (projSelected.joinRequests && projSelected.joinRequests.length > 1) {
+      let newDate = projSelected.joinRequests[1].dateReceived;
+      for (let x = 0; x < projSelected.team.length; x++) {
+        if (projSelected.joinRequests[x].dateReceived > newDate) {
+          newDate = projSelected.joinRequests[x].dateReceived;
+        }
+      }
+      setLatestReceived({ date: newDate });
+    }
+
+    let currdate = new Date(projSelected.createdAt).toDateString().substring(4);
+    setDate(currdate.slice(0, 6) + "," + currdate.slice(6));
+  }, [projCon]);
 
   const [acceptingApp, setAcceptingApp] = useState();
 
@@ -196,7 +190,7 @@ const ManageApps = () => {
                 Applications Accepted:{" "}
               </p>
               <br />
-              <h1 className="text-center relative text-4xl text-blue-700">
+              <h1 className="text-center relative my-2 -top-0.5 text-4xl text-blue-700">
                 {project ? project.team.length - 1 : " "}
               </h1>
               <p
@@ -204,17 +198,12 @@ const ManageApps = () => {
                   !latestAccepted ? "top-3 " : " top-1.5"
                 } text-center font-light text-gray-600 xl:px-[80px] lg:px-[70px] md:px-[60px] px-[55px]  `}
               >
-                Latest Accepted Team Member:{" "}
+                Latest Added Team Member:{" "}
                 {latestAccepted ? (
                   <>
                     <span class="text-indigo-500 font-semibold">
                       {latestAccepted.name}
                     </span>{" "}
-                    (
-                    {latestAccepted.date
-                      ? Date(latestAccepted.date).toString().substring(0, 15)
-                      : ""}
-                    )
                   </>
                 ) : (
                   "--"
@@ -226,7 +215,7 @@ const ManageApps = () => {
                 Applications Pending:{" "}
               </p>
               <br />
-              <h1 className="text-center text-4xl text-blue-700 -top-2 relative mb-1">
+              <h1 className="text-center text-4xl text-blue-700 -top-2.5 relative mt-1 mb-1.5">
                 {project
                   ? project.joinRequests.filter(
                       (jR) => jR.isInvite == null || jR.isInvite == false

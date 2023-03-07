@@ -12,9 +12,10 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Profile = () => {
-  const [projects, setProjects] = useState([]);
+  const [project, setProject] = useState([]);
   const [showmore, setShowmore] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -22,7 +23,7 @@ const Profile = () => {
     AOS.init({
       duration: 800,
     });
-  }, [projects, showmore, loading]);
+  }, [project, showmore, loading]);
 
   const [addDesc, setAddDesc] = useState(false);
   const [editingDesc, setEditingDesc] = useState(false);
@@ -50,12 +51,12 @@ const Profile = () => {
     axios
       .post(
         process.env.NODE_ENV === "production"
-          ? "https://ideastack.herokuapp.com/api/user/getUserProjects"
-          : "http://localhost:4000/api/user/getUserProjects",
+          ? "https://ideastack.herokuapp.com/api/user/getUserProject"
+          : "http://localhost:4000/api/user/getUserProject",
         { token: sessionStorage.getItem("token") }
       )
       .then((res) => {
-        setProjects(res.data);
+        setProject(res.data);
         setLoading(false);
       });
   }, [user]);
@@ -256,8 +257,8 @@ const Profile = () => {
                       </div>
                     ) : (
                       <img
-                        class={`rounded-full -mt-16 -mb-2  w-56 h-56 object-contain bg-white  shadow-lg block ${
-                          currentUser.user.profilePic ? "" : "p-2"
+                        class={`rounded-full -mt-16 -mb-6 w-52 h-52  object-contain bg-white  shadow-lg block ${
+                          currentUser.user.profilePic ? "" : "p-2 "
                         } relative`}
                         src={
                           currentUser.user.profilePic
@@ -303,8 +304,8 @@ const Profile = () => {
                       className={`fas hover:cursor-pointer hover:text-indigo-700 text-2xl fa-camera font-semibold  ${
                         currentUser.user.profilePic
                           ? "lg:bottom-0.5 -bottom-2 lg:right-6 right-4 absolute"
-                          : "right-2 absolute bottom-0.5"
-                      } ${picLoading ? "mt-3" : ""} text-gray-800`}
+                          : "right-2 bottom-3 absolute"
+                      } ${picLoading ? "mt-2" : "-mt-1"} text-gray-800`}
                     >
                       <Tooltip
                         position="bottom"
@@ -340,11 +341,12 @@ const Profile = () => {
                   <div className="flex justify-center py-4 xl:right-7 lg:right-3 right-0 relative lg:pt-4 pt-8">
                     <div className="mr-4 p-3 text-center">
                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                        {currentUser.user &&
-                          currentUser.user.projects.filter(onlyUnique).length}
+                        {/* {currentUser.user &&
+                          currentUser.user.projects.filter(onlyUnique).length} */}{" "}
+                        {project && project.team && project.team.length - 1}
                       </span>
                       <span className="text-sm top-1 relative text-blueGray-400">
-                        Projects
+                        Team-members
                       </span>
                     </div>
                     <div className="mr-4 p-3 text-center">
@@ -352,36 +354,43 @@ const Profile = () => {
                         0
                       </span>
                       <span className="text-sm top-1 relative text-blueGray-400">
-                        Sessions held with STEM experts
+                        Sessions held with mentors
                       </span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="text-center mt-11">
+              <div className="text-center mt-6">
                 <h3 className="sm:text-4xl text-3xl font-semibold leading-normal mb-2 text-blueGray-700">
                   {currentUser
                     ? userInfo.firstName + " " + userInfo.lastName
                     : " "}
                 </h3>
+                <div className="text-sm leading-normal mt-2 mb-10 text-blueGray-400 font-bold uppercase">
+                  <i className="fas fa-tools relative top-[1px] mr-2 text-lg sm:text-gray-400 text-gray-500"></i>
+                  {currentUser ? userInfo.role : " "}
+                  {" @ "}
+                  {currentUser ? project.name : " "}
+                </div>
+
                 <div className="text-sm leading-normal mt-0 mb-10 text-blueGray-400 font-bold uppercase">
                   <i className="fas fa-map-marker-alt mr-2 top-0.5 relative text-lg text-gray-400"></i>{" "}
                   {currentUser ? userInfo.city + ", " : " "}{" "}
                   {currentUser ? userInfo.country : " "}
                 </div>
 
-                <div className="mb-2 text-blueGray-600 px-4">
+                <div className="mb-3 text-blueGray-600 px-4">
                   <i className="fas fa-calendar mr-2 text-lg sm:text-gray-400 text-gray-500"></i>
                   <span class="sm:font-normal font-medium">Age:</span>{" "}
                   {currentUser ? userInfo.age : " "}
                 </div>
-                <div className="mb-2 text-blueGray-600 px-4">
+                <div className="mb-2.5 text-blueGray-600 px-4">
                   <i className="fas fa-university mr-2 text-lg sm:text-gray-400 text-gray-500"></i>
-                  {currentUser ? userInfo.school : " "}
+                  {currentUser ? userInfo.university : " "}
                 </div>
                 <div className="sm:mb-5 mb-8 text-blueGray-600 px-4">
-                  <i className="fas fa-envelope mr-2 text-lg sm:text-gray-400 text-gray-500"></i>
-                  <span class="sm:font-normal font-medium">Contact</span>:{" "}
+                  <i className="fas fa-envelope mr-2 relative top-[1px] text-lg sm:text-gray-400 text-gray-500"></i>
+                  <span class="sm:font-normal font-medium">Email ID</span>:{" "}
                   {currentUser ? userInfo.email : " "}
                 </div>
               </div>
@@ -592,8 +601,8 @@ const Profile = () => {
                           </div>
                         </>
                       )}
-                      <hr class=" border-t-1.5 border-gray-200 mb-16" />
-                      <h1 class="font-semibold text-4xl w-48 mx-auto relative bottom-6 mb-3 text-center justify-center inline-block justify-items-center">
+                      {/* <hr class=" border-t-1.5 border-gray-200 mb-16" /> */}
+                      {/* <h1 class="font-semibold text-4xl w-48 mx-auto relative bottom-6 mb-3 text-center justify-center inline-block justify-items-center">
                         <FaProjectDiagram class="text-indigo-500 ml-2 mr-2 text-3xl top-1.5 absolute" />
                         <span class="ml-8 mb-6 relative inline">Projects</span>{" "}
                         <div class="relative lg:left-20 sm:left-6 -left-4 sm:bottom-4 -bottom-5 z-[20]">
@@ -626,108 +635,114 @@ const Profile = () => {
                         />
                       </svg>
                       <div class="flex flex-wrap space-x-3 -mx-2 mt-4">
-                        {loading ? (
-                          <div class="relative mx-auto my-8 pl-4 mb-20 text-center block justify-center">
-                            <ClipLoader
-                              color={"#0b0bbf"}
-                              loading={loading}
-                              size={70}
-                            />
-                          </div>
-                        ) : !projects.length > 0 ? (
-                          <p class="text-2xl font-semibold text-center my-6 mb-24 mx-auto relative">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-6 w-6 inline text-blue-700"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+                        {
+                          loading ? (
+                            <div class="relative mx-auto my-8 pl-4 mb-20 text-center block justify-center">
+                              <ClipLoader
+                                color={"#0b0bbf"}
+                                loading={loading}
+                                size={70}
                               />
-                            </svg>{" "}
-                            <span class="top-0.5 relative">No Projects</span>
-                          </p>
-                        ) : (
-                          projects.map((proj) => {
-                            let date = new Date(proj.createdAt)
-                              .toDateString()
-                              .substring(4);
-                            date = date.slice(0, 6) + "," + date.slice(6);
-
-                            return (
-                              <div
-                                data-aos={"zoom-in-up"}
-                                data-aos-once="true"
-                                class={` sm:mt-0 mt-4 relative ${
-                                  projects.length === 1 ? "mx-auto" : ""
-                                }  md:w-2/3 xl:w-1/3 px-4}`}
+                            </div>
+                          ) : // !projects.length > 0 ?
+                          true ? (
+                            <p class="text-2xl font-semibold text-center my-6 mb-24 mx-auto relative">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-6 w-6 inline text-blue-700"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
                               >
-                                <div
-                                  class={`rounded-lg shadow-lg bg-gradient-to-r  from-blue-50 to-indigo-100 sm:w-full w-[120%] sm:right-0 right-[10%] relative  overflow-hidden mb-10`}
-                                >
-                                  <img
-                                    src={proj.projPic}
-                                    alt="image"
-                                    class="w-full h-56 object-contain py-3 -mb-3 bg-gray-50 border-b-2 border-gray-400 relative"
-                                  />
-                                  <div class="p-8 sm:p-9 md:p-7 xl:p-9 text-center">
-                                    <h3>
-                                      <a
-                                        href="javascript:void(0)"
-                                        class="
-                        font-semibold
-                        text-dark text-xl
-                        sm:text-[22px]
-                        md:text-xl
-                        lg:text-[22px]
-                        xl:text-xl
-                        2xl:text-[22px]
-                        
-                        block
-                        hover:text-primary
-                        "
-                                      >
-                                        {proj.name}
-                                      </a>
-                                      <span class="text-sm mx-auto relative font-light text-gray-600 ">
-                                        {date}
-                                      </span>
-                                    </h3>
-                                    <p class="text-base text-body-color mt-4 leading-relaxed mb-7">
-                                      {proj.problem}
-                                    </p>
-                                    <a
-                                      onClick={() => {
-                                        history.push("/myprojects");
-                                        window.scrollTo(0, 0);
-                                      }}
-                                      class="
-                     inline-block
-                     py-2
-                     px-7
-                     cursor-pointer
-                     border border-[#4577da]
-                     rounded-full
-                     text-base text-body-color
-                     font-medium
-                     hover:border-primary hover:bg-slate-100 hover:text-indigo-600
-                     transition
-                     "
-                                    >
-                                      View Projects
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })
-                        )}
-                      </div>
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+                                />
+                              </svg>{" "}
+                              <span class="top-0.5 relative">No Projects</span>
+                            </p>
+                          ) : (
+                            <></>
+                          )
+                          //     (
+                          //       projects.map((proj) => {
+                          //         let date = new Date(proj.createdAt)
+                          //           .toDateString()
+                          //           .substring(4);
+                          //         date = date.slice(0, 6) + "," + date.slice(6);
+
+                          //         return (
+                          //           <div
+                          //             data-aos={"zoom-in-up"}
+                          //             data-aos-once="true"
+                          //             class={` sm:mt-0 mt-4 relative ${
+                          //               projects.length === 1 ? "mx-auto" : ""
+                          //             }  md:w-2/3 xl:w-1/3 px-4}`}
+                          //           >
+                          //             <div
+                          //               class={`rounded-lg shadow-lg bg-gradient-to-r  from-blue-50 to-indigo-100 sm:w-full w-[120%] sm:right-0 right-[10%] relative  overflow-hidden mb-10`}
+                          //             >
+                          //               <img
+                          //                 src={proj.projPic}
+                          //                 alt="image"
+                          //                 class="w-full h-56 object-contain py-3 -mb-3 bg-gray-50 border-b-2 border-gray-400 relative"
+                          //               />
+                          //               <div class="p-8 sm:p-9 md:p-7 xl:p-9 text-center">
+                          //                 <h3>
+                          //                   <a
+                          //                     href="javascript:void(0)"
+                          //                     class="
+                          //     font-semibold
+                          //     text-dark text-xl
+                          //     sm:text-[22px]
+                          //     md:text-xl
+                          //     lg:text-[22px]
+                          //     xl:text-xl
+                          //     2xl:text-[22px]
+
+                          //     block
+                          //     hover:text-primary
+                          //     "
+                          //                   >
+                          //                     {proj.name}
+                          //                   </a>
+                          //                   <span class="text-sm mx-auto relative font-light text-gray-600 ">
+                          //                     {date}
+                          //                   </span>
+                          //                 </h3>
+                          //                 <p class="text-base text-body-color mt-4 leading-relaxed mb-7">
+                          //                   {proj.problem}
+                          //                 </p>
+                          //                 <a
+                          //                   onClick={() => {
+                          //                     history.push("/myprojects");
+                          //                     window.scrollTo(0, 0);
+                          //                   }}
+                          //                   class="
+                          //  inline-block
+                          //  py-2
+                          //  px-7
+                          //  cursor-pointer
+                          //  border border-[#4577da]
+                          //  rounded-full
+                          //  text-base text-body-color
+                          //  font-medium
+                          //  hover:border-primary hover:bg-slate-100 hover:text-indigo-600
+                          //  transition
+                          //  "
+                          //                 >
+                          //                   View Projects
+                          //                 </a>
+                          //               </div>
+                          //             </div>
+                          //           </div>
+                          //         );
+                          //       })
+                          //     )
+                        }
+                      </div> */}
                     </div>
                   ) : (
                     ""

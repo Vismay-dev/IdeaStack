@@ -3,17 +3,23 @@ import Landing from "./Landing/Landing";
 import Browse from "./Browse/Browse";
 import Profile from "./Profile/Profile";
 import MyProjects from "./MyProjects/MyProjects";
+import Onboarding from "./Onboarding/Onboarding";
 import AdminPage from "./adminPage";
 import ViewProfile from "./Profile/ViewProfile";
+import TeamOnboarding from "./TeamOnboarding/TeamOnboarding";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import Team from "./Team/Team";
+import SignUp from "./SignUp/SignUp";
 import OurJourney from "./Our Journey/Our Journey";
 import { io } from "socket.io-client";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import Mentors from "../Components/Mentors/MentorsMain";
+import userContext from "../context/userContext";
 
 const MainContent = () => {
   const location = useLocation();
+  const user = useContext(userContext).user;
+  console.log(user.initialized);
 
   return (
     <>
@@ -39,6 +45,17 @@ const MainContent = () => {
             {!sessionStorage.getItem("token") ? <Team /> : <Redirect to="/" />}
           </Route>
 
+          <Route
+            path="/signup"
+            render={() =>
+              !sessionStorage.getItem("token") ? (
+                <SignUp />
+              ) : (
+                <Redirect to="/" />
+              )
+            }
+          />
+
           <Route path="/ourjourney">
             {!sessionStorage.getItem("token") ? (
               <OurJourney />
@@ -47,11 +64,35 @@ const MainContent = () => {
             )}
           </Route>
 
+          <Route path="/teamonboarding">
+            {!sessionStorage.getItem("token") ? (
+              <TeamOnboarding />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+
+          <Route path="/onboarding">
+            {sessionStorage.getItem("token") && user ? (
+              !user.initialized ? (
+                <Onboarding />
+              ) : (
+                <Redirect to="/profile" />
+              )
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+
           <Route
             path="/profile"
             render={() =>
-              sessionStorage.getItem("token") ? (
-                <Profile />
+              sessionStorage.getItem("token") && user ? (
+                user.initialized ? (
+                  <Profile />
+                ) : (
+                  <Redirect to="/onboarding" />
+                )
               ) : (
                 <Redirect to="/" />
               )
@@ -64,7 +105,7 @@ const MainContent = () => {
             }
           />
           <Route
-            path="/myprojects"
+            path="/dashboard"
             render={() =>
               sessionStorage.getItem("token") ? (
                 <MyProjects />
@@ -86,7 +127,7 @@ const MainContent = () => {
           />
 
           <Route
-            path="/mentors"
+            path="/mentorship"
             render={() =>
               sessionStorage.getItem("token") ? (
                 <Mentors />

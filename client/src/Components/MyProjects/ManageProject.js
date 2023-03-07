@@ -52,7 +52,7 @@ export default function ManageProject() {
 
   const user = useContext(userContext).user;
 
-  const projects = useContext(projectContext);
+  const projectCurr = useContext(projectContext);
   const [date, setDate] = useState();
   const [project, setProject] = useState();
   const [latestReceived, setLatestReceived] = useState();
@@ -131,27 +131,23 @@ export default function ManageProject() {
   };
 
   const [team, setTeam] = useState([]);
-  const projectsCurr = useContext(projectContext);
   const [proj, setProj] = useState("");
 
-  useEffect(() => {
-    let projSelected = "";
-    if (sessionStorage.getItem("managing")) {
-      projSelected = projectsCurr.projects.filter((proj) => {
-        return proj._id === String(sessionStorage.getItem("managing"));
-      })[0];
-    }
-    let teamTemp = [];
+  const [editing, setEditing] = useState(false);
 
-    if (projSelected) {
+  useEffect(() => {
+    let projSelected = projectCurr.project;
+    let teamTemp = [];
+    if (projSelected.team) {
       for (let i = 0; i < projSelected.team.length; i++) {
         teamTemp.push(projSelected.team[i].name);
       }
       setTeam(teamTemp);
     }
 
-    setProj(projSelected ? projSelected : "");
-  }, [sessionStorage.getItem("managing")]);
+    setProj(projSelected);
+    setProject(projSelected);
+  }, [projectCurr.project, editing]);
 
   const [mentorDate, setMentorDate] = useState();
   const [dateOfUpload, setDateOfUpload] = useState();
@@ -181,60 +177,57 @@ export default function ManageProject() {
         setLoading(false);
       });
 
-    let projSelected = projects.projects.filter((proj) => {
-      return proj._id === String(sessionStorage.getItem("managing"));
-    })[0];
+    let projSelected = proj;
 
-    if (projects.projects && projSelected) {
-      setProject(projSelected);
+    setProject(projSelected);
 
-      if (projSelected.joinRequests.length > 1) {
-        let dateNew3 = projSelected.joinRequests[0].dateReceived;
-        for (let x = 0; x < projSelected.team.length; x++) {
-          if (projSelected.joinRequests[x].dateReceived > dateNew3) {
-            dateNew3 = projSelected.joinRequests[x].dateReceived;
-          }
+    if (projSelected.joinRequests && projSelected.joinRequests.length > 1) {
+      let dateNew3 = projSelected.joinRequests[0].dateReceived;
+      for (let x = 0; x < projSelected.team.length; x++) {
+        if (projSelected.joinRequests[x].dateReceived > dateNew3) {
+          dateNew3 = projSelected.joinRequests[x].dateReceived;
         }
-        setLatestReceived({ date: dateNew3 });
       }
-
-      if (projSelected.mentorshipPackages.length > 0) {
-        if (projSelected.mentorshipPackages[0].scheduleSelected)
-          var dateNew2 = projSelected.mentorshipPackages[0].scheduleSelected;
-        for (let x = 0; x < projSelected.mentorshipPackages.length; x++) {
-          if (projSelected.mentorshipPackages[x].scheduleSelected > dateNew2) {
-            dateNew2 = projSelected.mentorshipPackages[x].scheduleSelected;
-          }
-        }
-        setMentorDate({ date: dateNew2 });
-      }
-
-      if (projSelected.joinRequests.length > 0) {
-        let dateNew1 = new Date(projSelected.joinRequests[0].dateReceived);
-        for (let x = 0; x < projSelected.joinRequests.length; x++) {
-          if (new Date(projSelected.joinRequests[x].dateReceived) > dateNew1) {
-            dateNew1 = projSelected.joinRequests[x].dateReceived;
-          }
-        }
-        setLatestReceived({ date: dateNew1 });
-      }
-
-      if (projSelected.documents.length > 0) {
-        let dateNew = new Date(projSelected.documents[0].dateOfUpload);
-        for (let x = 0; x < projSelected.documents.length; x++) {
-          if (new Date(projSelected.documents[x].dateOfUpload) > dateNew) {
-            dateNew = projSelected.documents[x].dateOfUpload;
-          }
-        }
-        setDateOfUpload({ date: dateNew });
-      }
-
-      let currdate = new Date(projSelected.createdAt)
-        .toDateString()
-        .substring(4);
-      setDate(currdate.slice(0, 6) + "," + currdate.slice(6));
+      setLatestReceived({ date: dateNew3 });
     }
-  }, [location.pathname, projectsCurr]);
+
+    if (
+      projSelected.mentorshipPackages &&
+      projSelected.mentorshipPackages.length > 0
+    ) {
+      if (projSelected.mentorshipPackages[0].scheduleSelected)
+        var dateNew2 = projSelected.mentorshipPackages[0].scheduleSelected;
+      for (let x = 0; x < projSelected.mentorshipPackages.length; x++) {
+        if (projSelected.mentorshipPackages[x].scheduleSelected > dateNew2) {
+          dateNew2 = projSelected.mentorshipPackages[x].scheduleSelected;
+        }
+      }
+      setMentorDate({ date: dateNew2 });
+    }
+
+    if (projSelected.joinRequests && projSelected.joinRequests.length > 0) {
+      let dateNew1 = new Date(projSelected.joinRequests[0].dateReceived);
+      for (let x = 0; x < projSelected.joinRequests.length; x++) {
+        if (new Date(projSelected.joinRequests[x].dateReceived) > dateNew1) {
+          dateNew1 = projSelected.joinRequests[x].dateReceived;
+        }
+      }
+      setLatestReceived({ date: dateNew1 });
+    }
+
+    if (projSelected.documents && projSelected.documents.length > 0) {
+      let dateNew = new Date(projSelected.documents[0].dateOfUpload);
+      for (let x = 0; x < projSelected.documents.length; x++) {
+        if (new Date(projSelected.documents[x].dateOfUpload) > dateNew) {
+          dateNew = projSelected.documents[x].dateOfUpload;
+        }
+      }
+      setDateOfUpload({ date: dateNew });
+    }
+
+    let currdate = new Date(projSelected.createdAt).toDateString().substring(4);
+    setDate(currdate.slice(0, 6) + "," + currdate.slice(6));
+  }, [location.pathname, projectCurr.project]);
 
   const [inviteSent, setInviteSent] = useState(false);
   const [showLeave, setShowLeave] = useState(false);
@@ -260,8 +253,6 @@ export default function ManageProject() {
       });
   };
 
-  const [editing, setEditing] = useState(false);
-
   const [memberSelected, setMemberSelected] = useState();
   const inputRef = useRef();
   const [showRemove, setShowRemove] = useState(false);
@@ -276,9 +267,19 @@ export default function ManageProject() {
   return (
     <>
       <Switch>
-        <Route path="/myprojects/manageproject/overview">
+        <Route path="/dashboard/overview">
           <>
-            {editing ? <EditProjModal close={() => setEditing(false)} /> : ""}
+            {editing ? (
+              <EditProjModal
+                close={() => setEditing(false)}
+                changeProj={(data) => {
+                  setProject(data);
+                  setProj(data);
+                }}
+              />
+            ) : (
+              ""
+            )}
 
             {showLeave ? (
               <LeaveModal
@@ -291,17 +292,14 @@ export default function ManageProject() {
             )}
 
             <h2
-              class={`text-center font-bold sm:text-5xl text-4xl text-gray-800 top-1 relative lg:mt-11 mt-12 ${
-                project &&
-                user &&
-                JSON.stringify(user._id) === JSON.stringify(project.admin.id)
-                  ? "lg:mb-1 mb-6 lg:pb-1 pb-4"
-                  : "-mb-5"
-              } `}
+              class={`text-center tracking-wide font-bold sm:text-5xl text-4xl  text-gray-800 top-1 relative  mt-12 
+               
+                   -mb-1
+               `}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="sm:h-14 h-10 sm:bottom-[2.9px] bottom-[3.1px] relative inline sm:w-14 w-10 font-bold"
+                class="sm:h-12 sm:w-12 w-10 h-10 sm:bottom-[3.2px] bottom-[3.1px] relative inline text-gray-800  font-bold"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -314,41 +312,13 @@ export default function ManageProject() {
                 />
               </svg>{" "}
               Overview
-              <p class="mt-[4px] text-xl text-center pl-3 text-gray-800  font-semibold">
+              <p class="mt-[4px] text-xl text-center pl-3 bg-gradient-to-r bg-clip-text text-transparent from-blue-500 to-indigo-600 w-fit block mx-auto font-semibold">
                 View All Important Details
               </p>
             </h2>
-            <button
-              onClick={() => {
-                setShowLeave(true);
-              }}
-              class={`relative px-2.5 lg:-mb-[200px] -mb-[100px] -top-5 xl:left-[80%] ${
-                project &&
-                user &&
-                JSON.stringify(user._id) === JSON.stringify(project.admin.id)
-                  ? "hidden"
-                  : ""
-              } lg:left-[75%] sm:left-[52%] left-[54%] translate-x-[-54%] lg:translate-x-0 sm:translate-x-[-52%] lg:-mt-32 mt-28 bg-red-600 p-2 rounded-md shadow-sm hover:bg-red-700 hover:shadow-lg text-white font-semibold`}
-            >
-              <span class="inline mr-1.5 lg:text-base">Leave Project Team</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 inline bottom-[2px] relative"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                />
-              </svg>
-            </button>
 
-            <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 xl:left-0 left-0.5  relative justify-center mx-auto sm:px-[60px] px-[18px] lg:mt-[63px] mt-[45px]  xl:gap-5 gap-9 ">
-              <div
+            <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 xl:left-0 left-0.5  relative justify-center mx-auto sm:px-[60px] px-[18px] lg:mt-[63px] mt-[45px] mb-2  xl:gap-5 gap-9 ">
+              {/* <div
                 class={`xl:col-span-3  bg-bottom lg:col-span-2 col-span-1 ${
                   project &&
                   (project.maxCap - project.team.length === 0 ||
@@ -363,10 +333,10 @@ export default function ManageProject() {
                   class=" h-full w-full"
                 >
                   <div class="border-t-[2px] border-b-[2px] border-blue-700 border-dashed   lg:w-[60%] md:w-[85%]  w-[100%] sm:pt-[27px] pt-[34px] pb-5 h-[335px] mb-[60px] -mt-3 relative mx-auto block">
-                    <h3 class="font-bold text-center mx-auto relative mr-1 text-2xl">
+                    <h3 class="font-bold text-center mx-auto relative pt-1.5 mr-1 text-2xl">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6 mr-1.5 relative bottom-[2.6px] font-bold text-blue-800 inline"
+                        class="h-6 w-6 mr-[7px] relative bottom-[2.6px] font-bold text-blue-800 inline"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -456,7 +426,7 @@ export default function ManageProject() {
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6 inline relative bottom-[3px] mr-0.5"
+                        class="h-4 w-4 inline relative bottom-[2px] mr-0.5"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -550,14 +520,14 @@ export default function ManageProject() {
                           memberSelected
                             ? "from-indigo-300 to-indigo-500 shadow-md hover:shadow-lg active:shadow-sm md:mt-[24px] mt-[10px]"
                             : " from-indigo-200 to-indigo-300 sm:mt-5 mt-7"
-                        } left-1.5  bg-gradient-to-br text-white font-semibold p-3 relative mx-auto block rounded-md pt-2.5`}
+                        } left-1.5  bg-gradient-to-br text-white font-semibold p-3 px-4 relative mx-auto block rounded-md pt-2.5`}
                       >
                         Send Invite
                       </button>
                     )}
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div
                 data-aos={"fade-up"}
@@ -602,18 +572,17 @@ export default function ManageProject() {
            hover:text-primary
            "
                       >
-                        {project ? project.name : ""}
+                        {proj ? proj.name : ""}
                       </a>
                       <span class="text-sm mx-auto relative font-light text-gray-600 ">
                         {date ? date : ""}
                       </span>
                     </h3>
                     <p class="text-base text-body-color mt-4 lg:w-full xl:w-[320px]  md:w-[590px] md:block md:mx-auto md:justify-center md:text-center leading-relaxed mb-7">
-                      {project ? project.problem : ""}
+                      {proj ? proj.problem : ""}
                       <br />
                       <p class="relative top-3 xl:top-7 -mb-5">
-                        <strong>Category:</strong>{" "}
-                        {project ? project.category : ""}
+                        <strong>Category:</strong> {proj ? proj.category : ""}
                         <br />
                       </p>
                     </p>
@@ -631,29 +600,29 @@ export default function ManageProject() {
                   class={`rounded-lg shadow-lg bg-gradient-to-r  border-[1px] border-blue-600 h-fit lg:h-[480px] xl:h-[530px]  from-blue-50 to-indigo-200 overflow-hidden mb-0`}
                 >
                   <div class="xl:h-[174px] lg:h-[168px] sm:h-[152px] h-[160px] sm:pt-1.5 xl:pb-7 pt-0">
-                    <p className="text-center top-5 text-xl font-semibold relative mb-1">
-                      Applications Pending:{" "}
+                    <p className="text-center top-4 text-xl font-semibold relative mb-1">
+                      Assignments Pending:{" "}
                     </p>
                     <br />
                     <h1 className="text-center text-4xl text-blue-700 bottom-[1px] relative mb-1">
-                      {project
-                        ? project.joinRequests.filter((jR) => {
+                      {project && project.assignments
+                        ? project.assignments.filter((jR) => {
                             return jR.isInvite == null || jR.isInvite == false;
                           }).length
-                        : " "}
+                        : 0}
                     </h1>
                     <p class="text-sm relative text-center bottom-[0.2px] top-2.5 font-light text-gray-600 sm:px-[50px] px-[25px] lg:px-[40px] ">
-                      Latest Pending Application Received On:{" "}
+                      Latest Pending Assignment Received On:{" "}
                       <span class="text-indigo-500 font-semibold">
                         {latestReceived && latestReceived.date
                           ? new Date(latestReceived.date).toDateString()
-                          : "No Pending Applications"}
+                          : "No Pending Assignments"}
                       </span>
                     </p>
                   </div>
                   <div class=" sm:pt-0.5 sm:pb-11 pt-0.5  lg:pt-0.5 xl:pt-1 pb-[34px]  xl:h-[187px] h-fit  bg-gradient-to-r from-gray-50 to-slate-50 text-center">
                     <p className="text-center top-4 text-xl font-semibold relative sm:px-[85px] px-10">
-                      Industry Mentors Appointed:{" "}
+                      Mentors/Advisors Appointed:{" "}
                     </p>
                     <br />
                     <h1 className="text-center relative text-4xl text-blue-700">
@@ -712,24 +681,24 @@ export default function ManageProject() {
           </>
         </Route>
 
-        <Route path="/myprojects/manageproject/manageapps">
+        <Route path="/dashboard/manageapps">
           <ManageApps />
         </Route>
 
-        <Route path="/myprojects/manageproject/collaborate">
+        <Route path="/dashboard/collaborate">
           <Collaborate />
         </Route>
 
-        <Route path="/myprojects/manageproject/mentorship/browse">
+        <Route path="/dashboard/mentorship">
           <BrowseExperts />
         </Route>
 
-        {/* <Route path="/myprojects/manageproject/mentorship">
+        {/* <Route path="/dashboard/manageproject/mentorship">
           <Mentorship />
         </Route> */}
 
-        <Route path="/myprojects/manageproject">
-          <Redirect to="/myprojects/manageproject/overview" />
+        <Route path="/dashboard/">
+          <Redirect to="/dashboard/overview" />
         </Route>
       </Switch>
     </>

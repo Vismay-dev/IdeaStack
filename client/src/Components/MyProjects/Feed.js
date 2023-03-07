@@ -26,10 +26,7 @@ const Feed = () => {
     socket.on("redistributeMessages", (data) => {
       console.log(data);
 
-      if (
-        JSON.stringify(data.id) ===
-        JSON.stringify(sessionStorage.getItem("managing"))
-      ) {
+      if (JSON.stringify(data.id) === JSON.stringify(projCon.project._id)) {
         setFeed(data.feed);
         console.log("Changed");
       }
@@ -39,10 +36,7 @@ const Feed = () => {
       socket.off("redistributeMessages", (data) => {
         console.log(data);
 
-        if (
-          JSON.stringify(data.id) ===
-          JSON.stringify(sessionStorage.getItem("managing"))
-        ) {
+        if (JSON.stringify(data.id) === JSON.stringify(projCon.project._id)) {
           setFeed(data.feed);
           console.log("Changed");
         }
@@ -50,7 +44,7 @@ const Feed = () => {
     };
   }, []);
 
-  const projects = useContext(projectContext);
+  const projCon = useContext(projectContext);
   const [project, setProject] = useState();
   const [feed, setFeed] = useState([]);
   let authorPic = "";
@@ -69,11 +63,9 @@ const Feed = () => {
         name = res.data.firstName + " " + res.data.lastName;
       });
 
-    let projSelected = projects.projects.filter((proj) => {
-      return proj._id === String(sessionStorage.getItem("managing"));
-    })[0];
+    let projSelected = projCon.project;
 
-    if (projects.projects && projSelected) {
+    if (projCon.project && projSelected) {
       setProject(projSelected);
 
       if (projSelected.messages) {
@@ -84,7 +76,7 @@ const Feed = () => {
               : "http://localhost:4000/api/project/seeMessages",
             {
               token: sessionStorage.getItem("token"),
-              projectID: sessionStorage.getItem("managing"),
+              projectID: projSelected._id,
             }
           )
           .then((res) => {
@@ -187,7 +179,7 @@ const Feed = () => {
             {
               token: sessionStorage.getItem("token"),
               feed: feedTemp,
-              projectID: sessionStorage.getItem("managing"),
+              projectID: projCon.project._id,
             }
           )
           .then((res) => {
@@ -225,7 +217,7 @@ const Feed = () => {
         {
           token: sessionStorage.getItem("token"),
           feed: feedTemp,
-          projectID: sessionStorage.getItem("managing"),
+          projectID: projCon.project._id,
         }
       )
       .then((res) => {

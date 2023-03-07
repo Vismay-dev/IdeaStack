@@ -16,18 +16,15 @@ const Contact = () => {
     });
   }, []);
 
-  const projectsCurr = useContext(projectContext);
+  const projectCurr = useContext(projectContext);
   const [proj, setProj] = useState(null);
 
   useEffect(() => {
     let projSelected = "";
-    if (sessionStorage.getItem("managing")) {
-      projSelected = projectsCurr.projects.filter((proj) => {
-        return proj._id === String(sessionStorage.getItem("managing"));
-      })[0];
-    }
+    projSelected = projectCurr.project;
+
     setProj(projSelected ? projSelected : "");
-  }, [sessionStorage.getItem("managing")]);
+  }, [projectCurr]);
 
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -40,7 +37,7 @@ const Contact = () => {
           : "http://localhost:4000/api/project/getTeamContacts",
         {
           token: sessionStorage.getItem("token"),
-          projectID: sessionStorage.getItem("managing"),
+          projectID: projectCurr.project._id,
         }
       )
       .then((res) => {
@@ -50,7 +47,7 @@ const Contact = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [proj, sessionStorage.getItem("managing")]);
+  }, []);
 
   const [showToolTip, setShowToolTip] = useState(false);
 

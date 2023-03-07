@@ -152,7 +152,7 @@ export default function BrowseMentors() {
           class="text-center bg-cover z-40 bg-gradient-to-br from-cyan-400 to-cyan-600   text-gray-100 top-1   rounded-md shadow-md mb-[81px] relative"
         >
           <div class="bg-gray-900 bg-opacity-40 py-8 pb-9">
-            <p class="md:text-4xl text-3xl md:normal-case uppercase   font-bold">
+            <p class="md:text-4xl text-3xl tracking-wide md:normal-case uppercase   font-bold">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="md:h-11 sm:h-10 h-8 bottom-[4px] md:left-0.5  -ml-1 relative md:w-14 sm:w-10 w-8 sm:inline hidden"
@@ -169,10 +169,10 @@ export default function BrowseMentors() {
                   d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"
                 />
               </svg>{" "}
-              Browse Courses
+              Browse Mentors
             </p>
-            <p class="sm:text-xl text-lg uppercase  mt-1 -mb-1 left-1.5 relative font-semibold">
-              Learn from Industry Veterans
+            <p class="text-base uppercase mt-1.5 -mb-1 left-1.5 relative font-semibold">
+              Level-up your Venture with Mentorship
             </p>
           </div>
         </h2>
@@ -261,55 +261,57 @@ export default function BrowseMentors() {
 
                   <img
                     src={
-                      workshop.coverImage
-                        ? workshop.coverImage
+                      workshop.pic
+                        ? workshop.pic
                         : "https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80"
                     }
                     alt="expert"
                     class={` ${
-                      workshop.orgPic
+                      workshop.partnerPic && workshop.partnerPic != ""
                         ? "xl:right-0 lg:right-6 right-10 relative"
                         : ""
                     } mx-auto shadow-sm
-                        rounded-[.25rem] border-blue-100 border  lg:h-[250px] lg:w-[250px] w-[180px] h-[180px]  object-center object-cover group-hover:opacity-75`}
+                        rounded-full border-blue-100 border my-2  lg:h-[190px] lg:w-[190px] w-[160px] h-[160px]  object-center object-cover group-hover:opacity-75`}
                   />
                 </div>
-                <h3 class="mt-4 text-lg px-6 sm:text-left lg:right-0 relative font-semibold  text-center text-gray-900">
-                  {workshop.title}
+                <h3 class="mt-4 text-xl tracking-wide bg-gradient-to-r w-fit from-blue-500 to-indigo-500 text-transparent bg-clip-text px-6 sm:text-left lg:right-0 relative font-bold  text-center text-gray-900">
+                  {workshop.name}
                 </h3>
                 <p class="mt-2 pb-4 top-[7px] px-6 text-md sm:text-left lg:right-0 relative  text-center font-medium text-gray-700">
-                  Duration: {workshop.duration} Weeks
+                  Expertise: {workshop.expertise}
                 </p>
                 <p class="mt-2 pb-[14px] text-md px-6 sm:text-left lg:right-0 relative  text-center font-medium text-gray-700">
-                  Mentors:{" "}
-                  {workshop.mentors.map((name, i) => {
-                    return (
-                      <span
-                        class={` ${
-                          i == 2 ? "-mt-[14px] inline pt-[16px]" : "inline"
-                        }`}
-                      >
-                        {" "}
-                        {i == 2 ? (
-                          <>
-                            {" "}
-                            <br class="inline" />{" "}
-                          </>
-                        ) : (
-                          ""
-                        )}
-                        {i != 0 && i != 2 ? "& " : ""}{" "}
-                        <img
-                          src={workshop.pics[i]}
-                          class="w-8 h-8 ml-2 mb-1 inline rounded-full"
-                        ></img>{" "}
-                        <span class="ml-1 lg:inline hidden">{name}</span>{" "}
-                        <span class="ml-1 lg:hidden inline">
-                          {name.split(" ")[0]}
-                        </span>{" "}
-                      </span>
-                    );
-                  })}
+                  Organizations:{" "}
+                  {workshop.orgs
+                    .filter((org, i) => i < 2)
+                    .map((org, i) => {
+                      return (
+                        <span
+                          class={` ${
+                            i == 2 ? "-mt-[14px] inline pt-[16px]" : "inline"
+                          }`}
+                        >
+                          {" "}
+                          {i == 2 ? (
+                            <>
+                              {" "}
+                              <br class="inline" />{" "}
+                            </>
+                          ) : (
+                            ""
+                          )}
+                          {i != 0 && i != 2 ? "& " : ""}{" "}
+                          <img
+                            src={org.pic}
+                            class="w-8 h-8 shadow-md ml-2 mb-1 inline rounded-full"
+                          ></img>{" "}
+                          <span class="ml-1 lg:inline hidden">{org.name}</span>{" "}
+                          <span class="ml-1 lg:hidden inline">
+                            {org.name.split(" ")[0]}
+                          </span>{" "}
+                        </span>
+                      );
+                    })}
                 </p>
               </a>
             ))}

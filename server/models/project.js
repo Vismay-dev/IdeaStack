@@ -27,10 +27,6 @@ const projectSchema = new mongoose.Schema(
       type: Array,
       required: false,
     },
-    isFirstFree: {
-      type: Boolean,
-      required: false,
-    },
     projPic: {
       type: String,
       required: true,
@@ -59,7 +55,7 @@ const projectSchema = new mongoose.Schema(
       type: Array,
       required: false,
     },
-    mentorshipPackages: {
+    mentorsMatched: {
       type: Array,
       required: false,
     },

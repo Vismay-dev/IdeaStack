@@ -1,11 +1,8 @@
-import {createContext} from 'react'
+import { createContext } from "react";
 
 const projectContext = createContext({
-    projects: [],
-    setProjects:   () => {
-
-    }
-  
+  project: [],
+  setProject: () => {},
 });
 
-export default projectContext
+export default projectContext;

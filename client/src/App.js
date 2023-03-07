@@ -58,7 +58,7 @@ function App() {
     }
   }, [user]);
 
-  const [projects, setProjects] = useState(user.projects);
+  const [project, setProject] = useState(user.projects);
 
   useEffect(() => {
     if (
@@ -73,19 +73,19 @@ function App() {
       axios
         .post(
           process.env.NODE_ENV === "production"
-            ? "https://ideastack.herokuapp.com/api/user/getUserProjects"
-            : "http://localhost:4000/api/user/getUserProjects",
-          { token: sessionStorage.getItem("token") }
+            ? "https://ideastack.herokuapp.com/api/user/getProject"
+            : "http://localhost:4000/api/user/getProject",
+          { projId: user.projectId, token: sessionStorage.getItem("token") }
         )
         .then((res) => {
-          setProjects(res.data);
+          setProject(res.data);
         });
     }
   }, [user.projects, location.pathname]);
 
   return (
     <projectContext.Provider
-      value={{ projects: projects, setProjects: setProjects }}
+      value={{ project: project, setProject: setProject }}
     >
       <userContext.Provider value={{ user: user, setUser: setUser }}>
         <div

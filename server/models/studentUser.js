@@ -9,6 +9,7 @@ const studentUserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
   email: {
     type: String,
     required: true,
@@ -17,28 +18,44 @@ const studentUserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isAdditionalMember: {
+    type: Boolean,
+    required: false,
+  },
+  initialized: {
+    type: Boolean,
+    required: true,
+  },
+  initializationStep: {
+    type: String,
+    required: false,
+  },
   country: {
     type: String,
-    required: true,
+    required: false,
   },
   age: {
     type: String,
-    required: true,
+    required: false,
   },
   city: {
     type: String,
-    required: true,
+    required: false,
   },
-  school: {
+  university: {
     type: String,
-    required: true,
+    required: false,
+  },
+  role: {
+    type: String,
+    required: false,
   },
   description: {
     type: String,
     required: false,
   },
-  projects: {
-    type: Array,
+  projectId: {
+    type: String,
     required: false,
   },
   profilePic: {

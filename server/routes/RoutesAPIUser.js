@@ -104,16 +104,58 @@ router.post("/register", async (req, res) => {
         lastName: req.body.lastName,
         email: req.body.email.toLowerCase().trim(),
         password: hash,
-        school: req.body.school,
-        country: req.body.country,
-        age: req.body.age,
-        city: req.body.city,
+        isAdditionalMember: req.body.additionalMember,
+        initialized: false,
+        initializationStep: "pi",
+        role: req.body.additionalMember ? req.body.role : null,
+        projectId: req.body.additionalMember ? req.body.projId : null,
       });
-      const user = await newUser.save();
+
+      if (
+        req.body.additionalMember &&
+        req.body.uniqueCode &&
+        req.body.uniqueCode != req.body.requiredUniqueCode
+      ) {
+        res.status(400).send("Invalid Unique Join Code...");
+        return;
+      }
+
+      if (req.body.additionalMember) {
+        const proj = await project.findById(req.body.projId);
+        let chk = true;
+        for (let k = 0; k < proj.team.length; k++) {
+          console.log(req.body.uniqueCode);
+          console.log(proj.team[k].uniqueJoinCode);
+          if (
+            parseInt(req.body.uniqueCode) ==
+            parseInt(proj.team[k].uniqueJoinCode)
+          ) {
+            chk = false;
+            proj.team[k].name = req.body.firstName + " " + req.body.lastName;
+            proj.team[k].email = req.body.email;
+            proj.team[k].role = req.body.role;
+            proj.team[k].onboarded = true;
+          }
+        }
+        if (chk) {
+          console.log("here1");
+
+          res.status(400).send("Invalid Unique Join Code...");
+          return;
+        } else {
+          proj.markModified("team");
+          await proj.save();
+        }
+      }
+      console.log("here2");
+
+      const user = await newUser.save().catch((err) => console.log(err));
       const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
         expiresIn: "2.5h",
       });
       console.log("- Logged In");
+      console.log("here3");
+
       res.send({ user: user, userToken: token });
     }
   } catch (err) {
@@ -383,6 +425,142 @@ router.post("/removeAvailableDate", auth, async (req, res) => {
   res.send("Succesfully Booked A Time");
 });
 
+router.post("/onboardTeam", auth, async (req, res) => {
+  const user = await studentUser.findById(req.user._id);
+  const projId = user.projectId;
+  const currProject = await project.findById(projId);
+
+  for (let i = 0; i < req.body.team.length; i++) {
+    let uniqueCode = Math.trunc(Math.random() * 100000);
+    currProject.team.push({
+      ...req.body.team[i],
+      uniqueJoinCode: uniqueCode,
+      onboarded: false,
+    });
+
+    sendMail(req.body.team[i], uniqueCode)
+      .then(async (result) => {
+        await currProject.save().catch((err) => {
+          console.log(err);
+          res.status(400).send(err);
+        });
+
+        let updateInfo = {
+          initialized: true,
+        };
+
+        const newUser = await studentUser
+          .findOneAndUpdate({ _id: req.user._id }, updateInfo)
+          .catch((err) => console.log(err));
+
+        await newUser.save().catch((err) => {
+          console.log(err);
+          res.status(400).send(err);
+        });
+
+        console.log(result);
+        res.send(newUser);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(400).send(err);
+      });
+  }
+
+  async function sendMail(teamMember, uniqueCodeParam) {
+    try {
+      const transport = await nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        auth: {
+          type: "OAuth2",
+          user: "ideastackapp@gmail.com",
+          clientId: process.env.CLIENT_ID,
+          clientSecret: process.env.CLIENT_SECRET,
+          accessToken: process.env.ACCESS_TOKEN,
+          refreshToken: process.env.REFRESH_TOKEN,
+        },
+      });
+
+      const mailOptions = {
+        from: "IdeaStack <ideastackapp@gmail.com>",
+        to: teamMember.email,
+        cc: [user.email],
+        bcc: ["vismaysuramwar@gmail.com"],
+        subject: "IdeaStack Team Onboarding - " + user.firstName,
+        text: `
+                Hey ${teamMember.name}!
+        
+                ${
+                  user.firstName
+                }, from your startup, has registered you & your team for mentorship
+                on IdeaStack. You've been listed as a team-member with the role: ${
+                  teamMember.role
+                }
+                
+                Unique Registration Code: ${uniqueCodeParam}.
+
+                Use the code above to access your team's mentorship dashboard & workspace. 
+
+                Join using this link (unique link, will not work for any other user): https://ideastack.org/teamonboarding/${
+                  teamMember.name
+                }/${user.firstName + " " + user.lastName}/${currProject.name}
+
+                Note: The link above is unique, and will not work for any other user. There are limited seats available for IdeaStack registration
+
+                Reply to this mail if you face any issues; we'll get back to you as soon as possible!
+                
+                Best Regards,
+                Admin, IdeaStack`,
+        html: `
+                <p>Hey ${teamMember.name}!</p>
+        
+                <p> ${
+                  user.firstName
+                }, from your startup, has registered you & your team for mentorship<br/>
+                on IdeaStack. You've been listed as a team-member with the role: ${
+                  teamMember.role
+                }</p>
+               
+                <h4>Unique Registration Code: ${uniqueCodeParam}.</h4>
+
+                <p>Use the code above to access your team's mentorship dashboard & workspace.</p>
+                <p>Join using this link: <a href = 'https://ideastack.org/teamonboarding/${
+                  teamMember.name
+                }/${
+          user.firstName + " " + user.lastName
+        }'>https://ideastack.org/teamonboarding/${teamMember.name}/${
+          user.firstName + " " + user.lastName
+        }</a></p>
+                
+                <p> Note: The link above is unique, and will not work for any other user. There are limited seats available for IdeaStack registration, so sign-up soon! </p>
+
+                <p> Reply to this mail if you face any issues; we'll get back to you as soon as possible! </p>
+
+                <p>Best Regards,<br/>
+                 Admin, IdeaStack</p>
+                <br/>
+                <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                `,
+        attachments: [
+          {
+            fileName: "IdeaStack.jpg",
+            path: "server/routes/IdeaStack.jpg",
+            cid: "ideastack@orgae.ee",
+          },
+        ],
+      };
+      const result = await transport.sendMail(mailOptions);
+      return result;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  // update the project document
+  // complete user initialization
+});
+
 router.post("/createProject", auth, async (req, res) => {
   const user = await studentUser.findById(req.user._id);
   const userName = user.firstName + " " + user.lastName;
@@ -393,18 +571,17 @@ router.post("/createProject", auth, async (req, res) => {
     category: projectData.category,
     maxCap: projectData.maxCap,
     problem: projectData.problem,
-    isFirstFree: true,
+    mentorsMatched: [],
     mentorshipDetails: [],
     admin: {
       name: userName,
-      pic: user.profilePic,
       id: req.user._id,
     },
     team: [
       {
         name: userName,
-        pic: user.profilePic,
         id: req.user._id,
+        role: projectData.adminRole,
       },
     ],
     projPic: projectData.projPic,
@@ -416,9 +593,9 @@ router.post("/createProject", auth, async (req, res) => {
   });
 
   updateInfo = {
-    projects: user.projects
-      ? [...user.projects, newProject._id]
-      : [newProject._id],
+    projectId: newProject._id,
+    initializationStep: "otm",
+    role: projectData.adminRole,
   };
 
   const newUser = await studentUser
@@ -429,14 +606,14 @@ router.post("/createProject", auth, async (req, res) => {
     res.status(400).send(err);
   });
 
-  res.send(newProject);
+  res.send(updatedUser);
 });
 
-router.post("/getUserProjects", auth, async (req, res) => {
+router.post("/getUserProject", auth, async (req, res) => {
   const user = await studentUser.findById(req.user._id);
-  const userProjects = user.projects;
-  const projects = await project.find({ _id: { $in: userProjects } });
-  res.send(projects);
+  const userProjectId = user.projectId;
+  const userProject = await project.findById(userProjectId);
+  res.send(userProject);
 });
 
 router.post("/getUserProjectsView", async (req, res) => {
@@ -521,6 +698,7 @@ router.post("/uploadPic", upload.single("image"), async (req, res) => {
     var fileUrl;
     await cloudinary.v2.uploader
       .upload(file.path, { folder: "IdeaStack" }, (err, result) => {
+        console.log(err ? err : result);
         fileUrl = result.secure_url;
         console.log("File Uploaded");
       })
@@ -789,6 +967,39 @@ router.post("/getProjectsPaid", async (req, res) => {
   }
 
   res.send(projectsPaid);
+});
+
+router.post("/getProject", auth, async (req, res) => {
+  const proj = await project.findById(req.body.projId);
+  res.send(proj);
+});
+
+router.post("/getProjectMember", async (req, res) => {
+  const projects = await project.find();
+  let proj;
+  for (let j = 0; j < projects.length; j++) {
+    if (
+      String(projects[j]["name"]).toLowerCase() ==
+      req.body.projectName.toLowerCase()
+    ) {
+      proj = projects[j];
+    }
+  }
+  let member = null;
+
+  for (let i = 0; i < proj.team.length; i++) {
+    if (proj.team[i].name.toLowerCase() == req.body.memberName.toLowerCase()) {
+      member = {
+        fullName: proj.team[i].name,
+        email: proj.team[i].email,
+        role: proj.team[i].role,
+        projId: proj._id,
+        uniqueCode: proj.team[i].uniqueJoinCode,
+      };
+    }
+  }
+
+  res.send(member);
 });
 
 router.post("/modifyMentorAdmin", async (req, res) => {

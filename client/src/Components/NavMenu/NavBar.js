@@ -236,120 +236,143 @@ const NavBar = (props) => {
         <div class="relative flex items-center justify-between">
           <a
             onClick={() => {
-              history.push("/");
+              if (!location.pathname.split("/").includes("teamonboarding")) {
+                history.push("/");
+              }
             }}
             aria-label="Company"
             title="Company"
-            class="inline-flex items-center hover:cursor-pointer"
+            class={`inline-flex items-center ${
+              location.pathname.split("/").includes("teamonboarding")
+                ? "mx-auto"
+                : "cursor-pointer"
+            } `}
           >
             <img
               data-aos={"fade-left"}
               data-aos-once="true"
               src={logo}
-              className={`lg:w-40   lg:py-0 py-6 pb-8  lg:top-[41px] sm:top-[36px]  top-[34px] xl:-left-10 lg:-left-12 ${
-                sessionStorage.getItem("token") === null
-                  ? "md:-left-[96px] md:w-32 w-28 sm:top-[40px]"
-                  : "md:-left-[110px] sm:visible invisible  md:top-[30px] w-28 md:w-[123px] md:mb-[7px] lg:mb-0 sm:top-[30px]"
-              } -left-[10px] relative block  -mt-16 lg:top-10`}
+              className={
+                location.pathname.split("/").includes("teamonboarding")
+                  ? `lg:w-40   lg:py-0 py-6 pb-8  lg:top-[41px]  top-[34px] 
+                     md:w-32 w-28 sm:top-[38px]
+                 relative block  mx-auto text-center -mt-16`
+                  : `lg:w-40   lg:py-0 py-6 pb-8  lg:top-[41px] sm:top-[36px]  top-[34px] ${
+                      sessionStorage.getItem("token") === null
+                        ? "md:-left-[96px] md:w-32 w-28 sm:top-[40px]"
+                        : "md:-left-[120px] sm:visible invisible  md:top-[30px] w-28 md:w-[123px] md:mb-[7px] lg:mb-0 sm:top-[30px]"
+                    } xl:-left-10 lg:-left-12  -left-[10px] relative block  -mt-16 lg:top-10`
+              }
             />
           </a>
           {sessionStorage.getItem("token") === null ? (
-            <ul class="items-center space-x-10 py-8 top-0.5 relative  lg:flex left-2 xl:-left-[310px] lg:-left-[177px] hidden uppercase">
-              <Popover.Group
-                data-aos={"fade-left"}
-                data-aos-once="true"
-                as="nav"
-                className="hidden md:flex space-x-10"
-              >
-                <Popover className="relative">
-                  {({ open }) => (
-                    <>
-                      <Popover.Button
-                        className={classNames(
-                          "group font-semibold tracking-wide text-gray-700 transition-colors duration-200 hover:text-indigo-500  bg-white px-2 pr-1 py-[2px] top-[1px]  rounded-md inline-flex items-center text-base  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        )}
-                      >
-                        <span>HOME</span>
-                        <ChevronDownIcon
+            location.pathname.split("/").includes("teamonboarding") ? (
+              <></>
+            ) : (
+              <ul class="items-center space-x-10 py-8 top-0.5 relative  lg:flex left-2 xl:-left-[310px] lg:-left-[177px] hidden uppercase">
+                <Popover.Group
+                  data-aos={"fade-left"}
+                  data-aos-once="true"
+                  as="nav"
+                  className="hidden md:flex space-x-10"
+                >
+                  <Popover className="relative">
+                    {({ open }) => (
+                      <>
+                        <Popover.Button
                           className={classNames(
-                            open ? "text-gray-600" : "text-gray-400",
-                            "ml-2  h-5 w-5 group-hover:text-gray-500"
+                            "group font-semibold text-sm tracking-wide text-gray-700 transition-colors duration-200 hover:text-indigo-500  bg-white px-2 pr-1 py-[2px] top-[1px]  rounded-md inline-flex items-center  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           )}
-                          aria-hidden="true"
-                        />
-                      </Popover.Button>
-
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-200"
-                        enterFrom="opacity-0 translate-y-1"
-                        enterTo="opacity-100 translate-y-0"
-                        leave="transition ease-in duration-150"
-                        leaveFrom="opacity-100 translate-y-0"
-                        leaveTo="opacity-0 translate-y-1"
-                      >
-                        <Popover.Panel
-                          ref={buttonRef1}
-                          className="absolute z-20  left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-md sm:px-0"
                         >
-                          <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-                            <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-                              {resources.map((item) => (
-                                <a
-                                  key={item.name}
-                                  onClick={() => {
-                                    history.push("/home");
-                                    open = false;
-                                    setTimeout(() => {
-                                      window.scroll(
-                                        0,
-                                        findPos(
-                                          document.getElementById(item.doc)
-                                        ) - 70
-                                      );
-                                    }, 300);
-                                  }}
-                                  className="-m-3 p-3 flex hover:cursor-pointer items-start rounded-lg hover:bg-gray-50"
-                                >
-                                  <item.icon
-                                    className="flex-shrink-0 h-6 w-6 top-[1px] relative -mr-1.5 text-indigo-600"
-                                    aria-hidden="true"
-                                  />
-                                  <div className="ml-4">
-                                    <p className="text-base font-medium text-gray-900">
-                                      {item.name}
-                                    </p>
-                                    <p className="mt-1 text-sm normal-case text-gray-500">
-                                      {item.description}
-                                    </p>
-                                  </div>
-                                </a>
-                              ))}
-                            </div>
-                            <div className="px-5 py-1 bg-gray-200 sm:px-8 sm:py-8">
-                              <div>
-                                {callsToAction.map((item) => (
-                                  <div key={item.name} className="flow-root">
-                                    <a className="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">
-                                      <item.icon
-                                        className="flex-shrink-0 h-6 w-6 text-gray-400"
-                                        aria-hidden="true"
-                                      />
-                                      <span className="ml-3">{item.name}</span>
-                                    </a>
-                                  </div>
+                          <span
+                            onClick={() => {
+                              history.push("/home");
+                            }}
+                          >
+                            HOME
+                          </span>
+                          <ChevronDownIcon
+                            className={classNames(
+                              open ? "text-gray-600" : "text-gray-400",
+                              "ml-2  h-5 w-5 group-hover:text-gray-500"
+                            )}
+                            aria-hidden="true"
+                          />
+                        </Popover.Button>
+
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-200"
+                          enterFrom="opacity-0 translate-y-1"
+                          enterTo="opacity-100 translate-y-0"
+                          leave="transition ease-in duration-150"
+                          leaveFrom="opacity-100 translate-y-0"
+                          leaveTo="opacity-0 translate-y-1"
+                        >
+                          <Popover.Panel
+                            ref={buttonRef1}
+                            className="absolute z-20  left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-md sm:px-0"
+                          >
+                            <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                              <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                                {resources.map((item) => (
+                                  <a
+                                    key={item.name}
+                                    onClick={() => {
+                                      history.push("/home");
+                                      open = false;
+                                      setTimeout(() => {
+                                        window.scroll(
+                                          0,
+                                          findPos(
+                                            document.getElementById(item.doc)
+                                          ) - 70
+                                        );
+                                      }, 300);
+                                    }}
+                                    className="-m-3 p-3 flex hover:cursor-pointer items-start rounded-lg hover:bg-gray-50"
+                                  >
+                                    <item.icon
+                                      className="flex-shrink-0 h-6 w-6 top-[1px] relative -mr-1.5 text-indigo-600"
+                                      aria-hidden="true"
+                                    />
+                                    <div className="ml-4">
+                                      <p className="text-base font-medium text-gray-900">
+                                        {item.name}
+                                      </p>
+                                      <p className="mt-1 text-sm normal-case text-gray-500">
+                                        {item.description}
+                                      </p>
+                                    </div>
+                                  </a>
                                 ))}
                               </div>
+                              <div className="px-5 py-1 bg-gray-200 sm:px-8 sm:py-8">
+                                <div>
+                                  {callsToAction.map((item) => (
+                                    <div key={item.name} className="flow-root">
+                                      <a className="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">
+                                        <item.icon
+                                          className="flex-shrink-0 h-6 w-6 text-gray-400"
+                                          aria-hidden="true"
+                                        />
+                                        <span className="ml-3">
+                                          {item.name}
+                                        </span>
+                                      </a>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </Popover.Panel>
-                      </Transition>
-                    </>
-                  )}
-                </Popover>
-              </Popover.Group>
+                          </Popover.Panel>
+                        </Transition>
+                      </>
+                    )}
+                  </Popover>
+                </Popover.Group>
 
-              {/* <li
+                {/* <li
                 data-aos={"fade-left"}
                 data-aos-once="true"
                 data-aos-delay="200"
@@ -365,26 +388,33 @@ const NavBar = (props) => {
                   Team
                 </a>
               </li> */}
-              <li
-                data-aos={"fade-left"}
-                data-aos-once="true"
-                data-aos-delay="400"
-              >
-                <a
-                  onClick={() => {
-                    history.push("/ourjourney");
-                  }}
-                  aria-label="Features"
-                  title="Features"
-                  class="font-semibold tracking-wide text-gray-700  right-1.5 relative transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer"
+                <li
+                  data-aos={"fade-left"}
+                  data-aos-once="true"
+                  data-aos-delay="400"
                 >
-                  Our Journey
-                </a>
-              </li>
-            </ul>
+                  <a
+                    onClick={() => {
+                      history.push("/ourjourney");
+                    }}
+                    aria-label="Features"
+                    title="Features"
+                    class="font-semibold text-sm tracking-wide text-gray-700  right-1.5 relative transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer"
+                  >
+                    Our Journey
+                  </a>
+                </li>
+              </ul>
+            )
           ) : (
             <nav class="flex" aria-label="Breadcrumb">
-              <ol class=" items-center space-x-0 absolute xl:left-[275px]  lg:left-[165px] left-[50px] md:top-[74px] sm:top-[93px] lg:top-[32px] sm:inline-flex hidden mx-auto md:right-0 right-14 md:mt-0.5  md:space-x-0 lg:space-x-3">
+              <ol
+                class={`items-center space-x-0 absolute xl:left-[180px] xl:mr-0 -mr-16  lg:left-[180px] left-[50px] md:top-[74px] sm:top-[93px] lg:top-[32px] ${
+                  location.pathname === "/onboarding"
+                    ? "hidden"
+                    : "sm:inline-flex hidden"
+                } mx-auto md:right-0 right-14 md:mt-0.5 md:space-x-0 lg:space-x-3`}
+              >
                 <li class="inline-flex items-center">
                   <a
                     onClick={() => {
@@ -459,26 +489,126 @@ const NavBar = (props) => {
                     );
                   })}
               </ol>
+
+              {location.pathname === "/onboarding" ? (
+                ""
+              ) : (
+                <>
+                  <li
+                    class="xl:block hidden text-sm relative uppercase  top-[1px] xl:ml-[110px] ml-[130px] mr-9"
+                    data-aos={"fade-left"}
+                    data-aos-once="true"
+                    data-aos-delay="200"
+                  >
+                    <a
+                      onClick={() => {
+                        history.push("/profile");
+                      }}
+                      aria-label="About us"
+                      title="About us"
+                      class={`font-semibold tracking-wide  right-[7px] relative ${
+                        location.pathname.split("/").includes("profile")
+                          ? "text-indigo-700"
+                          : "text-gray-700"
+                      } transition-colors duration-200  hover:text-indigo-500 hover:cursor-pointer`}
+                    >
+                      Profile
+                    </a>
+                  </li>
+                  <li
+                    class="xl:block hidden text-sm  uppercase  top-[1px] mr-9"
+                    data-aos={"fade-left"}
+                    data-aos-once="true"
+                    data-aos-delay="400"
+                  >
+                    <a
+                      onClick={() => {
+                        history.push("/dashboard");
+                      }}
+                      aria-label="Features"
+                      title="Features"
+                      class={`font-semibold tracking-wide ${
+                        location.pathname.split("/").includes("dashboard")
+                          ? "text-indigo-700"
+                          : "text-gray-700"
+                      }  right-1.5 relative transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer`}
+                    >
+                      Dashboard
+                    </a>
+                  </li>
+                  <li
+                    class="xl:block hidden text-sm   uppercase  top-[1px] -mr-[490px]"
+                    data-aos={"fade-left"}
+                    data-aos-once="true"
+                    data-aos-delay="400"
+                  >
+                    <a
+                      onClick={() => {
+                        history.push("/mentorship");
+                      }}
+                      aria-label="Features"
+                      title="Features"
+                      class={`font-semibold tracking-wide ${
+                        location.pathname.split("/").includes("mentorship")
+                          ? "text-indigo-700"
+                          : "text-gray-700"
+                      }   right-1.5 relative transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer`}
+                    >
+                      MENTORSHIP
+                    </a>
+                  </li>
+                  {/* <li
+                    class="xl:block hidden text-sm  uppercase  top-[1px] -mr-[490px]"
+                    data-aos={"fade-left"}
+                    data-aos-once="true"
+                    data-aos-delay="400"
+                  >
+                    <a
+                      onClick={() => {
+                        history.push("/browse");
+                      }}
+                      aria-label="Features"
+                      title="Features"
+                      class={`font-semibold tracking-wide ${
+                        location.pathname.split("/").includes("browse")
+                          ? "text-indigo-700"
+                          : "text-gray-700"
+                      }   right-1.5 relative transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer`}
+                    >
+                      Search Projects
+                    </a>
+                  </li> */}
+                </>
+              )}
             </nav>
           )}
           <div className="flex items-center justify-end  w-0 xl:left-[280px] lg:left-[220px] md:left-[210px] sm:left-[20px] left-[80px] md:bottom-0 sm:bottom-3 bottom-2 mt-0.5 md:mt-0 ml-1 relative">
             {sessionStorage.getItem("token") === null ? (
-              <>
-                <a
-                  href="#"
-                  onClick={showModalLog}
-                  className="uppercase whitespace-nowrap text-md xl:-left-[306px] lg:-left-[210px] relative  tracking-wide lg:block hidden font-semibold text-gray-700 hover:text-gray-900"
-                >
-                  Sign in
-                </a>
-                <a
-                  onClick={showModalReg}
-                  href="#"
-                  className="uppercase ml-5  left-1.5 xl:-left-72 lg:-left-48 relative whitespace-nowrap inline-flex items-center justify-center lg:block hidden lg:px-3 px-2 py-2  border border-transparent rounded-md shadow-sm hover:shadow-md text-base tracking-wide font-semibold text-white bg-gradient-to-r from-blue-400 to-blue-600 hover:from-indigo-400 hover:to-indigo-600 active:bg-blue-500"
-                >
-                  Sign up
-                </a>
-              </>
+              location.pathname.split("/").includes("teamonboarding") ? (
+                <></>
+              ) : (
+                <>
+                  <a
+                    href="#"
+                    onClick={showModalLog}
+                    className="uppercase whitespace-nowrap text-sm xl:-left-[306px] lg:-left-[210px] relative  tracking-wide lg:block hidden font-semibold text-gray-700 hover:text-gray-900"
+                  >
+                    Sign in
+                  </a>
+                  <a
+                    onClick={() => {
+                      if (location.pathname === "/signup") {
+                        setRegModalShow(true);
+                      } else {
+                        history.push("/signup");
+                      }
+                    }}
+                    className="uppercase cursor-pointer ml-5 text-sm left-1.5 xl:-left-72 lg:-left-48 relative whitespace-nowrap inline-flex items-center justify-center lg:block hidden lg:px-3 px-2 py-2  border border-transparent rounded-md shadow-sm hover:shadow-md  tracking-wide font-semibold text-white bg-gradient-to-r from-blue-400 to-blue-600 hover:from-indigo-400 hover:to-indigo-600 active:bg-blue-500"
+                  >
+                    Sign up
+                  </a>
+                </>
+              )
             ) : location.pathname === "/viewProfile" ? (
               <>
                 <a
@@ -507,46 +637,50 @@ const NavBar = (props) => {
               </>
             ) : (
               <>
-                <button
-                  onClick={() => setIsNotifOpen(true)}
-                  type="button"
-                  class="relative items-center visible sm:invisible lg:p-3 p-2.5 lg:py-[11px] py-[8px] lg:bottom-0 md:bottom-2.5 sm:-bottom-[7px] -bottom-[1px]  xl:right-0 lg:-right-3.5 md:-right-7 sm:-right-24   xl:mr-4 lg:-mr-2  text-sm font-medium text-center text-white bg-gradient-to-r from-blue-300 to-blue-500 sm:mr-0  hover:from-indigo-300 hover:to-indigo-500 rounded-lg shadow-sm hover:shadow-xl active:shadow-sm focus:ring-2 focus:outline-none focus:ring-blue-700 "
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
+                {location.pathname === "/onboarding" ? (
+                  ""
+                ) : (
+                  <button
+                    onClick={() => setIsNotifOpen(true)}
+                    type="button"
+                    class="relative items-center visible sm:invisible lg:p-3 p-2.5 lg:py-[11px] py-[8px] lg:bottom-0 md:bottom-2.5 sm:-bottom-[7px] -bottom-[1px] xl:-ml-16 -ml-36  xl:right-4 lg:right-[78px] md:-right-7 sm:-right-24 right-[79px]  xl:mr-4 lg:mr-4  text-sm font-medium text-center text-white bg-gradient-to-r from-blue-300 to-blue-500 sm:mr-0  hover:from-indigo-300 hover:to-indigo-500 rounded-lg shadow-sm hover:shadow-xl active:shadow-sm focus:ring-2 focus:outline-none focus:ring-blue-700 "
                   >
-                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-                  </svg>
-                  <span class="sr-only">Notifications</span>
-                  <div
-                    class={` ${
-                      (user && user.notifications == null) ||
-                      (user &&
-                        user.notifications &&
-                        user.notifications.length == 0)
-                        ? "hidden"
-                        : "inline-flex"
-                    } absolute -top-2 -right-2 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-white dark:border-gray-900`}
-                  >
-                    {user && user.notifications && user.notifications.length}
-                  </div>
-                </button>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                    </svg>
+                    <span class="sr-only">Notifications</span>
+                    <div
+                      class={` ${
+                        (user && user.notifications == null) ||
+                        (user &&
+                          user.notifications &&
+                          user.notifications.length == 0)
+                          ? "hidden"
+                          : "inline-flex"
+                      } absolute -top-2 -right-2 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-white dark:border-gray-900`}
+                    >
+                      {user && user.notifications && user.notifications.length}
+                    </div>
+                  </button>
+                )}
 
                 <a
                   onClick={() => {
                     showModalOut();
                   }}
-                  className="ml-5 whitespace-nowrap order-2 xl:left-6 lg:left-12 sm:left-[135px] -left-2 md:left-9  lg:bottom-0 md:bottom-2.5 -bottom-0.5  sm:-bottom-2   relative inline-flex uppercase items-center justify-center lg:px-3 sm:px-2 px-2.5 py-2 md:pb-2.5 sm:py-2 pt-1.5 pb-2  border border-transparent rounded-md shadow-sm hover:shadow-xl active:shadow-sm text-base   font-semibold hover:cursor-pointer   text-white bg-gradient-to-r from-blue-300 to-blue-500 sm:mr-0 mr-1 hover:from-indigo-300 hover:to-indigo-500 active:bg-blue-500"
+                  className="-ml-[80px] text-sm whitespace-nowrap order-2 xl:left-[80px] lg:left-[50px] sm:left-[123px] -left-7 md:left-1  lg:bottom-0 md:bottom-2.5 -bottom-0.5  sm:-bottom-2   relative inline-flex uppercase items-center justify-center lg:px-3 sm:px-2 px-2.5 py-2 md:pb-2.5 sm:py-2 pt-1.5 pb-2  border border-transparent rounded-md shadow-sm hover:shadow-xl active:shadow-sm font-semibold hover:cursor-pointer text-white bg-gradient-to-r from-blue-300 to-blue-500 sm:-mr-6 -mr-5 hover:from-indigo-300 hover:to-indigo-500 active:bg-blue-500"
                 >
                   Log Out
                 </a>
                 <button
                   aria-label="Open Menu"
                   title="Open Menu"
-                  class="py-0.5 px-1.5 sm:-bottom-2 -bottom-[1px] md:bottom-2.5 lg:bottom-0  order-1 lg:ml-5 ml-2 mr-2 relative xl:left-6 lg:left-14 sm:left-[146px] md:left-[48px] left-[5px] transition duration-200 rounded focus:outline-none focus:shadow-outline hover:from-blue-200 hover:to-indigo-300  hover:bg-gradient-to-r"
+                  class="py-0.5 px-1.5 xl:hidden block sm:-bottom-2 -bottom-[1px] md:bottom-2.5 lg:bottom-0  order-1 lg:ml-5 ml-2 mr-2 relative xl:left-6 lg:-left-[38px] sm:left-[40px] md:-left-[84px] -left-[117px] transition duration-200 rounded focus:outline-none focus:shadow-outline hover:from-blue-200 hover:to-indigo-300  hover:bg-gradient-to-r"
                   onClick={() => setIsSideMenuOpen(true)}
                 >
                   <svg class="w-9 text-gray-600 sm:top-2" viewBox="0 0 24 24">
@@ -565,36 +699,42 @@ const NavBar = (props) => {
                   </svg>
                 </button>
 
-                <button
-                  type="button"
-                  onClick={() => setIsNotifOpen(true)}
-                  class="relative items-center sm:visible invisible lg:p-3 p-2.5 lg:py-[11px] py-[8px] lg:bottom-0 md:bottom-2.5 sm:-bottom-[7px] -bottom-[2px]  xl:right-0 lg:-right-3.5 md:-right-7 sm:-right-24   xl:mr-4 lg:-mr-2  text-sm font-medium text-center text-white bg-gradient-to-r from-blue-300 to-blue-500 sm:mr-0  hover:from-indigo-300 hover:to-indigo-500 rounded-lg shadow-sm hover:shadow-xl active:shadow-sm focus:ring-2 focus:outline-none focus:ring-blue-700 "
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
+                {location.pathname === "/onboarding" ? (
+                  ""
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setIsNotifOpen(true)}
+                    class="relative items-center sm:visible invisible lg:p-2.5 p-2.5 lg:py-[9px] py-[8px] lg:bottom-0 md:bottom-2.5 sm:-bottom-[7px] -bottom-[2px]  xl:right-0 lg:right-[25px] md:right-[92px] sm:-right-[35px] -right-[10px]   xl:mr-4 lg:mr-2  text-sm font-medium text-center text-white bg-gradient-to-r from-blue-300 to-blue-500 sm:mr-0  hover:from-indigo-300 hover:to-indigo-500 rounded-lg shadow-sm hover:shadow-xl active:shadow-sm focus:ring-2 focus:outline-none focus:ring-blue-700 "
                   >
-                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-                  </svg>
-                  <span class="sr-only">Notifications</span>
-                  <div
-                    class={` ${
-                      user &&
-                      user.notifications &&
-                      user.notifications.filter((notif) => notif.seen === false)
-                        .length === 0
-                        ? "hidden"
-                        : "inline-flex"
-                    } absolute -top-2 -right-2 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-white dark:border-gray-900`}
-                  >
-                    {user &&
-                      user.notifications &&
-                      user.notifications.filter((notif) => notif.seen === false)
-                        .length}
-                  </div>
-                </button>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                    </svg>
+                    <span class="sr-only">Notifications</span>
+                    <div
+                      class={` ${
+                        user &&
+                        user.notifications &&
+                        user.notifications.filter(
+                          (notif) => notif.seen === false
+                        ).length === 0
+                          ? "hidden"
+                          : "inline-flex"
+                      } absolute -top-2 xl:-right-2 right-16 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-white dark:border-gray-900`}
+                    >
+                      {user &&
+                        user.notifications &&
+                        user.notifications.filter(
+                          (notif) => notif.seen === false
+                        ).length}
+                    </div>
+                  </button>
+                )}
               </>
             )}
           </div>
@@ -679,7 +819,7 @@ const NavBar = (props) => {
                               <>
                                 <Popover.Button
                                   className={classNames(
-                                    "group font-semibold tracking-wide text-gray-700 transition-colors duration-200 hover:text-indigo-500  bg-white px-2 pr-1 py-[2px] top-[1px]  rounded-md inline-flex items-center text-base  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    "group font-semibold text-base tracking-wide text-gray-700 transition-colors duration-200 hover:text-indigo-500  bg-white px-2 pr-1 py-[2px] top-[1px]  rounded-md inline-flex items-center  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                   )}
                                 >
                                   <span>Home</span>
@@ -797,29 +937,35 @@ const NavBar = (props) => {
                       </ul>
                       <div className="align-middle justify-items-center justify-center mt-7 mb-3.5 bottom-[2px] mx-auto relative">
                         {sessionStorage.getItem("token") === null ? (
-                          <div class="relative mx-auto w-fit bottom-[5px]">
-                            <a
-                              href="#"
-                              onClick={() => {
-                                setIsMenuOpen(false);
-                                showModalLog();
-                              }}
-                              className="uppercase items-center justify-center whitespace-nowrap px-3 mr-3 py-2 text-md tracking-wide font-semibold text-gray-700 hover:text-gray-900 "
-                            >
-                              Sign in
-                            </a>
+                          location.pathname
+                            .split("/")
+                            .includes("teamonboarding") ? (
+                            <></>
+                          ) : (
+                            <div class="relative mx-auto w-fit bottom-[5px]">
+                              <a
+                                href="#"
+                                onClick={() => {
+                                  setIsMenuOpen(false);
+                                  showModalLog();
+                                }}
+                                className="uppercase items-center justify-center whitespace-nowrap px-3 mr-3 py-2 text-md tracking-wide font-semibold text-gray-700 hover:text-gray-900 "
+                              >
+                                Sign in
+                              </a>
 
-                            <a
-                              onClick={() => {
-                                setIsMenuOpen(false);
-                                showModalReg();
-                              }}
-                              href="#"
-                              className="uppercase items-center justify-center px-3 py-[9px] pb-2.5 border border-transparent rounded-md shadow-lg text-md tracking-wide font-semibold text-white bg-gradient-to-r from-blue-400 to-blue-600 hover:from-indigo-400 hover:to-indigo-600 active:bg-blue-500"
-                            >
-                              Sign up
-                            </a>
-                          </div>
+                              <a
+                                onClick={() => {
+                                  setIsMenuOpen(false);
+                                  showModalReg();
+                                }}
+                                href="#"
+                                className="uppercase items-center justify-center px-3 py-[9px] pb-2.5 border border-transparent rounded-md shadow-lg text-md tracking-wide font-semibold text-white bg-gradient-to-r from-blue-400 to-blue-600 hover:from-indigo-400 hover:to-indigo-600 active:bg-blue-500"
+                              >
+                                Sign up
+                              </a>
+                            </div>
+                          )
                         ) : (
                           <div class="relative mx-auto w-fit">
                             <a

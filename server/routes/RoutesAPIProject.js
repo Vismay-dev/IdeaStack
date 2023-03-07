@@ -29,7 +29,6 @@ router.post("/updateProject", auth, async (req, res) => {
     req.body.projectID,
     req.body.update
   );
-  console.log(newproj);
   res.send(newproj);
 });
 
@@ -331,7 +330,7 @@ router.post("/updateFeed", auth, async (req, res) => {
       console.log(req.body.feed[req.body.feed.length - 1].from);
 
       if (proj.team[i].name !== req.body.feed[req.body.feed.length - 1].from) {
-        let member = await studentUser.findOne({ _id: proj.team[i].id });
+        let member = await studentUser.findOne({ email: proj.team[i].email });
         let notifications = member.notifications ? member.notifications : [];
         notifications.push({
           seen: false,
@@ -407,7 +406,7 @@ router.post("/uploadProjectFile", auth, async (req, res) => {
     if (
       proj.team[i].name !== proj.documents[proj.documents.length - 1].uploadedBy
     ) {
-      let member = await studentUser.findOne({ _id: proj.team[i].id });
+      let member = await studentUser.findOne({ email: proj.team[i].email });
       let notifications = member.notifications ? member.notifications : [];
       notifications.push({
         seen: false,
@@ -448,7 +447,7 @@ router.post("/getTeamContacts", auth, async (req, res) => {
   const proj = await project.findOne({ _id: req.body.projectID });
   let contacts = [];
   for (let i = 0; i < proj.team.length; i++) {
-    const user = await studentUser.findById(proj.team[i].id);
+    const user = await studentUser.findOne({ email: proj.team[i].email });
     contacts.push(user.email);
   }
 
@@ -611,7 +610,7 @@ router.post("/addMentorshipPackage", auth, async (req, res) => {
 
   for (let i = 0; i < proj.team.length; i++) {
     if (proj.team[i].name !== proj.admin.name) {
-      let member = await studentUser.findOne({ _id: proj.team[i].id });
+      let member = await studentUser.findOne({ email: proj.team[i].email });
       let notifications = member.notifications ? member.notifications : [];
       notifications.push({
         seen: false,
@@ -719,7 +718,7 @@ router.post("/cancelLatestMentorship", auth, async (req, res) => {
     console.log(proj.team[i].name);
 
     if (proj.team[i].name !== proj.admin.name) {
-      let member = await studentUser.findOne({ _id: proj.team[i].id });
+      let member = await studentUser.findOne({ email: proj.team[i].email });
       let notifications = member.notifications ? member.notifications : [];
       notifications.push({
         seen: false,
@@ -820,7 +819,7 @@ router.post("/finishPackage", auth, async (req, res) => {
 
   for (let i = 0; i < proj.team.length; i++) {
     console.log(proj.team[i].name);
-    let member = await studentUser.findOne({ _id: proj.team[i].id });
+    let member = await studentUser.findOne({ email: proj.team[i].email });
     let notifications = member.notifications ? member.notifications : [];
     notifications.push({
       seen: false,

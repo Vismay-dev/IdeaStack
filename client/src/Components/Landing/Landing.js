@@ -27,22 +27,22 @@ const Landing = () => {
 
   return (
     <>
-      <div class="lg:pt-44 md:pt-48 pt-[156px] lg:pb-12 pb-0 overflow-hidden bg-gradient-to-r from-gray-200 to-blue-200">
+      <div class="lg:pt-44 md:pt-48 sm:pt-[156px] pt-[126px] lg:pb-12 pb-0 overflow-hidden bg-gradient-to-r from-gray-200 to-blue-200">
         <div class="  sm:left-14 left-16 xl:px-14 xs2:px-20 px-4 xl:left-12 xl:bottom-0 bottom-4 relative container mx-auto flex lg:pt-0 pt-2 flex-wrap flex-col md:flex-row items-center">
           <div class="flex flex-col  xl:w-2/5 lg:w-[46%] relative xl:-right-6 xl:bottom-2 lg:-bottom-5 lg:right-72 md:right-6 sm:right-40 right-16 bottom-5 md:pl-0 sm:pl-8 pl-0 sm:w-full w-full mx-auto justify-center items-start text-left">
             <p class="uppercase font-medium  text-sm  text-center lg:right-0 md:right-20 sm:-right-12 sm:left-20 md:-left-[52px] lg:-left-0 xl:left-[1px] right-0 mx-auto  top-5 -mt-10   relative md:w-full w-80">
-              IdeaStack - STEM Development Platform
+              IdeaStack - Student-Entrepreneurship Platform
             </p>
             <h1 class="relative my-4 mb-7 md:-ml-[120px] text-center mx-auto lg:text-6xl md:text-7xl  xl:-ml-[105px] top-[15px] lg:-ml-[135px] sm:text-6xl text-5xl sm:left-20 left-1 px-3 font-bold leading-tight">
               Launch <span class=" text-blue-700">Your Idea!</span>
             </h1>
             <p class="leading-normal font-medium mx-auto xl:text-xl xl:-right-7 lg:-right-2 lg:left-0 md:right-10  sm:-right-[100px] sm:left-20 md:-left-[47px] xl:left-[13px] xs:right-3 right-0   xs:w-96 md:w-3/4  lg:w-full md:text-xl sm:text-xl xl:w-80 w-72 text-lg mb-12 sm:mt-5 mt-2 relative text-center">
-              Networking and Mentorship Platform to Help Students Plan and
-              Launch STEM Projects
+              Networking and Mentorship Platform to Help Students Build and
+              Launch Their Ventures.
             </p>
             <a
               href="#about"
-              class=" mx-auto xl:left-[11px] md:uppercase lg:-left-[0px] left-[3px] md:left-[-45px] md:mb-0 sm:left-[84px]  relative xs:-mb-4 lg:bottom-8 md:bottom-6 bottom-6  bg-white text-gray-800 font-bold rounded-lg  my-4 sm:py-4 py-3 hover:cursor-pointer z-20 md:px-8 sm:px-8 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+              class=" mx-auto xl:left-[11px] md:uppercase lg:-left-[0px] left-[3px] md:left-[-45px] md:mb-0 sm:left-[84px]  relative xs:-mb-4 lg:bottom-8 md:bottom-6 bottom-6  bg-white text-gray-800 font-bold rounded-lg  my-4 sm:py-3 py-3 hover:cursor-pointer z-20 md:px-8 sm:px-6 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
             >
               Learn More
             </a>
@@ -98,30 +98,32 @@ const Landing = () => {
         </svg>
       </div>
 
-      <section class="bg-white border-b sm:py-2 py-6 sm:pb-7 pb-0">
+      <section class="bg-white border-b sm:py-2 py-6 sm:pb-2 pb-0">
         <div
-          class="max-w-5xl sm:top-0 top-3 relative  mx-auto m-8"
+          class="max-w-5xl sm:top-8 top-3 relative  mx-auto m-8"
           data-aos={"fade-up"}
           data-aos-once="true"
         >
           <p id="about" class="relative bottom-14" />
-          <h1 class="w-full my-2 text-5xl font-bold leading-tight sm:mb-5 md:mb-8 mb-1 text-center text-gray-800">
+          <h1 class="w-full my-2 sm:text-5xl text-4xl font-bold leading-tight sm:mb-5 md:mb-9 -mb-3 text-center text-gray-800">
             About Us
           </h1>
           <div class="w-full mb-4">
             <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
           </div>
           <div class="flex relative flex-wrap sm:-mb-9 -mb-4">
-            <div class="w-5/6 sm:w-1/2 p-6 relative lg:px-6 md:px-10 sm:mx-0 mx-auto px-6 lg:left-0 md:left-10 sm:left-6  text-center">
-              <h3 class="md:text-3xl text-2xl text-gray-800 relative  font-bold leading-one mb-6 mt-3">
-                The Problem We Solve
+            <div class="w-5/6 sm:w-1/2 p-6 relative lg:px-6 md:px-10 sm:mx-0 mx-auto px-6 lg:left-0 md:left-10 sm:left-6 bottom-3 text-center">
+              <h3 class="md:text-3xl text-2xl text-gray-800 text-left relative  font-bold leading-one mb-6 mt-3">
+                Why Student-Ventures Fail
               </h3>
-              <p class="text-gray-600  leading-7 ">
-                STEM (Science, Tech, Engineering, Mathematics) projects are
-                planned and launched by students via a problematic process full
-                of obstacles, including: <br />
+              <p class="text-gray-600 text-left leading-7 ">
+                Being an entrepreneur is hard enough in and of itself, let alone
+                doing it as a student who is trying to get a degree at the same
+                time, has no entrepreneurial experience, and is trying to
+                perfect complex new technology. Why is student-entrepreneurship
+                so difficult?
                 <br />
-                <ul class="leading-8">
+                <ul class="leading-8 tetx-left mt-3">
                   <strong>
                     <li>
                       <svg
@@ -139,7 +141,7 @@ const Landing = () => {
                         />
                       </svg>{" "}
                       <span class="inline">
-                        Lack of Networking Opportunities
+                        Inaccesible Guidance & Business Mentorship
                       </span>
                     </li>
                     <li>
@@ -157,7 +159,9 @@ const Landing = () => {
                           d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
                         />
                       </svg>{" "}
-                      <span class="inline">Collaborative inefficiency</span>
+                      <span class="inline">
+                        Collaborative Inefficiency & Unrefined Leadership
+                      </span>
                     </li>
                     <li>
                       <svg
@@ -176,7 +180,9 @@ const Landing = () => {
                           d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"
                         />
                       </svg>{" "}
-                      <span class="inline">Lack of Professional Advice</span>
+                      <span class="inline">
+                        Lacking Focus on Product-Market Fit
+                      </span>
                     </li>
                   </strong>
                 </ul>
@@ -186,11 +192,11 @@ const Landing = () => {
             <div class="w-full sm:w-1/2 p-6">
               <img
                 src={team}
-                class="relative lg:w-96 md:w-80 w-64 lg:left-6 lg:-ml-0  md:left-1 sm:left-3 left-2 sm:mx-0 mx-auto   lg:bottom-8 md:-bottom-2 sm:-bottom-16  bottom-9"
+                class="relative lg:w-96 md:w-80 sm:w-64 lg:left-6 lg:-ml-0  md:left-1 sm:left-3 left-2 sm:mx-0 mx-auto   lg:bottom-8 md:-bottom-2 sm:-bottom-16  bottom-9"
               />
             </div>
           </div>
-          <div class="flex flex-wrap flex-col-reverse sm:flex-row">
+          <div class="flex flex-wrap -mt-2 sm:-mb-3 -mb-8 flex-col-reverse sm:flex-row">
             <div class="w-full sm:w-1/2 ">
               <svg
                 class="lg:w-6/6 sm:w-4/6 sm:h-64 w-72 relative mx-auto lg:bottom-0 md:-bottom-3 sm:-bottom-14 bottom-12 lg:right-0 sm:-right-6"
@@ -344,16 +350,16 @@ const Landing = () => {
                 <circle cx="600.35" cy="480.68" r="11.968" fill="#ff6347" />
               </svg>
             </div>
-            <div class="w-full sm:w-1/2 sm:p-6 lg:px-6 sm:px-8 px-20 pb-6 pt-6  mt-[18px] relative lg:right-0 sm:right-7">
+            <div class="w-full sm:w-1/2 sm:p-6 lg:px-6 sm:px-8 px-20 pb-6 pt-6  mt-[18px] relative bottom-2 lg:right-0 sm:right-7">
               <div class="align-middle text-center">
                 <h3 class="md:text-3xl text-2xl text-gray-800 font-bold leading-one sm:mb-6 mb-7">
                   Our Mission Statement
                 </h3>
                 <p class="text-gray-600 mb-4 leading-7 lg:top-9">
-                  We enable high-school and university students to form teams
-                  through networking, solve real-world problems through guided
-                  project planning and ensure project feasibility by consulting
-                  with STEM experts. <br />
+                  We empower university student-entrepreneurs and help them grow
+                  their ventures by matching them with established startup
+                  advisors/mentors, expert practitioners, VCs and ambitious
+                  founders. <br />
                   <br />
                 </p>
               </div>
@@ -363,16 +369,13 @@ const Landing = () => {
       </section>
       <p class="relative bottom-14" id="features" />
       <section
-        class="bg-white border-b py-8 bg-no-repeat bg-cover"
+        class="bg-white border-b py-8 pb-[25px] bg-no-repeat bg-cover"
         style={{
           backgroundImage:
             "url(https://img.wallpapersafari.com/tablet/2048/2732/68/27/ZM5Amy.jpg",
         }}
       >
-        <div class="container mx-auto flex flex-wrap pt-4 pb-12">
-          <h1 class="w-full my-2 sm:text-6xl text-5xl font-bold leading-tight mb-7 px-4 text-center text-white">
-            Features & Services
-          </h1>
+        <div class="container mx-auto flex flex-wrap pt-7 pb-10">
           <div class="w-full mb-4">
             <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
           </div>
@@ -422,7 +425,7 @@ const Landing = () => {
                 </p>
               </a>
             </div>
-            <div class="flex-none mt-auto bg-yellow-600 rounded-b text-white rounded-t-none  overflow-hidden shadow-lg shadow-gray-400 border-[1px] border-t-0 border-white p-6">
+            <div class="flex-none mt-auto bg-yellow-600 rounded-b text-white rounded-t-none  overflow-hidden border-[1px] border-t-0     shadow-xl p-6">
               <div class="flex items-center justify-center text-gray-100">
                 <FaUserTie class="text-6xl text-darkgold" />
               </div>
@@ -494,7 +497,7 @@ const Landing = () => {
         class="relative bottom-52 xl:pt-0 lg:pt-5 md:pt-8 sm:pt-14 pt-[74px]"
       />
       <div class="">
-        <div className="px-4 py-16 -mt-[134px] mb-28 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+        <div className="px-4 py-16 -mt-[127px] mb-2 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20 lg:pt-20">
           <div className="grid gap-2 row-gap-3 lg:grid-cols-2">
             <div className="lg:py-6 -mr-2 ml-3 relative top-2 lg:left-1 lg:pr-16 pr-8 lg:pl-0 pl-4">
               <div className="flex">
@@ -691,16 +694,19 @@ const Landing = () => {
         </div>
       </div>
 
-      <div class="bg-gradient-to-r border-t-2 border-blue-700 border-dashed from-gray-200 to-blue-200 sm:pt-[25px] pt-[25px] xl:pb-[50px] lg:pb-[65px] md:pb-[335px] pb-[540px]  ">
-        <div class="h-auto  sm:px-[30px]  px-[40px]">
-          <h1 class="w-full lg:mb-[90px] sm:px-0 px-[20px] md:mb-[96px] mb-[66px] lg:normal-case sm:uppercase normal-case lg:mt-10 mt-12 relative  md:text-5xl sm:text-[44px] text-[46px] font-bold leading-tight  text-center text-gray-800">
-            Our Trusted <br class="sm:hidden block" /> Partners
+      <div class="bg-gradient-to-r border-t-2 border-blue-700 border-dashed from-gray-200 to-blue-200 sm:pt-[25px] pt-[20px] xl:pb-[50px] lg:pb-[75px] md:pb-[345px] sm:pb-[553px] pb-[545px]  ">
+        <div class="h-auto  sm:px-[30px]  px-[15px]">
+          <span class="block mb-4 lg:mt-10 mt-12  text-center text-blue-700 text-lg uppercase text-primary font-semibold">
+            Reach Out for Partnership
+          </span>
+          <h1 class="w-full lg:mb-[90px] sm:px-0 px-[5px] md:mb-[96px] mb-[60px] lg:normal-case uppercase  relative  md:text-5xl sm:text-[40px] text-[32px] font-bold  leading-tight  text-center text-gray-800">
+            Our Trusted Partners
           </h1>
 
           <div
             data-aos={"zoom-in"}
             data-aos-once="true"
-            className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:mt-0 md:-mt-8 lg:w-[900px]  md:w-[650px] sm:w-[350px] w-[270px] xl:bottom-8 relative mx-auto xs3:h-72 h-64 gap-12 xl:gap-14"
+            className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:mt-0 md:-mt-8 lg:w-[900px]  md:w-[650px] sm:w-[350px] w-[250px] xl:bottom-16 relative sm:top-0 xl:-top-8 -top-2 mx-auto xs3:h-72 h-64 gap-12 xl:gap-14"
           >
             {/* ::Partner 1 -> ALL */}
             <div

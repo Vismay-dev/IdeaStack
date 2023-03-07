@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 import userContext from "../../../context/userContext";
 
 export default function CardTeam(props) {
-  const projectsCurr = useContext(projectContext);
+  const projectCurr = useContext(projectContext);
   const [proj, setProj] = useState("");
   const user = useContext(userContext).user;
 
@@ -19,18 +19,13 @@ export default function CardTeam(props) {
       axios
         .post(
           process.env.NODE_ENV === "production"
-            ? "https://ideastack.herokuapp.com/api/user/getUserProjects"
-            : "http://localhost:4000/api/user/getUserProjects",
-          { token: sessionStorage.getItem("token") }
+            ? "https://ideastack.herokuapp.com/api/user/getProject"
+            : "http://localhost:4000/api/user/getProject",
+          { projId: user.projectId, token: sessionStorage.getItem("token") }
         )
         .then((res) => {
-          projectsCurr.setProjects(res.data);
-          let projSelected = "";
-          if (sessionStorage.getItem("managing")) {
-            projSelected = projectsCurr.projects.filter((proj) => {
-              return proj._id === String(sessionStorage.getItem("managing"));
-            })[0];
-          }
+          projectCurr.setProject(res.data);
+          let projSelected = res.data;
           setProj(projSelected ? projSelected : "");
         });
     }
@@ -38,13 +33,9 @@ export default function CardTeam(props) {
 
   useEffect(() => {
     let projSelected = "";
-    if (sessionStorage.getItem("managing")) {
-      projSelected = projectsCurr.projects.filter((proj) => {
-        return proj._id === String(sessionStorage.getItem("managing"));
-      })[0];
-    }
+    projSelected = projectCurr.project;
     setProj(projSelected ? projSelected : "");
-  }, [sessionStorage.getItem("managing")]);
+  }, []);
 
   return (
     <>
@@ -52,15 +43,13 @@ export default function CardTeam(props) {
         <div className="rounded-t mb-0 px-4 py-3 border-0">
           <div className="flex flex-wrap items-center">
             <div className="relative w-full px-2 py-2 -mt-5 max-w-full flex-grow flex-1">
-              <h3 className="font-bold relative text-center top-2.5 my-2 mb-[9px] text-black text-lg text-blueGray-700">
+              <h3 className="font-bold relative text-center top-2 my-2 mb-[9px] text-black text-lg text-blueGray-700">
                 <p>
                   <RiTeamFill class="text-xl inline bottom-[3px] mr-0.5  relative" />{" "}
                   Team Members{" "}
                 </p>
-                <p class="text-gray-700 text-sm left-1 relative font-medium">
-                  {proj && proj.maxCap - proj.team.length === 0
-                    ? "(Maximum Capacity)"
-                    : ""}
+                <p class="text-gray-700 text-sm left-1 top-[1.5px] relative font-medium">
+                  (Maximum Capacity : {proj.maxCap})
                 </p>
               </h3>
             </div>
@@ -77,10 +66,8 @@ export default function CardTeam(props) {
                   return (
                     <>
                       <tr
-                        class={`-mb-1 relative ${
-                          proj.team.length === 2 && i === 1
-                            ? "bottom-[38px]"
-                            : ""
+                        class={`block relative ${
+                          proj.team.length === 2 && i === 1 ? "" : ""
                         }`}
                       >
                         <div
@@ -119,7 +106,7 @@ export default function CardTeam(props) {
                             {proj ? teamMember.name : ""}
                             {i == 0 ? " (Admin)" : ""}
                           </a>
-                          {i !== 0 &&
+                          {/* {i !== 0 &&
                           JSON.stringify(user._id) ===
                             JSON.stringify(proj.admin.id) ? (
                             <svg
@@ -141,7 +128,7 @@ export default function CardTeam(props) {
                             </svg>
                           ) : (
                             ""
-                          )}
+                          )} */}
                         </div>
                       </tr>
                     </>

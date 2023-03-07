@@ -70,45 +70,42 @@ const ViewApplications = (props) => {
   useEffect(() => {
     setLoading(true);
     let applicantsTemp = [];
-    for (let k = 0; k < projCon.projects.length; k++) {
-      if (projCon.projects[k]._id === sessionStorage.getItem("managing")) {
-        setApplications(
-          projCon.projects[k].joinRequests.filter(
-            (jR) => jR.isInvite == false || jR.isInvite == null
-          )
-        );
-        for (
-          let x = 0;
-          x <
-          projCon.projects[k].joinRequests.filter(
-            (jR) => jR.isInvite == false || jR.isInvite == null
-          ).length;
-          x++
-        ) {
-          axios
-            .post(
-              process.env.NODE_ENV === "production"
-                ? "https://ideastack.herokuapp.com/api/project/getProjUser"
-                : "http://localhost:4000/api/project/getProjUser",
-              {
-                token: sessionStorage.getItem("token"),
-                id: projCon.projects[k].joinRequests.filter(
-                  (jR) => jR.isInvite == false || jR.isInvite == null
-                )[x].id,
-              }
-            )
-            .then((res) => {
-              console.log(res);
+    setApplications(
+      projCon.project.joinRequests.filter(
+        (jR) => jR.isInvite == false || jR.isInvite == null
+      )
+    );
+    for (
+      let x = 0;
+      x <
+      projCon.project.joinRequests.filter(
+        (jR) => jR.isInvite == false || jR.isInvite == null
+      ).length;
+      x++
+    ) {
+      axios
+        .post(
+          process.env.NODE_ENV === "production"
+            ? "https://ideastack.herokuapp.com/api/project/getProjUser"
+            : "http://localhost:4000/api/project/getProjUser",
+          {
+            token: sessionStorage.getItem("token"),
+            id: projCon.project.joinRequests.filter(
+              (jR) => jR.isInvite == false || jR.isInvite == null
+            )[x].id,
+          }
+        )
+        .then((res) => {
+          console.log(res);
 
-              applicantsTemp.push(res.data);
-              setApplicants(applicantsTemp);
-            })
-            .catch((err) => {
-              console.log(err.response);
-            });
-        }
-      }
+          applicantsTemp.push(res.data);
+          setApplicants(applicantsTemp);
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
     }
+
     setTimeout(() => {
       setLoading(false);
     }, 1800);
