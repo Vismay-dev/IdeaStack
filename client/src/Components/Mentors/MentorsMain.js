@@ -20,10 +20,10 @@ export default function Mentors() {
       <div class="block mx-auto text-center px-3 pt-16 mb-3 rounded-lg">
         <a
           onClick={() => {
-            history.push("/mentorship/overview");
+            history.push("/mentorship/yourmentor");
           }}
           class={` ${
-            location.pathname == "/mentorship/overview"
+            location.pathname == "/mentorship/yourmentor"
               ? "bg-blue-700 text-gray-100 border-blue-700 border shadow-md"
               : "bg-white shadow-md  text-gray-800"
           } hover:cursor-pointer sm:normal-case uppercase hover:bg-blue-700 hover:border-r-indigo-50  hover:shadow-sm hover:border-blue-700 inline-flex items-center justify-center sm:rounded-l-lg sm:rounded-r-none rounded-t-lg border py-[10px] px-[30px] text-center text-base font-semibold  transition-all hover:text-gray-100 sm:py-4 sm:px-[60px]`}
@@ -70,7 +70,7 @@ export default function Mentors() {
 
       <>
         <Switch>
-          <Route path="/mentorship/overview">
+          <Route path="/mentorship/yourmentor">
             <Dashboard />
           </Route>
 
@@ -79,11 +79,11 @@ export default function Mentors() {
           </Route>
 
           <Route path="/mentorship">
-            <Redirect to="/mentorship/overview" />
+            <Redirect to="/mentorship/yourmentor" />
           </Route>
 
           <Route path="/mentorship/">
-            <Redirect to="/mentorship/overview" />
+            <Redirect to="/mentorship/yourmentor" />
           </Route>
         </Switch>
       </>

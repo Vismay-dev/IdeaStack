@@ -133,7 +133,7 @@ const MyProjects = () => {
           data-aos-once="true"
           style={{
             "background-image":
-              "url(https://airwallpaper.com/wp-content/uploads/wall001/Earth-Wallpaper.jpg)",
+              "url(https://i.pinimg.com/736x/6a/3a/9a/6a3a9aa650f610536f40bedc3e988365.jpg)",
           }}
           className="shadow-md transition-transform ease-out overflow-hidden origin-top transform  bg-center bg-cover bottom-4   block justify-center w-screen mx-auto pt-7 bg-gradient-to-r from-gray-100 to-gray-300"
         >
@@ -154,7 +154,7 @@ const MyProjects = () => {
               onClick={() => {
                 history.push("/dashboard/overview");
               }}
-              class={`flex items-center h-12 relative ml-[120px] py-2 text-sm text-center text-gray-100 
+              class={`flex items-center h-12 relative ml-[130px] py-2 text-sm text-center text-gray-100 
         ${
           location.pathname === "/dashboard/overview"
             ? "bg-gray-800"
@@ -166,17 +166,16 @@ const MyProjects = () => {
             <div class="sm:flex space-x-[3.5px] hidden">
               <button
                 onClick={() => {
-                  history.push("/dashboard/manageapps");
+                  history.push("/dashboard/yourmentor");
                 }}
                 class={`flex items-center h-12 py-2 text-sm text-center text-gray-100 
         ${
-          location.pathname === "/dashboard/manageapps"
+          location.pathname === "/dashboard/yourmentor"
             ? "bg-gray-800"
             : "bg-gray-500"
         } md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
               >
-                <span class="lg:inline hidden  mr-1.5">Manage </span>{" "}
-                Applications
+                <span class="lg:inline hidden  mr-1.5">Your </span> Mentor
               </button>
 
               <button
@@ -222,20 +221,20 @@ const MyProjects = () => {
             <div class="space-x-[3px] flex relative mt-8 -ml-[259px] mr-12 ">
               <button
                 onClick={() => {
-                  history.push("/dashboard/manageapps");
+                  history.push("/dashboard/yourmentor");
                 }}
                 class={`flex items-center h-12 py-2 ${
-                  location.pathname === "/dashboard/mentorship" ? "sm:" : ""
+                  location.pathname === "/dashboard/yourmentor" ? "sm:" : ""
                 } ${
-                  location.pathname === "/dashboard/mentorship" ? "hidden" : ""
+                  location.pathname === "/dashboard/yourmentor" ? "hidden" : ""
                 } text-sm text-center text-gray-100 
         ${
-          location.pathname === "/dashboard/manageapps"
+          location.pathname === "/dashboard/yourmentor"
             ? "bg-gray-800"
             : "bg-gray-500"
         } md:px-6 px-3 hover:bg-gray-600 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
               >
-                <span class="lg:inline hidden">Manage</span> Applications
+                <span class="lg:inline hidden">Your</span> Mentor
               </button>
 
               <button
@@ -252,23 +251,6 @@ const MyProjects = () => {
         } md:px-6 px-3 border hover:bg-gray-600 border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
               >
                 Collaborate
-              </button>
-
-              <button
-                onClick={() => {
-                  history.push("/dashboard/mentorship");
-                }}
-                class={`flex items-center h-12 py-2 ${
-                  location.pathname === "/dashboard/mentorship" ? "hidden" : ""
-                }   text-sm text-center text-gray-100 
-        ${
-          location.pathname === "/dashboard/mentorship" ||
-          location.pathname === "/dashboard/mentorship"
-            ? "bg-gray-800"
-            : "bg-gray-500"
-        } md:px-6 px-3 border hover:bg-gray-600 border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
-              >
-                <span class="lg:inline hidden">Industry</span> Mentorship
               </button>
             </div>
           </div>

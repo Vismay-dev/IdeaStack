@@ -633,6 +633,11 @@ router.post("/getWorkshops", auth, async (req, res) => {
   res.send(workshops);
 });
 
+router.post("/getWorkshop", auth, async (req, res) => {
+  const workshopSearched = await workshop.findById(req.body.workshopId);
+  res.send(workshopSearched);
+});
+
 router.post("/getWorkshopsOngoing", auth, async (req, res) => {
   const user = await studentUser.findById(req.user._id);
   workshops = [];
@@ -1028,25 +1033,27 @@ router.post("/modifyMentorAdmin", async (req, res) => {
   res.send("Succesfully Modified Mentor");
 });
 
-router.post("/addWorkshopBooking", auth, async (req, res) => {
+router.post("/requestMentor", auth, async (req, res) => {
   const user = await studentUser.findOne({ _id: req.user._id });
-  const course = await workshop.findOne({
+  const mentor = await workshop.findOne({
     _id: JSON.parse(req.body.workshopId),
   });
+  const proj = await project.findById(req.body.projectId);
 
-  if (user.workshopsOngoing) {
-    user.workshopsOngoing.push(req.body.workshopId);
+  if (proj.mentorsRequested && proj.mentorsRequested.length > 0) {
+    proj.mentorsRequested.push(JSON.parse(req.body.workshopId));
   } else {
-    user.workshopsOngoing = [req.body.workshopId];
+    proj.mentorsRequested = [JSON.parse(req.body.workshopId)];
   }
-  await user.markModified("workshopsOngoing");
-  await user.save();
 
-  course.currentMentees.push(req.user._id);
-  await course.markModified("currentMentees");
-  await course.save();
+  await proj.markModified("mentorsRequested");
+  await proj.save();
 
-  res.send(user);
+  mentor.mentorshipRequests.push(proj._id);
+  await mentor.markModified("mentorshipRequests");
+  await mentor.save();
+
+  res.send(proj);
 });
 
 router.post("/addMentorAdmin", async (req, res) => {

@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom";
 
 import { MdOutlineMoneyOffCsred, MdCalendarToday } from "react-icons/md";
 import userContext from "../../context/userContext";
+import projectContext from "../../context/projectContext";
 import PulseLoader from "react-spinners/PulseLoader";
 
 const product = {
@@ -27,6 +28,7 @@ const WorkshopDetails = (props) => {
   const location = useLocation();
 
   const user = useContext(userContext).user;
+  const projCon = useContext(projectContext);
   const myRef = useRef();
 
   const [showConfirm, setShowConfirm] = useState(false);
@@ -63,23 +65,24 @@ const WorkshopDetails = (props) => {
     });
   }, [showConfirm]);
 
-  const [booked, setBooked] = useState(false);
+  const [requested, setRequested] = useState(false);
 
-  const bookingHandler = () => {
-    const id = JSON.stringify(workshop._id);
+  const requestHandler = () => {
     axios
       .post(
         process.env.NODE_ENV === "production"
-          ? "https://ideastack.herokuapp.com/api/user/addWorkshopBooking"
-          : "http://localhost:4000/api/user/addWorkshopBooking",
+          ? "https://ideastack.herokuapp.com/api/user/requestMentor"
+          : "http://localhost:4000/api/user/requestMentor",
         {
           token: sessionStorage.getItem("token"),
-          workshopId: id,
+          workshopId: workshop._id,
+          projectId: user.projectId,
         }
       )
       .then((res) => {
         console.log(res.data);
-        setBooked(true);
+        setRequested(true);
+        setShowConfirm(false);
       })
       .catch((err) => {
         console.log(err);
@@ -95,7 +98,7 @@ const WorkshopDetails = (props) => {
   const [workshop, setWorkshop] = useState(false);
 
   const [dateOptions, setDateOptions] = useState([]);
-  const [bookedWorkshops, setBookedWorkshops] = useState();
+  const [requestedMentors, setRequestedMentors] = useState();
 
   useEffect(async () => {
     setLoading(true);
@@ -109,20 +112,17 @@ const WorkshopDetails = (props) => {
     axios
       .post(
         process.env.NODE_ENV === "production"
-          ? "https://ideastack.herokuapp.com/api/user/getUser"
-          : "http://localhost:4000/api/user/getUser",
-        { token: sessionStorage.getItem("token") }
+          ? "https://ideastack.herokuapp.com/api/user/getProject"
+          : "http://localhost:4000/api/user/getProject",
+        { projId: user.projectId, token: sessionStorage.getItem("token") }
       )
       .then((res) => {
-        setBookedWorkshops(res.data.workshopsOngoing);
-        console.log(res.data.workshopsOngoing.includes(workshop._id));
-      })
-      .catch((err) => {
-        console.log(err);
+        setRequestedMentors(res.data.mentorsRequested);
+        projCon.setProject(res.data);
       });
 
     setLoading(false);
-  }, [props.workshops]);
+  }, [props.workshops, requested]);
 
   const [showMail, setShowMail] = useState(false);
   const [showPhone, setShowPhone] = useState(false);
@@ -224,24 +224,24 @@ const WorkshopDetails = (props) => {
                 <>
                   {/* Image gallery */}
 
-                  <div className="col-start-2  lg:w-[400px] sm:w-[330px] sm:h-[330px] w-[270px] h-[270px] lg:h-[400px] lg:mt-14 mt-[66px] -mb-[72px] object-center relative mx-auto block justify-center sm:rounded-lg sm:overflow-hidden">
+                  <div className="col-start-2  lg:w-[400px] sm:w-[330px] sm:h-[330px] w-[270px] h-[270px] lg:h-[400px] lg:mt-14 mt-[66px] -mb-[100px] object-center relative mx-auto block justify-center sm:rounded-lg sm:overflow-hidden">
                     <img
-                      src={workshop && workshop.coverImage}
-                      alt={workshop && workshop.coverImage}
-                      className="lg:w-[360px] sm:w-[300px] sm:h-[300px] w-[240px] h-[240px] relative mx-auto block shadow-md object-center object-cover"
+                      src={workshop && workshop.pic}
+                      alt={workshop && workshop.pic}
+                      className="rounded-full border-blue-100 border my-2 -mb-8 lg:h-[260px] lg:w-[260px] w-[200px] h-[200px]  object-center object-cover relative mx-auto block shadow-md"
                     />
                   </div>
 
                   {/* Product info */}
                   <div className="max-w-2xl mx-auto pt-24 pb-14 px-4 sm:px-6 lg:max-w-7xl lg:pt-16 lg:pb-24 lg:px-8 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
                     <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-                      {workshop.orgPic ? (
+                      {workshop.partnerPic ? (
                         <div>
                           <span class="text-xs text-gray-800 absolute right-[87px] top-[88px] font-semibold">
                             POWERED BY
                           </span>
                           <img
-                            src={workshop.orgPic}
+                            src={workshop.partnerPic}
                             alt="expert"
                             class={`w-[105px] mx-auto shadow-md p-2
                       rounded-[.25rem] ${
@@ -253,91 +253,69 @@ const WorkshopDetails = (props) => {
                         ""
                       )}
                       <h1 className="text-3xl lg:mt-0 mt-1 font-extrabold tracking-tight text-gray-900 md:text-4xl lg:text-3xl">
-                        {workshop && workshop.title}
+                        {workshop && workshop.name}
                       </h1>
-                      <h2
-                        className={`text-lg mt-5 lg:block hidden relative ${
-                          workshop.mentors.length > 2 ? "top-1.5" : ""
-                        } right-2 -mb-3 font-extrabold tracking-tight text-gray-600`}
-                      >
-                        {workshop.mentors.map((name, i) => {
-                          return (
-                            <>
-                              <span class="inline">
-                                {" "}
-                                {i == 2 ? (
-                                  <>
-                                    <br class="block" />
-                                    <div class="block mb-1" />
-                                  </>
-                                ) : i != 0 ? (
-                                  "& "
-                                ) : (
-                                  ""
-                                )}{" "}
-                                <img
-                                  src={workshop.pics[i]}
-                                  class="w-7 h-7 ml-2 mb-1 inline rounded-full"
-                                ></img>{" "}
-                                <span class="ml-1">{name}</span>{" "}
-                              </span>
-                            </>
-                          );
-                        })}
-                      </h2>
                     </div>
 
                     {/* Options */}
                     <div className="mt-9 lg:pl-4 lg:-left-2 relative lg:mt-0 lg:-top-2 lg:row-span-3">
-                      <h1 class="font-bold text-2xl lg:mb-4 mb-2">Mentors:</h1>
+                      <h1 class="font-bold text-xl tracking-wide lg:mb-4 mb-2">
+                        Co-founder/Mentor at the following companies:
+                      </h1>
                       <div
-                        class={`grid grid-cols-2 top-1 relative  ${
-                          workshop.mentors.length > 2 ? "mb-1" : "mb-5 pt-5"
+                        class={`grid grid-cols-2 top-2 relative  ${
+                          workshop.orgs.length > 2 ? "mb-4" : "mb-7 pt-5"
                         }`}
                       >
-                        {workshop.mentors.map((mentor, i) => {
+                        {workshop.orgs.map((org, i) => {
                           return (
-                            <div class="col-span-1 mb-5 mx-auto">
-                              <img
-                                src={workshop.pics[i]}
-                                class="w-16 h-16 mx-auto rounded-full"
-                              ></img>
-                              <p class="mt-2 xl:block hidden text-center font-semibold">
-                                {mentor}
-                              </p>
-                              <p class="mt-2 xl:hidden block text-center font-semibold">
-                                {mentor.split(" ")[0]}
-                              </p>
-                              <p class="mt-1 text-xs text-gray-700 text-center">
-                                {workshop.roles[i]}
-                              </p>
-                            </div>
+                            <>
+                              <span class="block mb-3">
+                                {" "}
+                                <img
+                                  src={org.pic}
+                                  class="w-7 h-7 ml-2 mb-1 inline shadow-sm border-[0.5px] border-gray-300 rounded-full"
+                                ></img>{" "}
+                                <span class="ml-1">{org.name}</span>{" "}
+                              </span>
+                            </>
                           );
                         })}
                       </div>
 
                       <form
                         className={`${
-                          workshop.mentors.length > 2
-                            ? "mt-0 mb-2"
-                            : "-mt-3 mb-4"
+                          workshop.orgs.length > 2 ? "mt-0 mb-2" : "-mt-3 mb-4"
                         } lg:hidden block`}
                       >
                         {/* Colors */}
                         <div
                           class={`${
-                            workshop.mentors.length > 2 ? "" : "mb-9 block "
+                            workshop.orgs.length > 2 ? "" : "mb-9 block "
                           }`}
                         >
                           <h3
                             className={`text-sm ${
-                              workshop.mentors.length > 2 ? "" : "pt-3 block "
-                            } text-gray-900 font-medium`}
+                              workshop.orgs.length > 2 ? "" : "   "
+                            } text-indigo-800 block font-medium bg-indigo-300 px-3 py-2 relative  rounded-md shadow-md`}
                           >
-                            Contact
+                            <svg
+                              aria-hidden="true"
+                              class="flex-shrink-0 inline relative bottom-[1px] w-5 h-5 mr-1"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                clip-rule="evenodd"
+                              ></path>
+                            </svg>{" "}
+                            Contact details are exclusive to teams that have
+                            been matched with this mentor.
                           </h3>
-
-                          <RadioGroup className="mt-4">
+                          {/* <RadioGroup className="mt-4">
                             <RadioGroup.Label className="sr-only">
                               Choose a color
                             </RadioGroup.Label>
@@ -384,12 +362,12 @@ const WorkshopDetails = (props) => {
                                 />
                               </svg>
                             </div>
-                          </RadioGroup>
+                          </RadioGroup> */}
                         </div>
 
-                        <div class="mt-6 text-gray-700 lg:-mb-4 mb-2 lg:text-base text-sm font-semibold lg:text-center">
+                        {/* <div class="mt-6 text-gray-700 lg:-mb-4 mb-2 lg:text-base text-sm font-semibold lg:text-center">
                           {showMail && workshop
-                            ? workshop.mentors.map((mentor, i) => {
+                            ? workshop.orgs.map((mentor, i) => {
                                 return (
                                   <p class="text-xs">
                                     <span class="inline underline font-semibold">
@@ -406,7 +384,7 @@ const WorkshopDetails = (props) => {
                             : ""}
 
                           {showPhone && workshop
-                            ? workshop.mentors.map((mentor, i) => {
+                            ? workshop.orgs.map((mentor, i) => {
                                 return (
                                   <p class="text-xs">
                                     <span class="inline underline font-semibold">
@@ -421,80 +399,55 @@ const WorkshopDetails = (props) => {
                                 );
                               })
                             : ""}
-                        </div>
+                        </div> */}
 
                         {/* Sizes */}
                         <div
                           class={`lg:block hidden ${
-                            workshop.mentors.length > 2
+                            workshop.orgs.length > 2
                               ? ""
                               : " relative top-2 block "
                           }`}
                         >
-                          {!loading &&
-                          isFirstFree &&
-                          workshop &&
-                          workshop.availableDates.length !== 0 ? (
-                            <p class="text-center top-4 mt-2 text-sm relative font-semibold">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-[15px] w-[15px] inline relative bottom-[0.75px] "
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                stroke-width="2"
+                          {requested ||
+                          (projCon.project.mentorsRequested &&
+                            projCon.project.mentorsRequested
+                              .map((rM) => rM)
+                              .includes(JSON.stringify(workshop._id))) ? (
+                            <>
+                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[69px] -mb-6 w-fit bg-gradient-to-r from-green-500 to-green-700">
+                                Mentor Requested
+                              </h2>
+                              <h3
+                                className={`text-sm ${
+                                  workshop.orgs.length > 2 ? "" : "   "
+                                } text-green-800 block font-medium bg-green-100 border-dashed border-green-600 border-[1px] px-3 py-2 relative mt-12 rounded-md shadow-md`}
                               >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                              </svg>{" "}
-                              Try this mentor for free - exclusive 1st session.
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                          {booked ||
-                          (bookedWorkshops &&
-                            bookedWorkshops.includes(
-                              JSON.stringify(workshop._id)
-                            )) ? (
-                            <button
-                              onClick={() => {
-                                setShowConfirm(true);
-                              }}
-                              className={`${
-                                workshop.mentors.length > 2
-                                  ? "sm:mt-11 mt-6"
-                                  : "sm:mt-14 mt-6 "
-                              } mb-6 w-full 
-                                 from-green-700 to-green-600  bg-gradient-to-br hover:from-green-800 hover:to-green-700 hover:cursor-pointer
-                               shadow-md hover:shadow-xl rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                class="w-[22px] h-[22px] mr-2"
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                              </svg>
-                              View - Course Booked
-                            </button>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1.5"
+                                  stroke="currentColor"
+                                  class="flex-shrink-0 inline relative bottom-[1.1px] w-5 h-5 mr-0.5"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
+                                </svg>{" "}
+                                Your request for this mentor will be considered
+                                while matching you to a mentor!
+                              </h3>
+                            </>
                           ) : (
                             <button
                               onClick={() => {
                                 setShowConfirm(true);
                               }}
                               className={`${
-                                workshop.mentors.length > 2
+                                workshop.orgs.length > 2
                                   ? "sm:mt-11 mt-6"
                                   : "sm:mt-14 mt-6 "
                               } mb-6 w-full 
@@ -515,7 +468,7 @@ const WorkshopDetails = (props) => {
                                   d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
                                 />
                               </svg>
-                              Book Course
+                              Request Mentor
                             </button>
                           )}
 
@@ -525,7 +478,15 @@ const WorkshopDetails = (props) => {
                                 bg-blue-600 hover:bg-blue-700 hover:cursor-pointer
                            ${
                              showMail || showPhone ? "mb-6" : "mb-4"
-                           } border border-transparent rounded-md shadow-md hover:shadow-xl py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                           } border border-transparent rounded-md shadow-md hover:shadow-xl py-3 px-8 ${
+                              requested ||
+                              (projCon.project.mentorsRequested &&
+                                projCon.project.mentorsRequested
+                                  .map((rM) => rM)
+                                  .includes(JSON.stringify(workshop._id)))
+                                ? "hidden"
+                                : "flex"
+                            }  items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -541,24 +502,36 @@ const WorkshopDetails = (props) => {
                                 d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
                               />
                             </svg>
-                            Invite Teammates
+                            Recommend to Teammates
                           </button>
                         </div>
                       </form>
 
                       <p
-                        className={`md:text-3xl text-2xl ${
-                          workshop.mentors.length > 2
+                        className={` ${
+                          workshop.orgs.length > 2
                             ? "lg:mt-1 mt-2"
                             : "lg:mt-0 mt-3 block"
-                        } text-gray-900`}
+                        } text-gray-900 relative top-3`}
                       >
-                        <span class="font-bold">
-                          {workshop && workshop.pricing[0]
-                            ? `AED ${workshop && workshop.pricing[0]}`
-                            : workshop && !workshop.pricing[0]
-                            ? "Free of Cost"
-                            : ""}
+                        <span
+                          class={`font-bold tracking-wide bg-gradient-to-r w-fit from-blue-600 to-indigo-600 text-transparent mt-1  bg-clip-text ${
+                            requested ||
+                            (projCon.project.mentorsRequested &&
+                              projCon.project.mentorsRequested
+                                .map((rM) => rM)
+                                .includes(JSON.stringify(workshop._id)))
+                              ? "relative top-[16px] mb-3 text-2xl"
+                              : "mb-4 md:text-3xl text-2xl"
+                          }`}
+                        >
+                          {requested ||
+                          (projCon.project.mentorsRequested &&
+                            projCon.project.mentorsRequested
+                              .map((rM) => rM)
+                              .includes(JSON.stringify(workshop._id)))
+                            ? "Exclusive Access"
+                            : "Exclusive Access"}
                         </span>{" "}
                         {workshop && workshop.pricing[0]
                           ? `per session`
@@ -612,26 +585,38 @@ const WorkshopDetails = (props) => {
 
                       <form
                         className={`${
-                          workshop.mentors.length > 2
-                            ? "mt-4 mb-0"
-                            : "mt-6 -mb-2"
-                        } lg:block hidden`}
+                          workshop.orgs.length > 2 ? "mt-4 mb-0" : "mt-5 -mb-3"
+                        } lg:block relative top-2 hidden`}
                       >
                         {/* Colors */}
                         <div
                           class={`${
-                            workshop.mentors.length > 2 ? "" : "mb-9 block "
+                            workshop.orgs.length > 2 ? "" : "mb-12 pb-3 block "
                           }`}
                         >
                           <h3
                             className={`text-sm ${
-                              workshop.mentors.length > 2 ? "" : "pt-3 block "
-                            } text-gray-900 font-medium`}
+                              workshop.orgs.length > 2 ? "" : "   "
+                            } text-indigo-800 block font-medium bg-indigo-300 px-3 py-2 mt-5 mb-2 relative top-6 rounded-md shadow-md`}
                           >
-                            Contact
+                            <svg
+                              aria-hidden="true"
+                              class="flex-shrink-0 inline relative bottom-[1px] w-5 h-5 mr-1"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                clip-rule="evenodd"
+                              ></path>
+                            </svg>{" "}
+                            Contact details are exclusive to teams that have
+                            been matched with this mentor.
                           </h3>
 
-                          <RadioGroup className="mt-4">
+                          {/* <RadioGroup className="mt-4">
                             <RadioGroup.Label className="sr-only">
                               Choose a color
                             </RadioGroup.Label>
@@ -678,12 +663,12 @@ const WorkshopDetails = (props) => {
                                 />
                               </svg>
                             </div>
-                          </RadioGroup>
+                          </RadioGroup> */}
                         </div>
 
-                        <div class="mt-6 text-gray-700 lg:-mb-4 mb-2 lg:text-base text-sm font-semibold lg:text-center">
+                        {/* <div class="mt-6 text-gray-700 lg:-mb-4 mb-2 lg:text-base text-sm font-semibold lg:text-center">
                           {showMail && workshop
-                            ? workshop.mentors.map((mentor, i) => {
+                            ? workshop.orgs.map((mentor, i) => {
                                 return (
                                   <p class="text-xs">
                                     <span class="inline underline font-semibold">
@@ -700,7 +685,7 @@ const WorkshopDetails = (props) => {
                             : ""}
 
                           {showPhone && workshop
-                            ? workshop.mentors.map((mentor, i) => {
+                            ? workshop.orgs.map((mentor, i) => {
                                 return (
                                   <p class="text-xs">
                                     <span class="inline underline font-semibold">
@@ -715,14 +700,14 @@ const WorkshopDetails = (props) => {
                                 );
                               })
                             : ""}
-                        </div>
+                        </div> */}
 
                         {/* Sizes */}
                         <div
-                          class={`lg:block hidden ${
-                            workshop.mentors.length > 2
+                          class={`lg:block mt-3 hidden ${
+                            workshop.orgs.length > 2
                               ? ""
-                              : " relative top-2 block "
+                              : " relative top-4 block "
                           }`}
                         >
                           {!loading &&
@@ -749,49 +734,48 @@ const WorkshopDetails = (props) => {
                           ) : (
                             ""
                           )}
-                          {booked ||
-                          (bookedWorkshops &&
-                            bookedWorkshops.includes(
-                              JSON.stringify(workshop._id)
-                            )) ? (
-                            <button
-                              onClick={() => {
-                                setShowConfirm(true);
-                              }}
-                              className={`${
-                                workshop.mentors.length > 2
-                                  ? "sm:mt-11 mt-6"
-                                  : "sm:mt-14 mt-6 "
-                              } mb-6 w-full 
-                                 from-green-700 to-green-600  bg-gradient-to-br hover:from-green-800 hover:to-green-700 hover:cursor-pointer
-                               shadow-md hover:shadow-xl rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                class="w-[22px] h-[22px] mr-2"
+                          {requested ||
+                          (projCon.project.mentorsRequested &&
+                            projCon.project.mentorsRequested
+                              .map((rM) => rM)
+                              .includes(JSON.stringify(workshop._id))) ? (
+                            <>
+                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[69px] -mb-6 w-fit bg-gradient-to-r from-green-500 to-green-700">
+                                Mentor Requested
+                              </h2>
+                              <h3
+                                className={`text-sm ${
+                                  workshop.orgs.length > 2 ? "" : "   "
+                                } text-green-800 block font-medium bg-green-100 border-dashed border-green-600 border-[1px] px-3 py-2 relative mt-12 rounded-md shadow-md`}
                               >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                              </svg>
-                              View - Course Booked
-                            </button>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1.5"
+                                  stroke="currentColor"
+                                  class="flex-shrink-0 inline relative bottom-[1.1px] w-5 h-5 mr-0.5"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
+                                </svg>{" "}
+                                Your request for this mentor will be considered
+                                while matching you to a mentor!
+                              </h3>
+                            </>
                           ) : (
                             <button
                               onClick={() => {
                                 setShowConfirm(true);
                               }}
                               className={`${
-                                workshop.mentors.length > 2
-                                  ? "sm:mt-11 mt-6"
+                                workshop.orgs.length > 2
+                                  ? "sm:mt-[66px] mt-6"
                                   : "sm:mt-14 mt-6 "
-                              } mb-6 w-full 
+                              } mb-3 w-full 
                                  bg-indigo-600 shadow-md hover:shadow-xl hover:bg-indigo-700 hover:cursor-pointer 
                              border border-transparen rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                             >
@@ -809,7 +793,7 @@ const WorkshopDetails = (props) => {
                                   d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
                                 />
                               </svg>
-                              Book Course
+                              Request Mentor
                             </button>
                           )}
 
@@ -819,7 +803,15 @@ const WorkshopDetails = (props) => {
                                 bg-blue-600 hover:bg-blue-700 hover:cursor-pointer
                            ${
                              showMail || showPhone ? "mb-6" : "mb-4"
-                           } border border-transparent rounded-md shadow-md hover:shadow-xl py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                           } border border-transparent rounded-md shadow-md hover:shadow-xl py-3 px-8 ${
+                              requested ||
+                              (projCon.project.mentorsRequested &&
+                                projCon.project.mentorsRequested
+                                  .map((rM) => rM)
+                                  .includes(JSON.stringify(workshop._id)))
+                                ? "hidden"
+                                : "flex"
+                            }  items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -835,7 +827,7 @@ const WorkshopDetails = (props) => {
                                 d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
                               />
                             </svg>
-                            Invite Teammates
+                            Recommend to Teammates
                           </button>
                         </div>
                       </form>
@@ -847,14 +839,14 @@ const WorkshopDetails = (props) => {
                       <div>
                         <h3 className="sr-only">Description</h3>
 
-                        <div className="space-y-6 mt-5 relative">
+                        <div className="space-y-6 mt-2 relative">
                           <p className="lg:text-base text-sm text-gray-900">
                             {workshop && workshop.mentorshipProp}
                           </p>
                         </div>
                       </div>
 
-                      <div className="lg:mt-10 mt-8">
+                      <div className="lg:mt-9 -mb-1 mt-8">
                         <h3 className="text-sm font-medium text-gray-900">
                           Mentor Strengths
                         </h3>
@@ -888,7 +880,7 @@ const WorkshopDetails = (props) => {
                     </div>
                     <div
                       class={`lg:hidden -mt-12 block ${
-                        workshop.mentors.length > 2
+                        workshop.orgs.length > 2
                           ? ""
                           : " relative lg:hidden block "
                       }`}
@@ -917,48 +909,45 @@ const WorkshopDetails = (props) => {
                       ) : (
                         ""
                       )}
-                      {booked ||
-                      (bookedWorkshops &&
-                        bookedWorkshops.includes(
-                          JSON.stringify(workshop._id)
-                        )) ? (
-                        <button
-                          onClick={() => {
-                            setShowConfirm(true);
-                          }}
-                          className={`${
-                            workshop.mentors.length > 2
-                              ? "sm:mt-11 mt-6"
-                              : "mt-7 "
-                          } mb-3 w-full 
-                                 from-green-700 to-green-600  bg-gradient-to-br hover:from-green-800 hover:to-green-700 hover:cursor-pointer
-                               shadow-md hover:shadow-xl uppercase font-semibold rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm  text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-[22px] h-[22px] mr-2"
+                      {requested ||
+                      (projCon.project.mentorsRequested &&
+                        projCon.project.mentorsRequested
+                          .map((rM) => rM)
+                          .includes(JSON.stringify(workshop._id))) ? (
+                        <>
+                          <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[69px] -mb-6 w-fit bg-gradient-to-r from-green-500 to-green-700">
+                            Mentor Requested
+                          </h2>
+                          <h3
+                            className={`text-sm ${
+                              workshop.orgs.length > 2 ? "" : "   "
+                            } text-green-800 block font-medium bg-green-100 border-dashed border-green-600 border-[1px] px-3 py-2 relative mt-12 rounded-md shadow-md`}
                           >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
-                          View - Course Booked
-                        </button>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="flex-shrink-0 inline relative bottom-[1.1px] w-5 h-5 mr-0.5"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>{" "}
+                            Your request for this mentor will be considered
+                            while matching you to a mentor!
+                          </h3>
+                        </>
                       ) : (
                         <button
                           onClick={() => {
                             setShowConfirm(true);
                           }}
                           className={`${
-                            workshop.mentors.length > 2
-                              ? "sm:mt-11 mt-6"
-                              : "mt-7"
+                            workshop.orgs.length > 2 ? "sm:mt-11 mt-6" : "mt-7"
                           } mb-3 w-full 
                                  bg-indigo-600 shadow-md hover:shadow-xl hover:bg-indigo-700 hover:cursor-pointer 
                              border border-transparen uppercase font-semibold rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm  text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
@@ -977,7 +966,7 @@ const WorkshopDetails = (props) => {
                               d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
                             />
                           </svg>
-                          Book Course
+                          Request Mentor
                         </button>
                       )}
 
@@ -985,7 +974,15 @@ const WorkshopDetails = (props) => {
                         onClick={() => {}}
                         className={`mt-2  w-full 
                                 bg-blue-600 hover:bg-blue-700 hover:cursor-pointer
-                          mb-12 border border-transparent uppercase rounded-md shadow-md hover:shadow-xl py-3 px-8 flex items-center justify-center sm:text-base text-sm font-semibold text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                          mb-12 border border-transparent uppercase rounded-md shadow-md hover:shadow-xl py-3 px-8 ${
+                            requested ||
+                            (projCon.project.mentorsRequested &&
+                              projCon.project.mentorsRequested
+                                .map((rM) => rM)
+                                .includes(JSON.stringify(workshop._id)))
+                              ? "hidden"
+                              : "flex"
+                          }  items-center justify-center sm:text-base text-sm font-semibold text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -1001,7 +998,7 @@ const WorkshopDetails = (props) => {
                             d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
                           />
                         </svg>
-                        Invite Teammates
+                        Recommend to Teammates
                       </button>
                     </div>
                   </div>
@@ -1032,18 +1029,76 @@ const WorkshopDetails = (props) => {
                     Go Back
                   </button>
 
-                  <div class="border-2 border-dashed shadow-sm  w-[95%] mt-14 px-2 mx-auto block border-indigo-400">
-                    <div class="mt-8">
-                      <h1 class="font-bold text-3xl text-center ">
-                        What does this course offer?
+                  <div class="border-2 border-dashed tracking-wide shadow-sm h-fit w-[95%] mb-36 mt-20 px-2 mx-auto block border-indigo-400">
+                    <div class="mt-[100px] block">
+                      <>
+                        <h2 class="text-center">
+                          Are you sure about this request?{" "}
+                          <span class="font-bold"> ({workshop.name})</span>
+                        </h2>
+                        <div class="block text-center items-center -mt-[2px]  relative mx-auto mb-[60px]">
+                          <button
+                            onClick={() => {
+                              requestHandler();
+                            }}
+                            class="text-white uppercase text-sm bg-green-600 hover:bg-green-700 hover:shadow-md p-3 px-4 mb-[25px] mt-7 rounded-sm font-semibold mr-2 inline"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="w-5 h-5 mr-2 relative bottom-[1px] inline text-white"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                            Confirm Request
+                          </button>
+
+                          <button
+                            onClick={() => {
+                              setShowConfirm(false);
+                            }}
+                            class="text-white uppercase text-sm bg-red-600 hover:bg-red-700 hover:shadow-md p-3 px-4 mb-[25px] mt-7 ml-2 rounded-sm font-semibold inline"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="w-5 h-5 mr-2 relative bottom-[1px] inline text-white"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                            Cancel
+                          </button>
+                        </div>
+                      </>
+
+                      <h1 class="font-bold tracking-wide mt-4 block text-3xl text-center ">
+                        What does this{" "}
+                        <span class="bg-gradient-to-r w-fit from-blue-500 to-indigo-500 text-transparent bg-clip-text">
+                          mentor
+                        </span>{" "}
+                        offer?
                       </h1>
                       <h2 class="font-semibold text-xl text-center mt-2 text-gray-700">
-                        {workshop.title}
+                        {workshop.name}
                       </h2>
 
                       <section class="">
                         <div class="py-8 px-4 mx-auto max-w-screen-lg sm:py-16 lg:px-6">
-                          <div class="space-y-8 md:grid text-center md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
+                          <div class="space-y-8 -mt-2 md:grid text-center md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
                             <div>
                               <div class="flex mx-auto justify-center items-center mb-4 w-10 h-10 rounded-full bg-white  lg:h-12 lg:w-12">
                                 <svg
@@ -1062,11 +1117,11 @@ const WorkshopDetails = (props) => {
                                 </svg>
                               </div>
                               <h3 class="mb-2 text-xl font-bold ">
-                                One-on-one Mentorship
+                                1:1 Mentorship
                               </h3>
                               <p class="text-gray-500 ">
-                                Mentors will meet you in "Open Discussion
-                                Sessions", helping you plan your projects.
+                                Mentor will meet you online every week, helping
+                                you fine-tune your thought processes.
                               </p>
                             </div>
 
@@ -1089,8 +1144,9 @@ const WorkshopDetails = (props) => {
                               </div>
                               <h3 class="mb-2 text-xl font-bold ">Resources</h3>
                               <p class="text-gray-500">
-                                Access exclusive recordings and documents for
-                                each week's concepts (unavailable elsewhere).
+                                Access exclusive recordings, documents and
+                                theoretical knowledge that is unavailable
+                                elsewhere.
                               </p>
                             </div>
                             <div>
@@ -1108,7 +1164,7 @@ const WorkshopDetails = (props) => {
                                 Assignments
                               </h3>
                               <p class="text-gray-500 ">
-                                Mentors will personally check your submitted
+                                Mentor will personally check your submitted
                                 assignments, and provide you with custom
                                 feedback .
                               </p>
@@ -1118,7 +1174,7 @@ const WorkshopDetails = (props) => {
                       </section>
                     </div>
 
-                    <h1 class="font-bold text-3xl text-center  -mb-4">
+                    {/* <h1 class="font-bold text-3xl text-center  -mb-4">
                       Open Discussions Timeline - Book Now!
                     </h1>
                     <h2 class="font-semibold text-xl text-center mt-6 text-gray-700">
@@ -1162,11 +1218,11 @@ const WorkshopDetails = (props) => {
                           );
                         })}
                       </ol>
-                    </div>
+                    </div> */}
 
-                    <hr class="border-t-[0.5px] border-gray-500 mb-9 w-[50%] block mx-auto mt-4 border-dotted relative bottom-4" />
+                    {/* <hr class="border-t-[0.5px] border-gray-500 mb-9 w-[50%] block mx-auto mt-4 border-dotted relative bottom-4" /> */}
 
-                    {booked ||
+                    {/* {booked ||
                     bookedWorkshops.includes(JSON.stringify(workshop._id)) ? (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -1197,9 +1253,9 @@ const WorkshopDetails = (props) => {
                           d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
                         />
                       </svg>
-                    )}
+                    )} */}
 
-                    {booked ||
+                    {/* {booked ||
                     bookedWorkshops.includes(JSON.stringify(workshop._id)) ? (
                       <h2 class="font-bold text-center text-lg mb-[43px] mt-3">
                         THIS COURSE HAS BEEN BOOKED!
@@ -1212,7 +1268,7 @@ const WorkshopDetails = (props) => {
                           }}
                           class="text-white uppercase text-sm bg-blue-700 hover:bg-blue-800 hover:shadow-md p-3 px-6 mb-[50px] rounded-sm font-semibold block mx-auto"
                         >
-                          Book Course
+                          Request Mentor
                         </button>
                       </>
                     ) : (
@@ -1269,10 +1325,10 @@ const WorkshopDetails = (props) => {
                           </button>
                         </div>
                       </>
-                    )}
+                    )} */}
                   </div>
 
-                  <div class="border-2 border-dashed border-indigo-400 rounded-md shadow-sm mt-8 mb-32 mx-auto block px-2 w-[95%]">
+                  {/* <div class="border-2 border-dashed border-indigo-400 rounded-md shadow-sm mt-8 mb-32 mx-auto block px-2 w-[95%]">
                     <section class="pb-4">
                       <div class="py-8  px-4 mx-auto max-w-screen-lg sm:py-16 sm:pt-10 lg:px-6">
                         <div class="space-y-8 md:grid text-center md:grid-cols-2 lg:grid-cols-2 md:gap-12 md:space-y-0">
@@ -1341,7 +1397,7 @@ const WorkshopDetails = (props) => {
                             }}
                             class="text-white uppercase text-sm bg-blue-700 hover:bg-blue-800 hover:shadow-md p-3 px-6 mb-[25px] rounded-sm font-semibold block mx-auto"
                           >
-                            Book Course
+                            Request
                           </button>
                         </>
                       ) : (
@@ -1400,7 +1456,7 @@ const WorkshopDetails = (props) => {
                         </>
                       )}
                     </section>
-                  </div>
+                  </div> */}
                 </>
               )}
             </div>

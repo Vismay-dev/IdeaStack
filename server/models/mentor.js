@@ -22,8 +22,12 @@ const mentorSchema = new mongoose.Schema(
       type: Array,
       required: true,
     },
-    org: {
-      type: String,
+    orgs: {
+      type: Array,
+      required: false,
+    },
+    duration: {
+      type: Number,
       required: false,
     },
     pic: {

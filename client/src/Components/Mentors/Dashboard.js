@@ -43,11 +43,67 @@ const Dashboard = () => {
   );
 
   const [mentorsMatched, setMentorsMatched] = useState();
+  const [mentorsRequested, setMentorsRequested] = useState();
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
-    setMentorsMatched(project.mentorsMatched ? project.mentorsMatched : 0);
+    if (project) {
+      let mentorsMatchedInput = project.mentorsMatched;
+      let mentorsRequestedInput = project.mentorsRequested
+        ? project.mentorsRequested.filter(
+            (mentor) => !project.mentorsMatched.includes(mentor)
+          )
+        : [];
+
+      let mentorsRequestedCopy = [];
+      let mentorsMatchedCopy = [];
+
+      for (let i = 0; i < mentorsRequestedInput.length; i++) {
+        axios
+          .post(
+            process.env.NODE_ENV === "production"
+              ? "https://ideastack.herokuapp.com/api/user/getWorkshop"
+              : "http://localhost:4000/api/user/getWorkshop",
+            {
+              token: sessionStorage.getItem("token"),
+              workshopId: mentorsRequestedInput[i],
+            }
+          )
+          .then((res) => {
+            mentorsRequestedCopy.push(res.data);
+          })
+          .catch((err) => {
+            console.log(err.response);
+            setLoading(false);
+          });
+      }
+
+      for (let j = 0; j < mentorsMatchedInput.length; j++) {
+        axios
+          .post(
+            process.env.NODE_ENV === "production"
+              ? "https://ideastack.herokuapp.com/api/user/getWorkshop"
+              : "http://localhost:4000/api/user/getWorkshop",
+            {
+              token: sessionStorage.getItem("token"),
+              workshopId: mentorsMatchedInput[j],
+            }
+          )
+          .then((res) => {
+            mentorsMatchedCopy.push(res.data);
+          })
+          .catch((err) => {
+            console.log(err.response);
+            setLoading(false);
+          });
+      }
+
+      setMentorsMatched(mentorsMatchedCopy);
+      setMentorsRequested(mentorsRequestedCopy);
+    }
+
     setLoading(false);
   }, [location.pathname]);
 
@@ -57,10 +113,12 @@ const Dashboard = () => {
     <>
       {cancel ? <CancelModal close={() => setCancel(false)} /> : ""}
       <h2 class="text-center bg-no-repeat bg-center bg-cover py-7 pb-[35px] font-bold  xl:px-[365px] lg:px-[250px] md:px-[150px] sm:px-[100px] sm:w-fit sm:left-0 left-[0.1px] w-full mx-auto rounded-md right-0.5 text-gray-900 top-1 mt-[12px] -mb-[55px] relative">
-        <p class="md:text-[50px] tracking-wide sm:text-[40px] text-[32px]">
+        <p class="sm:text-5xl text-4xl mt-1 tracking-wide">
           Startup Mentorship
         </p>
-        <p class="sm:text-2xl text-xl">Learn from Industry Leaders</p>
+        <p class=" text-xl bg-gradient-to-r mt-2.5 mb-1 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit">
+          Learn from Industry Leaders
+        </p>
       </h2>
 
       <div
@@ -95,53 +153,65 @@ const Dashboard = () => {
                     Matched With: ({mentorsMatched.length})
                   </p>
                   <br />
-                  <div class="grid w-full grid-cols-2 px-4 gap-5 mt-9 mb-14">
+                  <div class=" w-full gap-5 mt-9 mb-14">
                     {mentorsMatched.map((mentor, i) => {
                       return (
-                        <div key={i} class="col-span-1  z-[75] ">
+                        <div key={i} class="w-[600px] mx-auto  z-[75] ">
                           <div
                             data-aos={"zoom-in"}
                             data-aos-once="true"
-                            class={`w-full  px-8 py-4 mt-1 z-40 pointer-events-auto mr-32 relative right-1.5 
+                            class={`w-full  px-8 py-4 mt-1 z-40 pointer-events-auto mr-32 relative right-2
                              bg-white rounded-lg shadow-md `}
                           >
                             <div class="flex items-center justify-between ">
                               <span class="text-sm block -mt-6 uppercase -mb-2 font-light text-gray-600 ">
-                                {mentor.duration + " weeks"}
+                                {mentor.duration + " week mentorship"}
                               </span>
 
                               <button
                                 type="button"
-                                class="text-white bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 font-semibold rounded-lg px-3.5 py-1.5 -mr-2 mt-1 text-md text-center mb-2"
+                                class="text-white text-sm uppercase bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 font-semibold rounded-lg px-2.5 py-1.5 -mr-2 mt-1 text-center mb-2"
                                 onClick={() => {
                                   setIndex(i);
                                   sessionStorage.setItem("index", i);
                                 }}
                               >
-                                View Dashboard
+                                View More
                               </button>
                             </div>
 
-                            <div class="-mt-2 relative -top-0.5">
+                            <img
+                              src={
+                                mentor.pic
+                                  ? mentor.pic
+                                  : "https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80"
+                              }
+                              alt="expert"
+                              class={` 
+                               mx-auto 
+                        rounded-full border-blue-700 border-dashed border mb-3 mt-1  w-[160px] h-[160px] shadow-md  object-center object-cover`}
+                            />
+
+                            <div class="mt-1 block relative -top-0.5">
                               <a
                                 href="#"
                                 class="text-2xl relative font-bold text-gray-700 hover:text-gray-600  hover:underline"
                               >
-                                {mentor.title}
+                                {mentor.name}
                               </a>
                               <p class="mt-4 pb-1 pt-1  md:text-md text-sm text-gray-600 ">
                                 {mentor.mentorshipProp}
                               </p>
                             </div>
 
-                            <div class="flex items-center justify-between mt-4 z-[75]">
-                              <div class="flex items-center relative bottom-0.5">
+                            <div class="flex items-center justify-between mt-2 z-[100]">
+                              <div class="flex items-center relative ">
                                 {mentor.orgs &&
                                   mentor.orgs.map((org, i) => {
                                     return (
                                       <span>
                                         <img
-                                          class="object-cover sm:inline hidden w-7 h-7 mr-2 rounded-full "
+                                          class="object-cover sm:inline hidden w-6 h-6 mr-2 shadow-sm rounded-full "
                                           src={
                                             org.pic
                                               ? org.pic
@@ -153,12 +223,12 @@ const Dashboard = () => {
                                           {org.name}
                                         </p>
 
-                                        {i == 2 ? (
+                                        {i == 4 ? (
                                           <>
                                             <br /> <div class="mb-2"></div>{" "}
                                           </>
                                         ) : i == mentor.orgs.length - 2 ? (
-                                          " & "
+                                          ""
                                         ) : i == mentor.orgs.length - 1 ? (
                                           ""
                                         ) : (
@@ -179,7 +249,10 @@ const Dashboard = () => {
                 <>
                   <div class="mx-auto justify-center block sm:left-36 -top-28 absolute text-center">
                     <button
-                      onClick={() => setIndex(null)}
+                      onClick={() => {
+                        setIndex(null);
+                        sessionStorage.removeItem("index");
+                      }}
                       class="w-32 p-2 rounded-md font-semibold tracking-wide shadow-md mt-3  bg-blue-700 hover:bg-blue-800  text-base hover:shadow-xl active:shadow-md text-white  uppercase "
                     >
                       <svg
@@ -560,6 +633,80 @@ const Dashboard = () => {
               </>
             )}
           </>
+        )}
+        {mentorsRequested && mentorsRequested.length > 0 ? (
+          <div class="w-full px-7">
+            <hr class="border-t-[2px]  border-dashed border-indigo-600 -mt-6 mb-8 block w-[60%] mx-auto" />
+            <h2 class="font-bold mx-auto text-center tracking-wide mb-6 text-3xl">
+              Requested Mentors:{" "}
+            </h2>
+            <div class="grid grid-cols-2 px-8 mb-14 mt-12 gap-3">
+              {mentorsRequested.map((mentor) => {
+                return (
+                  <div class="flex col-span-1 max-w-sm rounded-lg bg-white shadow-lg ">
+                    <div class="">
+                      <div class="p-6 text-center">
+                        <span class={` mx-auto w-full mt-1 mb-0.5 text-center`}>
+                          {" "}
+                          <img
+                            src={mentor.pic}
+                            class="w-8 h-8 shadow-md mb-1 inline rounded-full"
+                          ></img>{" "}
+                          <span class="ml-2 text-xl bg-clip-text mx-auto text-transparent from-gray-700 to-gray-500 bg-gradient-to-br inline font-bold">
+                            {mentor.name}
+                          </span>{" "}
+                        </span>
+
+                        <p class="mb-2 mt-4 text-left font-medium text-sm text-gray-700 ">
+                          Expertise: {mentor.expertise}
+                        </p>
+
+                        <p class=" pb-[3px] text-sm sm:text-left lg:right-0 relative  text-center font-medium text-gray-700">
+                          Organizations: <br />
+                          {mentor &&
+                            mentor.orgs &&
+                            mentor.orgs.map((org, i) => {
+                              return (
+                                <span
+                                  class={` ${
+                                    i == 2
+                                      ? "-mt-[14px] inline pt-[16px]"
+                                      : "inline mt-1"
+                                  } relative right-1 top-3.5 pb-2.5`}
+                                >
+                                  {" "}
+                                  {i == 3 ? (
+                                    <>
+                                      {" "}
+                                      <br class="inline" />{" "}
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {i != 0 && i != 3 ? " || " : ""}{" "}
+                                  <img
+                                    src={org.pic}
+                                    class="w-6 h-6 shadow-md ml-2 mb-1 inline rounded-full"
+                                  ></img>{" "}
+                                  <span class="ml-1 mr-1 lg:inline hidden">
+                                    {org.name}
+                                  </span>{" "}
+                                  <span class="ml-1 mr-1 lg:hidden inline">
+                                    {org.name.split(" ")[0]}
+                                  </span>{" "}
+                                </span>
+                              );
+                            })}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          ""
         )}
       </div>
     </>

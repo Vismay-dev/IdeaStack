@@ -124,6 +124,8 @@ const NavBar = (props) => {
         pathParamArr[i] = "Secret Operations";
       } else if (param === "viewProfile") {
         pathParamArr[i] = "View Profile";
+      } else if (param === "yourmentor") {
+        pathParamArr[i] = "Your Mentor";
       }
     });
 
@@ -498,7 +500,7 @@ const NavBar = (props) => {
                     class="xl:block hidden text-sm relative uppercase  top-[1px] xl:ml-[110px] ml-[130px] mr-9"
                     data-aos={"fade-left"}
                     data-aos-once="true"
-                    data-aos-delay="200"
+                    data-aos-delay="300"
                   >
                     <a
                       onClick={() => {
@@ -540,7 +542,7 @@ const NavBar = (props) => {
                     class="xl:block hidden text-sm   uppercase  top-[1px] -mr-[490px]"
                     data-aos={"fade-left"}
                     data-aos-once="true"
-                    data-aos-delay="400"
+                    data-aos-delay="500"
                   >
                     <a
                       onClick={() => {

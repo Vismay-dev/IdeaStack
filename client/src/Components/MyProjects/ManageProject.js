@@ -10,6 +10,7 @@ import CardSocialTraffic from "./Cards/CardPending.js";
 import CardTeam from "./Cards/CardTeam.js";
 
 import ManageApps from "./ManageApps.js";
+import Dashboard from "../Mentors/Dashboard.js";
 import Collaborate from "./Collaborate.js";
 import Mentorship from "./Mentorship.js";
 import BrowseExperts from "./BrowseExperts.js";
@@ -681,8 +682,8 @@ export default function ManageProject() {
           </>
         </Route>
 
-        <Route path="/dashboard/manageapps">
-          <ManageApps />
+        <Route path="/dashboard/yourmentor">
+          <Dashboard />
         </Route>
 
         <Route path="/dashboard/collaborate">

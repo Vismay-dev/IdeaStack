@@ -59,6 +59,10 @@ const projectSchema = new mongoose.Schema(
       type: Array,
       required: false,
     },
+    mentorsRequested: {
+      type: Array,
+      requried: false,
+    },
   },
   { timestamps: true }
 );
