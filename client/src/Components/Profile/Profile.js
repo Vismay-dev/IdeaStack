@@ -12,7 +12,6 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Profile = () => {
   const [project, setProject] = useState([]);
