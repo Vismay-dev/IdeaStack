@@ -127,7 +127,7 @@ const MyProjects = () => {
 
   return (
     <>
-      {showHeader ? (
+      {/* {showHeader ? (
         <div
           data-aos={"flip-up"}
           data-aos-once="true"
@@ -145,9 +145,9 @@ const MyProjects = () => {
         </div>
       ) : (
         ""
-      )}
+      )} */}
 
-      <div class="flex space-x-1 overflow-hidden bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pt-5 justify-center xl:w-full w-full md:pr-16 sm:pr-32 pr-[130px] rounded-b-lg mx-auto">
+      <div class="flex space-x-1 overflow-hidden bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pt-5 justify-center xl:w-full w-full md:pr-[125px] sm:pr-[175px] pr-[180px] rounded-b-lg mx-auto">
         <>
           <>
             <button
@@ -170,7 +170,7 @@ const MyProjects = () => {
                 }}
                 class={`flex items-center h-12 py-2 text-sm text-center text-gray-100 
         ${
-          location.pathname === "/dashboard/yourmentor"
+          location.pathname.includes("yourmentor")
             ? "bg-gray-800"
             : "bg-gray-500"
         } md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
@@ -194,7 +194,7 @@ const MyProjects = () => {
             </div>
           </>
 
-          <button
+          {/* <button
             onClick={() => {
               setShowHeader(showHeader ? false : true);
             }}
@@ -214,22 +214,38 @@ const MyProjects = () => {
                 !showHeader ? "rotate-180" : ""
               }`}
             />
-          </button>
+          </button> */}
           <br />
           <div class="sm:hidden block relative">
             <br />
             <div class="space-x-[3px] flex relative mt-8 -ml-[259px] mr-12 ">
               <button
                 onClick={() => {
+                  history.push("/dashboard/overview");
+                }}
+                class={`flex items-center h-12 py-2 ${
+                  location.pathname.includes("yourmentor") ? "sm:" : ""
+                } ${
+                  location.pathname.includes("yourmentor") ? "hidden" : ""
+                } text-sm text-center text-gray-100 
+        ${
+          location.pathname.includes("overview") ? "bg-gray-800" : "bg-gray-500"
+        } md:px-6 px-3 hover:bg-gray-600 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
+              >
+                Overview
+              </button>
+
+              <button
+                onClick={() => {
                   history.push("/dashboard/yourmentor");
                 }}
                 class={`flex items-center h-12 py-2 ${
-                  location.pathname === "/dashboard/yourmentor" ? "sm:" : ""
+                  location.pathname.includes("yourmentor") ? "sm:" : ""
                 } ${
-                  location.pathname === "/dashboard/yourmentor" ? "hidden" : ""
+                  location.pathname.includes("yourmentor") ? "hidden" : ""
                 } text-sm text-center text-gray-100 
         ${
-          location.pathname === "/dashboard/yourmentor"
+          location.pathname.includes("yourmentor")
             ? "bg-gray-800"
             : "bg-gray-500"
         } md:px-6 px-3 hover:bg-gray-600 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}

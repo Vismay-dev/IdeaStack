@@ -32,6 +32,7 @@ import "aos/dist/aos.css";
 import React from "react";
 import ReactGA from "react-ga";
 import userContext from "../../context/userContext";
+import mentorAccContext from "../../context/mentorAccContext";
 
 const NavBar = (props) => {
   useEffect(() => {
@@ -65,7 +66,9 @@ const NavBar = (props) => {
   };
 
   const history = useHistory();
+
   const user = useContext(userContext).user;
+  const mentor = useContext(mentorAccContext).mentor;
 
   const showModalLog = () => {
     if (localStorage.getItem("cookieID") !== null) {
@@ -118,6 +121,20 @@ const NavBar = (props) => {
         pathParamArr[i] = "My Join Requests";
       } else if (param === "manageapps") {
         pathParamArr[i] = "Manage Applications";
+      } else if (param === "mentorinfo") {
+        pathParamArr[i] = "Mentor Info";
+      } else if (param === "tasksandresources") {
+        pathParamArr[i] = "Tasks and Resources";
+      } else if (param === "bookworkshops") {
+        pathParamArr[i] = "Book Workshops";
+      } else if (param === "mentorProfile") {
+        pathParamArr[i] = "Mentor Profile";
+      } else if (param === "startupmentorship") {
+        pathParamArr[i] = "Startup Mentorship";
+      } else if (param === "yourstartup") {
+        pathParamArr[i] = "Mentee Startup";
+      } else if (param === "startupinfo") {
+        pathParamArr[i] = "Startup Info";
       } else if (
         param === "admin-operations-passcode-IdeaStackOperations300305"
       ) {
@@ -230,7 +247,8 @@ const NavBar = (props) => {
 
       <div
         class={`mx-auto w-screen lg:px-20 md:px-32 px-10 shadow-lg md:h-fit ${
-          sessionStorage.getItem("token") === null
+          sessionStorage.getItem("token") === null &&
+          sessionStorage.getItem("mentorToken") === null
             ? "sm:h-[105px]"
             : "sm:h-[142px]"
         } relative sm:fixed h-[90px] bg-white  z-[80] `}
@@ -238,14 +256,20 @@ const NavBar = (props) => {
         <div class="relative flex items-center justify-between">
           <a
             onClick={() => {
-              if (!location.pathname.split("/").includes("teamonboarding")) {
+              if (
+                !location.pathname.split("/").includes("teamonboarding") &&
+                !location.pathname === "/mentor" &&
+                !location.pathname === "/mentor/"
+              ) {
                 history.push("/");
               }
             }}
             aria-label="Company"
             title="Company"
             class={`inline-flex items-center ${
-              location.pathname.split("/").includes("teamonboarding")
+              location.pathname.split("/").includes("teamonboarding") ||
+              location.pathname === "/mentor" ||
+              location.pathname === "/mentor/"
                 ? "mx-auto"
                 : "cursor-pointer"
             } `}
@@ -255,20 +279,26 @@ const NavBar = (props) => {
               data-aos-once="true"
               src={logo}
               className={
-                location.pathname.split("/").includes("teamonboarding")
+                location.pathname.split("/").includes("teamonboarding") ||
+                location.pathname === "/mentor" ||
+                location.pathname === "/mentor/"
                   ? `lg:w-40   lg:py-0 py-6 pb-8  lg:top-[41px]  top-[34px] 
                      md:w-32 w-28 sm:top-[38px]
                  relative block  mx-auto text-center -mt-16`
                   : `lg:w-40   lg:py-0 py-6 pb-8  lg:top-[41px] sm:top-[36px]  top-[34px] ${
-                      sessionStorage.getItem("token") === null
+                      sessionStorage.getItem("token") === null &&
+                      sessionStorage.getItem("mentorToken") === null
                         ? "md:-left-[96px] md:w-32 w-28 sm:top-[40px]"
                         : "md:-left-[120px] sm:visible invisible  md:top-[30px] w-28 md:w-[123px] md:mb-[7px] lg:mb-0 sm:top-[30px]"
                     } xl:-left-10 lg:-left-12  -left-[10px] relative block  -mt-16 lg:top-10`
               }
             />
           </a>
-          {sessionStorage.getItem("token") === null ? (
-            location.pathname.split("/").includes("teamonboarding") ? (
+          {sessionStorage.getItem("token") === null &&
+          sessionStorage.getItem("mentorToken") === null ? (
+            location.pathname.split("/").includes("teamonboarding") ||
+            location.pathname === "/mentor" ||
+            location.pathname === "/mentor/" ? (
               <></>
             ) : (
               <ul class="items-center space-x-10 py-8 top-0.5 relative  lg:flex left-2 xl:-left-[310px] lg:-left-[177px] hidden uppercase">
@@ -411,7 +441,11 @@ const NavBar = (props) => {
           ) : (
             <nav class="flex" aria-label="Breadcrumb">
               <ol
-                class={`items-center space-x-0 absolute xl:left-[180px] xl:mr-0 -mr-16  lg:left-[180px] left-[50px] md:top-[74px] sm:top-[93px] lg:top-[32px] ${
+                class={`items-center space-x-0 absolute ${
+                  sessionStorage.getItem("mentorToken")
+                    ? "xl:left-[200px] lg:left-[200px] left-[70px]"
+                    : "xl:left-[180px] lg:left-[180px] left-[50px]"
+                } xl:mr-0 -mr-16   md:top-[74px] sm:top-[93px] lg:top-[32px] ${
                   location.pathname === "/onboarding"
                     ? "hidden"
                     : "sm:inline-flex hidden"
@@ -446,6 +480,8 @@ const NavBar = (props) => {
                       pathParam = "joinrequests";
                     } else if (pathParam === "ManageApplications") {
                       pathParam = "manageapps";
+                    } else if (pathParam === "MenteeStartup") {
+                      pathParam = "yourstartup";
                     } else if (pathParam === "SecretOperations") {
                       pathParam =
                         "admin-operations-passcode-IdeaStackOperations300305";
@@ -492,12 +528,61 @@ const NavBar = (props) => {
                   })}
               </ol>
 
-              {location.pathname === "/onboarding" ? (
+              {location.pathname === "/onboarding" ||
+              location.pathname.includes("viewProfile") ? (
                 ""
+              ) : sessionStorage.getItem("mentorToken") ? (
+                <>
+                  <li
+                    class="xl:block hidden text-sm relative uppercase  top-[1px] xl:ml-[300px] ml-[300px] mr-9"
+                    data-aos={"fade-left"}
+                    data-aos-once="true"
+                    data-aos-delay="300"
+                  >
+                    <a
+                      onClick={() => {
+                        history.push("/mentorProfile");
+                      }}
+                      aria-label="About us"
+                      title="About us"
+                      class={`font-semibold tracking-wide  right-[7px] relative ${
+                        location.pathname.split("/").includes("mentorProfile")
+                          ? "text-indigo-700"
+                          : "text-gray-700"
+                      } transition-colors duration-200  hover:text-indigo-500 hover:cursor-pointer`}
+                    >
+                      Profile
+                    </a>
+                  </li>
+
+                  <li
+                    class="xl:block hidden text-sm   uppercase  top-[1px] -mr-[680px]"
+                    data-aos={"fade-left"}
+                    data-aos-once="true"
+                    data-aos-delay="500"
+                  >
+                    <a
+                      onClick={() => {
+                        history.push("/startupmentorship");
+                      }}
+                      aria-label="Features"
+                      title="Features"
+                      class={`font-semibold tracking-wide ${
+                        location.pathname
+                          .split("/")
+                          .includes("startupmentorship")
+                          ? "text-indigo-700"
+                          : "text-gray-700"
+                      }   right-1.5 relative transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer`}
+                    >
+                      MENTORSHIP
+                    </a>
+                  </li>
+                </>
               ) : (
                 <>
                   <li
-                    class="xl:block hidden text-sm relative uppercase  top-[1px] xl:ml-[110px] ml-[130px] mr-9"
+                    class="xl:block hidden text-sm relative uppercase  top-[1px] xl:ml-[190px] ml-[190px] mr-9"
                     data-aos={"fade-left"}
                     data-aos-once="true"
                     data-aos-delay="300"
@@ -539,7 +624,7 @@ const NavBar = (props) => {
                     </a>
                   </li>
                   <li
-                    class="xl:block hidden text-sm   uppercase  top-[1px] -mr-[490px]"
+                    class="xl:block hidden text-sm   uppercase  top-[1px] -mr-[510px]"
                     data-aos={"fade-left"}
                     data-aos-once="true"
                     data-aos-delay="500"
@@ -585,8 +670,11 @@ const NavBar = (props) => {
             </nav>
           )}
           <div className="flex items-center justify-end  w-0 xl:left-[280px] lg:left-[220px] md:left-[210px] sm:left-[20px] left-[80px] md:bottom-0 sm:bottom-3 bottom-2 mt-0.5 md:mt-0 ml-1 relative">
-            {sessionStorage.getItem("token") === null ? (
-              location.pathname.split("/").includes("teamonboarding") ? (
+            {sessionStorage.getItem("token") === null &&
+            sessionStorage.getItem("mentorToken") === null ? (
+              location.pathname.split("/").includes("teamonboarding") ||
+              location.pathname === "/mentor" ||
+              location.pathname === "/mentor/" ? (
                 <></>
               ) : (
                 <>
@@ -658,15 +746,32 @@ const NavBar = (props) => {
                     <span class="sr-only">Notifications</span>
                     <div
                       class={` ${
+                        (mentor && mentor.notifications == null) ||
+                        (mentor &&
+                          mentor.notifications &&
+                          mentor.notifications.filter(
+                            (notif) => notif.seen === false
+                          ).length == 0) ||
                         (user && user.notifications == null) ||
                         (user &&
                           user.notifications &&
-                          user.notifications.length == 0)
+                          user.notifications.filter(
+                            (notif) => notif.seen === false
+                          ).length == 0)
                           ? "hidden"
                           : "inline-flex"
                       } absolute -top-2 -right-2 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-white dark:border-gray-900`}
                     >
-                      {user && user.notifications && user.notifications.length}
+                      {(user &&
+                        user.notifications &&
+                        user.notifications.filter(
+                          (notif) => notif.seen === false
+                        ).length) ||
+                        (mentor &&
+                          mentor.notifications &&
+                          mentor.notifications.filter(
+                            (notif) => notif.seen === false
+                          ).length)}
                     </div>
                   </button>
                 )}
@@ -720,20 +825,32 @@ const NavBar = (props) => {
                     <span class="sr-only">Notifications</span>
                     <div
                       class={` ${
-                        user &&
-                        user.notifications &&
-                        user.notifications.filter(
-                          (notif) => notif.seen === false
-                        ).length === 0
+                        (mentor && mentor.notifications == null) ||
+                        (mentor &&
+                          mentor.notifications &&
+                          mentor.notifications.filter(
+                            (notif) => notif.seen === false
+                          ).length == 0) ||
+                        (user &&
+                          user.notifications &&
+                          user.notifications.filter(
+                            (notif) => notif.seen === false
+                          ).length === 0)
                           ? "hidden"
                           : "inline-flex"
                       } absolute -top-2 xl:-right-2 right-16 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-white dark:border-gray-900`}
                     >
-                      {user &&
+                      {(user &&
                         user.notifications &&
                         user.notifications.filter(
                           (notif) => notif.seen === false
-                        ).length}
+                        ).length) ||
+                        (mentor && mentor.notifications == null) ||
+                        (mentor &&
+                          mentor.notifications &&
+                          mentor.notifications.filter(
+                            (notif) => notif.seen === false
+                          ).length)}
                     </div>
                   </button>
                 )}
@@ -741,7 +858,8 @@ const NavBar = (props) => {
             )}
           </div>
 
-          {sessionStorage.getItem("token") === null ? (
+          {sessionStorage.getItem("token") === null &&
+          sessionStorage.getItem("mentorToken") === null ? (
             <div class="lg:hidden">
               <button
                 aria-label="Open Menu"
@@ -751,7 +869,10 @@ const NavBar = (props) => {
               >
                 <svg
                   class={`${
-                    sessionStorage.getItem("token") === null ? "w-9" : "w-7"
+                    sessionStorage.getItem("token") === null &&
+                    sessionStorage.getItem("mentorToken") === null
+                      ? "w-9"
+                      : "w-7"
                   } text-gray-600 sm:top-2`}
                   viewBox="0 0 24 24"
                 >
@@ -910,19 +1031,7 @@ const NavBar = (props) => {
                             )}
                           </Popover>
                         </Popover.Group>
-                        {/* <li class="text-center">
-                          <a
-                            onClick={() => {
-                              setIsMenuOpen(false);
-                              history.push("/team");
-                            }}
-                            aria-label="Our product"
-                            title="Our product"
-                            class="hover:cursor-pointer font-semibold tracking-wide text-gray-700  right-1.5 relative transition-colors duration-200 hover:text-indigo-500"
-                          >
-                            Team
-                          </a>
-                        </li> */}
+
                         <li class="text-center">
                           <a
                             onClick={() => {
@@ -938,10 +1047,13 @@ const NavBar = (props) => {
                         </li>
                       </ul>
                       <div className="align-middle justify-items-center justify-center mt-7 mb-3.5 bottom-[2px] mx-auto relative">
-                        {sessionStorage.getItem("token") === null ? (
+                        {sessionStorage.getItem("token") === null &&
+                        sessionStorage.getItem("mentorToken") === null ? (
                           location.pathname
                             .split("/")
-                            .includes("teamonboarding") ? (
+                            .includes("teamonboarding") ||
+                          location.pathname === "/mentor" ||
+                          location.pathname === "/mentor/" ? (
                             <></>
                           ) : (
                             <div class="relative mx-auto w-fit bottom-[5px]">

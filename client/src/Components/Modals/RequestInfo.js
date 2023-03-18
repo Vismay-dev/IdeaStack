@@ -25,7 +25,7 @@ import projectContext from "../../context/projectContext";
 import { CgCodeClimate } from "react-icons/cg";
 import { BsCheckAll } from "react-icons/bs";
 
-const EditProjModal = (props) => {
+const RequestInfo = (props) => {
   let categories = [
     {
       name: "All",
@@ -111,16 +111,7 @@ const EditProjModal = (props) => {
       duration: 1000,
     });
   }, []);
-
   const myRef = useRef();
-  const currentUser = useContext(userContext);
-
-  const [user, setUser] = useState(currentUser ? currentUser.user : false);
-  const [image, setImage] = useState(null);
-  const inputRef = useRef(null);
-  const [project, setProject] = useState({});
-
-  const projCon = useContext(projectContext);
 
   useEffect(
     () => {
@@ -148,83 +139,6 @@ const EditProjModal = (props) => {
   );
 
   const [error, setError] = useState("");
-
-  const removeProjPic = () => {
-    setImage("");
-    console.log(image);
-  };
-
-  const projPicUpload = (e) => {
-    e.preventDefault();
-    const data = new FormData();
-    data.append("image", e.target.files[0]);
-    data.append("token", sessionStorage.getItem("token"));
-    setImage(URL.createObjectURL(e.target.files[0]));
-
-    axios
-      .post(
-        process.env.NODE_ENV === "production"
-          ? "https://ideastack.herokuapp.com/api/user/uploadPic"
-          : "http://localhost:4000/api/user/uploadPic",
-        data
-      )
-      .then((res) => {
-        console.log(res.data);
-        setProject({
-          ...project,
-          projPic: res.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    setProject(projCon.project);
-    setImage(projCon.project.projPic);
-  }, []);
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-
-    if (image === "" || image === null) {
-      setError("Please upload a project cover image");
-      return;
-    } else {
-      setError("");
-    }
-
-    props.changeProj(project);
-    projCon.setProject(project);
-
-    //send project data to server
-    axios
-      .post(
-        process.env.NODE_ENV === "production"
-          ? "https://ideastack.herokuapp.com/api/project/updateProject"
-          : "http://localhost:4000/api/project/updateProject",
-        {
-          update: project,
-          token: sessionStorage.getItem("token"),
-          projectID: project._id,
-        }
-      )
-      .then((res) => {
-        projCon.setProject(res.data);
-        props.close();
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
-  };
-
-  const changeHandler = (e) => {
-    setProject({
-      ...project,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   return (
     <div
@@ -260,168 +174,131 @@ const EditProjModal = (props) => {
             <div class="sm:flex sm:items-center">
               <div class=" text-center w-full sm:mt-0 sm:ml-4 ml-3 sm:text-left">
                 <div>
-                  <form class="w-full mt-1 pt-1" onSubmit={submitHandler}>
+                  <form class="w-full mb-1 pt-1 pb-1">
                     <h1 class="text-4xl mx-auto block relative text-center my-2 mb-12 font-semibold">
-                      Edit Project
+                      Startup Details
                     </h1>
-                    <div class="relative z-0 mb-3 w-full group">
-                      <input
-                        type="text"
+
+                    <div class="relative z-0 mb-7 w-full group">
+                      <p
                         name="name"
-                        onChange={changeHandler}
-                        value={project.name}
                         id="floating_repeat_name"
                         class="block mt-3  relative mb-2 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        required={true}
-                        placeholder=" "
-                      />
+                      >
+                        {props.startup.name}
+                      </p>
                       <label
                         for="floating_repeat_name"
-                        class="absolute text-sm left-0 text-gray-500  duration-300 transform -translate-y-6 scale-75 top-0 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        class="absolute text-sm font-semibold left-0 text-blue-700  duration-300 transform -translate-y-6 scale-75 top-0 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                       >
                         Project Name
                       </label>
                     </div>
-                    <div class="grid xl:grid-cols-2 mb-3.5 xl:gap-6">
+                    <div class="grid xl:grid-cols-2 mt-2.5 mb-3.5 xl:gap-6">
                       <div class="relative z-0 mb-11 w-full group">
-                        <select
+                        <p
                           placeholder="Category"
-                          value={project.category}
                           name="category"
-                          onChange={changeHandler}
                           type="select"
                           defaultValue={""}
                           class="block top-3 relative py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           required={true}
                         >
-                          <option value={""} defaultChecked disabled>
-                            Category
-                          </option>
-                          {categories.map((cat) => {
-                            return (
-                              <option value={cat.name}>
-                                {cat.id}. {cat.name}
-                              </option>
-                            );
-                          })}
-                        </select>
+                          {props.startup.category}
+                        </p>
                       </div>
                       <div class="relative z-0 mb-10 md:mt-0 -mt-4 w-full group">
-                        <input
-                          type="text"
-                          onFocus={(e) => (e.target.type = "number")}
+                        <p
                           name="maxCap"
-                          onChange={changeHandler}
-                          value={project.maxCap}
                           id="maxCap"
                           class="block top-3 relative py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                          placeholder=" "
                           required={true}
-                        />
+                        >
+                          {props.startup.maxCap}
+                        </p>
                         <label
                           for="maxCap"
-                          class="absolute left-0 text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-6 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                          class="absolute left-0  font-semibold text-sm text-blue-700 duration-300 transform -translate-y-6 scale-75 top-4 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                           Max. Team Capacity
                         </label>
                       </div>
                     </div>
 
-                    <div class="relative z-0 mb-10 md:mts-0 w-full group">
-                      <textarea
-                        type="number"
+                    <div class="relative z-0 mb-14 md:mts-0 w-full group">
+                      <p
                         name="problem"
-                        min={140}
-                        max={190}
-                        onChange={changeHandler}
-                        value={project.problem}
                         id="problem"
                         class="block top-3 relative  w-full text-sm text-gray-900 bg-transparent border-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer h-32 p-2  rounded-md"
-                        placeholder=" "
-                        required={true}
-                      />
-                      <label class="absolute text-sm left-0 text-gray-500 duration-300 transform -top-4 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  ">
-                        Startup Description
+                      >
+                        {props.startup.problem}
+                      </p>
+                      <label class="absolute text-sm font-semibold left-0 text-blue-700 duration-300 transform -top-4 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  ">
+                        Startup Description.
                       </label>
                     </div>
 
-                    <div class="grid xl:grid-cols-2 mb-3.5 xl:gap-6">
-                      <div
-                        class={`relative z-0 mb-11 w-full group bg-gradient-to-br from-blue-100 rounded-sm to-indigo-300 shadow-md top-0.5 align-middle ${
-                          image !== null ? "xl:p-10 pt-2 pb-16" : "p-10 px-3"
-                        } `}
+                    <div class="relative z-0 mb-10 mt-2 block w-full group">
+                      <p
+                        name="problem"
+                        id="problem"
+                        class="block top-1 relative  w-full text-sm text-gray-900 bg-transparent  appearance-none    peer p-2  rounded-md"
                       >
-                        <div className="relative scale-75 p-3 ">
-                          <input
-                            ref={inputRef}
-                            onChange={projPicUpload}
-                            type="file"
-                            style={{ display: "none" }}
-                          />
+                        {props.startup &&
+                          props.startup.team &&
+                          props.startup.team.map((member, i) => {
+                            return (
+                              <span
+                                class={` ${
+                                  i == 2
+                                    ? "-mt-[14px] inline pt-[16px]"
+                                    : "inline mt-1"
+                                } relative right-1 text-base top-3.5 pb-2.5`}
+                              >
+                                {" "}
+                                {i == 3 ? (
+                                  <>
+                                    {" "}
+                                    <br class="inline" />{" "}
+                                  </>
+                                ) : (
+                                  ""
+                                )}
+                                {i != 0 && i != 3 ? " || " : ""}{" "}
+                                <img
+                                  src={
+                                    member.profilePic
+                                      ? member.profilePic
+                                      : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
+                                  }
+                                  class="w-7 h-7 border-[1px] border-blue-700 shadow-md ml-2 mb-1 inline rounded-full"
+                                ></img>{" "}
+                                <span class="ml-1 mr-1 relative bottom-[0.5px] text-base inline">
+                                  {member.name}
+                                </span>{" "}
+                              </span>
+                            );
+                          })}
+                      </p>
+                      <label class="absolute text-sm font-semibold left-0 text-blue-700 duration-300 transform -top-4 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  ">
+                        Our Team
+                      </label>
+                    </div>
 
-                          <ul class="space-x-2 space-y-4 mx-auto relative mt-20 text-center ">
-                            {image === "" || image === null ? (
-                              <>
-                                {" "}
-                                <button
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    inputRef.current.click();
-                                  }}
-                                  class="font-semibold sm:text-2xl text-xl p-3 xl:mt-8 -mt-12 xl:mb-0 mb-20 shadow-md left-1  z-20 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600"
-                                >
-                                  Upload Project Cover Image
-                                </button>
-                                <br />
-                              </>
-                            ) : (
-                              <>
-                                {" "}
-                                <button
-                                  class="font-semibold  p-3 shadow-md  z-20 bg-gray-100 hover:bg-gray-200 px-4 sm:text-2xl text-xl xl:-mt-1 -mt-64  -ml-3 rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    inputRef.current.click();
-                                  }}
-                                >
-                                  Change Image
-                                </button>{" "}
-                                <br />
-                                <button
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    removeProjPic();
-                                  }}
-                                  class="font-semibold sm:text-2xl text-xl -ml-3 p-3 xl:mb-0 mb-20 shadow-md right-2.5 relative  z-20 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600"
-                                >
-                                  Remove Image
-                                </button>{" "}
-                              </>
-                            )}
-                          </ul>
-                        </div>
-                      </div>
-                      <div class="relative border-2 h-96 p-8 border-dashed rounded-md border-gray-700 z-0 mb-10 w-full group">
+                    <div class="  mt-1 pt-1 block">
+                      <div class="relative border-2 -mt-1  block w-[150px] rounded-full mx-auto  h-[150px] p-3 border-dashed  border-gray-700 z-0 mb-14  group">
                         <img
                           class=" relative w-full h-full object-contain mx-auto justify-center align-middle"
-                          src={image || image !== "" ? image : ""}
+                          src={
+                            props.startup.projPic ||
+                            props.startup.projPic !== ""
+                              ? props.startup.projPic
+                              : ""
+                          }
                         ></img>
                       </div>
                     </div>
 
-                    {error !== "" ? (
-                      <p class="text-red-500 text-center text-lg font-semibold -bottom-1 mb-12 relative">
-                        {error}
-                      </p>
-                    ) : (
-                      ""
-                    )}
-                    <button
-                      type="submit"
-                      class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-lg shadow-md w-full sm:w-auto sm:px-32 sm:mt-3 mt-1 py-2 mx-auto block text-center  "
-                    >
-                      Submit
-                    </button>
                     <button
                       onClick={(e) => {
                         e.preventDefault();
@@ -429,7 +306,7 @@ const EditProjModal = (props) => {
                       }}
                       class="text-black border-2 border-gray-700 bg-slate-200 hover:bg-slate-300 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-lg shadow-md w-full sm:w-auto sm:px-32 mt-2 sm:mb-3 mb-6 py-2 mx-auto block text-center  "
                     >
-                      Cancel
+                      close
                     </button>
                   </form>
                 </div>
@@ -451,4 +328,4 @@ const EditProjModal = (props) => {
   );
 };
 
-export default EditProjModal;
+export default RequestInfo;

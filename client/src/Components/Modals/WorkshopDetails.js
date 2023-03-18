@@ -14,8 +14,8 @@ import PulseLoader from "react-spinners/PulseLoader";
 
 const product = {
   breadcrumbs: [
-    { id: 1, name: "Industry Mentorship", href: "#" },
-    { id: 2, name: "Browsing Courses", href: "#" },
+    { id: 1, name: "Startup Mentorship", href: "#" },
+    { id: 2, name: "Browsing Mentors", href: "#" },
   ],
 };
 const reviews = { href: "#", average: 4, totalCount: 117 };
@@ -100,7 +100,7 @@ const WorkshopDetails = (props) => {
   const [dateOptions, setDateOptions] = useState([]);
   const [requestedMentors, setRequestedMentors] = useState();
 
-  useEffect(async () => {
+  useEffect(() => {
     setLoading(true);
 
     for (let x = 0; x < props.workshops.length; x++) {
@@ -252,8 +252,43 @@ const WorkshopDetails = (props) => {
                       ) : (
                         ""
                       )}
-                      <h1 className="text-3xl lg:mt-0 mt-1 font-extrabold tracking-tight text-gray-900 md:text-4xl lg:text-3xl">
-                        {workshop && workshop.name}
+                      <h1
+                        className={`text-3xl ${
+                          projCon.project &&
+                          projCon.project.mentorsRequested.length
+                            ? "lg:-mt-1 mt-0 block relative -top-3"
+                            : "lg:mt-0 mt-1 block"
+                        } font-extrabold tracking-tight text-gray-900 md:text-4xl lg:text-3xl`}
+                      >
+                        {workshop && workshop.name}{" "}
+                        {projCon.project &&
+                        projCon.project.mentorsRequested.length > 0 ? (
+                          <div
+                            class={`${
+                              projCon.project &&
+                              projCon.project.mentorsRequested.length === 3
+                                ? "bg-orange-50 border-orange-500 text-orange-700"
+                                : "bg-indigo-50 border-indigo-500 text-indigo-700"
+                            }  text-sm ml-5 relative -top-[5px] w-full mx-auto inline font-normal border-l-4  shadow-md  p-4 pl-2 pr-3 pt-3  pb-3.5
+                            `}
+                            role="alert"
+                          >
+                            <strong>
+                              {projCon.project.mentorsRequested.length}{" "}
+                            </strong>
+                            mentorship request
+                            {projCon.project.mentorsRequested.length > 1
+                              ? "s "
+                              : " "}
+                            made.{" "}
+                            <strong>
+                              {3 - projCon.project.mentorsRequested.length}
+                            </strong>{" "}
+                            out of <strong>3</strong> requests remaining .
+                          </div>
+                        ) : (
+                          ""
+                        )}
                       </h1>
                     </div>
 
@@ -291,7 +326,7 @@ const WorkshopDetails = (props) => {
                         {/* Colors */}
                         <div
                           class={`${
-                            workshop.orgs.length > 2 ? "" : "mb-9 block "
+                            workshop.orgs.length > 2 ? "" : "mb-7 block "
                           }`}
                         >
                           <h3
@@ -409,11 +444,72 @@ const WorkshopDetails = (props) => {
                               : " relative top-2 block "
                           }`}
                         >
-                          {requested ||
-                          (projCon.project.mentorsRequested &&
-                            projCon.project.mentorsRequested
-                              .map((rM) => rM)
-                              .includes(JSON.stringify(workshop._id))) ? (
+                          {projCon.project.mentorsRequested &&
+                          projCon.project.mentorsRequested.length > 3 ? (
+                            <>
+                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[62px] -mb-7 w-fit bg-gradient-to-r from-orange-500 to-orange-700">
+                                Request Limit Reached
+                              </h2>
+                              <h3
+                                className={`text-sm ${
+                                  workshop.orgs.length > 2 ? "" : "   "
+                                } text-orange-800 block font-medium bg-orange-100 border-dashed border-orange-600 border-[1px] px-3 py-2 relative mt-12 rounded-md shadow-md`}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1.5"
+                                  stroke="currentColor"
+                                  class="flex-shrink-0 inline relative bottom-[1.1px] w-5 h-5 mr-0.5"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                                  />
+                                </svg>{" "}
+                                You've already made 3 mentorship requests this
+                                month. Stay for the next month- and build your
+                                way forward!
+                              </h3>
+                            </>
+                          ) : projCon.project.mentorsMatched &&
+                            projCon.project.mentorsMatched
+                              .map((rM) => JSON.stringify(rM.mentorId))
+                              .includes(JSON.stringify(workshop._id)) ? (
+                            <>
+                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[69px] -mb-6 w-fit bg-gradient-to-r from-green-500 to-green-700">
+                                Mentor Matched!
+                              </h2>
+                              <h3
+                                className={`text-sm ${
+                                  workshop.orgs.length > 2 ? "" : "   "
+                                } text-green-800 block font-medium bg-green-100 border-dashed border-green-600 border-[1px] px-3 py-2 relative mt-11 rounded-md shadow-md`}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1.5"
+                                  stroke="currentColor"
+                                  class="flex-shrink-0 inline relative bottom-[1.1px] w-5 h-5 mr-0.5"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
+                                </svg>{" "}
+                                You've already been matched to this mentor!
+                                Email us with any feedback.
+                              </h3>
+                            </>
+                          ) : requested ||
+                            (projCon.project.mentorsRequested &&
+                              projCon.project.mentorsRequested
+                                .map((rM) => JSON.stringify(rM))
+                                .includes(JSON.stringify(workshop._id))) ? (
                             <>
                               <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[69px] -mb-6 w-fit bg-gradient-to-r from-green-500 to-green-700">
                                 Mentor Requested
@@ -482,7 +578,7 @@ const WorkshopDetails = (props) => {
                               requested ||
                               (projCon.project.mentorsRequested &&
                                 projCon.project.mentorsRequested
-                                  .map((rM) => rM)
+                                  .map((rM) => JSON.stringify(rM))
                                   .includes(JSON.stringify(workshop._id)))
                                 ? "hidden"
                                 : "flex"
@@ -519,10 +615,16 @@ const WorkshopDetails = (props) => {
                             requested ||
                             (projCon.project.mentorsRequested &&
                               projCon.project.mentorsRequested
-                                .map((rM) => rM)
+
+                                .map((rM) => JSON.stringify(rM))
+                                .includes(JSON.stringify(workshop._id))) ||
+                            (projCon.project.mentorsMatched &&
+                              projCon.project.mentorsMatched
+
+                                .map((rM) => JSON.stringify(rM))
                                 .includes(JSON.stringify(workshop._id)))
-                              ? "relative top-[16px] mb-3 text-2xl"
-                              : "mb-4 md:text-3xl text-2xl"
+                              ? "relative top-[3px] mb-5 block text-2xl"
+                              : "mb-4 text-2xl"
                           }`}
                         >
                           {requested ||
@@ -533,55 +635,7 @@ const WorkshopDetails = (props) => {
                             ? "Exclusive Access"
                             : "Exclusive Access"}
                         </span>{" "}
-                        {workshop && workshop.pricing[0]
-                          ? `per session`
-                          : workshop && !workshop.pricing[0]
-                          ? ""
-                          : ""}
                       </p>
-                      {workshop &&
-                      workshop.pricing[1] !== 0 &&
-                      workshop.pricing[0] !== 0 &&
-                      isFirstFree ? (
-                        <p className="md:text-xl text-md text-gray-600">
-                          First{" "}
-                          {workshop.pricing[1] !== 1 ? workshop.pricing[1] : ""}{" "}
-                          session{workshop.pricing[1] > 1 ? "s" : ""}{" "}
-                          <span class="font-semibold">free of cost</span>
-                        </p>
-                      ) : (
-                        ""
-                      )}
-
-                      {/* Reviews
-                      <div className="mt-6">
-                        <h3 className="sr-only">Reviews</h3>
-                        <div className="flex items-center">
-                          <div className="flex items-center">
-                            {[0, 1, 2, 3, 4].map((rating) => (
-                              <StarIcon
-                                key={rating}
-                                className={classNames(
-                                  reviews.average > rating
-                                    ? "text-gray-900"
-                                    : "text-gray-200",
-                                  "h-5 w-5 flex-shrink-0"
-                                )}
-                                aria-hidden="true"
-                              />
-                            ))}
-                          </div>
-                          <p className="sr-only">
-                            {reviews.average} out of 5 stars
-                          </p>
-                          <a
-                            href={reviews.href}
-                            className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                          >
-                            {reviews.totalCount} reviews
-                          </a>
-                        </div>
-                      </div> */}
 
                       <form
                         className={`${
@@ -597,7 +651,7 @@ const WorkshopDetails = (props) => {
                           <h3
                             className={`text-sm ${
                               workshop.orgs.length > 2 ? "" : "   "
-                            } text-indigo-800 block font-medium bg-indigo-300 px-3 py-2 mt-5 mb-2 relative top-6 rounded-md shadow-md`}
+                            } text-indigo-800 block font-medium bg-indigo-300 px-3 py-2 mt-5 mb-1 relative top-2 rounded-md shadow-md`}
                           >
                             <svg
                               aria-hidden="true"
@@ -734,13 +788,74 @@ const WorkshopDetails = (props) => {
                           ) : (
                             ""
                           )}
-                          {requested ||
-                          (projCon.project.mentorsRequested &&
-                            projCon.project.mentorsRequested
-                              .map((rM) => rM)
-                              .includes(JSON.stringify(workshop._id))) ? (
+                          {projCon.project.mentorsRequested &&
+                          projCon.project.mentorsRequested.length > 3 ? (
                             <>
-                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[69px] -mb-6 w-fit bg-gradient-to-r from-green-500 to-green-700">
+                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[48px] -mb-7 w-fit bg-gradient-to-r from-orange-500 to-orange-700">
+                                Request Limit Reached
+                              </h2>
+                              <h3
+                                className={`text-sm ${
+                                  workshop.orgs.length > 2 ? "" : "   "
+                                } text-orange-800 block font-medium bg-orange-100 border-dashed border-orange-600 border-[1px] px-3 py-2 relative mt-12 rounded-md shadow-md`}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1.5"
+                                  stroke="currentColor"
+                                  class="flex-shrink-0 inline relative bottom-[1.1px] w-5 h-5 mr-0.5"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                                  />
+                                </svg>{" "}
+                                You've already made 3 mentorship requests this
+                                month. Stay for the next month- and build your
+                                way forward!
+                              </h3>
+                            </>
+                          ) : projCon.project.mentorsMatched &&
+                            projCon.project.mentorsMatched
+                              .map((rM) => JSON.stringify(rM.mentorId))
+                              .includes(JSON.stringify(workshop._id)) ? (
+                            <>
+                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[55px] -mb-[26px] w-fit bg-gradient-to-r from-green-500 to-green-700">
+                                Mentor Matched!
+                              </h2>
+                              <h3
+                                className={`text-sm ${
+                                  workshop.orgs.length > 2 ? "" : "   "
+                                } text-green-800 block font-medium bg-green-100 border-dashed border-green-600 border-[1px] px-3 py-2 relative mt-11 rounded-md shadow-md`}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1.5"
+                                  stroke="currentColor"
+                                  class="flex-shrink-0 inline relative bottom-[1.1px] w-5 h-5 mr-0.5"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
+                                </svg>{" "}
+                                You've already been matched to this mentor!
+                                Email us with any feedback.
+                              </h3>
+                            </>
+                          ) : requested ||
+                            (projCon.project.mentorsRequested &&
+                              projCon.project.mentorsRequested
+                                .map((rM) => JSON.stringify(rM))
+                                .includes(JSON.stringify(workshop._id))) ? (
+                            <>
+                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[55px] -mb-6 w-fit bg-gradient-to-r from-green-500 to-green-700">
                                 Mentor Requested
                               </h2>
                               <h3
@@ -807,7 +922,7 @@ const WorkshopDetails = (props) => {
                               requested ||
                               (projCon.project.mentorsRequested &&
                                 projCon.project.mentorsRequested
-                                  .map((rM) => rM)
+                                  .map((rM) => JSON.stringify(rM))
                                   .includes(JSON.stringify(workshop._id)))
                                 ? "hidden"
                                 : "flex"
@@ -878,6 +993,7 @@ const WorkshopDetails = (props) => {
                         </div>
                       </div>
                     </div>
+
                     <div
                       class={`lg:hidden -mt-12 block ${
                         workshop.orgs.length > 2
@@ -885,35 +1001,72 @@ const WorkshopDetails = (props) => {
                           : " relative lg:hidden block "
                       }`}
                     >
-                      {!loading &&
-                      isFirstFree &&
-                      workshop &&
-                      workshop.availableDates.length !== 0 ? (
-                        <p class="text-center top-4 mt-2 text-sm relative font-semibold">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-[15px] w-[15px] inline relative bottom-[0.75px] "
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
+                      {projCon.project.mentorsRequested &&
+                      projCon.project.mentorsRequested.length > 3 ? (
+                        <>
+                          <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[62px] -mb-7 w-fit bg-gradient-to-r from-orange-500 to-orange-700">
+                            Request Limit Reached
+                          </h2>
+                          <h3
+                            className={`text-sm ${
+                              workshop.orgs.length > 2 ? "" : "   "
+                            } text-orange-800 block font-medium bg-orange-100 border-dashed border-orange-600 border-[1px] px-3 py-2 relative mt-12 rounded-md shadow-md`}
                           >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>{" "}
-                          Try this mentor for free - exclusive 1st session.
-                        </p>
-                      ) : (
-                        ""
-                      )}
-                      {requested ||
-                      (projCon.project.mentorsRequested &&
-                        projCon.project.mentorsRequested
-                          .map((rM) => rM)
-                          .includes(JSON.stringify(workshop._id))) ? (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="flex-shrink-0 inline relative bottom-[1.1px] w-5 h-5 mr-0.5"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                              />
+                            </svg>{" "}
+                            You've already made 3 mentorship requests this
+                            month. Stay for the next month- and build your way
+                            forward!
+                          </h3>
+                        </>
+                      ) : projCon.project.mentorsMatched &&
+                        projCon.project.mentorsMatched
+                          .map((rM) => JSON.stringify(rM.mentorId))
+                          .includes(JSON.stringify(workshop._id)) ? (
+                        <>
+                          <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[69px] -mb-6 w-fit bg-gradient-to-r from-green-500 to-green-700">
+                            Mentor Matched!
+                          </h2>
+                          <h3
+                            className={`text-sm ${
+                              workshop.orgs.length > 2 ? "" : "   "
+                            } text-green-800 block font-medium bg-green-100 border-dashed border-green-600 border-[1px] px-3 py-2 relative mt-11 rounded-md shadow-md`}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="flex-shrink-0 inline relative bottom-[1.1px] w-5 h-5 mr-0.5"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>{" "}
+                            You've already been matched to this mentor! Email us
+                            with any feedback.
+                          </h3>
+                        </>
+                      ) : requested ||
+                        (projCon.project.mentorsRequested &&
+                          projCon.project.mentorsRequested
+                            .map((rM) => JSON.stringify(rM))
+                            .includes(JSON.stringify(workshop._id))) ? (
                         <>
                           <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[69px] -mb-6 w-fit bg-gradient-to-r from-green-500 to-green-700">
                             Mentor Requested
@@ -978,7 +1131,7 @@ const WorkshopDetails = (props) => {
                             requested ||
                             (projCon.project.mentorsRequested &&
                               projCon.project.mentorsRequested
-                                .map((rM) => rM)
+                                .map((rM) => JSON.stringify(rM))
                                 .includes(JSON.stringify(workshop._id)))
                               ? "hidden"
                               : "flex"

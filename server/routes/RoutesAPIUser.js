@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 const auth = require("../auth/auth");
 const multer = require("multer");
 const cloudinary = require("cloudinary");
-const Mentor = require("../models/mentor");
+// const Mentor = require("../models/mentor");
 
 const fileStorageEngine = multer.diskStorage({
   filename: function (req, file, callback) {
@@ -111,6 +111,8 @@ router.post("/register", async (req, res) => {
         projectId: req.body.additionalMember ? req.body.projId : null,
       });
 
+      console.log(req.body);
+
       if (
         req.body.additionalMember &&
         req.body.uniqueCode &&
@@ -123,9 +125,8 @@ router.post("/register", async (req, res) => {
       if (req.body.additionalMember) {
         const proj = await project.findById(req.body.projId);
         let chk = true;
+
         for (let k = 0; k < proj.team.length; k++) {
-          console.log(req.body.uniqueCode);
-          console.log(proj.team[k].uniqueJoinCode);
           if (
             parseInt(req.body.uniqueCode) ==
             parseInt(proj.team[k].uniqueJoinCode)
@@ -137,17 +138,19 @@ router.post("/register", async (req, res) => {
             proj.team[k].onboarded = true;
           }
         }
-        if (chk) {
-          console.log("here1");
 
+        if (chk) {
           res.status(400).send("Invalid Unique Join Code...");
           return;
         } else {
           proj.markModified("team");
           await proj.save();
         }
+      } else if (proj.team.length === 1) {
+        proj.teamOnboarded = true;
+        proj.markModified("teamOnboarded");
+        await proj.save();
       }
-      console.log("here2");
 
       const user = await newUser.save().catch((err) => console.log(err));
       const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
@@ -220,14 +223,60 @@ router.post("/login", async (req, res) => {
 
         console.log("- Logged In");
 
-        if (!user.mentorshipPackages || user.mentorshipPackages.length == 0) {
-          user.mentorshipPackages = [];
-          await user.save();
-        }
-
         if (!req.body.rememberme) {
           let cookieNow = req.session.cookie;
           cookieNow.path = "www.ideastack.org/home";
+          cookieNow.id = token2;
+          cookieNow.expires = new Date(Date.now() + 900000);
+          req.session.isAuth = true;
+          res.send({
+            user: user,
+            userToken: token,
+            cookieObj: {
+              ...cookieNow,
+              id: token2,
+              expires: new Date(Date.now() + 900000),
+            },
+          });
+        } else {
+          res.send({ user: user, userToken: token });
+        }
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post("/loginMentor", async (req, res) => {
+  try {
+    const user = await workshop.findOne({
+      email: req.body.email.toLowerCase().trim(),
+    });
+    if (!user) {
+      console.log("- User not found");
+      res.status(401).send("User not found");
+    } else {
+      const isMatch =
+        Number(req.body.uniqueCode.trim()) == Number(user.uniqueCode);
+
+      if (!isMatch) {
+        console.log("- Incorrect Unique Code");
+        res.status(401).send("Incorrect Unique Code");
+      } else {
+        const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
+          expiresIn: "2.5h",
+        });
+
+        const token2 = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
+          expiresIn: "14d",
+        });
+
+        console.log("- Logged In");
+
+        if (!req.body.rememberme) {
+          let cookieNow = req.session.cookie;
+          cookieNow.path = "www.ideastack.org/mentor";
           cookieNow.id = token2;
           cookieNow.expires = new Date(Date.now() + 900000);
           req.session.isAuth = true;
@@ -352,9 +401,38 @@ router.post("/getUser", auth, async (req, res) => {
   }
 });
 
+router.post("/getUserByMail", auth, async (req, res) => {
+  try {
+    const user = await studentUser.findOne({ email: req.body.email });
+    res.send(user);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send(err);
+  }
+});
+
+router.post("/getUserForMentor", auth, async (req, res) => {
+  try {
+    const user = await studentUser.findById(req.body.teamMember);
+    console.log(user);
+    res.send(user);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+router.post("/getMentor", auth, async (req, res) => {
+  try {
+    const user = await workshop.findById(req.user._id);
+    res.send(user);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
 router.post("/getUserView", async (req, res) => {
   try {
-    const user = await studentUser.findById(req.body.token);
+    const user = await studentUser.findOne({ email: req.body.token });
     res.send(user);
   } catch (err) {
     res.status(400).send(err);
@@ -365,12 +443,57 @@ router.post("/updateUser", auth, async (req, res) => {
   try {
     const userPrev = await studentUser.findById(req.user._id);
     updateInfo = { ...req.body.user, password: userPrev.password };
+
     const newUser = await studentUser.findByIdAndUpdate(
       req.user._id,
       updateInfo
     );
     const updatedUser = await newUser.save();
-    res.send(updatedUser);
+
+    const proj = await project.findById(userPrev.projectId);
+
+    if (
+      req.body.flagTeamOnboarding ||
+      updateInfo.initialized ||
+      userPrev.isAdditionalMember
+    ) {
+      let teamChk = true;
+
+      for (let i = 0; i < proj.team.length; i++) {
+        let currTeamMember = await studentUser.findOne({
+          email: proj.team[i].email,
+        });
+        if (currTeamMember.initialized === false) {
+          teamChk = false;
+        }
+      }
+
+      if (teamChk === true) {
+        const newProj = await project.findByIdAndUpdate(proj._id, {
+          teamOnboarded: true,
+        });
+        const updatedProj = await newProj.save();
+      }
+    }
+
+    res.send({ ...newUser, ...updateInfo });
+  } catch (err) {
+    console.log(err);
+    res.status(400).send(err);
+  }
+});
+
+router.post("/updateMentor", auth, async (req, res) => {
+  try {
+    const userPrev = await workshop.findById(req.user._id);
+    updateInfo = { ...req.body.mentor, uniqueCode: userPrev.uniqueCode };
+
+    const newMentor = await workshop.findByIdAndUpdate(
+      req.user._id,
+      updateInfo
+    );
+    const updatedMentor = await newMentor.save();
+    res.send({ ...updatedMentor, ...updateInfo });
   } catch (err) {
     console.log(err);
     res.status(400).send(err);
@@ -380,7 +503,7 @@ router.post("/updateUser", auth, async (req, res) => {
 router.post("/uploadProfPic", upload.single("image"), async (req, res) => {
   const decoded = jwt.verify(req.body.token, process.env.TOKEN_SECRET);
   let id = decoded._id;
-  const user = await studentUser.findOne({ userId: id });
+  const user = await studentUser.findById(id);
 
   let file = req.file;
   var fileUrl;
@@ -411,7 +534,42 @@ router.post("/uploadProfPic", upload.single("image"), async (req, res) => {
     }
   }
 
-  res.send(userUpdated);
+  let obj = {};
+  if (user._doc) {
+    obj = { ...user._doc, profilePic: fileUrl };
+  } else {
+    obj = { ...user, profilePic: fileUrl };
+  }
+
+  res.send(obj);
+});
+
+router.post("/uploadMentorPic", upload.single("image"), async (req, res) => {
+  const decoded = jwt.verify(req.body.token, process.env.TOKEN_SECRET);
+  let id = decoded._id;
+  const mentor = await workshop.findOne({ userId: id });
+
+  let file = req.file;
+  var fileUrl;
+
+  await cloudinary.v2.uploader
+    .upload(file.path, { folder: "IdeaStack" }, (err, result) => {
+      fileUrl = result.secure_url;
+      console.log("File Uploaded");
+    })
+    .catch((err) => console.log(err.response));
+  let mentorUpdated = await workshop
+    .findOneAndUpdate({ _id: id }, { pic: fileUrl })
+    .catch((err) => console.log(err));
+
+  let obj = {};
+  if (mentorUpdated._doc) {
+    obj = { ...mentorUpdated._doc, pic: fileUrl };
+  } else {
+    obj = { ...mentorUpdated, pic: fileUrl };
+  }
+
+  res.send(obj);
 });
 
 router.post("/removeAvailableDate", auth, async (req, res) => {
@@ -573,6 +731,7 @@ router.post("/createProject", auth, async (req, res) => {
     problem: projectData.problem,
     mentorsMatched: [],
     mentorshipDetails: [],
+    teamOnboarded: false,
     admin: {
       name: userName,
       id: req.user._id,
@@ -800,6 +959,311 @@ router.post("/updateNotifications", auth, async (req, res) => {
     { notifications: req.body.notifs }
   );
   res.send(user.notifications);
+});
+
+router.post("/acknowledgeMeetingCompletion", auth, async (req, res) => {
+  const user = await studentUser.findById(req.user._id);
+  const proj = await project.findById(user.projectId);
+
+  let mentorMatched;
+  let index;
+
+  for (let i = 0; i < proj.mentorsMatched.length; i++) {
+    if (
+      JSON.stringify(proj.mentorsMatched[i].mentorId) ===
+      JSON.stringify(req.body.mentorId)
+    ) {
+      mentorMatched = proj.mentorsMatched[i];
+      index = i;
+    }
+  }
+
+  proj.mentorsMatched[index] = {
+    ...proj.mentorsMatched[index],
+    pastMeetings: [
+      ...proj.mentorsMatched[index].pastMeetings,
+      { ...proj.mentorsMatched[index].upcomingMeeting, completed: true },
+    ],
+    upcomingMeeting: {
+      ...proj.mentorsMatched[index].upcomingMeeting,
+      completed: true,
+    },
+  };
+
+  proj.markModified("mentorsMatched");
+  await proj.save();
+
+  res.send(proj);
+});
+
+router.post("/acknowledgeMeetingCompletionMentor", auth, async (req, res) => {
+  const proj = await project.findById(req.body.projectId);
+
+  let mentorMatched;
+  let index;
+
+  for (let i = 0; i < proj.mentorsMatched.length; i++) {
+    if (
+      JSON.stringify(proj.mentorsMatched[i].mentorId) ===
+      JSON.stringify(req.body.mentorId)
+    ) {
+      mentorMatched = proj.mentorsMatched[i];
+      index = i;
+    }
+  }
+
+  proj.mentorsMatched[index] = {
+    ...proj.mentorsMatched[index],
+    pastMeetings: [
+      ...proj.mentorsMatched[index].pastMeetings,
+      { ...proj.mentorsMatched[index].upcomingMeeting, completed: true },
+    ],
+    upcomingMeeting: {
+      ...proj.mentorsMatched[index].upcomingMeeting,
+      completed: true,
+    },
+  };
+
+  proj.markModified("mentorsMatched");
+  await proj.save();
+
+  res.send(proj);
+});
+
+router.post("/updateInstructions", auth, async (req, res) => {
+  const proj = await project.findById(req.body.projectId);
+
+  let mentorMatched;
+  let index;
+
+  for (let i = 0; i < proj.mentorsMatched.length; i++) {
+    if (
+      JSON.stringify(proj.mentorsMatched[i].mentorId) ===
+      JSON.stringify(req.body.mentorId)
+    ) {
+      mentorMatched = proj.mentorsMatched[i];
+      index = i;
+    }
+  }
+
+  proj.mentorsMatched[index] = {
+    ...proj.mentorsMatched[index],
+    upcomingMeeting: {
+      ...proj.mentorsMatched[index].upcomingMeeting,
+      mentorInstructions: req.body.instructions,
+    },
+  };
+
+  proj.markModified("mentorsMatched");
+  await proj.save();
+
+  res.send(proj);
+});
+
+router.post("/confirmMeetingSlots", auth, async (req, res) => {
+  const proj = await project.findById(req.body.projectId);
+
+  let index;
+
+  for (let i = 0; i < proj.mentorsMatched.length; i++) {
+    if (
+      JSON.stringify(proj.mentorsMatched[i].mentorId) ===
+      JSON.stringify(req.body.mentorId)
+    ) {
+      index = i;
+    }
+  }
+
+  if (req.body.week === 1) {
+    proj.mentorsMatched[index].timeline.week1.availableDates =
+      req.body.meetingSlots;
+  } else if (req.body.week === 2) {
+    proj.mentorsMatched[index].timeline.week2.availableDates =
+      req.body.meetingSlots;
+  } else if (req.body.week === 3) {
+    proj.mentorsMatched[index].timeline.week3.availableDates =
+      req.body.meetingSlots;
+  } else if (req.body.week === 4) {
+    proj.mentorsMatched[index].timeline.week4.availableDates =
+      req.body.meetingSlots;
+  }
+
+  proj.markModified("mentorsMatched");
+  await proj.save();
+
+  res.send(proj);
+});
+
+router.post("/pickMentorshipDate", auth, async (req, res) => {
+  const user = await studentUser.findById(req.user._id);
+  const proj = await project.findById(user.projectId);
+
+  let mentorMatched;
+  let index;
+
+  for (let i = 0; i < proj.mentorsMatched.length; i++) {
+    if (
+      JSON.stringify(proj.mentorsMatched[i].mentorId) ===
+      JSON.stringify(req.body.mentorId)
+    ) {
+      mentorMatched = proj.mentorsMatched[i];
+      index = i;
+    }
+  }
+
+  if (req.body.week === 1) {
+    proj.mentorsMatched[index].timeline.week1 = {
+      ...proj.mentorsMatched[index].timeline.week1,
+      selectedDate: req.body.datePicked,
+    };
+  } else if (req.body.week === 2) {
+    proj.mentorsMatched[index].timeline.week2 = {
+      ...proj.mentorsMatched[index].timeline.week2,
+      selectedDate: req.body.datePicked,
+    };
+  } else if (req.body.week === 3) {
+    proj.mentorsMatched[index].timeline.week3 = {
+      ...proj.mentorsMatched[index].timeline.week3,
+      selectedDate: req.body.datePicked,
+    };
+  } else if (req.body.week === 4) {
+    proj.mentorsMatched[index].timeline.week4 = {
+      ...proj.mentorsMatched[index].timeline.week4,
+      selectedDate: req.body.datePicked,
+    };
+  }
+
+  proj.mentorsMatched[index] = {
+    ...proj.mentorsMatched[index],
+    pastMeetings: [
+      ...proj.mentorsMatched[index].pastMeetings,
+      { ...proj.mentorsMatched[index].upcomingMeeting, completed: true },
+    ],
+    upcomingMeeting: {
+      date: req.body.datePicked,
+      mentorInstructions: "",
+      link: "",
+      week: req.body.week,
+      completed: false,
+    },
+  };
+
+  proj.markModified("mentorsMatched");
+  await proj.save();
+
+  res.send(proj);
+});
+
+router.post("/uploadMentorshipFile", auth, async (req, res) => {
+  const user = await studentUser.findById(req.user._id);
+  const proj = await project.findById(user.projectId);
+
+  let mentorMatched;
+  let index;
+
+  for (let i = 0; i < proj.mentorsMatched.length; i++) {
+    if (
+      JSON.stringify(proj.mentorsMatched[i].mentorId) ===
+      JSON.stringify(req.body.mentorId)
+    ) {
+      mentorMatched = proj.mentorsMatched[i];
+      index = i;
+    }
+  }
+
+  proj.mentorsMatched[index].materials.uploads =
+    proj.mentorsMatched[index].materials.uploads.length == 0
+      ? [req.body.upload]
+      : [...proj.mentorsMatched[index].materials.uploads, req.body.upload];
+
+  proj.markModified("mentorsMatched");
+  await proj.save();
+
+  res.send(proj.mentorsMatched);
+});
+
+router.post("/uploadForStartup", auth, async (req, res) => {
+  const proj = await project.findById(req.body.projectId);
+
+  let mentorMatched;
+  let index;
+
+  for (let i = 0; i < proj.mentorsMatched.length; i++) {
+    if (
+      JSON.stringify(proj.mentorsMatched[i].mentorId) ===
+      JSON.stringify(req.body.mentorId)
+    ) {
+      mentorMatched = proj.mentorsMatched[i];
+      index = i;
+    }
+  }
+
+  if (req.body.type === "generalResource") {
+    proj.mentorsMatched[index].materials.otherDocs =
+      proj.mentorsMatched[index].materials.otherDocs.length == 0
+        ? [req.body.upload]
+        : [...proj.mentorsMatched[index].materials.otherDocs, req.body.upload];
+  } else if (req.body.type === "taskReference") {
+    proj.mentorsMatched[index].materials.taskRefs =
+      proj.mentorsMatched[index].materials.taskRefs.length == 0
+        ? [req.body.upload]
+        : [...proj.mentorsMatched[index].materials.taskRefs, req.body.upload];
+  }
+
+  proj.markModified("mentorsMatched");
+  await proj.save();
+
+  res.send(proj.mentorsMatched);
+});
+
+router.post("/updateMentorshipFiles", auth, async (req, res) => {
+  try {
+    const user = await studentUser.findById(req.user._id);
+
+    let proj;
+
+    if (user) {
+      proj = await project.findById(user.projectId);
+    } else {
+      proj = await project.findById(req.body.projectId);
+    }
+
+    let mentorMatched;
+    let index;
+
+    for (let i = 0; i < proj.mentorsMatched.length; i++) {
+      if (
+        JSON.stringify(proj.mentorsMatched[i].mentorId) ===
+        JSON.stringify(req.body.mentorId)
+      ) {
+        mentorMatched = proj.mentorsMatched[i];
+        index = i;
+      }
+    }
+
+    if (req.body.docCategory) {
+      if (req.body.docCategory === "taskRefs") {
+        proj.mentorsMatched[index].materials.taskRefs = req.body.docs;
+        proj.markModified("mentorsMatched");
+      } else if (req.body.docCategory === "otherDocs") {
+        proj.mentorsMatched[index].materials.otherDocs = req.body.docs;
+        proj.markModified("mentorsMatched");
+      } else if (req.body.docCategory === "taskSubs") {
+        proj.mentorsMatched[index].materials.uploads = req.body.docs;
+        proj.markModified("mentorsMatched");
+      } else if (req.body.docCategory === "generalStartupDocs") {
+        proj.documents = req.body.docs;
+        proj.markModified("documents");
+      }
+    }
+
+    await proj.save();
+
+    res.send([proj.mentorsMatched[index].materials, proj]);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send(err);
+  }
 });
 
 router.post("/completeLatestPendingPayment", auth, async (req, res) => {

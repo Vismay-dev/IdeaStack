@@ -189,7 +189,14 @@ const Onboarding = () => {
           process.env.NODE_ENV === "production"
             ? "https://ideastack.herokuapp.com/api/user/updateUser"
             : "http://localhost:4000/api/user/updateUser",
-          { user: userData, token: sessionStorage.getItem("token") }
+          {
+            user: userData,
+            token: sessionStorage.getItem("token"),
+            flagTeamOnboarding:
+              currentUser.user && currentUser.user.isAdditionalMember
+                ? true
+                : false,
+          }
         )
         .then((res) => {
           currentUser.setUser(res.data);
@@ -447,7 +454,7 @@ const Onboarding = () => {
       {onboardingLoader ? (
         <></>
       ) : loading ? (
-        <div class=" mx-auto block w-fit text-center mt-[235px] -mb-[80px]">
+        <div class=" mx-auto block w-fit text-center mt-[235px] -mb-[60px]">
           <ClipLoader color={"#0b0bbf"} loading={loading} size={90} />
         </div>
       ) : (
@@ -924,7 +931,7 @@ const Onboarding = () => {
                           required={true}
                         />
                         <label class="absolute text-sm left-0 text-gray-500 duration-300 transform -top-4 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  ">
-                          What Problem Are You Solving?
+                          Startup Description
                         </label>
                       </div>
                       <br />

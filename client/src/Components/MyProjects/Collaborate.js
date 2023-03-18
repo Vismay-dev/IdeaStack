@@ -35,8 +35,8 @@ const Collaborate = () => {
       </h2>
 
       <div
-        data-aos={"fade-up"}
-        data-aos-once="true"
+        // data-aos={"fade-up"}
+        // data-aos-once="true"
         class=" grid-cols-5 grid-rows-3 grid relative gap-6 space-y-1 top-1  lg:mt-14 mt-12 lg:-mb-[205px] -mb-[190px] w-full h-fit xl:px-28 sm:px-12 px-4"
       >
         <Feed />

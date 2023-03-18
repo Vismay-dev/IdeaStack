@@ -14,6 +14,10 @@ const projectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    teamOnboarded: {
+      type: Boolean,
+      required: false,
+    },
 
     maxCap: {
       type: String,
@@ -22,10 +26,6 @@ const projectSchema = new mongoose.Schema(
     problem: {
       type: String,
       required: true,
-    },
-    mentorshipDetails: {
-      type: Array,
-      required: false,
     },
     projPic: {
       type: String,

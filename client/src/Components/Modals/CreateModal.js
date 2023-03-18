@@ -330,7 +330,7 @@ const CreateProjectModal = (props) => {
                         required={true}
                       />
                       <label class="absolute text-sm left-0 text-gray-500 duration-300 transform -top-4 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  ">
-                        What Problem Are You Solving?
+                        Startup Description
                       </label>
                     </div>
 

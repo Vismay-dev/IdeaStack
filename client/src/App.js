@@ -9,6 +9,9 @@ import Notifications from "../src/Components/Notifications/Notifications";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 import userContext from "./context/userContext";
 import projectContext from "./context/projectContext";
+import mentorContext from "./context/mentorContext";
+import mentorAccContext from "./context/mentorAccContext";
+
 import axios from "axios";
 
 import ReactGA from "react-ga";
@@ -25,6 +28,8 @@ function App() {
   }, []);
 
   const location = useLocation();
+
+  const [mentors, setMentors] = useState([]);
 
   const [user, setUser] = useState({
     firstName: "",
@@ -56,7 +61,7 @@ function App() {
           setUser(res.data);
         });
     }
-  }, [user]);
+  }, [location.pathname]);
 
   const [project, setProject] = useState(user.projects);
 
@@ -77,45 +82,91 @@ function App() {
             : "http://localhost:4000/api/user/getProject",
           { projId: user.projectId, token: sessionStorage.getItem("token") }
         )
-        .then((res) => {
-          setProject(res.data);
+        .then(async (res) => {
+          let projCopy = res.data;
+          let teamCopy = [];
+          for (let i = 0; i < res.data.team.length; i++) {
+            await axios
+              .post(
+                process.env.NODE_ENV === "production"
+                  ? "https://ideastack.herokuapp.com/api/user/getUserByMail"
+                  : "http://localhost:4000/api/user/getUserByMail",
+                {
+                  email: res.data.team[i].email,
+                  token: sessionStorage.getItem("token"),
+                }
+              )
+              .then((res) => {
+                teamCopy.push({ ...res.data, ...projCopy.team[i] });
+              });
+          }
+          setProject({
+            ...projCopy,
+            team: teamCopy,
+          });
         });
     }
-  }, [user.projects, location.pathname]);
+  }, [location.pathname]);
+
+  const [mentor, setMentor] = useState({});
+
+  useEffect(() => {
+    if (sessionStorage.getItem("mentorToken") !== null) {
+      axios
+        .post(
+          process.env.NODE_ENV === "production"
+            ? "https://ideastack.herokuapp.com/api/user/getMentor"
+            : "http://localhost:4000/api/user/getMentor",
+          {
+            token: sessionStorage.getItem("mentorToken"),
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          setMentor(res.data);
+        });
+    }
+  }, []);
 
   return (
-    <projectContext.Provider
-      value={{ project: project, setProject: setProject }}
-    >
-      <userContext.Provider value={{ user: user, setUser: setUser }}>
-        <div
-          class={` w-screen bg-gradient-to-r from-gray-200 to-blue-200 relative z-0 ${
-            location.pathname === "/home" || loading
-              ? " h-screen"
-              : " max-h-full"
-          }`}
+    <mentorAccContext.Provider value={{ mentor: mentor, setMentor: setMentor }}>
+      <mentorContext.Provider
+        value={{ mentors: mentors, setMentors: setMentors }}
+      >
+        <projectContext.Provider
+          value={{ project: project, setProject: setProject }}
         >
-          {!loading ? (
-            <>
-              <NavBar loginFunc={logIn} />
-              <Notifications user={user} />
-              <MainContent class="-z-10" />
-              <Footer />
-            </>
-          ) : (
-            <div class=" w-[217px]  m-0 relative mx-auto sm:top-[48%] top-[45%]  translate-y-[-50%]  sm:pl-3 pl-2">
-              <CircleLoader
-                meshColor={"#6366F1"}
-                lightColor={"#E0E7FF"}
-                duration={1.5}
-                desktopSize={"60px"}
-                mobileSize={"60px"}
-              />
+          <userContext.Provider value={{ user: user, setUser: setUser }}>
+            <div
+              class={` w-screen bg-gradient-to-r from-gray-200 to-blue-200 relative z-0 ${
+                location.pathname === "/home" || loading
+                  ? " h-screen"
+                  : " max-h-full"
+              }`}
+            >
+              {!loading ? (
+                <>
+                  <NavBar loginFunc={logIn} />
+                  <Notifications user={user} />
+                  <MainContent class="-z-10" />
+                  <Footer />
+                </>
+              ) : (
+                <div class=" w-[217px]  m-0 relative mx-auto sm:top-[48%] top-[45%]  translate-y-[-50%]  sm:pl-3 pl-2">
+                  <CircleLoader
+                    meshColor={"#6366F1"}
+                    lightColor={"#E0E7FF"}
+                    duration={1.5}
+                    desktopSize={"60px"}
+                    mobileSize={"60px"}
+                  />
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </userContext.Provider>
-    </projectContext.Provider>
+          </userContext.Provider>
+        </projectContext.Provider>
+      </mentorContext.Provider>
+    </mentorAccContext.Provider>
   );
 }
 

@@ -2,14 +2,13 @@ const router = require("express").Router();
 const nodemailer = require("nodemailer");
 const studentUser = require("../models/studentUser");
 const project = require("../models/project");
-const mentor = require("../models/mentor");
+// const mentor = require("../models/mentor");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const auth = require("../auth/auth");
 const multer = require("multer");
 const cloudinary = require("cloudinary");
 const { PromiseProvider } = require("mongoose");
-const Mentor = require("../models/mentor");
 
 const fileStorageEngine = multer.diskStorage({
   filename: function (req, file, callback) {
@@ -29,7 +28,7 @@ router.post("/updateProject", auth, async (req, res) => {
     req.body.projectID,
     req.body.update
   );
-  res.send(newproj);
+  res.send({ ...newproj, ...req.body.update });
 });
 
 router.post("/updateQuestions", auth, async (req, res) => {
@@ -448,7 +447,11 @@ router.post("/getTeamContacts", auth, async (req, res) => {
   let contacts = [];
   for (let i = 0; i < proj.team.length; i++) {
     const user = await studentUser.findOne({ email: proj.team[i].email });
-    contacts.push(user.email);
+    if (user) {
+      contacts.push(user.email);
+    } else {
+      contacts.push("(member has not signed up)");
+    }
   }
 
   res.send(contacts);

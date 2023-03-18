@@ -3,8 +3,10 @@ import axios from "axios";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import CourseMaterials from "./CourseMaterials";
+import CourseMaterialsMentor from "./CourseMaterialsMentor";
+import mentorAccContext from "../../context/mentorAccContext";
 
 const AllCourseDetails = (props) => {
   useEffect(() => {
@@ -40,23 +42,45 @@ const AllCourseDetails = (props) => {
     [myRef, () => props.close()]
   );
 
-  const [courseMaterials, setCourseMaterials] = useState();
+  const mentorAccCon = useContext(mentorAccContext);
+
+  const [materials, setMaterials] = useState();
+  const [isTasks, setIsTasks] = useState(false);
+
   const [loading, setLoading] = useState();
 
   useEffect(() => {
+    setIsTasks(props.isTasks ? props.isTasks : null);
+
     setLoading(true);
-    let course = props.course;
-    let arrRecordings = [];
-    let arrTasks = [];
-    let arrOtherDocs = [];
+
+    let mentorship = props.startup
+      ? props.startup.currentMentorship
+      : props.mentor;
+    let otherDocs = [];
+    let arrTaskRefs = [];
+    let arrUploads = [];
 
     setTimeout(() => {
-      let courseMaterials = course.courseMaterials;
-      arrRecordings = courseMaterials[0];
-      arrTasks = courseMaterials[1];
-      arrOtherDocs = courseMaterials[2];
+      let materials = mentorship.materials;
 
-      setCourseMaterials([arrRecordings, arrTasks, arrOtherDocs]);
+      otherDocs = materials.otherDocs;
+      arrTaskRefs = materials.taskRefs;
+      arrUploads = materials.uploads;
+
+      if (props.viewType) {
+        let generalStartupDocs = props.startup.documents.filter(
+          (doc) => doc.visibleToMentors
+        );
+        if (props.viewType === "startupDocs") {
+          setMaterials({ arrUploads, generalStartupDocs });
+        } else if (props.viewType === "mentorDocs") {
+          setMaterials({ otherDocs, arrTaskRefs });
+        }
+      } else {
+        setMaterials({ otherDocs, arrTaskRefs, arrUploads });
+      }
+
       setLoading(false);
     }, 1000);
   }, []);
@@ -92,10 +116,32 @@ const AllCourseDetails = (props) => {
         >
           <div class="bg-white sm:px-4 px-1 pt-2 pb-2 sm:p-6 sm:pb-4">
             <p class="text-center md:text-3xl text-2xl  mt-2 mb-4 left-1.5 font-bold relative">
-              Course Materials - Recordings & Tasks
+              {props.viewType === "startupDocs"
+                ? "Docs Uploaded By Startup Team"
+                : props.viewType === "mentorDocs"
+                ? "Docs Uploaded By You"
+                : "Tasks & Resources"}
             </p>
-
-            <CourseMaterials materials={courseMaterials} loading={loading} />
+            {props.viewType && props.viewType !== "none" ? (
+              <>
+                <CourseMaterialsMentor
+                  materials={materials}
+                  viewType={props.viewType}
+                  loading={loading}
+                  startup={props.startup}
+                  mentorId={mentorAccCon.mentor._id}
+                />
+              </>
+            ) : (
+              <>
+                <CourseMaterials
+                  materials={materials}
+                  isTasks={isTasks}
+                  loading={loading}
+                  mentorId={props.mentor.mentorId}
+                />
+              </>
+            )}
           </div>
           <div class="bg-gray-50 px-3 mt-4 shadow-md border-y-indigo-200 border-2 -mr-6 py-0 sm:px-6 sm:flex sm:flex-row-reverse ">
             <button

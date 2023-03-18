@@ -10,10 +10,6 @@ const workshopSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    links: {
-      type: Array,
-      required: false,
-    },
     expertise: {
       type: String,
       required: true,
@@ -22,20 +18,16 @@ const workshopSchema = new mongoose.Schema(
       type: Array,
       required: true,
     },
+    acceptedRequests: {
+      type: Array,
+      required: false,
+    },
     strengths: {
       type: Array,
       required: true,
     },
-    resources: {
-      type: Array,
-      required: false,
-    },
     mentorshipProp: {
       type: String,
-      required: true,
-    },
-    contact: {
-      type: Array,
       required: true,
     },
     partnerPic: {
@@ -46,10 +38,6 @@ const workshopSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    pricing: {
-      type: Array,
-      required: true,
-    },
     mentorshipRequests: {
       type: Array,
       required: false,
@@ -58,21 +46,13 @@ const workshopSchema = new mongoose.Schema(
       type: Array,
       required: false,
     },
-    availableDates: {
-      type: Array,
-      required: false,
+    email: {
+      type: String,
+      required: true,
     },
-    assignments: {
-      type: Array,
-      required: false,
-    },
-    timeline: {
-      type: Array,
-      required: false,
-    },
-    sessions: {
-      type: Array,
-      required: false,
+    uniqueCode: {
+      type: Number,
+      required: true,
     },
   },
   { timestamps: true }

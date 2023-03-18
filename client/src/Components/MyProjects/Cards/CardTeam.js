@@ -14,28 +14,22 @@ export default function CardTeam(props) {
 
   const location = useLocation();
 
-  useEffect(() => {
-    if (sessionStorage.getItem("token") !== null) {
-      axios
-        .post(
-          process.env.NODE_ENV === "production"
-            ? "https://ideastack.herokuapp.com/api/user/getProject"
-            : "http://localhost:4000/api/user/getProject",
-          { projId: user.projectId, token: sessionStorage.getItem("token") }
-        )
-        .then((res) => {
-          projectCurr.setProject(res.data);
-          let projSelected = res.data;
-          setProj(projSelected ? projSelected : "");
-        });
-    }
-  }, [location.pathname]);
-
-  useEffect(() => {
-    let projSelected = "";
-    projSelected = projectCurr.project;
-    setProj(projSelected ? projSelected : "");
-  }, []);
+  // useEffect(() => {
+  //   if (sessionStorage.getItem("token") !== null) {
+  //     axios
+  //       .post(
+  //         process.env.NODE_ENV === "production"
+  //           ? "https://ideastack.herokuapp.com/api/user/getProject"
+  //           : "http://localhost:4000/api/user/getProject",
+  //         { projId: user.projectId, token: sessionStorage.getItem("token") }
+  //       )
+  //       .then((res) => {
+  //         projectCurr.setProject(res.data);
+  //         let projSelected = res.data;
+  //         setProj(projSelected ? projSelected : "");
+  //       });
+  //   }
+  // }, []);
 
   return (
     <>
@@ -49,7 +43,7 @@ export default function CardTeam(props) {
                   Team Members{" "}
                 </p>
                 <p class="text-gray-700 text-sm left-1 top-[1.5px] relative font-medium">
-                  (Maximum Capacity : {proj.maxCap})
+                  (Maximum Capacity : {projectCurr.project.maxCap})
                 </p>
               </h3>
             </div>
@@ -61,13 +55,16 @@ export default function CardTeam(props) {
           {/* Projects table */}
           <table className="items-center w-full mb-2 sm:h-[14.4rem] h-[11.6rem]   bg-transparent border-collapse">
             <tbody class="overflow-scroll">
-              {proj &&
-                proj.team.map((teamMember, i) => {
+              {projectCurr.project &&
+                projectCurr.project.team &&
+                projectCurr.project.team.map((teamMember, i) => {
                   return (
                     <>
                       <tr
                         class={`block relative ${
-                          proj.team.length === 2 && i === 1 ? "" : ""
+                          projectCurr.project.team.length === 2 && i === 1
+                            ? ""
+                            : ""
                         }`}
                       >
                         <div
@@ -75,7 +72,11 @@ export default function CardTeam(props) {
                         >
                           <img
                             onClick={() => {
-                              localStorage.setItem("viewToken", teamMember.id);
+                              console.log(teamMember);
+                              localStorage.setItem(
+                                "viewToken",
+                                teamMember.email
+                              );
                               window.open(
                                 process.env.NODE_ENV === "production"
                                   ? "https://ideastack.org/viewProfile"
@@ -93,7 +94,11 @@ export default function CardTeam(props) {
                           />
                           <a
                             onClick={() => {
-                              localStorage.setItem("viewToken", teamMember.id);
+                              console.log(teamMember);
+                              localStorage.setItem(
+                                "viewToken",
+                                teamMember.email
+                              );
                               window.open(
                                 process.env.NODE_ENV === "production"
                                   ? "https://ideastack.org/viewProfile"
@@ -103,7 +108,7 @@ export default function CardTeam(props) {
                             }}
                             class="font-bold text-gray-700 mr-6  relative cursor-pointer "
                           >
-                            {proj ? teamMember.name : ""}
+                            {projectCurr.project ? teamMember.name : ""}
                             {i == 0 ? " (Admin)" : ""}
                           </a>
                           {/* {i !== 0 &&

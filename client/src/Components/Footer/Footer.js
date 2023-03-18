@@ -6,7 +6,7 @@ const Footer = () => {
 
   return (
     <footer
-      className={`px-4 lg:py-10 relative z-30 sm:py-3 pt-0 pb-3 bg-blue-900 opacity-80 text-gray-100 ${
+      className={`px-4 lg:py-10 relative z-40 sm:py-3 pt-0 pb-3 bg-blue-900 opacity-80 text-gray-100 ${
         location.pathname === "/home"
           ? "sm:mt-[460px] mt-[360px]"
           : "sm:mt-[205px] mt-[140px]"

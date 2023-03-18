@@ -10,17 +10,21 @@ import TeamOnboarding from "./TeamOnboarding/TeamOnboarding";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import Team from "./Team/Team";
 import SignUp from "./SignUp/SignUp";
+import MentorSignUp from "./SignUp/MentorSignUp";
 import OurJourney from "./Our Journey/Our Journey";
+import StartupMentorship from "./Mentors/StartupMentorship";
 import { io } from "socket.io-client";
 import { useEffect, useContext } from "react";
 import Mentors from "../Components/Mentors/MentorsMain";
 import userContext from "../context/userContext";
+import MentorProfile from "./Profile/MentorProfile";
+import mentorAccContext from "../context/mentorAccContext";
 
 const MainContent = () => {
   const location = useLocation();
   const user = useContext(userContext).user;
-  console.log(user.initialized);
-
+  const mentor = useContext(mentorAccContext).mentor;
+  console.log(user);
   return (
     <>
       <div
@@ -52,6 +56,28 @@ const MainContent = () => {
                 <SignUp />
               ) : (
                 <Redirect to="/" />
+              )
+            }
+          />
+
+          <Route
+            path="/mentor/"
+            render={() =>
+              !sessionStorage.getItem("token") ? (
+                <MentorSignUp />
+              ) : (
+                <Redirect to="/" />
+              )
+            }
+          />
+
+          <Route
+            path="/mentorProfile"
+            render={() =>
+              sessionStorage.getItem("mentorToken") && mentor ? (
+                <MentorProfile />
+              ) : (
+                <Redirect to="/mentor" />
               )
             }
           />
@@ -137,12 +163,25 @@ const MainContent = () => {
             }
           />
 
+          <Route
+            path="/startupmentorship"
+            render={() =>
+              sessionStorage.getItem("mentorToken") ? (
+                <StartupMentorship />
+              ) : (
+                <Redirect to="/mentor" />
+              )
+            }
+          />
+
           <Route path="/admin-operations-passcode-IdeaStackOperations300305">
             <AdminPage />
           </Route>
 
           <Route path="/">
-            {!sessionStorage.getItem("token") ? (
+            {sessionStorage.getItem("mentorToken") ? (
+              <Redirect to="/mentorProfile" />
+            ) : !sessionStorage.getItem("token") ? (
               <Redirect to="/home" />
             ) : (
               <Redirect to="/profile" />

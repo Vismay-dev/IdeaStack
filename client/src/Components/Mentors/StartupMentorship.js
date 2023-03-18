@@ -9,9 +9,9 @@ import FindMentor from "./FindMentor.js";
 import MakePayment from "./MakePayment.js";
 import MentorshipSchedule from "./MentorshipSchedule.js";
 
-import MentorInfo from "./DashboardComponents/MentorInfo.js";
-import Meetings from "./DashboardComponents/Meetings.js";
-import TasksAndResources from "./DashboardComponents/TasksAndResources";
+import StartupInfo from "./MentorDashboardComponents/StartupInfo.js";
+import Meetings from "./MentorDashboardComponents/Meetings.js";
+import TasksAndResources from "./MentorDashboardComponents/TasksAndResources";
 
 import { GiExitDoor } from "react-icons/gi";
 
@@ -30,12 +30,12 @@ import "aos/dist/aos.css";
 import userContext from "../../context/userContext";
 import { useHistory } from "react-router-dom";
 import mentorContext from "../../context/mentorContext.js";
+import mentorAccContext from "../../context/mentorAccContext.js";
 
-const Dashboard = () => {
-  const user = useContext(userContext).user;
-  const project = useContext(projectContext).project;
-  const projCon = useContext(projectContext);
-  const mentorCon = useContext(mentorContext);
+import RequestInfo from "../Modals/RequestInfo.js";
+
+const StartupMentorship = () => {
+  const mentorCon = useContext(mentorAccContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -51,105 +51,195 @@ const Dashboard = () => {
     sessionStorage.getItem("index") ? sessionStorage.getItem("index") : null
   );
 
-  const [mentorsMatched, setMentorsMatched] = useState();
-  const [mentorsRequested, setMentorsRequested] = useState();
+  const projCon = useContext(projectContext);
+
+  const [currentMentees, setCurrentMentees] = useState();
+  const [mentorshipRequests, setMentorshipRequests] = useState();
 
   const [loading, setLoading] = useState(true);
 
+  const acceptRequest = (index) => {
+    let acceptedRequests = mentorCon.mentor.acceptedRequests;
+    acceptedRequests.push(mentorshipRequests.map((req) => req._id)[index]);
+    let mentor = { ...mentorCon.mentor, acceptedRequests };
+    axios
+      .post(
+        process.env.NODE_ENV === "production"
+          ? "https://ideastack.herokuapp.com/api/user/updateMentor" // was updateUser
+          : "http://localhost:4000/api/user/updateMentor",
+        { mentor, token: sessionStorage.getItem("mentorToken") }
+      )
+      .then((res) => {
+        mentorCon.setMentor(res.data);
+        effectFunc();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const [showProjInfo, setShowProjInfo] = useState(false);
+  const [infoShowed, setInfoShowed] = useState({});
+
+  const showRequest = (index) => {
+    setInfoShowed(mentorshipRequests[index]);
+    setShowProjInfo(true);
+  };
+
+  let effectFunc = async () => {
+    let currentMenteesInput = mentorCon.mentor.currentMentees
+      ? mentorCon.mentor.currentMentees
+      : [];
+    let mentorshipRequestsInput = mentorCon.mentor.mentorshipRequests
+      ? mentorCon.mentor.mentorshipRequests.filter(
+          (request) => !mentorCon.mentor.currentMentees.includes(request)
+        )
+      : [];
+
+    let currentMenteesCopy = [];
+    let mentorshipRequestsCopy = [];
+
+    for (let i = 0; i < currentMenteesInput.length; i++) {
+      await axios
+        .post(
+          process.env.NODE_ENV === "production"
+            ? "https://ideastack.herokuapp.com/api/user/getProject"
+            : "http://localhost:4000/api/user/getProject",
+          {
+            token: sessionStorage.getItem("mentorToken"),
+            projId: currentMenteesInput[i],
+          }
+        )
+        .then((res) => {
+          let obj = res.data;
+          for (let x = 0; x < obj.mentorsMatched.length; x++) {
+            if (
+              JSON.stringify(mentorCon.mentor._id) ==
+              JSON.stringify(obj.mentorsMatched[x].mentorId)
+            ) {
+              obj = {
+                ...obj,
+                currentMentorship: obj.mentorsMatched[x],
+              };
+              break;
+            }
+          }
+          currentMenteesCopy.push(obj);
+          for (let k = 0; k < res.data.team.length; k++) {
+            axios
+              .post(
+                process.env.NODE_ENV === "production"
+                  ? "https://ideastack.herokuapp.com/api/user/getUserForMentor"
+                  : "http://localhost:4000/api/user/getUserForMentor",
+                {
+                  token: sessionStorage.getItem("mentorToken"),
+                  teamMember: JSON.stringify(res.data.team[k]),
+                }
+              )
+              .then((res) => {
+                currentMenteesCopy[i].team[k] = res.data;
+              });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+    }
+
+    for (let j = 0; j < mentorshipRequestsInput.length; j++) {
+      await axios
+        .post(
+          process.env.NODE_ENV === "production"
+            ? "https://ideastack.herokuapp.com/api/user/getProject"
+            : "http://localhost:4000/api/user/getProject",
+          {
+            token: sessionStorage.getItem("mentorToken"),
+            projId: mentorshipRequestsInput[j],
+          }
+        )
+        .then((res) => {
+          let obj = res.data;
+          for (let x = 0; x < obj.mentorsMatched.length; x++) {
+            if (
+              JSON.stringify(mentorCon.mentor._id) ==
+              JSON.stringify(obj.mentorsMatched[x].mentorId)
+            ) {
+              obj = {
+                ...obj,
+                currentMentorship: obj.mentorsMatched[x],
+              };
+              break;
+            }
+          }
+          mentorshipRequestsCopy.push(obj);
+          for (let k = 0; k < res.data.team.length; k++) {
+            axios
+              .post(
+                process.env.NODE_ENV === "production"
+                  ? "https://ideastack.herokuapp.com/api/user/getUserForMentor"
+                  : "http://localhost:4000/api/user/getUserForMentor",
+                {
+                  token: sessionStorage.getItem("mentorToken"),
+                  teamMember: res.data.team[k],
+                }
+              )
+              .then((res) => {
+                mentorshipRequestsCopy[j].team[k] = res.data;
+              });
+          }
+        })
+        .catch((err) => {
+          console.log(err.response);
+          setLoading(false);
+        });
+    }
+
+    setCurrentMentees(currentMenteesCopy);
+    setMentorshipRequests(mentorshipRequestsCopy);
+  };
+
   useEffect(() => {
     setLoading(true);
-    if (project) {
-      let mentorsMatchedInput = project.mentorsMatched
-        ? project.mentorsMatched
-        : [];
-      let mentorsRequestedInput = project.mentorsRequested
-        ? project.mentorsRequested.filter(
-            (mentor) =>
-              !project.mentorsMatched
-                .map((mentorObj) => mentorObj.mentorId)
-                .includes(mentor)
-          )
-        : [];
-
-      let mentorsRequestedCopy = [];
-      let mentorsMatchedCopy = [];
-
-      for (let i = 0; i < mentorsRequestedInput.length; i++) {
-        axios
-          .post(
-            process.env.NODE_ENV === "production"
-              ? "https://ideastack.herokuapp.com/api/user/getWorkshop"
-              : "http://localhost:4000/api/user/getWorkshop",
-            {
-              token: sessionStorage.getItem("token"),
-              workshopId: mentorsRequestedInput[i],
-            }
-          )
-          .then((res) => {
-            mentorsRequestedCopy.push(res.data);
-          })
-          .catch((err) => {
-            console.log(err.response);
-            setLoading(false);
-          });
-      }
-
-      for (let j = 0; j < mentorsMatchedInput.length; j++) {
-        axios
-          .post(
-            process.env.NODE_ENV === "production"
-              ? "https://ideastack.herokuapp.com/api/user/getWorkshop"
-              : "http://localhost:4000/api/user/getWorkshop",
-            {
-              token: sessionStorage.getItem("token"),
-              workshopId: mentorsMatchedInput[j].mentorId,
-            }
-          )
-          .then((res) => {
-            mentorsMatchedCopy.push({
-              ...mentorsMatchedInput[j],
-              ...res.data,
-            });
-            mentorCon.setMentors(mentorsMatchedCopy);
-            setMentorsMatched(mentorsMatchedCopy);
-          })
-          .catch((err) => {
-            console.log(err.response);
-            setLoading(false);
-          });
-      }
-
-      setMentorsRequested(mentorsRequestedCopy);
-    }
+    effectFunc();
     setLoading(false);
-  }, [location.pathname, projCon.project]);
+  }, [location.pathname, projCon.project]); // removed mentorCon.mentor from here
 
-  const [sessionsConfirmed, setSessionsConfirmed] = useState(false);
+  useEffect(() => {
+    if ((sessionStorage.getItem("index") || index) && currentMentees) {
+      projCon.setProject(currentMentees[sessionStorage.getItem("index")]);
+    }
+  }, [index, location.pathname]);
 
   return (
     <>
       {cancel ? <CancelModal close={() => setCancel(false)} /> : ""}
-      <h2 class="text-center bg-no-repeat bg-center bg-cover py-7 pb-[35px] font-bold  xl:px-[365px] lg:px-[250px] md:px-[150px] sm:px-[100px] sm:w-fit sm:left-0 left-[0.1px] w-full mx-auto rounded-md right-0.5 text-gray-900 top-1 mt-[12px] -mb-[55px] relative">
-        <p class="sm:text-5xl text-4xl mt-1 tracking-wide">
-          Startup Mentorship
-        </p>
-        {!mentorCon.mentors ||
-        mentorCon.mentors.length === 0 ||
-        (sessionStorage.getItem("index") == null && !index) ||
-        !project ? (
+      {showProjInfo ? (
+        <RequestInfo
+          startup={infoShowed}
+          close={() => setShowProjInfo(false)}
+        />
+      ) : (
+        ""
+      )}
+      <h2 class="text-center bg-no-repeat bg-center bg-cover py-7 pt-20 pb-[35px] font-bold  xl:px-[365px] lg:px-[250px] md:px-[150px] sm:px-[100px] sm:w-fit sm:left-0 left-[0.1px] w-full mx-auto rounded-md right-0.5 text-gray-900 -top-2 -mb-[55px] relative">
+        <p class="sm:text-5xl text-4xl tracking-wide">Startup Mentorship</p>
+        {!currentMentees ||
+        currentMentees.length === 0 ||
+        (sessionStorage.getItem("index") == null && !index) ? (
           <p class=" text-xl bg-gradient-to-r mt-2.5 mb-1 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit">
-            Learn from Industry Leaders
+            Mentor the Next Generation of Founders
           </p>
         ) : (
           <p class=" text-2xl bg-gradient-to-r mt-6 mb-1 relative top-4 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit">
-            {mentorCon.mentors[index].name + " X " + project.name}
+            {currentMentees[index].name + " X " + mentorCon.mentor.name}
           </p>
         )}
       </h2>
 
       <div
         className={`flex ${
-          mentorCon.mentors && mentorCon.mentors.length > 0
+          currentMentees && currentMentees.length > 0
             ? "mt-[80px] relative"
             : "mt-[80px]"
         } flex-wrap xl:px-16 lg:px-14 md:px-9 sm:px-6 px-3  -mr-[20px] relative  xl:-mb-[277px] md:-mb-[250px] -mb-[240px]`}
@@ -167,108 +257,116 @@ const Dashboard = () => {
           </div>
         ) : (
           <>
-            {mentorCon.mentors.length > 0 ? (
+            {currentMentees && currentMentees.length > 0 ? (
               sessionStorage.getItem("index") == null && !index ? (
                 <>
                   <p
                     data-aos={"fade-up"}
                     data-aos-once="true"
-                    class="font-bold text-[27px] -mt-2 mb-1 xl:left-6 text-gray-800"
+                    class="font-bold text-[27px] -mt-3.5 mb-1 xl:left-6 text-gray-800"
                   >
-                    Mentor <span class="text-blue-700">You've Been </span>{" "}
-                    Matched With: ({mentorCon.mentors.length})
+                    Startup <span class="text-blue-700">You've Been </span>{" "}
+                    Matched With: ({currentMentees.length})
                   </p>
                   <br />
                   <div class=" w-full gap-5 mt-9 mb-14">
-                    {mentorCon.mentors.map((mentor, i) => {
-                      return (
-                        <div key={i} class="w-[600px] mx-auto  z-[75] ">
-                          <div
-                            data-aos={"zoom-in"}
-                            data-aos-once="true"
-                            class={`w-full  px-8 py-4 mt-1 z-40 pointer-events-auto mr-32 relative right-2
+                    {currentMentees &&
+                      currentMentees.map((startup, i) => {
+                        return (
+                          <div key={i} class="w-[600px] mx-auto  z-[75] ">
+                            <div
+                              data-aos={"zoom-in"}
+                              data-aos-once="true"
+                              class={`w-full  px-8 py-4 pb-5 mt-1 z-40 pointer-events-auto mr-32 relative right-2
                              bg-white rounded-lg shadow-md `}
-                          >
-                            <div class="flex items-center justify-between ">
-                              <span class="text-sm block -mt-6 uppercase -mb-2 font-light text-gray-600 ">
-                                {mentor.duration + " week mentorship"}
-                              </span>
+                            >
+                              <div class="flex items-center justify-between ">
+                                <span class="text-sm block -mt-6 uppercase -mb-2 font-light text-gray-600 ">
+                                  {startup.currentMentorship &&
+                                    startup.currentMentorship.duration +
+                                      " week mentorship"}
+                                </span>
 
-                              <button
-                                type="button"
-                                class="text-white text-sm uppercase bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 font-semibold rounded-lg px-2.5 py-1.5 -mr-2 mt-1 text-center mb-2"
-                                onClick={() => {
-                                  setIndex(i);
-                                  sessionStorage.setItem("index", i);
-                                }}
-                              >
-                                View More
-                              </button>
-                            </div>
+                                <button
+                                  type="button"
+                                  class="text-white text-sm uppercase bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 font-semibold rounded-lg px-2.5 py-1.5 -mr-2 mt-1 text-center mb-2"
+                                  onClick={() => {
+                                    setIndex(i);
+                                    projCon.setProject(currentMentees[i]);
+                                    sessionStorage.setItem("index", i);
+                                    history.push(
+                                      "/startupmentorship/yourstartup"
+                                    );
+                                  }}
+                                >
+                                  View More
+                                </button>
+                              </div>
 
-                            <img
-                              src={
-                                mentor.pic
-                                  ? mentor.pic
-                                  : "https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80"
-                              }
-                              alt="expert"
-                              class={` 
+                              <img
+                                src={
+                                  startup.projPic
+                                    ? startup.projPic
+                                    : "https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80"
+                                }
+                                alt="expert"
+                                class={` 
                                mx-auto 
                         rounded-full border-blue-700 border-dashed border mb-3 mt-1  w-[160px] h-[160px] shadow-md  object-center object-cover`}
-                            />
+                              />
 
-                            <div class="mt-1 block relative -top-0.5">
-                              <a
-                                href="#"
-                                class="text-2xl relative font-bold text-gray-700 hover:text-gray-600  hover:underline"
-                              >
-                                {mentor.name}
-                              </a>
-                              <p class="mt-4 pb-1 pt-1  md:text-md text-sm text-gray-600 ">
-                                {mentor.mentorshipProp}
-                              </p>
-                            </div>
+                              <div class="mt-1 block relative -top-0.5">
+                                <a
+                                  href="#"
+                                  class="text-2xl relative font-bold text-gray-700 hover:text-gray-600  hover:underline"
+                                >
+                                  {startup.name}
+                                </a>
+                                <p class="mt-4  pb-2.5 pt-1  md:text-md text-sm text-gray-600 ">
+                                  {startup.problem}
+                                </p>
+                              </div>
 
-                            <div class="flex items-center justify-between mt-2 z-[100]">
-                              <div class="flex items-center relative ">
-                                {mentor.orgs &&
-                                  mentor.orgs.map((org, i) => {
-                                    return (
-                                      <span>
-                                        <img
-                                          class="object-cover sm:inline hidden w-6 h-6 mr-2 shadow-sm rounded-full "
-                                          src={
-                                            org.pic
-                                              ? org.pic
-                                              : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
-                                          }
-                                          alt="avatar"
-                                        />
-                                        <p class="font-semibold text-sm inline mr-6 text-gray-700 cursor-pointer ">
-                                          {org.name}
-                                        </p>
+                              <div class="flex items-center justify-between mt-2 z-[100]">
+                                <div class="flex items-center relative ">
+                                  {startup.team &&
+                                    startup.team.map((member, i) => {
+                                      return (
+                                        <span>
+                                          <img
+                                            class="object-cover sm:inline hidden w-6 h-6 mr-2 shadow-sm rounded-full "
+                                            src={
+                                              member.profilePic
+                                                ? member.profilePic
+                                                : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
+                                            }
+                                            alt="avatar"
+                                          />
+                                          <p class="font-semibold text-sm inline mr-6 text-gray-700 cursor-pointer ">
+                                            {member.name &&
+                                              member.name.split(" ")[0]}
+                                          </p>
 
-                                        {i == 4 ? (
-                                          <>
-                                            <br /> <div class="mb-2"></div>{" "}
-                                          </>
-                                        ) : i == mentor.orgs.length - 2 ? (
-                                          ""
-                                        ) : i == mentor.orgs.length - 1 ? (
-                                          ""
-                                        ) : (
-                                          ""
-                                        )}
-                                      </span>
-                                    );
-                                  })}
+                                          {i == 4 ? (
+                                            <>
+                                              <br /> <div class="mb-2"></div>{" "}
+                                            </>
+                                          ) : i == startup.team.length - 2 ? (
+                                            ""
+                                          ) : i == startup.team.length - 1 ? (
+                                            ""
+                                          ) : (
+                                            ""
+                                          )}
+                                        </span>
+                                      );
+                                    })}
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
                   </div>
                 </>
               ) : (
@@ -278,7 +376,8 @@ const Dashboard = () => {
                       onClick={() => {
                         setIndex(null);
                         sessionStorage.removeItem("index");
-                        history.push("/mentorship");
+                        history.push("/startupmentorship");
+                        projCon.setProject({});
                       }}
                       class="w-32 p-2 rounded-md font-semibold tracking-wide shadow-md mt-3  bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700  text-base hover:shadow-xl active:shadow-md text-white  uppercase "
                     >
@@ -304,13 +403,11 @@ const Dashboard = () => {
                     <a
                       onClick={() => {
                         history.push(
-                          location.pathname.includes("mentorship")
-                            ? "/mentorship/yourmentor/mentorinfo"
-                            : "/dashboard/yourmentor/mentorinfo"
+                          "/startupmentorship/yourstartup/startupinfo"
                         );
                       }}
                       class={` ${
-                        location.pathname.includes("mentorinfo")
+                        location.pathname.includes("startupinfo")
                           ? "bg-blue-700 text-gray-100 border-blue-700 border shadow-md"
                           : "bg-white shadow-md  text-gray-800"
                       } hover:cursor-pointer relative top-2 sm:normal-case uppercase hover:bg-blue-700 hover:border-r-indigo-50  hover:shadow-sm hover:border-blue-700 inline-flex items-center justify-center sm:rounded-l-lg sm:rounded-r-none rounded-t-lg border py-[10px] px-[30px] text-center text-base font-semibold  transition-all hover:text-gray-100 sm:py-4 sm:px-[60px]`}
@@ -336,11 +433,7 @@ const Dashboard = () => {
                     <br class="sm:hidden block" />
                     <a
                       onClick={() => {
-                        history.push(
-                          location.pathname.includes("mentorship")
-                            ? "/mentorship/yourmentor/meetings"
-                            : "/dashboard/yourmentor/meetings"
-                        );
+                        history.push("/startupmentorship/yourstartup/meetings");
                       }}
                       class={`${
                         location.pathname.includes("meetings")
@@ -368,9 +461,7 @@ const Dashboard = () => {
                     <a
                       onClick={() => {
                         history.push(
-                          location.pathname.includes("mentorship")
-                            ? "/mentorship/yourmentor/tasksandresources"
-                            : "/dashboard/yourmentor/tasksandresources"
+                          "/startupmentorship/yourstartup/tasksandresources"
                         );
                       }}
                       class={`${
@@ -400,83 +491,35 @@ const Dashboard = () => {
                   </div>
 
                   <Switch>
-                    <Route
-                      path={
-                        location.pathname.includes("mentorship")
-                          ? "/mentorship/yourmentor/mentorinfo"
-                          : "/dashboard/yourmentor/mentorinfo"
-                      }
-                    >
-                      <MentorInfo mentor={mentorCon.mentors[index]} />
+                    <Route path={"/startupmentorship/yourstartup/startupinfo"}>
+                      <StartupInfo startup={currentMentees[index]} />
+                    </Route>
+
+                    <Route path={"/startupmentorship/yourstartup/meetings"}>
+                      <Meetings startup={currentMentees[index]} />
                     </Route>
 
                     <Route
-                      path={
-                        location.pathname.includes("mentorship")
-                          ? "/mentorship/yourmentor/meetings"
-                          : "/dashboard/yourmentor/meetings"
-                      }
+                      path={"/startupmentorship/yourstartup/tasksandresources"}
                     >
-                      <Meetings mentor={mentorCon.mentors[index]} />
+                      <TasksAndResources startup={currentMentees[index]} />
                     </Route>
 
-                    <Route
-                      path={
-                        location.pathname.includes("mentorship")
-                          ? "/mentorship/yourmentor/tasksandresources"
-                          : "/dashboard/yourmentor/tasksandresources"
-                      }
-                    >
-                      <TasksAndResources mentor={mentorCon.mentors[index]} />
-                    </Route>
-
-                    <Route
-                      path={
-                        location.pathname.includes("mentorship")
-                          ? "/mentorship/yourmentor/"
-                          : "/dashboard/yourmentor/"
-                      }
-                    >
+                    <Route path={"/startupmentorship/yourstartup/"}>
                       <Redirect
-                        to={
-                          location.pathname.includes("mentorship")
-                            ? "/mentorship/yourmentor/mentorinfo"
-                            : "/dashboard/yourmentor/mentorinfo"
-                        }
+                        to={"/startupmentorship/yourstartup/startupinfo"}
                       />
                     </Route>
 
-                    <Route
-                      path={
-                        location.pathname.includes("mentorship")
-                          ? "/mentorship/yourmentor"
-                          : "/dashboard/yourmentor"
-                      }
-                    >
+                    <Route path={"/startupmentorship/yourstartup"}>
                       <Redirect
-                        to={
-                          location.pathname.includes("mentorship")
-                            ? "/mentorship/yourmentor/mentorinfo"
-                            : "/dashboard/yourmentor/mentorinfo"
-                        }
+                        to={"/startupmentorship/yourstartup/startupinfo"}
                       />
                     </Route>
 
                     {sessionStorage.getItem("index") ? (
-                      <Route
-                        path={
-                          location.pathname.includes("mentorship")
-                            ? "/mentorship/"
-                            : "/dashboard/"
-                        }
-                      >
-                        <Redirect
-                          to={
-                            location.pathname.includes("mentorship")
-                              ? "/mentorship/yourmentor/"
-                              : "/dashboard/yourmentor/"
-                          }
-                        />
+                      <Route path={"/startupmentorship/"}>
+                        <Redirect to={"/startupmentorship/yourstartup/"} />
                       </Route>
                     ) : (
                       ""
@@ -572,7 +615,7 @@ const Dashboard = () => {
               )
             ) : (
               <>
-                <p class="smd:text-4xl sm:text-3xl text-2xl font-semibold md:col-span-3 sm:col-span-2 col-span-1 text-center mt-[60px] sm:mb-[125px] mb-[105px]  right-1 mx-auto relative">
+                <p class="smd:text-4xl sm:text-3xl text-2xl font-semibold md:col-span-3 sm:col-span-2 col-span-1 text-center mt-[70px] sm:mb-[155px] mb-[125px]  right-1 mx-auto relative">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     enable-background="new 0 0 66 66"
@@ -837,82 +880,173 @@ const Dashboard = () => {
                     </g>
                   </svg>{" "}
                   <span class="-top-2 left-1.5 uppercase text-base font-bold tracking-wide   relative">
-                    No Mentor Matched Yet..
+                    No Startup Matched Yet..
                   </span>
                 </p>
               </>
             )}
           </>
         )}
-        {mentorsRequested && mentorsRequested.length > 0 ? (
+        {mentorshipRequests && mentorshipRequests.length > 0 ? (
           <div class="w-full px-7">
             <hr class="border-t-[2px]  border-dashed border-indigo-600 -mt-2 mb-8 block w-[60%] mx-auto" />
             <h2 class="font-bold mx-auto text-center tracking-wide mb-6 text-3xl">
-              Requested Mentors:{" "}
+              Mentorship Requests:{" "}
             </h2>
+
+            <div
+              class={`bg-indigo-50 w-fit mx-auto text-base shadow-md border-l-4 block mt-6 border-indigo-500 text-blue-700 p-4 pb-3 pt-3
+                            `}
+              role="alert"
+            >
+              <p class="text-sm">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-5 h-5 relative bottom-[1.2px] mr-1.5 inline"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                  />
+                </svg>
+                Accepted mentorship requests will be considered in mentorship
+                matching!
+              </p>
+            </div>
             <div class="grid grid-cols-2 px-8 mb-14 mt-12 gap-3">
-              {mentorsRequested.map((mentor) => {
-                return (
-                  <div class="flex col-span-1 max-w-sm rounded-md bg-white shadow-md ">
-                    <div class="">
-                      <div class="p-6 text-center">
-                        <span class={` mx-auto w-full mt-1 mb-0.5 text-center`}>
-                          {" "}
-                          <img
-                            src={mentor.pic}
-                            class="w-8 h-8 shadow-md mb-1 inline rounded-full"
-                          ></img>{" "}
-                          <span class="ml-2 text-xl bg-clip-text mx-auto text-transparent from-gray-700 to-gray-500 bg-gradient-to-br inline font-bold">
-                            {mentor.name}
-                          </span>{" "}
-                        </span>
-
-                        <p class="mb-2 mt-4 text-left font-medium text-sm text-gray-700 ">
-                          <strong>Expertise:</strong> {mentor.expertise}
-                        </p>
-
-                        <p class=" pb-[3px] text-sm sm:text-left lg:right-0 relative  text-center font-medium text-gray-700">
-                          <strong>Organizations:</strong> <br />
-                          {mentor &&
-                            mentor.orgs &&
-                            mentor.orgs.map((org, i) => {
-                              return (
-                                <span
-                                  class={` ${
-                                    i == 2
-                                      ? "-mt-[14px] inline pt-[16px]"
-                                      : "inline mt-1"
-                                  } relative right-1 top-3.5 pb-2.5`}
+              {mentorshipRequests &&
+                mentorshipRequests.map((startup, i) => {
+                  return (
+                    <div class="flex col-span-1 max-w-sm rounded-md pb-1 bg-white shadow-md ">
+                      <div class="">
+                        <div class="p-6 pt-5 text-center">
+                          <span
+                            class={` mx-auto w-full block  mb-0.5 text-center`}
+                          >
+                            {" "}
+                            <img
+                              src={startup.projPic}
+                              class="w-8 h-8 -mr-[2.5px] shadow-md border-[1px] border-blue-700 mb-[5px] inline rounded-full"
+                            ></img>{" "}
+                            <span class="ml-2 text-xl bg-clip-text mx-auto text-transparent from-gray-700 to-gray-500 bg-gradient-to-br inline font-bold">
+                              {startup.name}
+                            </span>{" "}
+                            {mentorCon.mentor.acceptedRequests
+                              .map((r) => JSON.stringify(r))
+                              .includes(JSON.stringify(startup._id)) ? (
+                              <button
+                                disabled
+                                class="text-white text-xs left-[30%] bottom-[2px] font-semibold relative uppercase bg-gradient-to-l from-green-600 to-green-500 shadow-lg   rounded-lg px-2.5 py-[5.5px] pt-[6.5px] pb-[5.3px]   pl-[8px]  text-center"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1.5"
+                                  stroke="currentColor"
+                                  class="w-4 h-4 relative bottom-[1.2px] mr-1 inline"
                                 >
-                                  {" "}
-                                  {i == 3 ? (
-                                    <>
-                                      {" "}
-                                      <br class="inline" />{" "}
-                                    </>
-                                  ) : (
-                                    ""
-                                  )}
-                                  {i != 0 && i != 3 ? " || " : ""}{" "}
-                                  <img
-                                    src={org.pic}
-                                    class="w-6 h-6 shadow-md ml-2 mb-1 inline rounded-full"
-                                  ></img>{" "}
-                                  <span class="ml-1 mr-1 lg:inline hidden">
-                                    {org.name}
-                                  </span>{" "}
-                                  <span class="ml-1 mr-1 lg:hidden inline">
-                                    {org.name.split(" ")[0]}
-                                  </span>{" "}
-                                </span>
-                              );
-                            })}
-                        </p>
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
+                                </svg>
+                                ACCEPTED
+                              </button>
+                            ) : (
+                              <>
+                                <button
+                                  onClick={() => {
+                                    showRequest(i);
+                                  }}
+                                  class="text-white text-xs left-[15%] bottom-[2px] mr-2.5 relative uppercase bg-gradient-to-l from-indigo-600 to-indigo-500 shadow-lg hover:bg-gradient-to-r hover:from-indigo-600 hover:to-indigo-700 focus:ring-1 focus:ring-blue-300 font-semibold rounded-lg px-2.5 py-[5.5px] pt-[6px] pb-[5.3px]  pl-[8px]  text-center"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="w-[16px] h-[16px] relative bottom-[1.2px] mr-1 inline"
+                                  >
+                                    <path
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                                    />
+                                    <path
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                    />
+                                  </svg>
+                                  VIEW
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    acceptRequest(i);
+                                  }}
+                                  class="text-white text-xs left-[15%] bottom-[2px] relative uppercase bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-1 focus:ring-blue-300 font-semibold rounded-lg px-2.5 py-1.5 pl-[8px]  text-center"
+                                >
+                                  ACCEPT
+                                </button>
+                              </>
+                            )}
+                          </span>
+
+                          <p class="mb-2 mt-4 text-left font-medium text-sm text-gray-700 ">
+                            <strong>Category:</strong> {startup.category}
+                          </p>
+
+                          <p class=" pb-[3px] text-sm sm:text-left lg:right-0 relative  text-center font-medium text-gray-700">
+                            <strong>Team:</strong> <br />
+                            {startup &&
+                              startup.team &&
+                              startup.team.map((member, i) => {
+                                return (
+                                  <span
+                                    class={` ${
+                                      i == 2
+                                        ? "-mt-[14px] inline pt-[16px]"
+                                        : "inline mt-1"
+                                    } relative right-1 top-3.5 pb-2.5`}
+                                  >
+                                    {" "}
+                                    {i == 3 ? (
+                                      <>
+                                        {" "}
+                                        <br class="inline" />{" "}
+                                      </>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {i != 0 && i != 3 ? " || " : ""}{" "}
+                                    <img
+                                      src={
+                                        member.profilePic
+                                          ? member.profilePic
+                                          : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
+                                      }
+                                      class="w-6 h-6 shadow-md ml-2 mb-1 inline rounded-full"
+                                    ></img>{" "}
+                                    <span class="ml-1 mr-1  inline">
+                                      {member.name.split(" ")[0]}
+                                    </span>{" "}
+                                  </span>
+                                );
+                              })}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
           </div>
         ) : (
@@ -923,4 +1057,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default StartupMentorship;

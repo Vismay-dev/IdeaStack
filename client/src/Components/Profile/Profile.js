@@ -36,6 +36,8 @@ const Profile = () => {
   const [showToolTip3, setShowToolTip3] = useState(false);
   const [modalType, setModalType] = useState("");
 
+  const [sessionsHeld, setSessionsHeld] = useState(0);
+
   const [user, setUser] = useState(currentUser ? currentUser.user : false);
 
   const changeHandler = (e) => {
@@ -47,6 +49,7 @@ const Profile = () => {
 
   useEffect(() => {
     setLoading(true);
+    let sessionsHeldCopy = 0;
     axios
       .post(
         process.env.NODE_ENV === "production"
@@ -56,6 +59,10 @@ const Profile = () => {
       )
       .then((res) => {
         setProject(res.data);
+        for (let i = 0; i < res.data.mentorsMatched.length; i++) {
+          sessionsHeldCopy += res.data.mentorsMatched[i].pastMeetings.length;
+        }
+        setSessionsHeld(sessionsHeldCopy);
         setLoading(false);
       });
   }, [user]);
@@ -115,9 +122,8 @@ const Profile = () => {
         data
       )
       .then((res) => {
-        console.log(res.data);
-        currentUser.setUser(res.data);
         setImage(res.data.profilePic);
+        currentUser.setUser(res.data);
         setPicLoading(false);
       })
       .catch((err) => {
@@ -129,6 +135,7 @@ const Profile = () => {
   const removeProfPic = (e) => {
     setPicLoading(true);
     const removedProfPic = { ...user, profilePic: "" };
+    setImage("");
     console.log(removedProfPic);
     axios
       .post(
@@ -302,7 +309,7 @@ const Profile = () => {
                       }}
                       className={`fas hover:cursor-pointer hover:text-indigo-700 text-2xl fa-camera font-semibold  ${
                         currentUser.user.profilePic
-                          ? "lg:bottom-0.5 -bottom-2 lg:right-6 right-4 absolute"
+                          ? "lg:bottom-1.5 -bottom-2 lg:right-9 right-4 absolute"
                           : "right-2 bottom-3 absolute"
                       } ${picLoading ? "mt-2" : "-mt-1"} text-gray-800`}
                     >
@@ -350,7 +357,7 @@ const Profile = () => {
                     </div>
                     <div className="mr-4 p-3 text-center">
                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                        0
+                        {sessionsHeld}
                       </span>
                       <span className="text-sm top-1 relative text-blueGray-400">
                         Sessions held with mentors

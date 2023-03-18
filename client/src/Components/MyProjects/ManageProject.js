@@ -152,10 +152,13 @@ export default function ManageProject() {
 
   const [mentorDate, setMentorDate] = useState();
   const [dateOfUpload, setDateOfUpload] = useState();
-  useEffect(async () => {
+
+  const [matchedMentor, setMatchedMentor] = useState(null);
+
+  useEffect(() => {
     setLoading(true);
 
-    await axios
+    axios
       .post(
         process.env.NODE_ENV === "production"
           ? "https://ideastack.herokuapp.com/api/user/getAllUsers"
@@ -172,62 +175,95 @@ export default function ManageProject() {
             return !teamArr.includes(user._id);
           })
         );
+
+        let projSelected = proj;
+
+        setProject(projSelected);
+        if (
+          projectCurr.project &&
+          projectCurr.project.mentorsMatched &&
+          projectCurr.project.mentorsMatched[0]
+        ) {
+          axios
+            .post(
+              process.env.NODE_ENV === "production"
+                ? "https://ideastack.herokuapp.com/api/user/getWorkshop"
+                : "http://localhost:4000/api/user/getWorkshop",
+              {
+                token: sessionStorage.getItem("token"),
+                workshopId: projectCurr.project.mentorsMatched[0].mentorId,
+              }
+            )
+            .then((res) => {
+              setMatchedMentor({
+                ...res.data,
+                ...projectCurr.project.mentorsMatched[0],
+              });
+            })
+            .catch((err) => {
+              console.log(err.response);
+              setLoading(false);
+            });
+        }
+
+        // if (projSelected.joinRequests && projSelected.joinRequests.length > 1) {
+        //   let dateNew3 = projSelected.joinRequests[0].dateReceived;
+        //   for (let x = 0; x < projSelected.team.length; x++) {
+        //     if (projSelected.joinRequests[x].dateReceived > dateNew3) {
+        //       dateNew3 = projSelected.joinRequests[x].dateReceived;
+        //     }
+        //   }
+        //   setLatestReceived({ date: dateNew3 });
+        // }
+
+        // if (
+        //   projSelected.mentorshipPackages &&
+        //   projSelected.mentorshipPackages.length > 0
+        // ) {
+        //   if (projSelected.mentorshipPackages[0].scheduleSelected)
+        //     var dateNew2 = projSelected.mentorshipPackages[0].scheduleSelected;
+        //   for (let x = 0; x < projSelected.mentorshipPackages.length; x++) {
+        //     if (
+        //       projSelected.mentorshipPackages[x].scheduleSelected > dateNew2
+        //     ) {
+        //       dateNew2 = projSelected.mentorshipPackages[x].scheduleSelected;
+        //     }
+        //   }
+        //   setMentorDate({ date: dateNew2 });
+        // }
+
+        // if (projSelected.joinRequests && projSelected.joinRequests.length > 0) {
+        //   let dateNew1 = new Date(projSelected.joinRequests[0].dateReceived);
+        //   for (let x = 0; x < projSelected.joinRequests.length; x++) {
+        //     if (
+        //       new Date(projSelected.joinRequests[x].dateReceived) > dateNew1
+        //     ) {
+        //       dateNew1 = projSelected.joinRequests[x].dateReceived;
+        //     }
+        //   }
+        //   setLatestReceived({ date: dateNew1 });
+        // }
+
+        if (projSelected.documents && projSelected.documents.length > 0) {
+          let dateNew = new Date(projSelected.documents[0].dateOfUpload);
+          for (let x = 0; x < projSelected.documents.length; x++) {
+            if (new Date(projSelected.documents[x].dateOfUpload) > dateNew) {
+              dateNew = projSelected.documents[x].dateOfUpload;
+            }
+          }
+          setDateOfUpload({ date: dateNew });
+        }
+
+        let currdate = new Date(projSelected.createdAt)
+          .toDateString()
+          .substring(4);
+        setDate(currdate.slice(0, 6) + "," + currdate.slice(6));
+
         setLoading(false);
       })
       .catch((err) => {
         setLoading(false);
       });
-
-    let projSelected = proj;
-
-    setProject(projSelected);
-
-    if (projSelected.joinRequests && projSelected.joinRequests.length > 1) {
-      let dateNew3 = projSelected.joinRequests[0].dateReceived;
-      for (let x = 0; x < projSelected.team.length; x++) {
-        if (projSelected.joinRequests[x].dateReceived > dateNew3) {
-          dateNew3 = projSelected.joinRequests[x].dateReceived;
-        }
-      }
-      setLatestReceived({ date: dateNew3 });
-    }
-
-    if (
-      projSelected.mentorshipPackages &&
-      projSelected.mentorshipPackages.length > 0
-    ) {
-      if (projSelected.mentorshipPackages[0].scheduleSelected)
-        var dateNew2 = projSelected.mentorshipPackages[0].scheduleSelected;
-      for (let x = 0; x < projSelected.mentorshipPackages.length; x++) {
-        if (projSelected.mentorshipPackages[x].scheduleSelected > dateNew2) {
-          dateNew2 = projSelected.mentorshipPackages[x].scheduleSelected;
-        }
-      }
-      setMentorDate({ date: dateNew2 });
-    }
-
-    if (projSelected.joinRequests && projSelected.joinRequests.length > 0) {
-      let dateNew1 = new Date(projSelected.joinRequests[0].dateReceived);
-      for (let x = 0; x < projSelected.joinRequests.length; x++) {
-        if (new Date(projSelected.joinRequests[x].dateReceived) > dateNew1) {
-          dateNew1 = projSelected.joinRequests[x].dateReceived;
-        }
-      }
-      setLatestReceived({ date: dateNew1 });
-    }
-
-    if (projSelected.documents && projSelected.documents.length > 0) {
-      let dateNew = new Date(projSelected.documents[0].dateOfUpload);
-      for (let x = 0; x < projSelected.documents.length; x++) {
-        if (new Date(projSelected.documents[x].dateOfUpload) > dateNew) {
-          dateNew = projSelected.documents[x].dateOfUpload;
-        }
-      }
-      setDateOfUpload({ date: dateNew });
-    }
-
-    let currdate = new Date(projSelected.createdAt).toDateString().substring(4);
-    setDate(currdate.slice(0, 6) + "," + currdate.slice(6));
   }, [location.pathname, projectCurr.project]);
 
   const [inviteSent, setInviteSent] = useState(false);
@@ -319,217 +355,6 @@ export default function ManageProject() {
             </h2>
 
             <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 xl:left-0 left-0.5  relative justify-center mx-auto sm:px-[60px] px-[18px] lg:mt-[63px] mt-[45px] mb-2  xl:gap-5 gap-9 ">
-              {/* <div
-                class={`xl:col-span-3  bg-bottom lg:col-span-2 col-span-1 ${
-                  project &&
-                  (project.maxCap - project.team.length === 0 ||
-                    user._id !== project.admin.id)
-                    ? "hidden"
-                    : "block"
-                }  z-[75] md:h-[330px] h-[385px] mb-6 relative  rounded-md `}
-              >
-                <div
-                  data-aos={"zoom-up"}
-                  data-aos-once="true"
-                  class=" h-full w-full"
-                >
-                  <div class="border-t-[2px] border-b-[2px] border-blue-700 border-dashed   lg:w-[60%] md:w-[85%]  w-[100%] sm:pt-[27px] pt-[34px] pb-5 h-[335px] mb-[60px] -mt-3 relative mx-auto block">
-                    <h3 class="font-bold text-center mx-auto relative pt-1.5 mr-1 text-2xl">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6 mr-[7px] relative bottom-[2.6px] font-bold text-blue-800 inline"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="3"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
-                        />
-                      </svg>
-                      <span class="inline">Invite Other Users:</span>
-                    </h3>
-                    <h3 class="font-semibold text-center uppercase mx-auto relative mt-0.5 top-1 text-sm">
-                      (Remaining Team Capacity:{" "}
-                      {project && project.maxCap - project.team.length})
-                    </h3>
-
-                    <input
-                      onClick={() => {
-                        console.log("wrok");
-                      }}
-                      type="text"
-                      onFocus={() => setIsHovering(true)}
-                      onChange={textChangeHandler}
-                      class={`w-[270px] relative mx-auto block ${
-                        memberSelected ? "mt-7" : "md:mt-9 mt-12"
-                      }  py-2   pr-4   text-gray-900 bg-white border-0 pl-4 shadow-md rounded-md  focus:border-blue-00  focus:ring-blue-700 focus:ring-opacity-40 focus:outline-none focus:ring`}
-                      placeholder="Search User"
-                    />
-                    <ul
-                      ref={myRef}
-                      onBlur={() => setIsHovering(false)}
-                      class={`bg-white border border-gray-100 ${
-                        !isHovering || allUsers.length === 0 || text === ""
-                          ? "hidden"
-                          : "block"
-                      } w-[270px] mx-auto absolute mt-[3px] max-h-[170px] overflow-hidden z-[75] left-0 right-0 mr-auto ml-auto shadow-md mb-8`}
-                    >
-                      {allUsers &&
-                        allUsers.map((user) => {
-                          return (
-                            <li
-                              onClick={() => {
-                                setMemberSelected({
-                                  name: user.firstName + " " + user.lastName,
-                                  pic: user.profilePic,
-                                  id: user._id,
-                                });
-
-                                setText("");
-                              }}
-                              class="pl-8 pr-2 py-2 z-[75] pointer-events-auto border-b-2 border-gray-200 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900"
-                            >
-                              <svg
-                                class="absolute w-4 h-4 left-2 top-[18px]"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                              >
-                                <path
-                                  fill-rule="evenodd"
-                                  d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                                  clip-rule="evenodd"
-                                />
-                              </svg>
-                              <img
-                                class="rounded-full mr-2 h-9 w-9 inline"
-                                src={
-                                  user.profilePic
-                                    ? user.profilePic
-                                    : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
-                                }
-                              ></img>
-                              <b class="relative top-[1px]">{user.firstName}</b>{" "}
-                              <span class="relative top-[1px]">
-                                {user.lastName}
-                              </span>
-                            </li>
-                          );
-                        })}
-                    </ul>
-                    <h3
-                      class={`relative mx-auto block ${
-                        memberSelected ? "mt-7" : "md:mt-[36px] mt-12"
-                      }  text-center`}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-4 w-4 inline relative bottom-[2px] mr-0.5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                        />
-                      </svg>{" "}
-                      <p class="inline text-sm uppercase font-semibold">
-                        <span class="md:mb-0 mb-7  relative">
-                          Member selected:
-                        </span>
-                        <br
-                          class={`${
-                            memberSelected ? "md:hidden block " : "hidden"
-                          } `}
-                        />{" "}
-                        {memberSelected ? (
-                          <>
-                            <img
-                              class="rounded-full mr-2.5 md:mt-0 mt-12 md:bottom-[1px] bottom-[23px] relative h-9 ml-6 w-9 inline"
-                              src={
-                                memberSelected.pic
-                                  ? memberSelected.pic
-                                  : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
-                              }
-                            ></img>
-                            <b class="relative font-semibold top-[1px]">
-                              {memberSelected.name}
-                            </b>
-
-                            {memberSelected ? (
-                              <button
-                                onClick={() => setMemberSelected(null)}
-                                class="py-2.5 px-3 top-[0px]  shadow-sm text-sm focus:outline-none hover:shadow-lg active:shadow-sm leading-none relative left-6 text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200 xl:mr-2 sm:mr-4 mr-9 rounded"
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  class="h-6 w-6 inline bottom-[1px] relative mr-1"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                >
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                  />
-                                </svg>
-                                <span class="font-semibold">Cancel</span>
-                              </button>
-                            ) : (
-                              ""
-                            )}
-                          </>
-                        ) : (
-                          "None"
-                        )}
-                      </p>
-                    </h3>
-
-                    {inviteSent ? (
-                      <h3 class="font-semibold text-green-700 text-center sm:mt-8 mt-9 relative  underline">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-6 w-6 inline relative bottom-[1.6px] mr-1"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                        <p class="inline text-black">
-                          Successfully Invited User
-                        </p>
-                      </h3>
-                    ) : (
-                      <button
-                        disabled={!memberSelected}
-                        onClick={sendInvite}
-                        class={`${
-                          memberSelected
-                            ? "from-indigo-300 to-indigo-500 shadow-md hover:shadow-lg active:shadow-sm md:mt-[24px] mt-[10px]"
-                            : " from-indigo-200 to-indigo-300 sm:mt-5 mt-7"
-                        } left-1.5  bg-gradient-to-br text-white font-semibold p-3 px-4 relative mx-auto block rounded-md pt-2.5`}
-                      >
-                        Send Invite
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div> */}
-
               <div
                 data-aos={"fade-up"}
                 data-aos-once="true"
@@ -539,14 +364,16 @@ export default function ManageProject() {
                   class={`rounded-lg shadow-lg bg-gradient-to-r border-[1px] border-blue-600 lg:h-[480px] xl:h-[530px]  from-blue-50 to-indigo-100 h-fit overflow-hidden mb-0`}
                 >
                   <img
-                    src={project ? project.projPic : ""}
+                    src={
+                      project && projectCurr ? projectCurr.project.projPic : ""
+                    }
                     alt="image"
                     class="w-full h-56 object-contain py-3 -mb-3 bg-gray-50 border-b-2 border-gray-400 relative"
                   />
                   <div class="p-8 sm:p-9 md:px-7 md:pt-9 md:pb-10 lg:p-7 xl:py-9 xl:px-6 text-center">
-                    {project &&
-                    project.admin &&
-                    user._id !== project.admin.id ? (
+                    {projectCurr.project &&
+                    projectCurr.project.admin &&
+                    user._id !== projectCurr.project.admin.id ? (
                       ""
                     ) : (
                       <button
@@ -567,23 +394,26 @@ export default function ManageProject() {
            md:text-xl
            lg:text-[22px]
            xl:text-xl
-           2xl:text-[22px]
+           2xl:text-[22px] cursor-default
            
            block
            hover:text-primary
            "
                       >
-                        {proj ? proj.name : ""}
+                        {projectCurr.project ? projectCurr.project.name : ""}
                       </a>
                       <span class="text-sm mx-auto relative font-light text-gray-600 ">
                         {date ? date : ""}
                       </span>
                     </h3>
                     <p class="text-base text-body-color mt-4 lg:w-full xl:w-[320px]  md:w-[590px] md:block md:mx-auto md:justify-center md:text-center leading-relaxed mb-7">
-                      {proj ? proj.problem : ""}
+                      {projectCurr.project ? projectCurr.project.problem : ""}
                       <br />
                       <p class="relative top-3 xl:top-7 -mb-5">
-                        <strong>Category:</strong> {proj ? proj.category : ""}
+                        <strong>Category:</strong>{" "}
+                        {projectCurr.project
+                          ? projectCurr.project.category
+                          : ""}
                         <br />
                       </p>
                     </p>
@@ -602,43 +432,48 @@ export default function ManageProject() {
                 >
                   <div class="xl:h-[174px] lg:h-[168px] sm:h-[152px] h-[160px] sm:pt-1.5 xl:pb-7 pt-0">
                     <p className="text-center top-4 text-xl font-semibold relative mb-1">
-                      Assignments Pending:{" "}
+                      Workshops Attended:{" "}
                     </p>
                     <br />
-                    <h1 className="text-center text-4xl text-blue-700 bottom-[1px] relative mb-1">
-                      {project && project.assignments
-                        ? project.assignments.filter((jR) => {
-                            return jR.isInvite == null || jR.isInvite == false;
-                          }).length
-                        : 0}
+                    <h1 className="text-center text-4xl text-blue-700 bottom-[1px] relative mb-[9px] mt-[9px]">
+                      0
                     </h1>
-                    <p class="text-sm relative text-center bottom-[0.2px] top-2.5 font-light text-gray-600 sm:px-[50px] px-[25px] lg:px-[40px] ">
-                      Latest Pending Assignment Received On:{" "}
-                      <span class="text-indigo-500 font-semibold">
-                        {latestReceived && latestReceived.date
-                          ? new Date(latestReceived.date).toDateString()
-                          : "No Pending Assignments"}
-                      </span>
+                    <p class="text-sm relative text-center bottom-[0.2px] top-2.5 font-semibold text-indigo-500 sm:px-[50px] px-[25px] lg:px-[40px] ">
+                      (Workshop Events - Coming Soon!)
                     </p>
                   </div>
                   <div class=" sm:pt-0.5 sm:pb-11 pt-0.5  lg:pt-0.5 xl:pt-1 pb-[34px]  xl:h-[187px] h-fit  bg-gradient-to-r from-gray-50 to-slate-50 text-center">
                     <p className="text-center top-4 text-xl font-semibold relative sm:px-[85px] px-10">
-                      Mentors/Advisors Appointed:{" "}
+                      Mentors/Advisors Matched:{" "}
                     </p>
                     <br />
-                    <h1 className="text-center relative text-4xl text-blue-700">
-                      {project ? project.mentorshipPackages.length : ""}
+                    <h1
+                      className={`text-center ${
+                        matchedMentor &&
+                        matchedMentor.upcomingMeeting &&
+                        !matchedMentor.upcomingMeeting.completed
+                          ? "mb-[9px] mt-[9px]"
+                          : "mb-[10px] mt-[18px]"
+                      } relative text-4xl text-blue-700`}
+                    >
+                      {project && project.mentorsMatched
+                        ? project.mentorsMatched.length
+                        : ""}
                     </h1>
                     <p class="text-sm relative text-center font-light top-2 text-gray-600 sm:px-[95px] px-[60px] lg:px-[20px] ">
-                      {mentorDate ? (
+                      {matchedMentor &&
+                      matchedMentor.upcomingMeeting &&
+                      !matchedMentor.upcomingMeeting.completed ? (
                         <p>
                           Upcoming Session With{" "}
                           <span class="text-indigo-500 font-semibold">
-                            Vismay Suramwar
+                            {matchedMentor.name}
                           </span>{" "}
-                          On:{" "}
+                          On: <br />
                           <span class="text-indigo-500 font-semibold">
-                            {mentorDate.date}
+                            {new Date(
+                              matchedMentor.upcomingMeeting.date
+                            ).toDateString()}
                           </span>
                         </p>
                       ) : (
@@ -649,12 +484,14 @@ export default function ManageProject() {
                     </p>
                   </div>
                   <div class=" pt-2 pb-7 lg:pt-2 xl:align-middle xl:pt-2   text-center">
-                    <p className="text-center top-3 text-xl font-semibold relative">
+                    <p className="text-center top-2.5 text-xl font-semibold relative">
                       Documents Uploaded:{" "}
                     </p>
                     <br />
-                    <h1 className="text-center -top-1.5 relative text-4xl text-blue-700">
-                      {project ? project.documents.length : " "}
+                    <h1 className="text-center -top-1.5 mt-2.5 mb-1.5 relative text-4xl text-blue-700">
+                      {project && project.documents
+                        ? project.documents.length
+                        : " "}
                     </h1>
                     <p class="text-sm relative text-center top-1.5 font-light text-gray-600 sm:px-[96px] px-[60px] lg:px-[40px] ">
                       Latest Document Uploaded On:{" "}

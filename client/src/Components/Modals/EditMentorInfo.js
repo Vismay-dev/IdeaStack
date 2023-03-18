@@ -3,40 +3,65 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import userContext from "../../context/userContext";
 import ClipLoader from "react-spinners/ClipLoader";
+import mentorAccContext from "../../context/mentorAccContext";
 
-const EditPersonalInfo = (props) => {
-  const currentUser = useContext(userContext);
+const EditMentorInfo = (props) => {
+  const currentMentor = useContext(mentorAccContext);
 
-  const [user, setUser] = useState(currentUser ? currentUser.user : false);
+  const [mentor, setMentor] = useState(
+    currentMentor ? currentMentor.mentor : false
+  );
   const [image, setImage] = useState(
-    currentUser.user.profilePic ? currentUser.user.profilePic : null
+    currentMentor.mentor.pic ? currentMentor.mentor.pic : null
   );
   const inputRef = useRef(null);
 
   const history = useHistory();
 
   const handleChange = (e) => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value,
-    });
+    if (e.target.name.includes("strength")) {
+      let strengthsCopy = mentor.strengths;
+      strengthsCopy[
+        Number(e.target.name.substring(e.target.name.length - 1)) - 1
+      ] = e.target.value;
+      setMentor({
+        ...mentor,
+        strengths: strengthsCopy,
+      });
+    } else {
+      setMentor({
+        ...mentor,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(user);
+    if (mentor.mentorshipProp.split(" ").length < 50) {
+      setError("mentorshipProp");
+      setLoading(false);
+      return;
+    } else if (mentor.background.split(" ").length < 30) {
+      setError("background");
+      setLoading(false);
+      return;
+    }
+
+    console.log(mentor.strengths);
     axios
       .post(
         process.env.NODE_ENV === "production"
-          ? "https://ideastack.herokuapp.com/api/user/updateUser"
-          : "http://localhost:4000/api/user/updateUser",
-        { user, token: sessionStorage.getItem("token") }
+          ? "https://ideastack.herokuapp.com/api/user/updateMentor"
+          : "http://localhost:4000/api/user/updateMentor",
+        { mentor, token: sessionStorage.getItem("mentorToken") }
       )
       .then((res) => {
-        currentUser.setUser(res.data);
+        currentMentor.setMentor(res.data);
         setTimeout(() => {
           setLoading(false);
           props.close();
@@ -56,18 +81,18 @@ const EditPersonalInfo = (props) => {
     setPicLoading(true);
     const data = new FormData();
     data.append("image", e.target.files[0]);
-    data.append("token", sessionStorage.getItem("token"));
+    data.append("token", sessionStorage.getItem("mentorToken"));
     axios
       .post(
         process.env.NODE_ENV === "production"
-          ? "https://ideastack.herokuapp.com/api/user/uploadProfPic"
-          : "http://localhost:4000/api/user/uploadProfPic",
+          ? "https://ideastack.herokuapp.com/api/user/uploadMentorPic"
+          : "http://localhost:4000/api/user/uploadMentorPic",
         data
       )
       .then((res) => {
         console.log(res.data);
-        currentUser.setUser(res.data);
-        setImage(res.data.profilePic);
+        currentMentor.setMentor(res.data);
+        setImage(res.data.pic);
         setPicLoading(false);
       })
       .catch((err) => {
@@ -77,17 +102,17 @@ const EditPersonalInfo = (props) => {
   };
 
   const removeProfPic = (e) => {
-    const removedProfPic = { ...user, profilePic: "" };
+    const removedProfPic = { ...mentor, pic: "" };
     console.log(removedProfPic);
     axios
       .post(
         process.env.NODE_ENV === "production"
-          ? "https://ideastack.herokuapp.com/api/user/updateUser"
-          : "http://localhost:4000/api/user/updateUser",
-        { user: removedProfPic, token: sessionStorage.getItem("token") }
+          ? "https://ideastack.herokuapp.com/api/user/updateMentor"
+          : "http://localhost:4000/api/user/updateMentor",
+        { mentor: removedProfPic, token: sessionStorage.getItem("mentorToken") }
       )
       .then((res) => {
-        currentUser.setUser(res.data);
+        currentMentor.setMentor(res.data);
       })
       .catch((err) => {
         console.log(err.response ? err.response.data : null);
@@ -116,11 +141,11 @@ const EditPersonalInfo = (props) => {
                   ) : (
                     <img
                       class={`rounded-full -mt-12 mx-auto shadow-lg w-64 ${
-                        currentUser.user.profilePic ? "" : "p-2"
+                        currentMentor.mentor.pic ? "" : "p-2"
                       } relative`}
                       src={
-                        currentUser.user.profilePic
-                          ? currentUser.user.profilePic
+                        currentMentor.mentor.pic
+                          ? currentMentor.mentor.pic
                           : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
                       }
                     />
@@ -134,7 +159,7 @@ const EditPersonalInfo = (props) => {
                   />
 
                   <ul class="space-x-2 mx-auto relative mt-10 text-center">
-                    {currentUser.user.profilePic ? (
+                    {currentMentor.mentor.pic ? (
                       <button
                         onClick={(e) => {
                           e.preventDefault();
@@ -155,7 +180,7 @@ const EditPersonalInfo = (props) => {
                         Upload Picture
                       </button>
                     )}
-                    {currentUser.user.profilePic ? (
+                    {currentMentor.mentor.pic ? (
                       <button
                         class="font-semibold  p-2 shadow-md  z-20 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 sm:right-0 right-1 sm:mb-0 -mb-9 relative text-blue-600"
                         onClick={(e) => {
@@ -182,40 +207,39 @@ const EditPersonalInfo = (props) => {
                         for="first-name"
                         class="block text-sm font-semibold left-0.5 text-gray-700"
                       >
-                        First name
+                        Full name
                       </label>
                       <input
                         type="text"
                         onChange={handleChange}
-                        name="firstName"
+                        name="name"
                         min={2}
                         id="first-name"
                         placeholder={
-                          currentUser ? currentUser.user.firstName : ""
+                          currentMentor ? currentMentor.mentor.name : ""
                         }
-                        value={user ? user.firstName : ""}
+                        value={mentor ? mentor.name : ""}
                         class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
 
-                    <div class="col-span-6 sm:col-span-3 relative">
+                    <div class="col-span-6 sm:col-span-3">
                       <label
-                        for="last-name"
+                        for="email-address"
                         class="block text-sm font-semibold left-0.5 text-gray-700"
                       >
-                        Last name
+                        Email address
                       </label>
                       <input
                         type="text"
                         onChange={handleChange}
-                        name="lastName"
-                        id="last-name"
-                        min={2}
+                        name="email"
+                        id="email-address"
                         placeholder={
-                          currentUser ? currentUser.user.lastName : ""
+                          currentMentor ? currentMentor.mentor.email : ""
                         }
-                        value={user ? user.lastName : ""}
-                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
+                        value={mentor ? mentor.email : ""}
+                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2 bg-white   shadow-md sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
 
@@ -228,12 +252,13 @@ const EditPersonalInfo = (props) => {
                       </label>
                       <select
                         id="country"
-                        defaultChecked={
-                          currentUser ? currentUser.user.country : ""
-                        }
-                        defaultValue={
-                          currentUser ? currentUser.user.country : ""
-                        }
+                        // defaultChecked={
+                        //   currentMentor ? currentMentor.mentor.country : ""
+                        // }
+                        // defaultValue={
+                        //   currentMentor ? currentMentor.mentor.country : ""
+                        // }
+                        value={mentor ? mentor.country : ""}
                         onChange={handleChange}
                         name="country"
                         class="mt-1 block w-full py-2 px-3 border text-black border-gray-300 bg-white rounded-md p-2   shadow-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
@@ -543,25 +568,6 @@ const EditPersonalInfo = (props) => {
 
                     <div class="col-span-6 sm:col-span-3">
                       <label
-                        for="school"
-                        class="block text-sm font-semibold left-0.5 text-gray-700"
-                      >
-                        Age
-                      </label>
-                      <input
-                        type="number"
-                        min={12}
-                        value={user ? user.age : ""}
-                        onChange={handleChange}
-                        name="age"
-                        placeholder={currentUser ? currentUser.user.age : ""}
-                        id="school"
-                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md text-sm border-gray-300 rounded-md"
-                      />
-                    </div>
-
-                    <div class="col-span-6 sm:col-span-4 lg:col-span-3">
-                      <label
                         for="city"
                         class="block text-sm font-semibold left-0.5 text-gray-700"
                       >
@@ -569,73 +575,143 @@ const EditPersonalInfo = (props) => {
                       </label>
                       <input
                         type="text"
-                        value={user ? user.city : ""}
+                        value={mentor ? mentor.city : ""}
                         onChange={handleChange}
-                        placeholder={currentUser ? currentUser.user.city : ""}
+                        placeholder={
+                          currentMentor ? currentMentor.mentor.city : ""
+                        }
                         name="city"
                         id="city"
                         class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md text-sm border-gray-300 rounded-md"
                       />
                     </div>
 
-                    <div class="col-span-6 sm:col-span-8 lg:col-span-3">
+                    <div class="col-span-6 sm:col-span-8  mt-1  lg:col-span-6">
                       <label
-                        for="region"
+                        for="city"
+                        class={`block text-sm font-semibold left-0.5 text-gray-700`}
+                      >
+                        Mentorship Proposition{" "}
+                        <span
+                          class={
+                            error === "mentorshipProp"
+                              ? "text-red-700"
+                              : "text-gray-700"
+                          }
+                        >
+                          (Min 50 Words)
+                        </span>
+                      </label>
+                      <textarea
+                        name="mentorshipProp"
+                        value={mentor ? mentor.mentorshipProp : ""}
+                        placeholder={
+                          currentMentor.mentor.mentorshipProp
+                            ? currentMentor.mentor.mentorshipProp
+                            : "Add Mentorship Proposition - How Do You Help Startup Teams? (Minimum 50 Words)"
+                        }
+                        onChange={handleChange}
+                        class={`mt-1 h-32 ${
+                          error === "mentorshipProp"
+                            ? "ring-orange-500 border-orange-500 bg-orange-100"
+                            : "focus:ring-indigo-500 focus:border-indigo-500"
+                        }  block w-full p-2  shadow-md text-sm text-black border-gray-300 rounded-md`}
+                      ></textarea>
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-8  lg:col-span-6">
+                      <label
+                        for="city"
+                        class={`block text-sm font-semibold left-0.5 
+                          text-gray-700
+                        `}
+                      >
+                        Career Background{" "}
+                        <span
+                          class={
+                            error === "background"
+                              ? "text-red-700"
+                              : "text-gray-700"
+                          }
+                        >
+                          (Min 30 Words)
+                        </span>
+                      </label>
+                      <textarea
+                        name="background"
+                        value={mentor ? mentor.background : ""}
+                        placeholder={
+                          currentMentor.mentor.background
+                            ? currentMentor.mentor.background
+                            : "Add Career Background - What Career Journey Has Led You Here? (Minimum 30 Words)"
+                        }
+                        onChange={handleChange}
+                        class={`mt-1 h-32 ${
+                          error === "background"
+                            ? "ring-orange-500 border-orange-500 bg-orange-100"
+                            : "focus:ring-indigo-500 focus:border-indigo-500"
+                        }  block w-full p-2  shadow-md text-sm text-black border-gray-300 rounded-md`}
+                      ></textarea>
+                    </div>
+                    <div class="col-span-6 sm:col-span-2 mb-3  relative">
+                      <label
+                        for="first-name"
                         class="block text-sm font-semibold left-0.5 text-gray-700"
                       >
-                        Institution (School/University)
+                        Strength 1
                       </label>
                       <input
                         type="text"
-                        value={user ? user.university : ""}
                         onChange={handleChange}
-                        name="school"
-                        id="region"
+                        name="strength1"
+                        min={2}
+                        id="first-name"
                         placeholder={
-                          currentUser ? currentUser.user.university : ""
+                          currentMentor ? currentMentor.mentor.strengths[0] : ""
                         }
-                        min={3}
-                        autocomplete="School"
-                        class="mt-1  focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md text-sm text-black border-gray-300 rounded-md"
+                        value={mentor ? mentor.strengths[0] : ""}
+                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
 
-                    <div class="col-span-6 sm:col-span-8 lg:col-span-3">
+                    <div class="col-span-6 sm:col-span-2 mb-3">
                       <label
-                        for="city"
+                        for="email-address"
                         class="block text-sm font-semibold left-0.5 text-gray-700"
                       >
-                        Password
+                        Strength 2
                       </label>
                       <input
-                        type="password"
+                        type="text"
                         onChange={handleChange}
-                        name="password"
-                        id="city"
-                        autocomplete="password"
-                        placeholder=""
-                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md text-sm border-gray-300 rounded-md"
+                        name="strength2"
+                        id="email-address"
+                        placeholder={
+                          currentMentor ? currentMentor.mentor.strengths[1] : ""
+                        }
+                        value={mentor ? mentor.strengths[1] : ""}
+                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2 bg-white   shadow-md sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
 
-                    <div class="col-span-6 sm:col-span-8  mb-3 lg:col-span-6">
+                    <div class="col-span-6 sm:col-span-2 mb-3">
                       <label
-                        for="city"
+                        for="email-address"
                         class="block text-sm font-semibold left-0.5 text-gray-700"
                       >
-                        Description
+                        Strength 3
                       </label>
-                      <textarea
-                        name="description"
-                        value={user ? user.description : ""}
-                        placeholder={
-                          currentUser.user.description
-                            ? currentUser.user.description
-                            : "Add Description - Your Background in STEM, Your Education, Summarize who you are"
-                        }
+                      <input
+                        type="text"
                         onChange={handleChange}
-                        class="mt-1 h-32  focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2  shadow-md text-sm text-black border-gray-300 rounded-md"
-                      ></textarea>
+                        name="strength3"
+                        id="email-address"
+                        placeholder={
+                          currentMentor ? currentMentor.mentor.strengths[2] : ""
+                        }
+                        value={mentor ? mentor.strengths[2] : ""}
+                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2 bg-white   shadow-md sm:text-sm border-gray-300 rounded-md"
+                      />
                     </div>
                   </div>
                 )}
@@ -656,4 +732,4 @@ const EditPersonalInfo = (props) => {
   );
 };
 
-export default EditPersonalInfo;
+export default EditMentorInfo;

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import WorkshopDetails from "../Modals/WorkshopDetails";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -9,6 +9,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 import miscible from "../Landing/images/miscible-mono.png";
+import projectContext from "../../context/projectContext";
 
 export default function BrowseMentors() {
   const [showWorkshop, setShowWorkshop] = useState(false);
@@ -17,6 +18,8 @@ export default function BrowseMentors() {
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const [origWorkshops, setOrigWorkshops] = useState([]);
+
+  const project = useContext(projectContext).project;
 
   useEffect(() => {
     AOS.init({
@@ -227,242 +230,159 @@ export default function BrowseMentors() {
             </div>
           </div>
         ) : (
-          <div class="grid grid-cols-1 lg:max-w-[1250px] lg:px-12 md:max-w-[740px] max-w-[500px] mx-auto z-30 pointer-events-none md:mb-8 mb-12 md:-mt-2 sm:mt-1 -mt-3 relative top-[8px] md:px-1 sm:px-7 px-7    sm:gap-y-12 gap-y-14 md:grid-cols-2 xl:gap-x-12 gap-x-7 lg:grid-cols-2 ">
-            {[...workshops].map((workshop, i) => (
-              <a
-                data-aos={"fade-up"}
-                data-aos-once="true"
-                delay={`${i % 3}00`}
-                key={workshop.id}
-                onClick={() => {
-                  setShowWorkshop(true);
-                  setWorkshopId(workshop._id);
-                }}
-                class={`group z-20 pointer-events-auto shadow-md bg-slate-50   rounded-md cursor-pointer`}
-              >
-                <div class="w-full z-20 py-5 bg-gray-800  ">
-                  {workshop.orgPic ? (
-                    <>
-                      <span class="text-xs text-gray-50 absolute sm:right-4 right-[10px] top-2.5 font-semibold">
-                        POWERED BY
-                      </span>
-                      <img
-                        src={workshop.orgPic}
-                        alt="expert"
-                        class={`sm:w-[90px] w-[80px] mx-auto shadow-sm
-                      rounded-[.25rem] ${
-                        workshop.org == "Miscible" ? "bg-gray-800" : "bg-white"
-                      }  h-auto absolute right-3 top-8   object-center object-cover`}
-                      />
-                    </>
-                  ) : (
-                    ""
-                  )}
-
-                  <img
-                    src={
-                      workshop.pic
-                        ? workshop.pic
-                        : "https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80"
-                    }
-                    alt="expert"
-                    class={` ${
-                      workshop.partnerPic && workshop.partnerPic != ""
-                        ? "xl:right-0 lg:right-6 right-10 relative"
-                        : ""
-                    } mx-auto shadow-sm
-                        rounded-full border-blue-100 border my-2  lg:h-[190px] lg:w-[190px] w-[160px] h-[160px]  object-center object-cover group-hover:opacity-75`}
-                  />
-                </div>
-                <h3 class="mt-4 text-xl tracking-wide bg-gradient-to-r w-fit from-blue-500 to-indigo-500 text-transparent bg-clip-text px-6 sm:text-left lg:right-0 relative font-bold  text-center text-gray-900">
-                  {workshop.name}
-                </h3>
-                <p class="mt-2 pb-4 top-[7px] px-6 text-md sm:text-left lg:right-0 relative  text-center font-medium text-gray-700">
-                  Expertise: {workshop.expertise}
-                </p>
-                <p class="mt-2 pb-[14px] text-md px-6 sm:text-left lg:right-0 relative  text-center font-medium text-gray-700">
-                  Organizations:{" "}
-                  {workshop.orgs
-                    .filter((org, i) => i < 2)
-                    .map((org, i) => {
-                      return (
-                        <span
-                          class={` ${
-                            i == 2 ? "-mt-[14px] inline pt-[16px]" : "inline"
-                          }`}
-                        >
-                          {" "}
-                          {i == 2 ? (
-                            <>
-                              {" "}
-                              <br class="inline" />{" "}
-                            </>
-                          ) : (
-                            ""
-                          )}
-                          {i != 0 && i != 2 ? "& " : ""}{" "}
-                          <img
-                            src={org.pic}
-                            class="w-8 h-8 shadow-md ml-2 mb-1 inline rounded-full"
-                          ></img>{" "}
-                          <span class="ml-1 lg:inline hidden">{org.name}</span>{" "}
-                          <span class="ml-1 lg:hidden inline">
-                            {org.name.split(" ")[0]}
-                          </span>{" "}
-                        </span>
-                      );
-                    })}
-                </p>
-              </a>
-            ))}
-
-            {/*
-
-            {experts.filter((exp) => exp.org === "UWR").length > 0 ? (
-              <>
-                {experts.filter((exp) => exp.org !== "UWR").length === 0 ? (
-                  ""
-                ) : (
-                  <hr class=" col-span-1 border-b-[1px] border-black border-dotted sm:col-span-2  lg:col-span-3 xl:col-span-4 w-[70%] mx-auto block mt-[12px] -mb-[4px]" />
-                )}
-                <h1
-                  class={`mx-auto text-center my-6 ${
-                    experts.filter((exp) => exp.org !== "UWR").length === 0
-                      ? "-mt-4"
-                      : "mt-4"
-                  } block col-span-1 sm:col-span-2  lg:col-span-3 xl:col-span-4  font-semibold text-3xl`}
+          <>
+            <div
+              class={
+                project.teamOnboarded
+                  ? "hidden"
+                  : " bg-transparent w-full absolute -mt-[80px] pb-[40px] h-full  backdrop-blur-md z-[33] rounded drop-shadow-lg"
+              }
+            >
+              <h2 class="bg-white w-[550px]    border-indigo-700 border-dashed border-2 block top-[27%] relative mx-auto px-7 pt-4 pb-5 text-2xl  rounded-lg shadow-md text-center font-bold">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-7 h-7 relative bottom-[1px] inline mr-1.5"
                 >
-                  <img
-                    src={
-                      "https://res.cloudinary.com/dp5dyhk3y/image/upload/v1663252341/IdeaStack/ybjfwajnj20mihxibyig.jpg"
-                    }
-                    alt=""
-                    className="w-[140px] mx-auto mb-4 rounded-full bottom-1 relative"
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z"
                   />
-                  <p class="block mt-3 relative top-2">
-                    Build a Robotics Project with{" "}
-                    <span class="text-gray-700">Unique World Robotics</span>
+                </svg>
+                Your team has not been onboarded
+                <div
+                  class={`bg-red-100 border-l-4 block mt-4 mb-1.5 border-red-500 text-red-700 p-4 pt-3 
+                            `}
+                  role="alert"
+                >
+                  <p class="text-sm">
+                    You may not access mentors until your listed team-members
+                    have joined IdeaStack.org with the Unique Join Code (URC)
+                    emailed to them. Team-members must complete registration!
                   </p>
-                </h1>
-                {[...experts]
-                  .filter((expert) => expert.org === "UWR")
-                  .map((expert, i) => (
-                    <a
-                      data-aos={"fade-up"}
-                      data-aos-once="true"
-                      delay={`${i % 3}00`}
-                      key={expert.id}
-                      onClick={() => {
-                        setShowExpert(true);
-                        setExpertId(expert.id);
-                      }}
-                      class={`group z-20 pointer-events-auto  rounded-md cursor-pointer`}
-                    >
-                      <div class="w-full z-20  shadow-md     overflow-hidden ">
-                        <img
-                          src={
-                            expert.pic
-                              ? expert.pic
-                              : "https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80"
-                          }
-                          alt="expert"
-                          class={`w-[270px] mx-auto shadow-xl
-                     ${
-                       expert && expert.org && expert.org === "UWR"
-                         ? "p-4 bg-white"
-                         : "p-0"
-                     }
-                        rounded-[.25rem]  h-[270px]   object-center object-cover group-hover:opacity-75`}
-                        />
-                      </div>
-                      <h3 class="mt-4 text-md sm:text-left lg:right-0 relative md:-right-14 text-center text-gray-700">
-                        {expert.role}
-                      </h3>
-                      <p class="mt-1 text-lg sm:text-left lg:right-0 relative md:-right-14 text-center font-medium text-gray-900">
-                        {expert.name}
-                      </p>
-                    </a>
-                  ))}
-              </>
+                </div>
+              </h2>
+            </div>
+
+            {project.mentorsRequested && project.mentorsRequested.length > 0 ? (
+              <div
+                class={`${
+                  project && project.mentorsRequested.length === 3
+                    ? "bg-orange-50 border-orange-500 text-orange-700"
+                    : "bg-indigo-50 border-indigo-500 text-indigo-700"
+                }  w-fit mx-auto block text-base border-l-4 -mt-6 mb-12 shadow-md relative left-1.5  p-4 pt-3 
+                            `}
+                role="alert"
+              >
+                <p class="text-sm">
+                  Your team has made{" "}
+                  <strong>{project.mentorsRequested.length} </strong>
+                  mentorship request
+                  {project.mentorsRequested.length > 1 ? "s" : ""}.{" "}
+                  <strong>{3 - project.mentorsRequested.length}</strong> out of{" "}
+                  <strong>3</strong> requests remaining for this month.
+                </p>
+              </div>
             ) : (
               ""
             )}
 
-            {experts.filter((exp) => exp.org === "MIS").length > 0 ? (
-              <>
-                {experts.filter((exp) => exp.org !== "MIS").length === 0 ? (
-                  ""
-                ) : (
-                  <hr class=" col-span-1 border-b-[1px] border-black border-dotted sm:col-span-2  lg:col-span-3 xl:col-span-4 w-[70%] mx-auto block mt-[7px]" />
-                )}
-                <h1
-                  class={`mx-auto text-center my-6 ${
-                    experts.filter((exp) => exp.org !== "MIS").length === 0
-                      ? "-mt-4"
-                      : "mt-4"
-                  } block col-span-1 sm:col-span-2  lg:col-span-3 xl:col-span-4  font-semibold text-3xl`}
+            <div class="grid grid-cols-1 lg:max-w-[1250px] lg:px-12 md:max-w-[740px] max-w-[500px] mx-auto z-30 pointer-events-none md:mb-8 mb-12 md:-mt-2 sm:mt-1 -mt-3 relative top-[8px] md:px-1 sm:px-7 px-7    sm:gap-y-12 gap-y-14 md:grid-cols-2 xl:gap-x-12 gap-x-7 lg:grid-cols-2 ">
+              {[...workshops].map((workshop, i) => (
+                <a
+                  data-aos={"fade-up"}
+                  data-aos-once="true"
+                  delay={`${i % 3}00`}
+                  key={workshop.id}
+                  onClick={() => {
+                    setShowWorkshop(true);
+                    setWorkshopId(workshop._id);
+                  }}
+                  class={`group z-20 pointer-events-auto shadow-md bg-slate-50   rounded-md cursor-pointer`}
                 >
-                  <img
-                    src={miscible}
-                    alt=""
-                    className="w-[175px] mx-auto mb-5 -mt-1 bg-white p-2 rounded-lg bottom-1 relative"
-                  />
-                  <p class="block mt-3 relative top-2">
-                    Subsidized Design Services from{" "}
-                    <span class="text-indigo-800">Miscible</span>
-                  </p>
-                  <p class="block mt-1.5 relative text-base top-2">
-                    Meet with Ms. Molly Patton{" "}
-                    <span class="text-indigo-800">
-                      {" "}
-                      & Qualify for Discounts on Professional Design!
-                    </span>
-                  </p>
-                </h1>
-                {[...experts]
-                  .filter((expert) => expert.org === "MIS")
-                  .map((expert, i) => (
-                    <a
-                      data-aos={"fade-up"}
-                      data-aos-once="true"
-                      delay={`${i % 3}00`}
-                      key={expert.id}
-                      onClick={() => {
-                        setShowExpert(true);
-                        setExpertId(expert.id);
-                      }}
-                      class={`group z-20 -mt-4 -mb-3  pointer-events-auto ${"col-span-1 sm:col-span-2   lg:col-start-2 lg:col-span-1  xl:col-span-2 xl:col-start-2"} rounded-md cursor-pointer`}
-                    >
-                      <div class="w-full z-20  shadow-xl   bg-white  overflow-hidden ">
+                  <div class="w-full z-20 py-5 bg-gray-800  ">
+                    {workshop.orgPic ? (
+                      <>
+                        <span class="text-xs text-gray-50 absolute sm:right-4 right-[10px] top-2.5 font-semibold">
+                          POWERED BY
+                        </span>
                         <img
-                          src={
-                            expert.pic
-                              ? expert.pic
-                              : "https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80"
-                          }
+                          src={workshop.orgPic}
                           alt="expert"
-                          class={`w-[270px] mx-auto 
-                     ${
-                       expert && expert.org && expert.org === "MIS"
-                         ? "p-4 bg-white"
-                         : "p-0"
-                     }
-                        rounded-[.25rem]  h-[270px]   object-center object-cover group-hover:opacity-75`}
+                          class={`sm:w-[90px] w-[80px] mx-auto shadow-sm
+                      rounded-[.25rem] ${
+                        workshop.org == "Miscible" ? "bg-gray-800" : "bg-white"
+                      }  h-auto absolute right-3 top-8   object-center object-cover`}
                         />
-                      </div>
-                      <h3 class="mt-[27px] text-lg sm:text-center lg:right-0 relative md:-right-14 text-center text-gray-700">
-                        {expert.role}
-                      </h3>
-                      <p class="mt-1 text-xl sm:text-center lg:right-0 relative md:-right-14 text-center font-medium text-gray-900">
-                        {expert.name}
-                      </p>
-                    </a>
-                  ))}
-              </>
-            ) : (
-              ""
-            )} */}
-          </div>
+                      </>
+                    ) : (
+                      ""
+                    )}
+
+                    <img
+                      src={
+                        workshop.pic
+                          ? workshop.pic
+                          : "https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80"
+                      }
+                      alt="expert"
+                      class={` ${
+                        workshop.partnerPic && workshop.partnerPic != ""
+                          ? "xl:right-0 lg:right-6 right-10 relative"
+                          : ""
+                      } mx-auto shadow-sm
+                        rounded-full border-blue-100 border my-2  lg:h-[190px] lg:w-[190px] w-[160px] h-[160px]  object-center object-cover group-hover:opacity-75`}
+                    />
+                  </div>
+                  <h3 class="mt-4 text-xl tracking-wide bg-gradient-to-r w-fit from-blue-500 to-indigo-500 text-transparent bg-clip-text px-6 sm:text-left lg:right-0 relative font-bold  text-center text-gray-900">
+                    {workshop.name}
+                  </h3>
+                  <p class="mt-2 pb-4 top-[7px] px-6 text-md sm:text-left lg:right-0 relative  text-center font-medium text-gray-700">
+                    Expertise: {workshop.expertise}
+                  </p>
+                  <p class="mt-2 pb-[14px] text-md px-6 sm:text-left lg:right-0 relative  text-center font-medium text-gray-700">
+                    Organizations:{" "}
+                    {workshop.orgs
+                      .filter((org, i) => i < 2)
+                      .map((org, i) => {
+                        return (
+                          <span
+                            class={` ${
+                              i == 2 ? "-mt-[14px] inline pt-[16px]" : "inline"
+                            }`}
+                          >
+                            {" "}
+                            {i == 2 ? (
+                              <>
+                                {" "}
+                                <br class="inline" />{" "}
+                              </>
+                            ) : (
+                              ""
+                            )}
+                            {i != 0 && i != 2 ? "& " : ""}{" "}
+                            <img
+                              src={org.pic}
+                              class="w-8 h-8 shadow-md ml-2 mb-1 inline rounded-full"
+                            ></img>{" "}
+                            <span class="ml-1 lg:inline hidden">
+                              {org.name}
+                            </span>{" "}
+                            <span class="ml-1 lg:hidden inline">
+                              {org.name.split(" ")[0]}
+                            </span>{" "}
+                          </span>
+                        );
+                      })}
+                  </p>
+                </a>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </>
