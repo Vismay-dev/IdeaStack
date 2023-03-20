@@ -134,7 +134,7 @@ const MentorProfile = () => {
         ""
       )}
 
-      <h1 class="relative mx-auto xl:-mt-12 2xl:-mb-16 xl:-mb-6 xl:py-8 xl:pt-4   lg:mb-6 md:-mt-12 md:mb-16 sm:-mt-14 sm:mb-24 -mt-10 mb-40 xs:-mt-10 xs:mb-40 px-4 text-center sm:text-6xl text-5xl font-semibold">
+      <h1 class="relative mx-auto xl:-mt-12 2xl:-mb-16 xl:-mb-6 xl:py-8 xl:pt-4   lg:mb-11 md:-mt-4 md:mb-16 sm:mt-2 sm:mb-28 -mt-10 mb-44 px-4 text-center sm:text-6xl text-5xl font-semibold">
         <span class="text-blue-600">Your</span> Profile
       </h1>
       <div class="relative xl:-mt-[295px] lg:-mt-[277px] md:-mt-[270px] sm:-mt-[300px] -mt-[310px] block max-h-80">
@@ -228,7 +228,7 @@ const MentorProfile = () => {
                       </div>
                     ) : (
                       <img
-                        class={`rounded-full -mt-16 -mb-6 w-52 h-52  object-contain border-2 border-dashed border-blue-700 bg-white  shadow-lg block ${
+                        class={`rounded-full -mt-16 -mb-6 lg:w-52 lg:h-52 sm:w-52 sm:h-52 h-48 w-48   object-contain border-2 border-dashed border-blue-700 bg-white  shadow-lg block ${
                           currentMentor.mentor.pic ? "" : "p-2 "
                         } relative`}
                         src={
@@ -247,8 +247,10 @@ const MentorProfile = () => {
                           setShowToolTip2(false);
                           removeProfPic();
                         }}
-                        className={`fas hover:cursor-pointer hover:text-orange-700  fa-trash font-semibold text-2xl absolute lg:right-0 -right-3 ${
-                          picLoading ? "bottom-5 -right-2" : "bottom-8 "
+                        className={`fas hover:cursor-pointer hover:text-orange-700  fa-trash font-semibold text-2xl absolute lg:right-0 -right-6 ${
+                          picLoading
+                            ? "bottom-5 -right-2"
+                            : "lg:bottom-8 bottom-6 "
                         } text-red-600`}
                       >
                         <Tooltip
@@ -274,7 +276,7 @@ const MentorProfile = () => {
                       }}
                       className={`fas hover:cursor-pointer hover:text-indigo-700 text-2xl fa-camera font-semibold  ${
                         currentMentor.mentor.pic
-                          ? "lg:bottom-1.5 -bottom-2 lg:right-9 right-4 absolute"
+                          ? "lg:bottom-1.5 -bottom-4 lg:right-9 right-1 absolute"
                           : "right-2 bottom-3 absolute"
                       } ${picLoading ? "mt-2" : "-mt-1"} text-gray-800`}
                     >
@@ -342,51 +344,61 @@ const MentorProfile = () => {
                 <h3 className="sm:text-4xl text-3xl font-semibold leading-normal mb-2 text-blueGray-700">
                   {currentMentor ? currentMentor.mentor.name : " "}
                 </h3>
-                <div className="text-sm leading-normal mt-6 mb-2 text-blueGray-400 font-bold uppercase">
-                  <i className="fas fa-tools relative top-[1px] mr-2 text-lg sm:text-gray-400 text-gray-500"></i>
+                <div className="text-sm leading-normal mt-6 sm:mb-2 mb-4 text-blueGray-400 font-bold uppercase">
+                  <i className="fas fa-tools relative top-[1px] mr-2  sm:text-lg text-sm sm:text-gray-400 text-gray-500"></i>
                   Expertise
-                  {" : "}
+                  {": "}
+                  <br class="sm:hidden block font-normal" />
                   {currentMentor ? currentMentor.mentor.expertise : " "}
                 </div>
 
                 <div className="text-sm border-gray-200 leading-normal mb-10 text-blueGray-400 font-bold uppercase">
-                  <i className="fas fa-map-marker-alt mr-2 top-0.5 relative text-lg text-gray-400"></i>{" "}
+                  <i className="fas fa-map-marker-alt mr-2 top-0.5 relative  sm:text-lg text-sm text-gray-400"></i>{" "}
                   {currentMentor ? currentMentor.mentor.city + ", " : " "}{" "}
                   {currentMentor ? currentMentor.mentor.country : " "}
                 </div>
 
-                <div className="mb-3 border-t-[1.5px] mt-2 pt-7 pb-4 border-gray-200 text-left  text-blueGray-600 px-4">
-                  <i className="fas fa-building mr-2 left-[3px] text-lg inline relative top-[1px] sm:text-teal-500 text-teal-600"></i>
+                <div className="mb-3 border-t-[1.5px] mt-2 sm:pt-7 pt-6 pb-4 border-gray-200 text-left  text-blueGray-600 px-4">
+                  <i className="fas fa-building mr-2 left-[3px]  sm:text-lg text-base inline relative top-[1px] sm:text-teal-500 text-teal-600"></i>
 
-                  <p class="mt-2 pb-[14px] text-md sm:text-left lg:right-0 relative inline  text-center font-medium">
-                    <strong> Organizations:</strong>{" "}
+                  <p class="sm:mt-2 mt-1 pb-[14px] lg:right-0 relative inline  font-medium">
+                    <strong class="sm:mb-0 -mb-6 sm:inline inline">
+                      {" "}
+                      Organizations:
+                    </strong>{" "}
+                    <div class="sm:hidden block mb-4" />
                     {currentMentor &&
                       currentMentor.mentor.orgs &&
                       currentMentor.mentor.orgs.map((org, i) => {
                         return (
                           <span
                             class={` ${
-                              i == 2 ? "-mt-[14px] inline pt-[16px]" : "inline"
+                              i == 2
+                                ? "sm:-mt-[14px]  inline sm:pt-[16px] pt-[24px]"
+                                : "sm:mt-0 inline"
                             } mr-2`}
                           >
                             {" "}
                             {i == 6 ? (
                               <>
                                 {" "}
-                                <br class="inline" />{" "}
+                                <br class="sm:inline hidden" />{" "}
                               </>
                             ) : (
                               ""
                             )}
-                            {i !== 0 ? " || " : ""}{" "}
+                            <div class="sm:hidden block mt-1" />{" "}
+                            <span class="sm:inline hidden">
+                              {i !== 0 ? " || " : ""}
+                            </span>{" "}
                             <img
                               src={org.pic}
-                              class="w-7 h-7 shadow-md ml-3 mb-1 inline rounded-full"
+                              class="sm:w-7 sm:h-7 w-5 h-5 shadow-md ml-3 sm:mb-1 inline rounded-full"
                             ></img>{" "}
                             <span class="ml-1 lg:inline hidden">
                               {org.name}
                             </span>{" "}
-                            <span class="ml-1 mr-2 lg:hidden inline">
+                            <span class="ml-1 mr-2 sm:bottom-0 bottom-1 sm:text-base text-sm lg:hidden inline">
                               {org.name.split(" ")[0]}
                             </span>{" "}
                           </span>
@@ -395,22 +407,22 @@ const MentorProfile = () => {
                   </p>
                 </div>
 
-                <div className="mb-3 border-t-[1.5px] mt-2 pt-7 border-gray-200 text-left  text-blueGray-600 px-4">
-                  <i className="fas fa-user-plus mr-2 text-lg sm:text-indigo-500 text-indigo-600"></i>
+                <div className="mb-3 border-t-[1.5px] mt-2 pt-7 sm:text-base text-sm border-gray-200 text-left  text-blueGray-600 px-4">
+                  <i className="fas fa-user-plus mr-2 sm:text-lg text-base sm:text-indigo-500 text-indigo-600"></i>
                   <span class="sm:font-normal font-medium">
                     <strong>Mentorship Proposition:</strong>
                   </span>{" "}
                   {currentMentor ? currentMentor.mentor.mentorshipProp : " "}
                 </div>
-                <div className="sm:mb-5 text-left border-t-[1.5px] mt-8 pt-7 border-gray-200  mb-8 text-blueGray-600 px-4">
-                  <i className="fas fa-backward mr-2  relative top-[1px] text-lg sm:text-blue-500 text-blue-600"></i>
+                <div className="sm:mb-5 text-left sm:text-base text-sm border-t-[1.5px] mt-8 pt-7 border-gray-200  mb-8 text-blueGray-600 px-4">
+                  <i className="fas fa-backward mr-2  relative top-[1px] sm:text-lg text-base sm:text-blue-500 text-blue-600"></i>
                   <span class="">
                     <strong>Background</strong>
                   </span>
                   : {currentMentor ? currentMentor.mentor.background : " "}
                 </div>
-                <div className="sm:mb-5 text-left border-t-[1.5px] mt-8 pt-7 pb-5 border-gray-200  mb-8 text-blueGray-600 px-4">
-                  <i className="fas fa-fire mr-2 relative top-[1px] text-lg sm:text-orange-400 text-orange-500"></i>
+                <div className="sm:mb-5 text-left sm:text-base text-sm border-t-[1.5px] mt-8 sm:pt-7 pt-6 sm:pb-5 pb-0 border-gray-200  mb-8 text-blueGray-600 px-4">
+                  <i className="fas fa-fire mr-2 relative top-[1px] sm:text-lg text-base sm:text-orange-400 text-orange-500"></i>
                   <span class="sm:font-normal font-medium">
                     <strong>Strengths</strong>
                   </span>

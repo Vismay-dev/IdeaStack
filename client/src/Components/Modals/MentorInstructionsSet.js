@@ -106,10 +106,10 @@ const MentorInstructionsSet = (props) => {
                 <div>
                   <p class="text-lg  text-gray-500">
                     {/* form starts here */}
-                    <div class="right-2 min-h-full items-center justify-center py-3 px-5 sm:px-6 lg:px-5">
+                    <div class="sm:right-0 -right-2 min-h-full relative items-center justify-center py-3 px-5 sm:px-6 lg:px-5">
                       <div class="w-full  space-y-8">
                         <div class="w-full  mx-auto block ">
-                          <h1 class="-mt-2.5 text-center mb-6 text-black font-bold text-2xl">
+                          <h1 class="sm:-mt-2.5 mt-1.5 text-center mb-6 text-black font-bold text-2xl">
                             {props.type === "create"
                               ? "Set Instructions"
                               : "Edit Instructions"}
@@ -132,7 +132,7 @@ const MentorInstructionsSet = (props) => {
                               : ""}
                           </h1>
 
-                          <div role="alert" class="px-12">
+                          <div role="alert" class="sm:px-12 px-4">
                             <textarea
                               value={instructions}
                               onChange={(e) => {

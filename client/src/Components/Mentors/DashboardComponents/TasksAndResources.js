@@ -29,13 +29,13 @@ const TasksAndResources = (props) => {
         ""
       )}
 
-      <div class="object-center  w-[90%] bg-white shadow-md rounded-md pt-4 mb-12  relative mx-auto block ">
-        <p className="text-center tracking-wide top-2 mt-2 mb-6 block text-4xl font-bold relative">
+      <div class="object-center  sm:w-[90%] w-[100%] bg-white h-fit md:pb-0 sm:pb-14 pb-0  shadow-md rounded-md pt-4 sm:mb-12 mb-24 right-2 relative mx-auto block ">
+        <p className="text-center tracking-wide top-2 mt-2 mb-6 sm:px-3 px-6 block md:text-4xl sm:text-3xl text-2xl  font-bold relative">
           Tasks and Resources:
         </p>
-        <p class="mb-1 mt-2 block text-center font-semibold text-xl">
+        <p class="mb-1 mt-2 block text-center font-semibold sm:text-xl text-lg">
           <img
-            class="rounded-full h-8 w-8 inline mr-2 border-gray-300 border-[0.5px] "
+            class="rounded-full sm:h-8 sm:w-8 h-7 w-7 inline mr-2 border-gray-300 border-[0.5px] "
             src={props.mentor.pic}
           ></img>
           <span class=" bg-clip-text mx-auto text-transparent from-indigo-500 to-blue-500 bg-gradient-to-br ">
@@ -55,7 +55,7 @@ const TasksAndResources = (props) => {
             <br />
 
             <>
-              <h3 class="font-bold text-center mx-auto uppercase sm:mb-3 mb-6 -mt-2 relative text-lg xl:px-10 px-8">
+              <h3 class="font-bold text-center mx-auto uppercase sm:mb-3 mb-6 -mt-2 relative sm:text-lg text-base xl:px-10 px-8">
                 {" "}
                 <span class="text-gray-700">Upload Document</span>
               </h3>
@@ -69,7 +69,7 @@ const TasksAndResources = (props) => {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="h-24 w-24 bg-green-700 text-white p-4 rounded-md shadow-md active:shadow-sm hover:shadow-xl cursor-pointer my-[18px]  block mx-auto"
+                class="sm:h-24 sm:w-24 h-20 w-20 bg-green-700 text-white p-4 rounded-md shadow-md active:shadow-sm hover:shadow-xl cursor-pointer my-[18px]  block mx-auto"
               >
                 <path
                   stroke-linecap="round"
@@ -78,14 +78,14 @@ const TasksAndResources = (props) => {
                 />
               </svg>
 
-              <p class="text-sm sm:text-gray-600 text-gray-800 mt-6 mb-2 w-fit bg-gray-50 p-2 px-3  border-gray-200  border-[1px] rounded-md  sm:font-semibold font-normal leading-5  mx-auto relative block ">
+              <p class="lg:text-sm text-xs text-center sm:text-gray-600 text-gray-800 mt-6 mb-2 md:w-fit sm:w-[80%] w-[90%] bg-gray-50 p-2 px-3  border-gray-200  border-[1px] rounded-md  sm:font-semibold font-normal leading-5  mx-auto relative block ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  class="w-5 h-5 text-gray-700 inline mr-[5px] relative bottom-[0.9px]"
+                  class="lg:w-5 lg:h-5 w-4 h-4 text-gray-700 inline mr-[5px] relative bottom-[0.8px]"
                 >
                   <path
                     stroke-linecap="round"
@@ -93,15 +93,15 @@ const TasksAndResources = (props) => {
                     d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
                   />
                 </svg>
-                Upload documents to complete assignments set by your mentor, as
-                mentioned in meetings.{" "}
+                Upload documents to complete assignments set by your mentor
+                <p class="sm:inline hidden">, as mentioned in meetings.</p>{" "}
               </p>
             </>
 
             <hr class="my-7 mt-8 border-t-1.5 border-gray-200" />
 
             <>
-              <h3 class="font-bold text-center mx-auto uppercase sm:mb-3 mb-6 relative text-lg xl:px-10 px-8">
+              <h3 class="font-bold text-center mx-auto uppercase sm:mb-3 mb-6 relative sm:text-lg text-base xl:px-10 px-8">
                 {" "}
                 <span class="text-gray-700">
                   View Task Uploads & Reference Documents
@@ -122,7 +122,7 @@ const TasksAndResources = (props) => {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="h-24 w-24 bg-blue-700 text-white p-4 rounded-md shadow-md active:shadow-sm hover:shadow-xl cursor-pointer my-[18px]  block mx-auto"
+                class="sm:h-24 sm:w-24 h-20 w-20 bg-blue-700 text-white p-4 rounded-md shadow-md active:shadow-sm hover:shadow-xl cursor-pointer my-[18px]  block mx-auto"
               >
                 <path
                   stroke-linecap="round"
@@ -131,14 +131,14 @@ const TasksAndResources = (props) => {
                 />
               </svg>
 
-              <p class="text-sm sm:text-gray-600 text-gray-800 mt-6 mb-2 w-fit bg-gray-50 p-2 px-3  border-gray-200  border-[1px] rounded-md  sm:font-semibold font-normal leading-5  mx-auto relative block ">
+              <p class="lg:text-sm text-xs text-center md:w-fit sm:w-[80%] w-[90%] sm:text-gray-600 text-gray-800 mt-6 mb-2 bg-gray-50 p-2 px-3  border-gray-200  border-[1px] rounded-md  sm:font-semibold font-normal leading-5  mx-auto relative block ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  class="w-5 h-5 text-gray-700 inline mr-[5px] relative bottom-[0.9px]"
+                  class="lg:w-5 lg:h-5 w-4 h-4 text-gray-700 inline mr-[5px] relative bottom-[0.9px]"
                 >
                   <path
                     stroke-linecap="round"
@@ -146,14 +146,20 @@ const TasksAndResources = (props) => {
                     d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
                   />
                 </svg>
-                View reference documents uploaded by your mentor to aid you in
-                completing assignments.{" "}
+                <p class="sm:inline hidden">
+                  {" "}
+                  View reference documents uploaded by your mentor to aid you in
+                  completing assignments.
+                </p>
+                <p class="sm:hidden inline">
+                  Reference documents to aid you in completing assignments.
+                </p>{" "}
               </p>
             </>
 
             <hr class="my-7 mt-8 border-t-1.5 border-gray-200" />
-            <>
-              <h3 class="font-bold text-center mx-auto uppercase xl:mt-5 mt-6 sm:mb-3 mb-6 relative text-lg xl:px-10 px-8">
+            <div class="sm:shadow-none sm:bg-transparent bg-white rounded-bottom-md pb-8 shadow-md">
+              <h3 class="font-bold text-center mx-auto uppercase xl:mt-5 mt-6 sm:mb-3 mb-6 relative sm:text-lg text-base xl:px-10 px-8">
                 <span class="text-gray-700">View Mentor's Resources</span> (
                 {props.mentor.materials.otherDocs.length})
               </h3>
@@ -168,7 +174,7 @@ const TasksAndResources = (props) => {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="h-24 w-24 bg-blue-700 text-white p-4 rounded-md shadow-md active:shadow-sm hover:shadow-xl cursor-pointer my-[18px]  block mx-auto"
+                class="sm:h-24 sm:w-24 h-20 w-20 bg-blue-700 text-white p-4 rounded-md shadow-md active:shadow-sm hover:shadow-xl cursor-pointer my-[18px]  block mx-auto"
               >
                 <path
                   stroke-linecap="round"
@@ -177,14 +183,14 @@ const TasksAndResources = (props) => {
                 />
               </svg>
 
-              <p class="text-sm sm:text-gray-600 text-gray-800 mt-6 mb-2 w-fit bg-gray-50 p-2 px-3  border-gray-200  border-[1px] rounded-md  sm:font-semibold font-normal leading-5  mx-auto relative block ">
+              <p class="lg:text-sm text-xs text-center md:w-fit sm:w-[80%] w-[90%] sm:text-gray-600 text-gray-800 mt-6 mb-2 bg-gray-50 p-2 px-3  border-gray-200  border-[1px] rounded-md  sm:font-semibold font-normal leading-5  mx-auto relative block ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  class="w-5 h-5 text-gray-700 inline mr-[5px] relative bottom-[0.9px]"
+                  class="lg:w-5 lg:h-5 w-4 h-4 text-gray-700 inline mr-[5px] relative bottom-[0.9px]"
                 >
                   <path
                     stroke-linecap="round"
@@ -192,10 +198,10 @@ const TasksAndResources = (props) => {
                     d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
                   />
                 </svg>
-                View exclusive resources/theory/recordings/links etc. provided
-                by your mentor.{" "}
+                View exclusive resources/theory/recordings/links etc.
+                <p class="sm:inline hidden"> provided by your mentor.</p>{" "}
               </p>
-            </>
+            </div>
           </div>
         </div>
       </div>

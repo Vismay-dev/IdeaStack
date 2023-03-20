@@ -115,7 +115,7 @@ const AllCourseDetails = (props) => {
           class="pr-6 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mt-5 sm:align-middle md:w-10/12 w-[95%]"
         >
           <div class="bg-white sm:px-4 px-1 pt-2 pb-2 sm:p-6 sm:pb-4">
-            <p class="text-center md:text-3xl text-2xl  mt-2 mb-4 left-1.5 font-bold relative">
+            <p class="text-center md:text-3xl text-2xl px-6 sm:mt-2 mt-5 mb-4 left-1.5 font-bold relative">
               {props.viewType === "startupDocs"
                 ? "Docs Uploaded By Startup Team"
                 : props.viewType === "mentorDocs"

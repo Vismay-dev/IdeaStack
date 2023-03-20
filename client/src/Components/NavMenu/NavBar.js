@@ -706,7 +706,7 @@ const NavBar = (props) => {
                     localStorage.removeItem("viewToken");
                     window.close();
                   }}
-                  className="ml-5 whitespace-nowrap order-2 lg:left-0 sm:left-[135px] -left-[5px] md:left-8  lg:bottom-0 md:bottom-2.5 sm:-bottom-2 -bottom-0.5   relative inline-flex uppercase items-center justify-center lg:px-3 sm:px-2 px-2.5 py-2 md:pb-2.5 sm:py-2 pt-1.5 pb-2  border border-transparent rounded-md shadow-sm text-base   font-semibold hover:cursor-pointer hover:shadow-lg  text-white bg-gradient-to-r from-blue-300 to-blue-500 hover:from-indigo-300 hover:to-indigo-500 active:bg-blue-500"
+                  className="sm:ml-5 mx-auto whitespace-nowrap order-2 lg:left-0 sm:left-[135px]  md:left-8  lg:bottom-0 md:bottom-2.5 sm:-bottom-2  relative inline-flex uppercase items-center justify-center lg:px-3 sm:px-2 px-2.5 py-2 md:pb-2.5 sm:py-2 pt-1.5 pb-2  border border-transparent rounded-md shadow-sm text-base   font-semibold hover:cursor-pointer hover:shadow-lg  text-white bg-gradient-to-r from-blue-300 to-blue-500 hover:from-indigo-300 hover:to-indigo-500 active:bg-blue-500"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

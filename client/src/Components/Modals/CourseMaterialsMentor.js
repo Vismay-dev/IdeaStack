@@ -96,13 +96,17 @@ const CourseMaterials = (props) => {
     <div class="left-2 mt-5 relative w-full">
       <div class="bg-gradient-to-r from-blue-100 to-indigo-200 pt-4 left-1.5 relative  mt-7 rounded-md shadow-lg pb-11  sm:px-7  px-3">
         <>
+          <p class="xl:hidden block mx-auto text-center mt-5 mb-10 md:text-base sm:text-sm text-xs relative sm:px-16 px-1.5  ">
+            <strong class="underline">Note:</strong> Horizontally scroll
+            panels/rows to see more details on each document
+          </p>
           <div class="mt-[24px]">
             {props.viewType === "startupDocs" ? (
               <>
-                <h1 class="text-center font-bold -mt-1 text-2xl mb-2">
+                <h1 class="text-center font-bold md:-mt-1 -mt-4 sm:text-2xl text-xl mb-2">
                   Task/Assignment Submissions:
                 </h1>
-                <h2 class="text-sm uppercase text-center font-bold text-blue-700 mb-8">
+                <h2 class="sm:text-sm text-xs uppercase text-center font-bold text-blue-700 sm:mt-0 mt-3 mb-8">
                   Docs Uploaded By Startup Team for Tasks/Assignments
                 </h2>
 
@@ -177,8 +181,8 @@ const CourseMaterials = (props) => {
                                     />
                                   </div>
                                 </td>
-                                <td class="-mr-[110px] ml-[85px] top-6 block relative">
-                                  <div class="flex items-center pl-20">
+                                <td class="xl:-mr-[110px] md:-mr-[80px] -mr-[20px] ml-[85px] top-6 block relative">
+                                  <div class="flex items-center xl:pl-16 md:pl-10 pl-2">
                                     <p class="text-sm font-medium hover:underline hover:text-blue-700 leading-none text-gray-700 mr-2">
                                       {material.title}
                                     </p>
@@ -261,10 +265,10 @@ const CourseMaterials = (props) => {
                   </div>
                 )}
 
-                <h1 class="text-center font-bold -mt-1 text-2xl mb-2">
+                <h1 class="text-center font-bold -mt-1 sm:text-2xl text-xl mb-2">
                   General Startup Documents:
                 </h1>
-                <h2 class="text-sm uppercase text-center font-bold text-blue-700 mb-8">
+                <h2 class="sm:text-sm text-xs uppercase text-center font-bold text-blue-700 sm:mt-0 mt-3 mb-8">
                   All Public Files Relating to Startup
                 </h2>
 
@@ -341,7 +345,7 @@ const CourseMaterials = (props) => {
 
                                 <td>
                                   <div class="ml-5">
-                                    <div class="rounded-sm w-5 -mr-2  h-5 left-9 flex flex-shrink-0 justify-center items-center relative">
+                                    <div class="rounded-sm w-5 xl:-mr-2 lg:mr-2 md:mr-4 mr-4  h-5 left-9 flex flex-shrink-0 justify-center items-center relative">
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="h-6 w-6 top-[0.5px] relative text-blue-600"
@@ -482,10 +486,10 @@ const CourseMaterials = (props) => {
               </>
             ) : (
               <>
-                <h1 class="text-center font-bold -mt-1 text-2xl mb-2">
+                <h1 class="text-center font-bold md:-mt-1 -mt-4 sm:text-2xl text-xl mb-2">
                   Mentorship Resources For Startup:
                 </h1>
-                <h2 class="text-sm uppercase text-center font-bold text-blue-700 mb-8">
+                <h2 class="sm:text-sm text-xs uppercase text-center font-bold text-blue-700 sm:mt-0 mt-3 mb-8">
                   Theory/Case-Studies Uploaded For Mentee Reference
                 </h2>
 
@@ -549,7 +553,7 @@ const CourseMaterials = (props) => {
                                 <td>
                                   <div class="ml-5 pl-[10px] -mr-20">
                                     <img
-                                      class="object-cover w-10 h-10 shadow-md mx-2  relative right-1 rounded-full block"
+                                      class="object-cover w-10 h-10 shadow-md mx-2 xl:mr-2 lg:mr-5 mr-20  relative right-1 rounded-full block"
                                       src={
                                         material.uploaderPic
                                           ? material.uploaderPic
@@ -559,7 +563,7 @@ const CourseMaterials = (props) => {
                                     />
                                   </div>
                                 </td>
-                                <td class="-mr-[100px] ml-[30px] top-6 block relative">
+                                <td class="xl:-mr-[100px] lg:-mr-[50px] mr-[20px] lg:ml-[30px] ml-[0px] top-6 block relative">
                                   <div class="flex items-center pl-20">
                                     <p class="text-sm font-medium hover:underline hover:text-blue-700 leading-none text-gray-700 mr-2">
                                       {material.title}
@@ -567,7 +571,7 @@ const CourseMaterials = (props) => {
                                   </div>
                                 </td>
 
-                                <td class="pl-5">
+                                <td class="xl:pl-5 pl-1">
                                   <div class="flex relative -mr-3 left-4 items-center">
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
@@ -589,8 +593,8 @@ const CourseMaterials = (props) => {
                                   </div>
                                 </td>
 
-                                <td class="pl-5 -mr-3 relative">
-                                  <div class="flex items-center relative left-5 -mr-10">
+                                <td class="pl-5 xl:-mr-3 lg:mr-0 mr-6 relative">
+                                  <div class="flex items-center relative xl:left-5 left-8 xl:-mr-10 lg:-mr-5 mr-0">
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       class="h-5 w-5 top-[1px]"
@@ -620,7 +624,7 @@ const CourseMaterials = (props) => {
                                       material.uploadedBy === mentor.name
                                         ? "text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200 shadow-sm hover:shadow-md active:shadow-sm"
                                         : " bg-gray-300 text-white"
-                                    } text-sm focus:outline-none   leading-none relative left-20 -mr-14 rounded`}
+                                    } text-sm focus:outline-none   leading-none relative  left-14  lg:-mr-7 -mr-5 rounded`}
                                   >
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
@@ -639,7 +643,7 @@ const CourseMaterials = (props) => {
                                     Delete
                                   </button>
                                 </td>
-                                <td class="pl-1">
+                                <td class="xl:pl-5 pl-8">
                                   <button
                                     onClick={() => {
                                       downloadResource(
@@ -648,7 +652,7 @@ const CourseMaterials = (props) => {
                                         "otherDocs"
                                       );
                                     }}
-                                    class="focus:ring-2 focus:ring-offset-2 shadow-sm hover:shadow-md active:shadow-sm focus:ring-red-300 text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded  relative left-16 xl:-mr-10 -mr-6 ml-8 hover:bg-gray-200 focus:outline-none"
+                                    class="focus:ring-2 focus:ring-offset-2 shadow-sm hover:shadow-md active:shadow-sm focus:ring-red-300 text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded  relative left-16 xl:-mr-10 lg:-mr-2 mr-20 hover:bg-gray-200 focus:outline-none"
                                   >
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
@@ -675,10 +679,10 @@ const CourseMaterials = (props) => {
                   </div>
                 )}
 
-                <h1 class="text-center font-bold -mt-1 text-2xl mb-2">
+                <h1 class="text-center font-bold -mt-1 sm:text-2xl text-xl mb-2">
                   Task/Assignment References For Mentees:
                 </h1>
-                <h2 class="text-sm uppercase text-center font-bold text-blue-700 mb-8">
+                <h2 class="sm:text-sm text-xs uppercase text-center font-bold text-blue-700 sm:mt-0 mt-3 mb-8">
                   Documents To Guide Mentees for Task Completion
                 </h2>
 
@@ -743,7 +747,7 @@ const CourseMaterials = (props) => {
                                 <td>
                                   <div class="ml-5 pl-[10px] -mr-20">
                                     <img
-                                      class="object-cover w-10 h-10 shadow-md mx-2  relative right-1 rounded-full block"
+                                      class="object-cover w-10 h-10 shadow-md mx-2 xl:mr-2 lg:mr-5 mr-20  relative right-1 rounded-full block"
                                       src={
                                         material.uploaderPic
                                           ? material.uploaderPic
@@ -753,7 +757,7 @@ const CourseMaterials = (props) => {
                                     />
                                   </div>
                                 </td>
-                                <td class="-mr-[100px] ml-[30px] top-6 block relative">
+                                <td class="xl:-mr-[100px] lg:-mr-[50px] mr-[20px] lg:ml-[30px] ml-[0px] top-6 block relative">
                                   <div class="flex items-center pl-20">
                                     <p class="text-sm font-medium hover:underline hover:text-blue-700 leading-none text-gray-700 mr-2">
                                       {material.title}
@@ -761,7 +765,7 @@ const CourseMaterials = (props) => {
                                   </div>
                                 </td>
 
-                                <td class="pl-5">
+                                <td class="xl:pl-5 pl-1">
                                   <div class="flex relative -mr-3 left-4 items-center">
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
@@ -783,8 +787,8 @@ const CourseMaterials = (props) => {
                                   </div>
                                 </td>
 
-                                <td class="pl-5 -mr-3 relative">
-                                  <div class="flex items-center relative left-5 -mr-10">
+                                <td class="pl-5 xl:-mr-3 lg:mr-0 mr-4 relative">
+                                  <div class="flex items-center relative xl:left-5 left-8 xl:-mr-10 lg:-mr-5 mr-0">
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       class="h-5 w-5 top-[1px]"
@@ -805,7 +809,7 @@ const CourseMaterials = (props) => {
                                   </div>
                                 </td>
 
-                                <td class={`pl-1`}>
+                                <td class={`pl-5`}>
                                   <button
                                     onClick={() => {
                                       deleteFile(i, "taskRefs");
@@ -814,7 +818,7 @@ const CourseMaterials = (props) => {
                                       material.uploadedBy === mentor.name
                                         ? "text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200 shadow-sm hover:shadow-md active:shadow-sm"
                                         : " bg-gray-300 text-white"
-                                    } text-sm focus:outline-none   leading-none relative left-20 -mr-14 rounded`}
+                                    } text-sm focus:outline-none   leading-none relative left-14 lg:-mr-[72px] -mr-12  rounded`}
                                   >
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
@@ -833,12 +837,12 @@ const CourseMaterials = (props) => {
                                     Delete
                                   </button>
                                 </td>
-                                <td class="pl-1">
+                                <td class="xl:pl-5 pl-8">
                                   <button
                                     onClick={() => {
                                       downloadResource(material, i, "taskRefs");
                                     }}
-                                    class="focus:ring-2 focus:ring-offset-2 shadow-sm hover:shadow-md active:shadow-sm focus:ring-red-300 text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded  relative left-16 xl:-mr-10 -mr-6 ml-8 hover:bg-gray-200 focus:outline-none"
+                                    class="focus:ring-2 focus:ring-offset-2 shadow-sm hover:shadow-md active:shadow-sm focus:ring-red-300 text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded  relative left-16 xl:-mr-10 lg:-mr-2 mr-20 ml-8 hover:bg-gray-200 focus:outline-none"
                                   >
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"

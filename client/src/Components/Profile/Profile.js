@@ -169,7 +169,7 @@ const Profile = () => {
         ""
       )}
 
-      <h1 class="relative mx-auto xl:-mt-12 2xl:-mb-16 xl:-mb-6 xl:py-8 xl:pt-4   lg:mb-6 md:-mt-12 md:mb-16 sm:-mt-14 sm:mb-24 -mt-10 mb-40 xs:-mt-10 xs:mb-40 px-4 text-center sm:text-6xl text-5xl font-semibold">
+      <h1 class="relative mx-auto xl:-mt-12 2xl:-mb-16 xl:-mb-6 xl:py-8 xl:pt-4   lg:mb-8 lg:-mt-10 md:-mt-12 md:mb-16 sm:-mt-10 sm:mb-28 -mt-8 mb-40 px-4 text-center sm:text-6xl text-5xl font-semibold">
         <span class="text-blue-600">Your</span> Profile
       </h1>
       <div class="relative xl:-mt-[295px] lg:-mt-[277px] md:-mt-[270px] sm:-mt-[300px] -mt-[310px] block max-h-80">
@@ -263,7 +263,7 @@ const Profile = () => {
                       </div>
                     ) : (
                       <img
-                        class={`rounded-full -mt-16 -mb-6 w-52 h-52  object-contain bg-white  shadow-lg block ${
+                        class={`rounded-full -mt-16 -mb-6 lg:w-52 lg:h-52 sm:w-52 sm:h-52 h-48 w-48 object-contain bg-white  shadow-lg block ${
                           currentUser.user.profilePic ? "" : "p-2 "
                         } relative`}
                         src={
@@ -282,8 +282,10 @@ const Profile = () => {
                           setShowToolTip2(false);
                           removeProfPic();
                         }}
-                        className={`fas hover:cursor-pointer hover:text-orange-700  fa-trash font-semibold text-2xl absolute lg:right-0 -right-3 ${
-                          picLoading ? "bottom-5 -right-2" : "bottom-8 "
+                        className={`fas hover:cursor-pointer hover:text-orange-700  fa-trash font-semibold text-2xl absolute lg:right-0 -right-6 ${
+                          picLoading
+                            ? "bottom-5 -right-2"
+                            : "lg:bottom-8 bottom-6"
                         } text-red-600`}
                       >
                         <Tooltip
@@ -309,7 +311,7 @@ const Profile = () => {
                       }}
                       className={`fas hover:cursor-pointer hover:text-indigo-700 text-2xl fa-camera font-semibold  ${
                         currentUser.user.profilePic
-                          ? "lg:bottom-1.5 -bottom-2 lg:right-9 right-4 absolute"
+                          ? "lg:bottom-1.5 -bottom-4 lg:right-9 right-1 absolute"
                           : "right-2 bottom-3 absolute"
                       } ${picLoading ? "mt-2" : "-mt-1"} text-gray-800`}
                     >

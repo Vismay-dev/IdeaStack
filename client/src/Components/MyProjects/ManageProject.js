@@ -331,7 +331,7 @@ export default function ManageProject() {
             <h2
               class={`text-center tracking-wide font-bold sm:text-5xl text-4xl  text-gray-800 top-1 relative  mt-12 
                
-                   -mb-1
+                   mb-4
                `}
             >
               <svg
@@ -354,14 +354,14 @@ export default function ManageProject() {
               </p>
             </h2>
 
-            <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 xl:left-0 left-0.5  relative justify-center mx-auto sm:px-[60px] px-[18px] lg:mt-[63px] mt-[45px] mb-2  xl:gap-5 gap-9 ">
+            <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 xl:left-0 left-0.5  relative justify-center mx-auto lg:px-[60px]  md:px-[160px] sm:px-[70px] px-[30px] lg:mt-[63px] mt-[45px] mb-2  xl:gap-5 gap-9 ">
               <div
                 data-aos={"fade-up"}
                 data-aos-once="true"
-                class={`w-full relative lg:h-[480px] mt-1 xl:h-[530px] col-span-1  `}
+                class={`w-full relative lg:h-[520px] mt-1 xl:h-[530px] col-span-1  `}
               >
                 <div
-                  class={`rounded-lg shadow-lg bg-gradient-to-r border-[1px] border-blue-600 lg:h-[480px] xl:h-[530px]  from-blue-50 to-indigo-100 h-fit overflow-hidden mb-0`}
+                  class={`rounded-lg shadow-lg bg-gradient-to-r border-[1px] border-blue-600 lg:h-[520px] xl:top-0 lg:-top-[3px] relative xl:h-[530px]  from-blue-50 to-indigo-100 h-fit overflow-hidden mb-0`}
                 >
                   <img
                     src={
@@ -378,7 +378,7 @@ export default function ManageProject() {
                     ) : (
                       <button
                         onClick={() => setEditing(true)}
-                        class="relative xl:-top-1 flex justify-start -mb-[34px] rounded-md shadow-md hover:shadow-xl active:shadow-sm sm:left-0 -left-1.5 font-semibold text-white bg-blue-600 hover:bg-blue-700 sm:text-base text-sm p-1 sm:px-3 px-2"
+                        class="relative xl:-top-1 sm:left-0 sm:top-0 -top-3  -left-6 flex justify-start -mb-[34px] rounded-md shadow-md hover:shadow-xl active:shadow-sm  font-semibold text-white bg-blue-600 hover:bg-blue-700 sm:text-base text-sm p-1 sm:px-3 px-2"
                       >
                         EDIT
                       </button>
@@ -406,7 +406,7 @@ export default function ManageProject() {
                         {date ? date : ""}
                       </span>
                     </h3>
-                    <p class="text-base text-body-color mt-4 lg:w-full xl:w-[320px]  md:w-[590px] md:block md:mx-auto md:justify-center md:text-center leading-relaxed mb-7">
+                    <p class="text-base text-body-color mt-4 lg:w-full xl:w-[320px]  md:w-full  md:block md:mx-auto md:justify-center md:text-center leading-relaxed mb-7">
                       {projectCurr.project ? projectCurr.project.problem : ""}
                       <br />
                       <p class="relative top-3 xl:top-7 -mb-5">
@@ -428,9 +428,9 @@ export default function ManageProject() {
                 class={`w-full  relative h-fit lg:h-[480px] xl:h-[530px] col-span-1`}
               >
                 <div
-                  class={`rounded-lg shadow-lg bg-gradient-to-r  border-[1px] border-blue-600 h-fit lg:h-[480px] xl:h-[530px]  from-blue-50 to-indigo-200 overflow-hidden mb-0`}
+                  class={`rounded-lg shadow-lg bg-gradient-to-r  border-[1px] border-blue-600 h-fit lg:h-[520px] xl:h-[530px]  from-blue-50 to-indigo-200 overflow-hidden mb-0`}
                 >
-                  <div class="xl:h-[174px] lg:h-[168px] sm:h-[152px] h-[160px] sm:pt-1.5 xl:pb-7 pt-0">
+                  <div class="xl:h-[174px] lg:h-[168px]  sm:h-[170px] h-[165px] sm:pt-1.5 xl:pb-7 pt-0">
                     <p className="text-center top-4 text-xl font-semibold relative mb-1">
                       Workshops Attended:{" "}
                     </p>
@@ -442,9 +442,9 @@ export default function ManageProject() {
                       (Workshop Events - Coming Soon!)
                     </p>
                   </div>
-                  <div class=" sm:pt-0.5 sm:pb-11 pt-0.5  lg:pt-0.5 xl:pt-1 pb-[34px]  xl:h-[187px] h-fit  bg-gradient-to-r from-gray-50 to-slate-50 text-center">
+                  <div class=" sm:pt-0.5 lg:pb-10 pb-10   pt-0  lg:pt-0.5 xl:pt-1  xl:h-[187px] h-fit  bg-gradient-to-r from-gray-50 to-slate-50 text-center">
                     <p className="text-center top-4 text-xl font-semibold relative sm:px-[85px] px-10">
-                      Mentors/Advisors Matched:{" "}
+                      Mentors Matched:{" "}
                     </p>
                     <br />
                     <h1
@@ -488,7 +488,7 @@ export default function ManageProject() {
                       Documents Uploaded:{" "}
                     </p>
                     <br />
-                    <h1 className="text-center -top-1.5 mt-2.5 mb-1.5 relative text-4xl text-blue-700">
+                    <h1 className="text-center -top-1.5 xl:mt-2.5 mt-1.5 mb-1.5 relative text-4xl text-blue-700">
                       {project && project.documents
                         ? project.documents.length
                         : " "}
@@ -497,7 +497,9 @@ export default function ManageProject() {
                       Latest Document Uploaded On:{" "}
                       <span class="text-indigo-500 font-semibold">
                         {dateOfUpload
-                          ? new Date(dateOfUpload.date).toDateString()
+                          ? new Date(dateOfUpload.date)
+                              .toDateString()
+                              .substring(0, 10)
                           : "No Document Uploaded"}
                       </span>
                     </p>

@@ -670,7 +670,7 @@ const EditMentorInfo = (props) => {
                           currentMentor ? currentMentor.mentor.strengths[0] : ""
                         }
                         value={mentor ? mentor.strengths[0] : ""}
-                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
+                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md text-sm border-gray-300 rounded-md"
                       />
                     </div>
 
@@ -690,7 +690,7 @@ const EditMentorInfo = (props) => {
                           currentMentor ? currentMentor.mentor.strengths[1] : ""
                         }
                         value={mentor ? mentor.strengths[1] : ""}
-                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2 bg-white   shadow-md sm:text-sm border-gray-300 rounded-md"
+                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2 bg-white   shadow-md text-sm border-gray-300 rounded-md"
                       />
                     </div>
 
@@ -710,7 +710,7 @@ const EditMentorInfo = (props) => {
                           currentMentor ? currentMentor.mentor.strengths[2] : ""
                         }
                         value={mentor ? mentor.strengths[2] : ""}
-                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2 bg-white   shadow-md sm:text-sm border-gray-300 rounded-md"
+                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2 bg-white   shadow-md text-sm border-gray-300 rounded-md"
                       />
                     </div>
                   </div>

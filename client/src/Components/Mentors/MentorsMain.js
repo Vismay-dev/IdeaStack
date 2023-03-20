@@ -17,7 +17,7 @@ export default function Mentors() {
 
   return (
     <>
-      <div class="block mx-auto text-center px-3 pt-16 mb-3 rounded-lg">
+      <div class="block mx-auto text-center px-3 pt-16 sm:mb-3 -mb-2.5 rounded-lg">
         <a
           onClick={() => {
             history.push("/mentorship/yourmentor");
@@ -26,7 +26,7 @@ export default function Mentors() {
             location.pathname.split("/").includes("yourmentor")
               ? "bg-blue-700 text-gray-100 border-blue-700 border shadow-md"
               : "bg-white shadow-md  text-gray-800"
-          } hover:cursor-pointer sm:normal-case uppercase hover:bg-blue-700 hover:border-r-indigo-50  hover:shadow-sm hover:border-blue-700 inline-flex items-center justify-center sm:rounded-l-lg sm:rounded-r-none rounded-t-lg border py-[10px] px-[30px] text-center text-base font-semibold  transition-all hover:text-gray-100 sm:py-4 sm:px-[60px]`}
+          } hover:cursor-pointer normal-case hover:bg-blue-700 hover:border-r-indigo-50  hover:shadow-sm hover:border-blue-700 inline-flex items-center justify-center rounded-l-lg rounded-r-none border py-[10px] px-[20px] sm:px-[60px] text-center sm:text-base text-sm font-semibold  transition-all hover:text-gray-100 sm:py-4 `}
         >
           <span class="pr-2">
             <svg
@@ -41,7 +41,6 @@ export default function Mentors() {
           </span>
           Your Mentor
         </a>
-        <br class="sm:hidden block" />
         <a
           onClick={() => {
             history.push("/mentorship/bookworkshops");
@@ -51,7 +50,7 @@ export default function Mentors() {
             location.pathname === "/mentorship/bookworkshops"
               ? "bg-blue-700 border-blue-700 text-gray-100 border shadow-md"
               : "bg-white shadow-md text-gray-800"
-          } hover:cursor-pointer sm:normal-case uppercase hover:bg-blue-700 hover:shadow-sm hover:border-l-indigo-50 hover:border-blue-700 active:border-blue-700 inline-flex items-center justify-center sm:rounded-r-lg sm:rounded-l-none  rounded-b-lg  border py-[10px] px-[25px] text-center text-base font-semibold  transition-all hover:text-gray-100 sm:py-4 sm:px-[60px]`}
+          } hover:cursor-pointer normal-case hover:bg-blue-700 hover:shadow-sm hover:border-l-indigo-50 hover:border-blue-700 active:border-blue-700 inline-flex items-center justify-center rounded-r-lg rounded-l-none border py-[10px] px-[20px] sm:px-[60px] text-center sm:text-base text-sm font-semibold  transition-all hover:text-gray-100 sm:py-4`}
         >
           <span class="pr-2">
             <svg

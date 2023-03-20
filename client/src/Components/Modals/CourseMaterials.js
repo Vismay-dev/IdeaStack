@@ -90,15 +90,15 @@ const CourseMaterials = (props) => {
     <div class="left-2 mt-5 relative w-full">
       <div class="bg-gradient-to-r from-blue-100 to-indigo-200 pt-4 left-1.5 relative  mt-7 rounded-md shadow-lg pb-11  sm:px-7  px-3">
         <>
-          <div class=" items-center top-2 mb-5 mt-2 xl:px-72 lg:px-48 md:px-24 sm:px-8 px-2  text-center  relative justify-center">
-            <p class="text-sm sm:text-gray-600 text-gray-800 mb-1.5 mt-1 bg-green-50 p-2 px-3 border-green-700 border-dashed border-[1px] rounded-md  sm:font-semibold font-normal leading-5 mx-auto relative block ">
+          <div class=" items-center top-2 mb-5 mt-2 xl:px-72 lg:px-40 md:px-6 sm:px-2 px-2  text-center  relative justify-center">
+            <p class="sm:text-sm text-xs sm:text-gray-600 text-gray-800 mb-1.5 mt-1 bg-green-50 p-2 px-3 border-green-700 border-dashed border-[1px] rounded-md  sm:font-semibold font-normal leading-5 mx-auto relative block ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-5 h-5 text-green-700 inline mr-[5px] relative bottom-[0.9px]"
+                class="sm:w-5 sm:h-5 w-4 h-4 text-green-700 inline mr-[5px] relative bottom-[0.9px]"
               >
                 <path
                   stroke-linecap="round"
@@ -110,7 +110,7 @@ const CourseMaterials = (props) => {
               to help you complete your tasks.{" "}
             </p>
             <p
-              class={`text-sm sm:text-gray-600 text-gray-800 mt-3  sm:font-semibold bg-yellow-50 p-2 px-3 border-yellow-600 border-dashed border-[1px] rounded-md font-normal leading-5 mx-auto relative ${
+              class={`sm:text-sm text-xs sm:text-gray-600 text-gray-800 mt-3  sm:font-semibold bg-yellow-50 p-2 px-3 border-yellow-600 border-dashed border-[1px] rounded-md font-normal leading-5 mx-auto relative ${
                 props.isTasks ? "block" : "hidden"
               } `}
             >
@@ -120,7 +120,7 @@ const CourseMaterials = (props) => {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-5 h-5 text-red-700 inline mr-[5px] relative bottom-[1px]"
+                class="sm:w-5 sm:h-5 w-4 h-4 text-red-700 inline mr-[5px] relative bottom-[1px]"
               >
                 <path
                   stroke-linecap="round"
@@ -131,18 +131,18 @@ const CourseMaterials = (props) => {
               Kindly follow the deadlines set by your mentor & upload the
               necessary documents. Your mentor will provide you with feedback.{" "}
             </p>
-            <p class="xl:hidden block mx-auto text-center sm:mt-8 mt-10 sm:mb-8 mb-6 relative md:text-base text-sm sm:px-16 px-1.5  ">
+            <p class="lg:hidden block mx-auto text-center sm:mt-8 mt-10 sm:mb-8 mb-6 relative md:text-base sm:text-sm text-xs sm:px-6 px-1.5  ">
               <strong class="underline">Note:</strong> Horizontally scroll
-              panels to see more details on each resource/reference
+              panels/rows to see more details on each document/resource
             </p>
           </div>
           <div class="mt-[54px]">
             {props.isTasks ? (
               <>
-                <h1 class="text-center font-bold -mt-1 text-2xl mb-2">
+                <h1 class="text-center font-bold md:-mt-1 -mt-4 sm:text-2xl text-xl mb-2">
                   Task/Assignment References:
                 </h1>
-                <h2 class="text-sm uppercase text-center font-bold text-blue-700 mb-8">
+                <h2 class="sm:text-sm text-xs uppercase text-center font-bold text-blue-700 sm:mt-0 mt-3 mb-8">
                   Docs/Resources to Help You Complete Assignments
                 </h2>
 
@@ -217,8 +217,8 @@ const CourseMaterials = (props) => {
                                     />
                                   </div>
                                 </td>
-                                <td class="-mr-[100px] ml-[50px] top-6 block relative">
-                                  <div class="flex items-center pl-20">
+                                <td class="lg:-mr-[100px] -mr-[40px] ml-[50px] top-6 block relative">
+                                  <div class="flex items-center lg:pl-20 pl-8">
                                     <p class="text-sm font-medium hover:underline hover:text-blue-700 leading-none text-gray-700 mr-2">
                                       {material.title}
                                     </p>
@@ -248,7 +248,7 @@ const CourseMaterials = (props) => {
                                 </td>
 
                                 <td class="pl-5 -mr-3 relative">
-                                  <div class="flex items-center relative -left-4 -mr-10">
+                                  <div class="flex items-center relative xl:-left-4 left-4 -mr-10">
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       class="h-5 w-5 top-[1px]"
@@ -300,10 +300,10 @@ const CourseMaterials = (props) => {
                   </div>
                 )}
 
-                <h1 class="text-center font-bold -mt-1 text-2xl mb-2">
+                <h1 class="text-center font-bold -mt-1 sm:text-2xl text-xl mb-2">
                   Your Uploads:
                 </h1>
-                <h2 class="text-sm uppercase text-center font-bold text-blue-700 mb-8">
+                <h2 class="sm:text-sm text-xs uppercase text-center font-bold text-blue-700 sm:mt-0 mt-3 mb-8">
                   Task/Assignment-Based Docs You've Uploaded
                 </h2>
 
@@ -363,9 +363,9 @@ const CourseMaterials = (props) => {
                                 class="focus:outline-none h-16 border bg-white hover:shadow-blue-400 border-gray-300 mb-3 relative shadow-md rounded"
                               >
                                 <td>
-                                  <div class="ml-5 pl-[10px] -mr-12">
+                                  <div class="ml-5 pl-[10px] xl:-mr-12 -mr-12">
                                     <img
-                                      class="object-cover w-10 h-10 shadow-md mx-2  relative right-1 rounded-full block"
+                                      class="object-cover w-10 h-10 shadow-md mx-2 xl:mr-2 lg:mr-5 mr-20 relative right-1 rounded-full block"
                                       src={
                                         material.uploaderPic
                                           ? material.uploaderPic
@@ -378,7 +378,7 @@ const CourseMaterials = (props) => {
 
                                 <td>
                                   <div class="ml-5">
-                                    <div class="rounded-sm w-5 -mr-2  h-5 left-9 flex flex-shrink-0 justify-center items-center relative">
+                                    <div class="rounded-sm w-5 xl:-mr-2 lg:mr-2 -mr-1  h-5 xl:left-9 lg:left-6 left-1 flex flex-shrink-0 justify-center items-center relative">
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="h-6 w-6 top-[0.5px] relative text-blue-600"
@@ -405,7 +405,7 @@ const CourseMaterials = (props) => {
                                   </div>
                                 </td>
 
-                                <td class="pl-5">
+                                <td class="xl:pl-5 pl-1">
                                   <div class="flex relative -mr-3 left-4 items-center">
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
@@ -427,8 +427,8 @@ const CourseMaterials = (props) => {
                                   </div>
                                 </td>
 
-                                <td class="pl-5 -mr-3 relative">
-                                  <div class="flex items-center relative left-5 -mr-10">
+                                <td class="pl-5 xl:-mr-3 lg:mr-0 mr-4 relative">
+                                  <div class="flex items-center relative xl:left-5 left-8 xl:-mr-10 lg:-mr-5 mr-0">
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       class="h-5 w-5 top-[1px]"
@@ -470,7 +470,7 @@ const CourseMaterials = (props) => {
                                       user.firstName + " " + user.lastName
                                         ? "text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200 shadow-sm hover:shadow-md active:shadow-sm"
                                         : " bg-gray-300 text-white"
-                                    } text-sm focus:outline-none   leading-none relative left-14 -mr-8 rounded`}
+                                    } text-sm focus:outline-none   leading-none relative left-14 lg:-mr-8 mr-0 rounded`}
                                   >
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
@@ -490,12 +490,12 @@ const CourseMaterials = (props) => {
                                   </button>
                                 </td>
 
-                                <td class="pl-5">
+                                <td class="xl:pl-5 pl-8">
                                   <button
                                     onClick={() =>
                                       downloadResource(material, i, "taskSubs")
                                     }
-                                    class="focus:ring-2 focus:ring-offset-2 shadow-sm hover:shadow-md active:shadow-sm focus:ring-red-300 text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded   xl:-mr-12 -mr-6 ml-8 hover:bg-gray-200 focus:outline-none"
+                                    class="focus:ring-2 focus:ring-offset-2 relative shadow-sm hover:shadow-md active:shadow-sm focus:ring-red-300 text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded   xl:-mr-12 lg:-mr-8 mr-2 xl:ml-8 ml-12 hover:bg-gray-200 focus:outline-none"
                                   >
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
@@ -523,7 +523,7 @@ const CourseMaterials = (props) => {
                                     }
                                   >
                                     <button
-                                      class="focus:ring-2 rounded-full -ml-7 focus:outline-none"
+                                      class="focus:ring-2 rounded-full xl:-ml-7 -ml-2 focus:outline-none"
                                       onclick="dropdownFunction(this)"
                                       role="button"
                                       aria-label="option"
@@ -602,15 +602,15 @@ const CourseMaterials = (props) => {
               </>
             ) : (
               <>
-                <h1 class="text-center font-bold -mt-1 text-2xl mb-2">
+                <h1 class="text-center font-bold md:-mt-1 -mt-4 sm:text-2xl text-xl mb-2">
                   Resources Uploaded By Mentor:
                 </h1>
-                <h2 class="text-sm uppercase text-center font-bold text-blue-700 mb-8">
+                <h2 class="sm:text-sm text-xs uppercase text-center font-bold text-blue-700 sm:mt-0 mt-3 mb-8">
                   General Docs & Files For Your Reference
                 </h2>
 
                 {props.loading ? (
-                  <div class="relative mx-auto  my-14 mb-10 pb-3 pt-1.5 text-center block justify-center">
+                  <div class="relative mx-auto my-14 mb-10 pb-3 pt-1.5 text-center block justify-center">
                     <ClipLoader
                       color={"#0b0bbf"}
                       loading={props.loading}
@@ -677,7 +677,7 @@ const CourseMaterials = (props) => {
                                     />
                                   </div>
                                 </td>
-                                <td class="-mr-[100px] ml-[40px] top-6 block relative">
+                                <td class="xl:-mr-[100px] -mr-[60px] ml-[40px] top-6 block relative">
                                   <div class="flex items-center pl-20">
                                     <p class="text-sm font-medium hover:underline hover:text-blue-700 leading-none text-gray-700 mr-2">
                                       {material.title}

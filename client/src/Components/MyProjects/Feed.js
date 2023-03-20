@@ -242,10 +242,10 @@ const Feed = () => {
       data-aos-once="true"
       class="lg:col-span-3 col-span-5 row-span-3 h-[650px] z-[75] scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-300 overflow-y-scroll bg-gradient-to-br from-blue-300 to-indigo-300 rounded-md shadow-xl pt-6 pb-3 "
     >
-      <h3 class="uppercase text-center font-semibold text-blue-900 mb-8 top-1 relative px-4 text-3xl">
+      <h3 class="uppercase text-center font-semibold text-blue-900 mb-8 top-1 relative px-4 sm:text-3xl text-2xl">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-9 w-9 bottom-[2.5px] mr-1 relative font-bold inline"
+          class="sm:h-9 sm:w-9 h-7 w-7 bottom-[2.5px] mr-1 relative font-bold inline"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -309,7 +309,7 @@ const Feed = () => {
           ) : image !== null ? (
             <img
               src={image}
-              class="scale-50 shadow-lg relative mx-auto justify-center block -my-[90px] -mt-[105px]  border-2 rounded-md border-gray-400"
+              class="scale-50  shadow-lg relative mx-auto justify-center block -my-[90px] -mt-[105px]  border-2 rounded-md border-gray-400"
             ></img>
           ) : (
             ""
@@ -355,13 +355,13 @@ const Feed = () => {
               ""
             ) : (
               <>
-                <p class="font-semibold text-center text-2xl top-[78px]  text-blue-900 relative mb-4 underline">
+                <p class="font-semibold text-center sm:mt-0 mt-8 block text-2xl sm:top-[78px] top-[88px]  text-blue-900 relative mb-4 underline">
                   0 messages
                 </p>
                 <img
-                  class={`xl:w-[270px] w-[240px] xl:h-[165px] h-[140px] ${
+                  class={`xl:w-[270px] sm:w-[240px] xl:h-[165px] sm:h-[140px] h-[120px] w-[205px] ${
                     sendingMessage ? "mb-24" : ""
-                  } -mt-[20px] top-[110px] shadow-lg mx-auto block right-0.5 rounded-sm ring-2 ring-blue-700 ring-offset-2 ring-offset-gray-300 border-2 border-blue-700 relative`}
+                  } -mt-[20px] sm:top-[110px] top-[120px] shadow-lg mx-auto block right-0.5 rounded-sm ring-2 ring-blue-700 ring-offset-2 ring-offset-gray-300 border-2 border-blue-700 relative`}
                   src={
                     "https://healthitsecurity.com/images/site/features/_normal/ThinkstockPhotos-459643339.jpg"
                   }

@@ -291,7 +291,7 @@ const Meetings = (props) => {
       ) : (
         ""
       )}
-      <div class="h-fit w-[90%] mx-auto mt-1 mb-14 grid grid-cols-3 gap-6">
+      <div class="h-fit md:w-[100%] sm:w-[100%] w-[100%]  md:px-0 sm:px-7 px-0 mx-auto mt-1 md:mb-14 mb-11 right-1.5 relative grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
         <div class="bg-white rounded-md col-span-1 block h-[400px] border-blue-700 border shadow-md ">
           <p class="w-full text-xl tracking-wide bg-gray-200 border-b-1.5 py-3 text-center font-bold border-dashed border-gray-600">
             Upcoming Meetings
@@ -565,7 +565,7 @@ const Meetings = (props) => {
                 {moveIndex > 0 ? (
                   <button
                     onClick={moveBackward}
-                    class={`bg-blue-700 inline -left-20 -ml-7 relative hover:bg-blue-600 text-sm  text-white rounded-md px-[5px] py-[3px] uppercase  cursor-pointer hover:shadow-md shadow-sm font-semibold`}
+                    class={`bg-blue-700 inline xl:-left-20 lg:-left-10 md:-left-14 sm:-left-24 -left-10 -ml-7 relative hover:bg-blue-600 text-sm  text-white rounded-md px-[5px] py-[3px] uppercase  cursor-pointer hover:shadow-md shadow-sm font-semibold`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -637,7 +637,7 @@ const Meetings = (props) => {
                         viewBox="0 0 24 24"
                         stroke-width="1.5"
                         stroke="currentColor"
-                        class={`w-[22px] h-[22px] inline mr-1 relative ${
+                        class={`w-[22px] h-[22px] xl:inline lg:hidden sm:inline hidden mr-1 relative ${
                           i == 1 ? "bottom-[1.75px]" : "bottom-[1.55px]"
                         }`}
                       >
@@ -778,13 +778,13 @@ const Meetings = (props) => {
               {moveIndex > 0 ? (
                 <>
                   <div
-                    class={`grid grid-cols-2 gap-3 w-fit mx-auto ${
+                    class={`grid grid-cols-2 xl:gap-3 lg:gap-2 gap-3 w-fit mx-auto ${
                       error ? "hidden" : "block"
                     }`}
                   >
                     <button
                       onClick={moveBackward}
-                      class={`bg-blue-700 hover:bg-blue-600 text-sm  text-white rounded-md px-3 py-2 uppercase  cursor-pointer hover:shadow-md shadow-sm font-semibold`}
+                      class={`bg-blue-700 hover:bg-blue-600 sm:text-sm text-xs   text-white rounded-md px-3 py-2 uppercase  cursor-pointer hover:shadow-md shadow-sm font-semibold`}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -792,7 +792,7 @@ const Meetings = (props) => {
                         viewBox="0 0 24 24"
                         stroke-width="1.5"
                         stroke="currentColor"
-                        class="w-[18px] h-[18px] inline  relative mr-1.5 bottom-[1.8px]"
+                        class="w-[18px] h-[18px] xl:inline lg:hidden sm:inline hidden relative mr-1.5 bottom-[1.8px]"
                       >
                         <path
                           stroke-linecap="round"
@@ -805,7 +805,7 @@ const Meetings = (props) => {
 
                     <button
                       onClick={subDates}
-                      class={`bg-blue-700  hover:bg-blue-600 text-sm  text-white rounded-md px-3 py-2 uppercase  cursor-pointer hover:shadow-md shadow-sm font-semibold`}
+                      class={`bg-blue-700  hover:bg-blue-600 sm:text-sm text-xs  text-white rounded-md px-3 py-2 uppercase  cursor-pointer hover:shadow-md shadow-sm font-semibold`}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -813,7 +813,7 @@ const Meetings = (props) => {
                         viewBox="0 0 24 24"
                         stroke-width="1.5"
                         stroke="currentColor"
-                        class="w-[18px] h-[18px] inline  relative mr-1.5 bottom-[1.8px]"
+                        class="w-[18px] h-[18px] xl:inline lg:hidden sm:inline hidden relative mr-1.5 bottom-[1.8px]"
                       >
                         <path
                           stroke-linecap="round"
@@ -882,7 +882,7 @@ const Meetings = (props) => {
           )}
         </div>
 
-        <div class="bg-white rounded-md col-span-1 h-[400px] border-blue-700 border shadow-md ">
+        <div class="bg-white rounded-md lg:block md:hidden block col-span-1 h-[400px] border-blue-700 border shadow-md ">
           <p class="w-full text-xl tracking-wide bg-gray-200 border-b-1.5 py-3 text-center font-bold border-dashed border-gray-600">
             Timeline
           </p>
@@ -905,6 +905,30 @@ const Meetings = (props) => {
               })}
           </ol>
         </div>
+      </div>
+
+      <div class="bg-white rounded-md lg:hidden md:block hidden w-[50%] -mt-7 mb-16 mx-auto h-[400px] border-blue-700 border shadow-md ">
+        <p class="w-full text-xl tracking-wide bg-gray-200 border-b-1.5 py-3 text-center font-bold border-dashed border-gray-600">
+          Timeline
+        </p>
+
+        <ol class="relative border-l border-blue-700 block -left-[19px] justify-center text-center mx-auto w-fit pt-[22px] pb-[0.1px]">
+          {checkPoints
+            .filter((c, i) => i != checkPoints.length - 1)
+            .map((chkPoint, i) => {
+              return (
+                <li class="mb-[29px] ml-10 mx-auto">
+                  <div class="absolute w-3 h-3 bg-blue-700 rounded-full mt-1.5 -left-1.5 border border-white "></div>
+                  <time class="mb-1 text-sm font-bold leading-none text-blue-700 ">
+                    {chkPoint} - {checkPoints[i + 1]}
+                  </time>
+                  <h3 class="text-lg font-semibold text-gray-900   ">
+                    Week {i + 1}
+                  </h3>
+                </li>
+              );
+            })}
+        </ol>
       </div>
     </>
   );

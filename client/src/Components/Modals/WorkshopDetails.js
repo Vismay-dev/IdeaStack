@@ -224,7 +224,7 @@ const WorkshopDetails = (props) => {
                 <>
                   {/* Image gallery */}
 
-                  <div className="col-start-2  lg:w-[400px] sm:w-[330px] sm:h-[330px] w-[270px] h-[270px] lg:h-[400px] lg:mt-14 mt-[66px] -mb-[100px] object-center relative mx-auto block justify-center sm:rounded-lg sm:overflow-hidden">
+                  <div className="col-start-2  lg:w-[400px] sm:w-[330px] sm:h-[330px] w-[250px] h-[250px] lg:h-[400px] lg:mt-14 mt-[66px] -mb-[100px] object-center relative mx-auto block justify-center sm:rounded-lg sm:overflow-hidden">
                     <img
                       src={workshop && workshop.pic}
                       alt={workshop && workshop.pic}
@@ -233,7 +233,7 @@ const WorkshopDetails = (props) => {
                   </div>
 
                   {/* Product info */}
-                  <div className="max-w-2xl mx-auto pt-24 pb-14 px-4 sm:px-6 lg:max-w-7xl lg:pt-16 lg:pb-24 lg:px-8 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
+                  <div className="max-w-2xl mx-auto pt-24 pb-14 pl-4  sm:px-6 lg:max-w-7xl lg:pt-16 lg:pb-24 lg:px-8 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
                     <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
                       {workshop.partnerPic ? (
                         <div>
@@ -252,6 +252,7 @@ const WorkshopDetails = (props) => {
                       ) : (
                         ""
                       )}
+
                       <h1
                         className={`text-3xl ${
                           projCon.project &&
@@ -261,6 +262,7 @@ const WorkshopDetails = (props) => {
                         } font-extrabold tracking-tight text-gray-900 md:text-4xl lg:text-3xl`}
                       >
                         {workshop && workshop.name}{" "}
+                        <div class="xl:hidden block mb-5 sm:text-left text-center sm:mx-0 mx-auto" />
                         {projCon.project &&
                         projCon.project.mentorsRequested.length > 0 ? (
                           <div
@@ -269,7 +271,7 @@ const WorkshopDetails = (props) => {
                               projCon.project.mentorsRequested.length === 3
                                 ? "bg-orange-50 border-orange-500 text-orange-700"
                                 : "bg-indigo-50 border-indigo-500 text-indigo-700"
-                            }  text-sm ml-5 relative -top-[5px] w-full mx-auto inline font-normal border-l-4  shadow-md  p-4 pl-2 pr-3 pt-3  pb-3.5
+                            }  sm:text-sm text-xs xl:ml-5 relative -top-[5px] w-full mx-auto  just inline font-normal sm:border-l-4 sm:text-left text-center  shadow-md  sm:p-4 sm:pl-2 sm:pr-3 sm:pt-3 pt-3 pb-3.5 pl-2 pr-1  sm:pb-3.5
                             `}
                             role="alert"
                           >
@@ -284,7 +286,7 @@ const WorkshopDetails = (props) => {
                             <strong>
                               {3 - projCon.project.mentorsRequested.length}
                             </strong>{" "}
-                            out of <strong>3</strong> requests remaining .
+                            out of <strong>3</strong> requests remaining.
                           </div>
                         ) : (
                           ""
@@ -293,7 +295,7 @@ const WorkshopDetails = (props) => {
                     </div>
 
                     {/* Options */}
-                    <div className="mt-9 lg:pl-4 lg:-left-2 relative lg:mt-0 lg:-top-2 lg:row-span-3">
+                    <div className="mt-9 lg:pl-4 lg:-left-2 sm:pr-0 pr-4 relative lg:mt-0 lg:-top-2 lg:row-span-3">
                       <h1 class="font-bold text-xl tracking-wide lg:mb-4 mb-2">
                         Co-founder/Mentor at the following companies:
                       </h1>
@@ -330,13 +332,13 @@ const WorkshopDetails = (props) => {
                           }`}
                         >
                           <h3
-                            className={`text-sm ${
+                            className={`lg:text-sm text-xs ${
                               workshop.orgs.length > 2 ? "" : "   "
-                            } text-indigo-800 block font-medium bg-indigo-300 px-3 py-2 relative  rounded-md shadow-md`}
+                            } text-indigo-800 block font-medium bg-indigo-300 px-3 py-2 relative sm:mt-0 mt-6 sm:mb-0 mb-6  rounded-md shadow-md`}
                           >
                             <svg
                               aria-hidden="true"
-                              class="flex-shrink-0 inline relative bottom-[1px] w-5 h-5 mr-1"
+                              class="flex-shrink-0 inline relative bottom-[1px] sm:w-5 sm:h-5 h-4 w-4 mr-1"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                               xmlns="http://www.w3.org/2000/svg"
@@ -606,8 +608,8 @@ const WorkshopDetails = (props) => {
                       <p
                         className={` ${
                           workshop.orgs.length > 2
-                            ? "lg:mt-1 mt-2"
-                            : "lg:mt-0 mt-3 block"
+                            ? "lg:mt-1 mt-4"
+                            : "lg:mt-0 mt-4 block"
                         } text-gray-900 relative top-3`}
                       >
                         <span
@@ -764,30 +766,6 @@ const WorkshopDetails = (props) => {
                               : " relative top-4 block "
                           }`}
                         >
-                          {!loading &&
-                          isFirstFree &&
-                          workshop &&
-                          workshop.availableDates.length !== 0 ? (
-                            <p class="text-center top-4 mt-2 text-sm relative font-semibold">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-[15px] w-[15px] inline relative bottom-[0.75px] "
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                stroke-width="2"
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                              </svg>{" "}
-                              Try this mentor for free - exclusive 1st session.
-                            </p>
-                          ) : (
-                            ""
-                          )}
                           {projCon.project.mentorsRequested &&
                           projCon.project.mentorsRequested.length > 3 ? (
                             <>
@@ -948,7 +926,7 @@ const WorkshopDetails = (props) => {
                       </form>
                     </div>
 
-                    <div className="pb-14 pt-2 lg:pt-6 lg:pb-16 lg:col-start-1 -mb-3 lg:col-span-2 lg:border-r  lg:border-gray-200 lg:pr-8">
+                    <div className="pb-14 pt-2 lg:pt-6 lg:pb-16 sm:pr-0 pr-4 lg:col-start-1 -mb-3 lg:col-span-2 lg:border-r  lg:border-gray-200 lg:pr-8">
                       {/* Description and details */}
 
                       <div>
@@ -998,19 +976,19 @@ const WorkshopDetails = (props) => {
                       class={`lg:hidden -mt-12 block ${
                         workshop.orgs.length > 2
                           ? ""
-                          : " relative lg:hidden block "
+                          : " relative lg:hidden sm:pr-0 pr-4 block "
                       }`}
                     >
                       {projCon.project.mentorsRequested &&
                       projCon.project.mentorsRequested.length > 3 ? (
                         <>
-                          <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[62px] -mb-7 w-fit bg-gradient-to-r from-orange-500 to-orange-700">
+                          <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[12px] -mb-7 w-fit bg-gradient-to-r from-orange-500 to-orange-700">
                             Request Limit Reached
                           </h2>
                           <h3
                             className={`text-sm ${
                               workshop.orgs.length > 2 ? "" : "   "
-                            } text-orange-800 block font-medium bg-orange-100 border-dashed border-orange-600 border-[1px] px-3 py-2 relative mt-12 rounded-md shadow-md`}
+                            } text-orange-800 block font-medium bg-orange-100 border-dashed border-orange-600 border-[1px] px-3 py-2 relative mt-12 mb-9 rounded-md shadow-md`}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -1036,13 +1014,13 @@ const WorkshopDetails = (props) => {
                           .map((rM) => JSON.stringify(rM.mentorId))
                           .includes(JSON.stringify(workshop._id)) ? (
                         <>
-                          <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[69px] -mb-6 w-fit bg-gradient-to-r from-green-500 to-green-700">
+                          <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[10px] -mb-6 w-fit bg-gradient-to-r from-green-500 to-green-700">
                             Mentor Matched!
                           </h2>
                           <h3
                             className={`text-sm ${
                               workshop.orgs.length > 2 ? "" : "   "
-                            } text-green-800 block font-medium bg-green-100 border-dashed border-green-600 border-[1px] px-3 py-2 relative mt-11 rounded-md shadow-md`}
+                            } text-green-800 block font-medium bg-green-100 border-dashed border-green-600 border-[1px] px-3 py-2 relative mt-12 mb-10 rounded-md shadow-md`}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -1068,13 +1046,13 @@ const WorkshopDetails = (props) => {
                             .map((rM) => JSON.stringify(rM))
                             .includes(JSON.stringify(workshop._id))) ? (
                         <>
-                          <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[69px] -mb-6 w-fit bg-gradient-to-r from-green-500 to-green-700">
+                          <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[12px] -mb-6 w-fit bg-gradient-to-r from-green-500 to-green-700">
                             Mentor Requested
                           </h2>
                           <h3
                             className={`text-sm ${
                               workshop.orgs.length > 2 ? "" : "   "
-                            } text-green-800 block font-medium bg-green-100 border-dashed border-green-600 border-[1px] px-3 py-2 relative mt-12 rounded-md shadow-md`}
+                            } text-green-800 block font-medium bg-green-100 border-dashed border-green-600 border-[1px] px-3 py-2 relative mt-10 mb-10 rounded-md shadow-md`}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -1100,10 +1078,12 @@ const WorkshopDetails = (props) => {
                             setShowConfirm(true);
                           }}
                           className={`${
-                            workshop.orgs.length > 2 ? "sm:mt-11 mt-6" : "mt-7"
-                          } mb-3 w-full 
+                            workshop.orgs.length > 2
+                              ? "sm:mt-[12px] mt-[12px]"
+                              : "mt-[12px]"
+                          } mb-10 w-full 
                                  bg-indigo-600 shadow-md hover:shadow-xl hover:bg-indigo-700 hover:cursor-pointer 
-                             border border-transparen uppercase font-semibold rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm  text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                             border border-transparen uppercase font-semibold rounded-md py-3 px-8 flex items-center justify-center sm:text-sm text-sm  text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -1111,7 +1091,7 @@ const WorkshopDetails = (props) => {
                             viewBox="0 0 24 24"
                             stroke-width="1.5"
                             stroke="currentColor"
-                            class="w-5 h-5 mr-2"
+                            class="w-4 h-4 mr-2"
                           >
                             <path
                               stroke-linecap="round"
@@ -1163,7 +1143,7 @@ const WorkshopDetails = (props) => {
                       setShowConfirm(false);
                       setConfirmBooking(false);
                     }}
-                    class="text-white uppercase text-sm bg-blue-700 hover:bg-blue-800 hover:shadow-md p-3 px-6 relative top-5 mt-5 mb-2 rounded-sm font-semibold block mx-auto"
+                    class="text-white uppercase text-sm bg-blue-700 hover:bg-blue-800 hover:shadow-md p-3 px-6 relative top-5 md:mt-5 mt-7 mb-2 rounded-sm font-semibold block mx-auto"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -1183,18 +1163,21 @@ const WorkshopDetails = (props) => {
                   </button>
 
                   <div class="border-2 border-dashed tracking-wide shadow-sm h-fit w-[95%] mb-36 mt-20 px-2 mx-auto block border-indigo-400">
-                    <div class="mt-[100px] block">
+                    <div class="mt-[75px] block">
                       <>
-                        <h2 class="text-center">
+                        <h2 class="text-center px-4">
                           Are you sure about this request?{" "}
-                          <span class="font-bold"> ({workshop.name})</span>
+                          <span class="font-bold sm:inline block">
+                            {" "}
+                            ({workshop.name})
+                          </span>
                         </h2>
-                        <div class="block text-center items-center -mt-[2px]  relative mx-auto mb-[60px]">
+                        <div class="block text-center items-center -mt-[2px] px-4  relative mx-auto mb-[60px]">
                           <button
                             onClick={() => {
                               requestHandler();
                             }}
-                            class="text-white uppercase text-sm bg-green-600 hover:bg-green-700 hover:shadow-md p-3 px-4 mb-[25px] mt-7 rounded-sm font-semibold mr-2 inline"
+                            class="text-white uppercase text-sm bg-green-600 hover:bg-green-700 hover:shadow-md sm:p-3 p-2 sm:px-4 px-3 sm:mb-[25px] -mb-[20px] mt-7 rounded-sm font-semibold mr-2 inline"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -1217,7 +1200,7 @@ const WorkshopDetails = (props) => {
                             onClick={() => {
                               setShowConfirm(false);
                             }}
-                            class="text-white uppercase text-sm bg-red-600 hover:bg-red-700 hover:shadow-md p-3 px-4 mb-[25px] mt-7 ml-2 rounded-sm font-semibold inline"
+                            class="text-white uppercase text-sm bg-red-600 hover:bg-red-700 hover:shadow-md sm:p-3 p-2 sm:px-4 px-3 mb-[25px] mt-7 ml-2 rounded-sm font-semibold inline"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -1238,14 +1221,14 @@ const WorkshopDetails = (props) => {
                         </div>
                       </>
 
-                      <h1 class="font-bold tracking-wide mt-4 block text-3xl text-center ">
+                      <h1 class="font-bold tracking-wide sm:mt-4 -mt-2 block sm:text-3xl text-2xl text-center ">
                         What does this{" "}
                         <span class="bg-gradient-to-r w-fit from-blue-500 to-indigo-500 text-transparent bg-clip-text">
                           mentor
                         </span>{" "}
                         offer?
                       </h1>
-                      <h2 class="font-semibold text-xl text-center mt-2 text-gray-700">
+                      <h2 class="font-semibold text-xl text-center mt-2 sm:mb-0 mb-7 text-gray-700">
                         {workshop.name}
                       </h2>
 
@@ -1269,10 +1252,10 @@ const WorkshopDetails = (props) => {
                                   />
                                 </svg>
                               </div>
-                              <h3 class="mb-2 text-xl font-bold ">
+                              <h3 class="mb-2 sm:text-xl text-lg font-bold ">
                                 1:1 Mentorship
                               </h3>
-                              <p class="text-gray-500 ">
+                              <p class="text-gray-500 sm:text-base text-sm">
                                 Mentor will meet you online every week, helping
                                 you fine-tune your thought processes.
                               </p>
@@ -1295,8 +1278,10 @@ const WorkshopDetails = (props) => {
                                   />
                                 </svg>
                               </div>
-                              <h3 class="mb-2 text-xl font-bold ">Resources</h3>
-                              <p class="text-gray-500">
+                              <h3 class="mb-2 sm:text-xl text-lg font-bold ">
+                                Resources
+                              </h3>
+                              <p class="text-gray-500 sm:text-base text-sm">
                                 Access exclusive recordings, documents and
                                 theoretical knowledge that is unavailable
                                 elsewhere.
@@ -1313,10 +1298,10 @@ const WorkshopDetails = (props) => {
                                   <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path>
                                 </svg>
                               </div>
-                              <h3 class="mb-2 text-xl font-bold ">
+                              <h3 class="mb-2 sm:text-xl text-lg font-bold ">
                                 Assignments
                               </h3>
-                              <p class="text-gray-500 ">
+                              <p class="text-gray-500 sm:text-base text-sm">
                                 Mentor will personally check your submitted
                                 assignments, and provide you with custom
                                 feedback .

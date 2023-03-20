@@ -143,11 +143,13 @@ const Meetings = (props) => {
       ) : (
         ""
       )}
-      <div class="h-fit w-[90%] mx-auto mt-1 mb-14 grid grid-cols-3 gap-6">
+
+      <div class="h-fit md:w-[100%] sm:w-[100%] w-[100%]  md:px-0 sm:px-7 px-0 mx-auto mt-1 md:mb-14 mb-11 right-1.5 relative grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
         <div class="bg-white rounded-md col-span-1 block h-[400px] border-blue-700 border shadow-md ">
           <p class="w-full text-xl tracking-wide bg-gray-200 border-b-1.5 py-3 text-center font-bold border-dashed border-gray-600">
             Upcoming Meetings
           </p>
+
           {weekNum === 5 ? (
             <>
               <p class="mx-auto block text-sm text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-indigo-600 border-b-2 border-blue-700 uppercase tracking-wide border-b-1.5 py-2 text-center font-bold border-dashed ">
@@ -355,7 +357,7 @@ const Meetings = (props) => {
                     </button>
                   </>
                 ) : (
-                  <span class="text-left w-fit bg-gray-200 p-2 px-3 shadow-sm border-gray-400 rounded-md block mt-2 relative top-[3px] text-sm">
+                  <span class="sm:text-left text-center w-fit sm:bg-gray-200 p-2 px-3 shadow-sm sm:border-gray-400 rounded-md block mt-2 relative top-[3px] text-sm">
                     {" "}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -434,17 +436,24 @@ const Meetings = (props) => {
                       ? "bg-gray-200"
                       : `hover:border-dashed hover:border-${
                           i === 0 ? "b" : "y"
-                        }-[2.5px] w-full bg-indigo-100 hover:bg-yellow-100 hover:border-indigo-700`
+                        }-[2.5px] w-full sm: bg-indigo-100 hover:bg-yellow-100 hover:border-indigo-700`
                   } grid-cols-3 grid`}
                 >
-                  <span class="col-span-2 text-center relative top-[4.5px] mb-2">
+                  <span
+                    class={`col-span-2 ${
+                      String(new Date(selectedDate)) ===
+                      String(new Date(availableDate))
+                        ? "sm:px-0 px-[12px]"
+                        : "sm:px-0 px-[10px]"
+                    }  sm:left-0 left-[2px] text-center relative top-[4.5px] mb-2`}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke-width="1.5"
                       stroke="currentColor"
-                      class="w-[22px] h-[22px] inline mr-1 relative bottom-[1.45px]"
+                      class="w-[22px] h-[22px] xl:inline lg:hidden inline mr-1 relative bottom-[1.45px]"
                     >
                       <path
                         stroke-linecap="round"
@@ -485,7 +494,7 @@ const Meetings = (props) => {
                           viewBox="0 0 24 24"
                           stroke-width="1.5"
                           stroke="currentColor"
-                          class="w-[16px] h-[16px] inline mr-1 relative bottom-[1.3px]"
+                          class="w-[16px] h-[16px] sm:inline hidden mr-1 relative bottom-[1.3px]"
                         >
                           <path
                             stroke-linecap="round"
@@ -525,7 +534,7 @@ const Meetings = (props) => {
             </p>
           )}
         </div>
-        <div class="bg-white rounded-md col-span-1 h-[400px] border-blue-700 border shadow-md ">
+        <div class="bg-white rounded-md lg:block md:hidden block col-span-1 h-[400px] border-blue-700 border shadow-md">
           <p class="w-full text-xl tracking-wide bg-gray-200 border-b-1.5 py-3 text-center font-bold border-dashed border-gray-600">
             Timeline
           </p>
@@ -548,6 +557,30 @@ const Meetings = (props) => {
               })}
           </ol>
         </div>
+      </div>
+
+      <div class="bg-white rounded-md lg:hidden md:block hidden w-[50%] -mt-7 mb-16 mx-auto h-[400px] border-blue-700 border shadow-md ">
+        <p class="w-full text-xl tracking-wide bg-gray-200 border-b-1.5 py-3 text-center font-bold border-dashed border-gray-600">
+          Timeline
+        </p>
+
+        <ol class="relative border-l border-blue-700 block -left-[19px] justify-center text-center mx-auto w-fit pt-[22px] pb-[0.1px]">
+          {checkPoints
+            .filter((c, i) => i != checkPoints.length - 1)
+            .map((chkPoint, i) => {
+              return (
+                <li class="mb-[29px] ml-10 mx-auto">
+                  <div class="absolute w-3 h-3 bg-blue-700 rounded-full mt-1.5 -left-1.5 border border-white "></div>
+                  <time class="mb-1 text-sm font-bold leading-none text-blue-700 ">
+                    {chkPoint} - {checkPoints[i + 1]}
+                  </time>
+                  <h3 class="text-lg font-semibold text-gray-900   ">
+                    Week {i + 1}
+                  </h3>
+                </li>
+              );
+            })}
+        </ol>
       </div>
     </>
   );

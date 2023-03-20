@@ -130,18 +130,18 @@ const Dashboard = () => {
     <>
       {cancel ? <CancelModal close={() => setCancel(false)} /> : ""}
       <h2 class="text-center bg-no-repeat bg-center bg-cover py-7 pb-[35px] font-bold  xl:px-[365px] lg:px-[250px] md:px-[150px] sm:px-[100px] sm:w-fit sm:left-0 left-[0.1px] w-full mx-auto rounded-md right-0.5 text-gray-900 top-1 mt-[12px] -mb-[55px] relative">
-        <p class="sm:text-5xl text-4xl mt-1 tracking-wide">
+        <p class="lg:text-5xl md:text-4xl text-3xl sm:mt-1 mt-3 px-6 tracking-wide">
           Startup Mentorship
         </p>
         {!mentorCon.mentors ||
         mentorCon.mentors.length === 0 ||
         (sessionStorage.getItem("index") == null && !index) ||
         !project ? (
-          <p class=" text-xl bg-gradient-to-r mt-2.5 mb-1 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit">
+          <p class=" text-xl bg-gradient-to-r mt-2.5 px-5 mb-1 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit">
             Learn from Industry Leaders
           </p>
         ) : (
-          <p class=" text-2xl bg-gradient-to-r mt-6 mb-1 relative top-4 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit">
+          <p class=" md:text-2xl sm:text-xl text-lg bg-gradient-to-r lg:mt-6 -mt-2  lg:mb-1 mb-4 relative top-4 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit">
             {mentorCon.mentors[index].name + " X " + project.name}
           </p>
         )}
@@ -152,10 +152,10 @@ const Dashboard = () => {
           mentorCon.mentors && mentorCon.mentors.length > 0
             ? "mt-[80px] relative"
             : "mt-[80px]"
-        } flex-wrap xl:px-16 lg:px-14 md:px-9 sm:px-6 px-3  -mr-[20px] relative  xl:-mb-[277px] md:-mb-[250px] -mb-[240px]`}
+        } flex-wrap xl:px-16 lg:px-14 md:px-9 sm:px-6 px-12  -mr-[20px] relative  xl:-mb-[277px] md:-mb-[277px] sm:-mb-[255px] -mb-[277px]`}
       >
         {loading ? (
-          <div className="w-full   mb-14 xl:mb-0 px-3">
+          <div className="w-full  mb-14 xl:mb-0 px-3">
             <div class="relative mx-auto my-8 mb-16 right-1 lg:py-[70px] lg:pb-[140px] py-[90px] sm:pb-[120px] pb-[100px] sm:left-0 left-1 text-center block justify-center">
               <PulseLoader
                 color={"#1a52c9"}
@@ -173,7 +173,7 @@ const Dashboard = () => {
                   <p
                     data-aos={"fade-up"}
                     data-aos-once="true"
-                    class="font-bold text-[27px] -mt-2 mb-1 xl:left-6 text-gray-800"
+                    class="font-bold sm:text-[27px] text-[24px] -mt-2 mb-1 xl:left-6 text-gray-800"
                   >
                     Mentor <span class="text-blue-700">You've Been </span>{" "}
                     Matched With: ({mentorCon.mentors.length})
@@ -182,21 +182,24 @@ const Dashboard = () => {
                   <div class=" w-full gap-5 mt-9 mb-14">
                     {mentorCon.mentors.map((mentor, i) => {
                       return (
-                        <div key={i} class="w-[600px] mx-auto  z-[75] ">
+                        <div
+                          key={i}
+                          class="md:w-[600px] sm:w-[480px] w-full mx-auto  z-[75] "
+                        >
                           <div
                             data-aos={"zoom-in"}
                             data-aos-once="true"
-                            class={`w-full  px-8 py-4 mt-1 z-40 pointer-events-auto mr-32 relative right-2
+                            class={`w-full  px-8 sm:py-4 pt-4 pb-5 mt-1 z-40 pointer-events-auto mr-32 relative right-2
                              bg-white rounded-lg shadow-md `}
                           >
-                            <div class="flex items-center justify-between ">
-                              <span class="text-sm block -mt-6 uppercase -mb-2 font-light text-gray-600 ">
+                            <div class="sm:flex items-center justify-between ">
+                              <span class="text-sm block sm:w-full w-fit -mt-6 uppercase -mb-2 relative sm:top-0 top-[22px] sm:left-0 -left-2 font-light text-gray-600 ">
                                 {mentor.duration + " week mentorship"}
                               </span>
 
                               <button
                                 type="button"
-                                class="text-white text-sm uppercase bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 font-semibold rounded-lg px-2.5 py-1.5 -mr-2 mt-1 text-center mb-2"
+                                class="text-white text-sm uppercase bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 font-semibold rounded-lg px-2.5 py-1.5 sm:-mr-2 mx-auto block sm:mb-2 mb-[72px] sm:top-0 top-[42px] sm:w-[130px] w-[110px] sm:mt-0 mt-[10px] sm:right-0  relative text-center"
                                 onClick={() => {
                                   setIndex(i);
                                   sessionStorage.setItem("index", i);
@@ -215,13 +218,13 @@ const Dashboard = () => {
                               alt="expert"
                               class={` 
                                mx-auto 
-                        rounded-full border-blue-700 border-dashed border mb-3 mt-1  w-[160px] h-[160px] shadow-md  object-center object-cover`}
+                        rounded-full border-blue-700 border-dashed border sm:mb-3 mb-6 mt-1  w-[160px] h-[160px] shadow-md  object-center object-cover`}
                             />
 
-                            <div class="mt-1 block relative -top-0.5">
+                            <div class="sm:mt-1 mt-3 block relative -top-0.5">
                               <a
                                 href="#"
-                                class="text-2xl relative font-bold text-gray-700 hover:text-gray-600  hover:underline"
+                                class="text-2xl sm:mb-0 -mb-2 relative font-bold text-gray-700 hover:text-gray-600  hover:underline"
                               >
                                 {mentor.name}
                               </a>
@@ -273,14 +276,14 @@ const Dashboard = () => {
                 </>
               ) : (
                 <>
-                  <div class="mx-auto justify-center block sm:left-40 -top-32 absolute text-center">
+                  <div class="mx-auto justify-center xl:left-40 lg:block hidden -top-32 absolute text-center">
                     <button
                       onClick={() => {
                         setIndex(null);
                         sessionStorage.removeItem("index");
                         history.push("/mentorship");
                       }}
-                      class="w-32 p-2 rounded-md font-semibold tracking-wide shadow-md mt-3  bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700  text-base hover:shadow-xl active:shadow-md text-white  uppercase "
+                      class="w-32 p-2 rounded-md font-semibold tracking-wide shadow-md mt-3  bg-blue-700 hover:bg-blue-600 text-base hover:shadow-xl active:shadow-md text-white  uppercase "
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -300,7 +303,34 @@ const Dashboard = () => {
                     </button>
                   </div>
 
-                  <div class="block mx-auto text-center px-3 -mt-5 right-3 relative mb-16 rounded-lg">
+                  <div class="mx-auto w-full -mt-12 mb-12 sm:right-0 right-1.5 lg:hidden block  relative text-center">
+                    <button
+                      onClick={() => {
+                        setIndex(null);
+                        sessionStorage.removeItem("index");
+                        history.push("/mentorship");
+                      }}
+                      class="w-[135px] px-3 py-2.5 rounded-md font-semibold tracking-wide shadow-md mt-8 mb-4   bg-blue-700 hover:bg-blue-600   sm:text-base text-sm hover:shadow-xl active:shadow-md text-white  uppercase "
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="relative mx-auto inline text-center text-lg mr-2 bottom-[2px] sm:w-5 sm:h-5 w-4 h-4"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+                        />
+                      </svg>
+                      Go Back
+                    </button>
+                  </div>
+
+                  <div class="block mx-auto text-center px-3 -mt-5 sm:right-3 right-1.5 lg:w-full w-fit relative mb-16 rounded-lg">
                     <a
                       onClick={() => {
                         history.push(
@@ -313,7 +343,7 @@ const Dashboard = () => {
                         location.pathname.includes("mentorinfo")
                           ? "bg-blue-700 text-gray-100 border-blue-700 border shadow-md"
                           : "bg-white shadow-md  text-gray-800"
-                      } hover:cursor-pointer relative top-2 sm:normal-case uppercase hover:bg-blue-700 hover:border-r-indigo-50  hover:shadow-sm hover:border-blue-700 inline-flex items-center justify-center sm:rounded-l-lg sm:rounded-r-none rounded-t-lg border py-[10px] px-[30px] text-center text-base font-semibold  transition-all hover:text-gray-100 sm:py-4 sm:px-[60px]`}
+                      } hover:cursor-pointer relative top-2 normal-case hover:bg-blue-700 hover:border-r-indigo-50  hover:shadow-sm hover:border-blue-700 inline-flex items-center justify-center  sm:rounded-l-lg sm:rounded-r-none  rounded-l-lg rounded-r-none border py-[10px]  lg:px-[60px] sm:px-[20px] px-[10px] text-center sm:text-base text-sm font-semibold  transition-all hover:text-gray-100 sm:py-4`}
                     >
                       <span class="pr-2">
                         <svg
@@ -322,7 +352,7 @@ const Dashboard = () => {
                           viewBox="0 0 24 24"
                           stroke-width="1.5"
                           stroke="currentColor"
-                          class="w-5 h-5"
+                          class="sm:w-5 sm:h-5 w-4 h-4"
                         >
                           <path
                             stroke-linecap="round"
@@ -333,7 +363,6 @@ const Dashboard = () => {
                       </span>
                       Mentor Info
                     </a>
-                    <br class="sm:hidden block" />
                     <a
                       onClick={() => {
                         history.push(
@@ -346,7 +375,7 @@ const Dashboard = () => {
                         location.pathname.includes("meetings")
                           ? "bg-blue-700 border-blue-700 text-gray-100 border shadow-md"
                           : "bg-white shadow-md text-gray-800"
-                      } hover:cursor-pointer relative top-2 sm:normal-case uppercase hover:bg-blue-700 hover:shadow-sm hover:border-l-indigo-50 hover:border-blue-700 active:border-blue-700 inline-flex items-center justify-center  sm:rounded-l-none   border py-[10px] px-[25px] text-center text-base font-semibold  transition-all hover:text-gray-100 sm:py-4 sm:px-[60px]`}
+                      } hover:cursor-pointer relative top-2 normal-case hover:bg-blue-700 hover:shadow-sm hover:border-l-indigo-50 hover:border-blue-700 active:border-blue-700 inline-flex items-center justify-center  sm:rounded-l-none sm:rounded-r-none rounded-r-lg rounded-l-none  border py-[10px]  lg:px-[60px] sm:px-[20px] px-[10px]  text-center sm:text-base text-sm font-semibold  transition-all hover:text-gray-100 sm:py-4 `}
                     >
                       <span class="pr-2">
                         <svg
@@ -355,7 +384,7 @@ const Dashboard = () => {
                           viewBox="0 0 24 24"
                           stroke-width="1.5"
                           stroke="currentColor"
-                          class="w-5 h-5"
+                          class="sm:w-5 sm:h-5 w-4 h-4"
                         >
                           <path
                             stroke-linecap="round"
@@ -365,6 +394,7 @@ const Dashboard = () => {
                       </span>
                       1:1 Meetings
                     </a>
+                    <br class="sm:hidden block" />
                     <a
                       onClick={() => {
                         history.push(
@@ -377,7 +407,7 @@ const Dashboard = () => {
                         location.pathname.includes("tasksandresources")
                           ? "bg-blue-700 border-blue-700 text-gray-100 border shadow-md"
                           : "bg-white shadow-md text-gray-800"
-                      } hover:cursor-pointer relative top-2 sm:normal-case uppercase hover:bg-blue-700 hover:shadow-sm hover:border-l-indigo-50 hover:border-blue-700 active:border-blue-700 inline-flex items-center justify-center sm:rounded-r-lg sm:rounded-l-none  rounded-b-lg  border py-[10px] px-[25px] text-center text-base font-semibold  transition-all hover:text-gray-100 sm:py-4 sm:px-[60px]`}
+                      } hover:cursor-pointer relative top-2 normal-case hover:bg-blue-700 hover:shadow-sm hover:border-l-indigo-50 hover:border-blue-700 active:border-blue-700 inline-flex items-center justify-center sm:rounded-tl-none sm:rounded-bl-none sm:rounded-r-lg rounded-t-none rounded-b-lg  border py-[10px] lg:px-[60px] sm:px-[20px] px-[10px]  text-center sm:text-base text-sm font-semibold  transition-all hover:text-gray-100 sm:py-4 `}
                     >
                       <span class="pr-2">
                         <svg
@@ -386,7 +416,7 @@ const Dashboard = () => {
                           viewBox="0 0 24 24"
                           stroke-width="1.5"
                           stroke="currentColor"
-                          class=" w-5 h-5"
+                          class=" sm:w-5 sm:h-5 w-4 h-4"
                         >
                           <path
                             stroke-linecap="round"
@@ -572,7 +602,7 @@ const Dashboard = () => {
               )
             ) : (
               <>
-                <p class="smd:text-4xl sm:text-3xl text-2xl font-semibold md:col-span-3 sm:col-span-2 col-span-1 text-center mt-[60px] sm:mb-[125px] mb-[105px]  right-1 mx-auto relative">
+                <p class="md:text-4xl sm:text-3xl text-2xl font-semibold md:col-span-3 sm:col-span-2 col-span-1 text-center mt-[60px] sm:mb-[125px] mb-[105px]  right-1 mx-auto relative">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     enable-background="new 0 0 66 66"
@@ -845,29 +875,31 @@ const Dashboard = () => {
           </>
         )}
         {mentorsRequested && mentorsRequested.length > 0 ? (
-          <div class="w-full px-7">
+          <div class="w-full sm:px-7 px-3">
             <hr class="border-t-[2px]  border-dashed border-indigo-600 -mt-2 mb-8 block w-[60%] mx-auto" />
-            <h2 class="font-bold mx-auto text-center tracking-wide mb-6 text-3xl">
+            <h2 class="font-bold mx-auto text-center tracking-wide mb-6 sm:text-[27px] text-[26px]">
               Requested Mentors:{" "}
             </h2>
-            <div class="grid grid-cols-2 px-8 mb-14 mt-12 gap-3">
+            <div class="grid lg:grid-cols-2 grid-cols-1  lg:mb-14 md:mb-12 mb-12 lg:px-8 md:px-32 sm:px-16 px-0 lg:mt-12 mt-6 gap-3">
               {mentorsRequested.map((mentor) => {
                 return (
-                  <div class="flex col-span-1 max-w-sm rounded-md bg-white shadow-md ">
-                    <div class="">
-                      <div class="p-6 text-center">
-                        <span class={` mx-auto w-full mt-1 mb-0.5 text-center`}>
+                  <div class="flex col-span-1 min-w-sm rounded-md bg-white shadow-md ">
+                    <div class="w-full">
+                      <div class="p-6 sm:text-left text-center">
+                        <span
+                          class={` mx-auto w-full mt-1 mb-0.5 sm:text-left text-center`}
+                        >
                           {" "}
                           <img
                             src={mentor.pic}
-                            class="w-8 h-8 shadow-md mb-1 inline rounded-full"
+                            class="sm:w-8 sm:h-8 w-7 h-7 shadow-md mb-1 inline rounded-full"
                           ></img>{" "}
-                          <span class="ml-2 text-xl bg-clip-text mx-auto text-transparent from-gray-700 to-gray-500 bg-gradient-to-br inline font-bold">
+                          <span class="ml-2 sm:text-xl text-lg bg-clip-text mx-auto text-transparent from-gray-700 to-gray-500 bg-gradient-to-br inline font-bold">
                             {mentor.name}
                           </span>{" "}
                         </span>
 
-                        <p class="mb-2 mt-4 text-left font-medium text-sm text-gray-700 ">
+                        <p class="mb-2 mt-4 sm:text-left text-center font-medium text-sm text-gray-700 ">
                           <strong>Expertise:</strong> {mentor.expertise}
                         </p>
 
@@ -885,10 +917,18 @@ const Dashboard = () => {
                                   } relative right-1 top-3.5 pb-2.5`}
                                 >
                                   {" "}
-                                  {i == 3 ? (
+                                  {i % 3 === 0 && i !== 0 ? (
                                     <>
                                       {" "}
-                                      <br class="inline" />{" "}
+                                      <br class="sm:inline hidden" />{" "}
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {i % 2 === 0 && i !== 0 ? (
+                                    <>
+                                      {" "}
+                                      <br class="sm:hidden inline" />{" "}
                                     </>
                                   ) : (
                                     ""

@@ -174,7 +174,7 @@ export default function BrowseMentors() {
               </svg>{" "}
               Browse Mentors
             </p>
-            <p class="text-base uppercase mt-1.5 -mb-1 left-1.5 relative font-semibold">
+            <p class="text-base uppercase mt-1.5 -mb-1 px-3 left-1.5 relative font-semibold">
               Level-up your Venture with Mentorship
             </p>
           </div>
@@ -238,14 +238,14 @@ export default function BrowseMentors() {
                   : " bg-transparent w-full absolute -mt-[80px] pb-[40px] h-full  backdrop-blur-md z-[33] rounded drop-shadow-lg"
               }
             >
-              <h2 class="bg-white w-[550px]    border-indigo-700 border-dashed border-2 block top-[27%] relative mx-auto px-7 pt-4 pb-5 text-2xl  rounded-lg shadow-md text-center font-bold">
+              <h2 class="bg-white sm:w-[550px] w-[320px]    border-indigo-700 border-dashed border-2 block top-[27%] relative mx-auto px-7 pt-4 pb-5 sm:text-2xl text-lg  rounded-lg shadow-md text-center font-bold">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  class="w-7 h-7 relative bottom-[1px] inline mr-1.5"
+                  class="sm:w-7 sm:h-7 w-6 h-6 relative bottom-[1px] inline mr-1.5"
                 >
                   <path
                     stroke-linecap="round"
@@ -255,11 +255,11 @@ export default function BrowseMentors() {
                 </svg>
                 Your team has not been onboarded
                 <div
-                  class={`bg-red-100 border-l-4 block mt-4 mb-1.5 border-red-500 text-red-700 p-4 pt-3 
+                  class={`bg-red-100 border-l-4  block mt-4 mb-1.5 border-red-500 text-red-700 p-4 pt-3 
                             `}
                   role="alert"
                 >
-                  <p class="text-sm">
+                  <p class="sm:text-sm text-xs">
                     You may not access mentors until your listed team-members
                     have joined IdeaStack.org with the Unique Join Code (URC)
                     emailed to them. Team-members must complete registration!
@@ -283,6 +283,7 @@ export default function BrowseMentors() {
                   <strong>{project.mentorsRequested.length} </strong>
                   mentorship request
                   {project.mentorsRequested.length > 1 ? "s" : ""}.{" "}
+                  <br class="sm:hidden block" />{" "}
                   <strong>{3 - project.mentorsRequested.length}</strong> out of{" "}
                   <strong>3</strong> requests remaining for this month.
                 </p>
@@ -291,7 +292,7 @@ export default function BrowseMentors() {
               ""
             )}
 
-            <div class="grid grid-cols-1 lg:max-w-[1250px] lg:px-12 md:max-w-[740px] max-w-[500px] mx-auto z-30 pointer-events-none md:mb-8 mb-12 md:-mt-2 sm:mt-1 -mt-3 relative top-[8px] md:px-1 sm:px-7 px-7    sm:gap-y-12 gap-y-14 md:grid-cols-2 xl:gap-x-12 gap-x-7 lg:grid-cols-2 ">
+            <div class="grid grid-cols-1 lg:max-w-[1250px] lg:px-12 md:max-w-[740px] max-w-[500px] mx-auto z-30 pointer-events-none lg:mb-8 md:-mb-8 sm:mb-6 mb-1.5 lg:-mt-2 sm:mt-1 -mt-1 relative top-[8px]  md:px-1 sm:px-7 px-7    sm:gap-y-12 gap-y-14 md:grid-cols-2 xl:gap-x-12 gap-x-7 lg:grid-cols-2 ">
               {[...workshops].map((workshop, i) => (
                 <a
                   data-aos={"fade-up"}
@@ -302,7 +303,7 @@ export default function BrowseMentors() {
                     setShowWorkshop(true);
                     setWorkshopId(workshop._id);
                   }}
-                  class={`group z-20 pointer-events-auto shadow-md bg-slate-50   rounded-md cursor-pointer`}
+                  class={`group z-20 pointer-events-auto shadow-md bg-slate-50 pb-1  rounded-md cursor-pointer`}
                 >
                   <div class="w-full z-20 py-5 bg-gray-800  ">
                     {workshop.orgPic ? (
@@ -338,14 +339,16 @@ export default function BrowseMentors() {
                         rounded-full border-blue-100 border my-2  lg:h-[190px] lg:w-[190px] w-[160px] h-[160px]  object-center object-cover group-hover:opacity-75`}
                     />
                   </div>
-                  <h3 class="mt-4 text-xl tracking-wide bg-gradient-to-r w-fit from-blue-500 to-indigo-500 text-transparent bg-clip-text px-6 sm:text-left lg:right-0 relative font-bold  text-center text-gray-900">
+                  <h3 class="mt-4 text-xl tracking-wide sm:text-left text-center bg-gradient-to-r w-fit sm:mx-0 mx-auto block from-blue-500 to-indigo-500 text-transparent bg-clip-text px-6  lg:right-0 relative font-bold  text-gray-900">
                     {workshop.name}
                   </h3>
                   <p class="mt-2 pb-4 top-[7px] px-6 text-md sm:text-left lg:right-0 relative  text-center font-medium text-gray-700">
                     Expertise: {workshop.expertise}
                   </p>
                   <p class="mt-2 pb-[14px] text-md px-6 sm:text-left lg:right-0 relative  text-center font-medium text-gray-700">
-                    Organizations:{" "}
+                    <span class="sm:inline md:hidden lg:inline hidden ">
+                      Organizations:
+                    </span>{" "}
                     {workshop.orgs
                       .filter((org, i) => i < 2)
                       .map((org, i) => {

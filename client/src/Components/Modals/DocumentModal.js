@@ -73,7 +73,7 @@ const DocumentModal = (props) => {
           class="pr-6   mt-16 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mt-5 mb-32 sm:align-middle xl:w-10/12 sm:w-11/12 w-[97%]"
         >
           <div class="bg-white sm:px-4 px-2 pt-3 pb-2 sm:p-6 sm:pb-4">
-            <p class="text-center text-3xl top-2 sm:left-2 left-2.5 font-bold relative">
+            <p class="text-center text-3xl top-2 sm:left-2 sm:mt-0 mt-2 sm:mb-0 mb-1 left-2.5 font-bold relative">
               Project Documents
             </p>
 

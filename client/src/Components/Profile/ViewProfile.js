@@ -86,7 +86,7 @@ const ViewProfile = () => {
     <div class="xl:pt-28 pt-28 -mb-72 relative  overflow-hidden bg-gradient-to-r from-gray-200 to-blue-200">
       <div ref={dummyRef}></div>
 
-      <h1 class="relative px-4 mx-auto xl:-mt-12 2xl:-mb-16 xl:-mb-6 xl:py-8 xl:pt-4   lg:mb-6 md:-mt-12 md:mb-16 sm:-mt-14 sm:mb-24 -mt-10 mb-32 xs:-mt-10 xs:mb-40  text-center sm:text-6xl text-5xl font-semibold">
+      <h1 class="relative px-4 mx-auto xl:-mt-12 2xl:-mb-16 xl:-mb-6 xl:py-8 xl:pt-4   lg:mb-8 md:-mt-12 md:mb-16 sm:-mt-14 sm:mb-24 -mt-10 mb-36  text-center md:text-6xl text-5xl font-semibold">
         <span class="text-blue-600">View </span> Profile
       </h1>
       <div class="relative -mt-10 -mb-60  max-h-80">
@@ -173,7 +173,7 @@ const ViewProfile = () => {
                       </div>
                     ) : (
                       <img
-                        class={`rounded-full -mt-16 -mb-2  w-56 h-56 object-contain bg-white  shadow-lg block ${
+                        class={`rounded-full -mt-16 -mb-2  lg:w-52 lg:h-52 sm:w-52 sm:h-52 h-48 w-48 object-contain bg-white  shadow-lg block ${
                           user && user.profilePic ? "" : "p-2"
                         } relative`}
                         src={

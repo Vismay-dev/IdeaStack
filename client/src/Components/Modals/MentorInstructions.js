@@ -73,7 +73,7 @@ const MentorInstructions = (props) => {
                 <div>
                   <p class="text-lg text-gray-500">
                     {/* form starts here */}
-                    <div class="right-2 min-h-full flex items-center justify-center py-3 px-5 sm:px-6 lg:px-5">
+                    <div class="right-2 min-h-full flex items-center justify-center py-3 px-2 sm:px-6 lg:px-5">
                       <div class="max-w-md w-full space-y-8">
                         <div>
                           <img
@@ -83,10 +83,10 @@ const MentorInstructions = (props) => {
                           <h1 class="mt-2.5 text-center font-bold text-lg">
                             {props.mentor.name}
                           </h1>
-                          <h2 class="  relative mb-1 mt-3 text-center text-base font-extrabold text-gray-900">
+                          <h2 class="relative mb-1 mt-3 text-center text-base font-extrabold text-gray-900">
                             Mentor Instructions
                           </h2>
-                          <h1 class="mt-[1px] mb-1 text-center uppercase text-blue-700 font-bold text-xs">
+                          <h1 class="mt-[1px] md:mb-1 mb-2 text-center uppercase text-blue-700 font-bold text-xs">
                             {"week " + props.upcomingMeeting.week + " meeting"}
                           </h1>
 

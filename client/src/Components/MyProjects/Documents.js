@@ -29,7 +29,7 @@ const Documents = () => {
           <svg
             xmlns="http://www.w3.org/2000/svg"
             onClick={() => setShow(true)}
-            class="h-[90px] w-24 bg-blue-700 text-white p-4 rounded-md shadow-md active:shadow-sm hover:shadow-xl cursor-pointer my-4  block mx-auto"
+            class="h-[90px] w-24 bg-blue-700 text-white p-4 rounded-md shadow-md active:shadow-sm hover:shadow-xl cursor-pointer lg:my-4 mt-7  block mx-auto"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

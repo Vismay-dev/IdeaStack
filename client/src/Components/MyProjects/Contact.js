@@ -59,9 +59,9 @@ const Contact = () => {
         backgroundImage:
           "url(https://www.mysupplychaingroup.com/wp-content/uploads/2015/11/Business-team-world-map-background.png)",
       }}
-      class="lg:col-span-2 col-span-5 bg-opacity-75 row-span-2 bg-cover bg-no-repeat  bg-gradient-to-br from-blue-300 to-indigo-300 rounded-md shadow-xl"
+      class="lg:col-span-2 col-span-5 lg:mt-0 mt-4 lg:mb-0 -mb-9 relative lg:top-0 top-1  block bg-opacity-75 row-span-2 bg-cover lg:h-full min-h-[400px] h-fit bg-no-repeat  bg-gradient-to-br from-blue-300 to-indigo-300 rounded-md shadow-xl"
     >
-      <div class="h-full inset-0 bg-gray-900 lg:pb-0 pb-9 bg-opacity-[0.65] pt-4">
+      <div class="inset-0 bg-gray-900 lg:h-full min-h-[400px] h-fit lg:pb-0 pb-9 bg-opacity-[0.65] pt-4">
         <h3 class="uppercase text-center font-semibold text-gray-100 relative text-3xl">
           Team Contacts
         </h3>

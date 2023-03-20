@@ -261,7 +261,7 @@ const EditProjModal = (props) => {
               <div class=" text-center w-full sm:mt-0 sm:ml-4 ml-3 sm:text-left">
                 <div>
                   <form class="w-full mt-1 pt-1" onSubmit={submitHandler}>
-                    <h1 class="text-4xl mx-auto block relative text-center my-2 mb-12 font-semibold">
+                    <h1 class="text-4xl mx-auto block relative text-center sm:my-2 sm:mb-12 mt-4 mb-14 font-semibold">
                       Edit Project
                     </h1>
                     <div class="relative z-0 mb-3 w-full group">
