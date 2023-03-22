@@ -11,7 +11,12 @@ const cloudinary = require("cloudinary");
 const cron = require("node-cron");
 
 const Agenda = require("agenda");
-const agenda = new Agenda({ db: { address: "mongodb://127.0.0.1/agenda" } });
+const agenda = new Agenda({
+  db: {
+    address: "mongodb://127.0.0.1/agenda?authSource=admin",
+    options: { useNewUrlParser: true },
+  },
+});
 
 // const Mentor = require("../models/mentor");
 
