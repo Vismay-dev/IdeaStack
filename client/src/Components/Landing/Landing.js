@@ -5,6 +5,10 @@ import team from "./images/team.jpg";
 import atp from "./images/atplogo.png";
 import miscible from "./images/miscible-mono.png";
 
+import meeting from "./images/meeting.png";
+import management from "./images/management.png";
+import networking from "./images/networking.png";
+
 import steps from "./images/steps.jpg";
 
 import Contact from "./Contact";
@@ -21,28 +25,325 @@ import "aos/dist/aos.css";
 const Landing = () => {
   useEffect(() => {
     AOS.init({
-      duration: 1200,
+      duration: 1100,
     });
   }, []);
+
+  useEffect(() => {
+    const updateGlobe = () => {
+      var s =
+          (document.getElementById("c").width =
+          document.getElementById("c").height =
+            window.innerWidth < 768
+              ? 175
+              : window.innerWidth < 1024
+              ? 220
+              : 250),
+        ctx = document.getElementById("c").getContext("2d"),
+        opts = {
+          globeRadius:
+            window.innerWidth < 768
+              ? 110
+              : window.innerWidth < 1024
+              ? 135
+              : 150,
+          depth: 380,
+          focalLength: 300,
+          center: s / 2,
+
+          rotYVel: 0.01,
+          baseXRot: -0.41, // 23.5 deg
+          afterYRot: -2, //Math.PI / 2,
+        },
+        rot = {
+          y: {
+            cos: Math.cos(opts.rotYVel),
+            sin: Math.sin(opts.rotYVel),
+          },
+          z: {
+            cos: Math.cos(opts.baseXRot),
+            sin: Math.sin(opts.baseXRot),
+          },
+          ay: {
+            cos: Math.cos(opts.afterYRot),
+            sin: Math.sin(opts.afterYRot),
+          },
+        };
+
+      function anim() {
+        window.requestAnimationFrame(anim);
+        ctx.fillStyle = "#eceef8";
+        ctx.fillRect(0, 0, s, s);
+
+        ctx.strokeStyle = "#4b0082";
+
+        ctx.beginPath();
+
+        for (var i = 0; i < lines.length; ++i) {
+          var points = lines[i];
+
+          for (var j = 0; j < points.length; ++j) {
+            var point = points[j],
+              x = point.x,
+              y = point.y,
+              z = point.z;
+
+            var X = x;
+            x = x * rot.y.cos - z * rot.y.sin;
+            z = z * rot.y.cos + X * rot.y.sin;
+
+            point.x = x;
+            point.z = z;
+
+            var Y = y;
+            y = y * rot.z.cos - x * rot.z.sin;
+            x = x * rot.z.cos + Y * rot.z.sin;
+
+            X = x;
+            x = x * rot.ay.cos - z * rot.ay.sin;
+            z = z * rot.ay.cos + X * rot.ay.sin;
+
+            z += opts.depth;
+
+            var scale = opts.focalLength / z,
+              sx = opts.center + scale * x,
+              sy = opts.center + scale * y;
+
+            point.sx = sx;
+            point.sy = sy;
+
+            //if( z < opts.depth )
+            ctx[j === 0 ? "moveTo" : "lineTo"](sx, sy);
+          }
+
+          // to prevent it from recalculating position of starting point twice but still closing the path
+          //if( points[ 0 ].z < opts.depth )
+          ctx.lineTo(points[0].sx, points[0].sy);
+        }
+
+        ctx.stroke();
+
+        //ctx.fillStyle = 'green';
+        //ctx.fill();
+      }
+      function reparseLines() {
+        // the lines will just have indications for angles
+
+        for (var i = 0; i < lines.length; ++i) {
+          var points = [];
+          for (var j = 0; j < lines[i].length; j += 2) {
+            var sinA = Math.sin(lines[i][j] * Math.PI),
+              cosA = Math.cos(lines[i][j] * Math.PI),
+              sinB = Math.sin((lines[i][j + 1] * Math.PI) / 2),
+              cosB = Math.cos((lines[i][j + 1] * Math.PI) / 2);
+
+            points.push({
+              x: opts.globeRadius * cosA * cosB,
+              y: opts.globeRadius * sinB,
+              z: opts.globeRadius * sinA * cosB,
+            });
+          }
+
+          lines[i] = points;
+        }
+      }
+
+      // each point is 2 angles in half turns
+      // a, x[-1,1] = vertical circle
+      // x[-1,1], .5 = equator
+      // x[-1,1], a = parallel cirles at a
+      var lines = [
+        // africa main continent
+        [
+          -0.04, -0.05, 0.01, -0.05, 0.02, -0.07, 0.06, -0.03, 0.05, 0.03, 0.08,
+          0.12, 0.06, 0.18, 0.08, 0.25, 0.1, 0.35, 0.1, 0.39, 0.15, 0.37, 0.18,
+          0.33, 0.17, 0.28, 0.19, 0.28, 0.19, 0.23, 0.22, 0.19, 0.22, 0.06,
+          0.27, -0.033, 0.29, -0.15, 0.23, -0.13, 0.175, -0.33, 0.12, -0.36,
+          0.1, -0.32, 0.06, -0.36, 0.06, -0.405, 0.01, -0.39, -0.03, -0.38,
+          -0.05, -0.35, -0.08, -0.28, -0.08, -0.205, -0.088, -0.15,
+        ],
+        // madagascar
+        [
+          0.245, 0.192, 0.245, 0.233, 0.241, 0.267, 0.249, 0.3, 0.266, 0.275,
+          0.287, 0.175, 0.274, 0.142,
+        ],
+        // antarctica
+        [
+          -0.984, 0.892, -0.918, 0.875, -0.748, 0.825, -0.662, 0.817, -0.559,
+          0.842, -0.559, 0.792, -0.46, 0.825, -0.402, 0.825, -0.414, 0.775,
+          -0.311, 0.692, -0.328, 0.75, -0.324, 0.808, -0.34, 0.825, -0.233,
+          0.883, -0.023, 0.783, 0.196, 0.783, 0.237, 0.75, 0.254, 0.758, 0.287,
+          0.725, 0.414, 0.767, 0.464, 0.733, 0.48, 0.733, 0.489, 0.783, 0.505,
+          0.717, 0.551, 0.725, 0.6, 0.742, 0.625, 0.717, 0.645, 0.758, 0.72,
+          0.758, 0.79, 0.742, 0.934, 0.783, 0.909, 0.833, 0.922, 0.867,
+        ],
+        // south america
+        [
+          -0.427, -0.067, -0.39, -0.142, -0.373, -0.108, -0.373, -0.083, -0.332,
+          -0.125, -0.291, -0.067, -0.282, -0.008, -0.188, 0.075, -0.192, 0.108,
+          -0.212, 0.133, -0.208, 0.217, -0.229, 0.258, -0.254, 0.258, -0.262,
+          0.283, -0.262, 0.333, -0.287, 0.383, -0.303, 0.383, -0.303, 0.425,
+          -0.336, 0.433, -0.348, 0.458, -0.344, 0.475, -0.369, 0.5, -0.361,
+          0.525, -0.373, 0.55, -0.357, 0.6, -0.394, 0.6, -0.402, 0.542, -0.394,
+          0.492, -0.41, 0.433, -0.394, 0.392, -0.406, 0.35, -0.39, 0.308, -0.39,
+          0.25, -0.381, 0.225, -0.419, 0.15, -0.419, 0.1, -0.456, 0.058, -0.435,
+          0.025, -0.435, -0.008, -0.427, -0.008, -0.427, -0.058,
+        ],
+        // that south american island in the south
+        [-0.336, 0.575, -0.307, 0.575, -0.311, 0.6, -0.328, 0.6],
+        // north 'murica
+        [
+          -0.435, -0.067, -0.456, -0.075, -0.493, -0.15, -0.505, -0.15, -0.526,
+          -0.192, -0.571, -0.192, -0.629, -0.358, -0.604, -0.258, -0.641,
+          -0.308, -0.641, -0.333, -0.687, -0.45, -0.674, -0.533, -0.707, -0.6,
+          -0.72, -0.575, -0.736, -0.617, -0.814, -0.692, -0.847, -0.625, -0.889,
+          -0.608, -0.893, -0.658, -0.905, -0.675, -0.905, -0.717, -0.88, -0.733,
+          -0.909, -0.742, -0.946, -0.742, -0.975, -0.775, -0.955, -0.792,
+          -0.926, -0.758, -0.893, -0.792, -0.703, -0.792, -0.654, -0.808,
+          -0.621, -0.75, -0.522, -0.758, -0.497, -0.792, -0.456, -0.775, -0.39,
+          -0.725, -0.472, -0.75, -0.431, -0.708, -0.476, -0.708, -0.513, -0.667,
+          -0.456, -0.625, -0.435, -0.55, -0.435, -0.617, -0.414, -0.617, -0.435,
+          -0.7, -0.406, -0.7, -0.377, -0.642, -0.353, -0.675, -0.307, -0.592,
+          -0.307, -0.558, -0.373, -0.567, -0.291, -0.55, -0.282, -0.525, -0.344,
+          -0.492, -0.353, -0.517, -0.402, -0.45, -0.419, -0.392, -0.435, -0.35,
+          -0.427, -0.275, -0.447, -0.283, -0.472, -0.333, -0.48, -0.325, -0.526,
+          -0.325, -0.53, -0.233, -0.493, -0.2, -0.485, -0.225, -0.468, -0.225,
+          -0.48, -0.2, -0.468, -0.167, -0.452, -0.167, -0.452, -0.108,
+        ],
+        // cuba
+        [
+          -0.464, -0.242, -0.443, -0.25, -0.41, -0.233, -0.414, -0.2, -0.435,
+          -0.242,
+        ],
+        // greenland
+        [
+          -0.373, -0.883, -0.365, -0.833, -0.32, -0.85, -0.282, -0.783, -0.295,
+          -0.758, -0.262, -0.667, -0.229, -0.667, -0.229, -0.708, -0.208,
+          -0.742, -0.163, -0.767, -0.113, -0.8, -0.105, -0.825, -0.093, -0.883,
+          -0.064, -0.917, -0.13, -0.917, -0.204, -0.942, -0.282, -0.917, -0.353,
+          -0.917,
+        ],
+        // iceland
+        [
+          -0.134, -0.742, -0.093, -0.733, -0.08, -0.7, -0.089, -0.683, -0.118,
+          -0.683, -0.13, -0.708,
+        ],
+        // eurasia
+        [
+          -0.006, -0.492, -0.043, -0.475, -0.047, -0.408, -0.035, -0.408,
+          -0.023, -0.4, -0.006, -0.425, 0.014, -0.458, 0.014, -0.475, 0.052,
+          -0.483, 0.072, -0.458, 0.093, -0.442, 0.093, -0.417, 0.101, -0.425,
+          0.105, -0.425, 0.085, -0.467, 0.072, -0.492, 0.072, -0.5, 0.08, -0.5,
+          0.113, -0.458, 0.113, -0.442, 0.126, -0.4, 0.134, -0.433, 0.134,
+          -0.45, 0.155, -0.45, 0.159, -0.4, 0.171, -0.4, 0.184, -0.417, 0.188,
+          -0.375, 0.2, -0.408, 0.204, -0.4, 0.2, -0.367, 0.188, -0.342, 0.221,
+          -0.225, 0.241, -0.183, 0.237, -0.15, 0.266, -0.158, 0.311, -0.2,
+          0.332, -0.242, 0.311, -0.275, 0.299, -0.258, 0.278, -0.308, 0.278,
+          -0.325, 0.299, -0.292, 0.32, -0.292, 0.324, -0.275, 0.369, -0.283,
+          0.39, -0.225, 0.41, -0.25, 0.41, -0.2, 0.427, -0.083, 0.443, -0.117,
+          0.443, -0.167, 0.48, -0.225, 0.505, -0.242, 0.526, -0.15, 0.538,
+          -0.175, 0.542, -0.108, 0.567, -0.15, 0.592, -0.1, 0.608, -0.117,
+          0.608, -0.175, 0.584, -0.192, 0.596, -0.233, 0.604, -0.192, 0.621,
+          -0.233, 0.654, -0.267, 0.678, -0.342, 0.666, -0.392, 0.678, -0.442,
+          0.695, -0.4, 0.724, -0.425, 0.711, -0.442, 0.724, -0.475, 0.748,
+          -0.475, 0.773, -0.542, 0.753, -0.617, 0.781, -0.65, 0.847, -0.667,
+          0.864, -0.692, 0.885, -0.692, 0.864, -0.633, 0.864, -0.55, 0.897,
+          -0.608, 0.901, -0.65, 0.897, -0.683, 0.951, -0.683, 0.984, -0.708,
+          0.975, -0.733, 0.988, -0.783, 0.897, -0.783, 0.885, -0.783, 0.827,
+          -0.783, 0.794, -0.817, 0.753, -0.792, 0.728, -0.8, 0.707, -0.825,
+          0.67, -0.8, 0.592, -0.792, 0.633, -0.85, 0.592, -0.85, 0.534, -0.917,
+          0.509, -0.883, 0.551, -0.867, 0.464, -0.833, 0.439, -0.817, 0.406,
+          -0.8, 0.369, -0.783, 0.398, -0.792, 0.402, -0.75, 0.39, -0.75, 0.332,
+          -0.783, 0.32, -0.8, 0.39, -0.858, 0.315, -0.867, 0.291, -0.808, 0.328,
+          -0.775, 0.266, -0.75, 0.237, -0.733, 0.208, -0.692, 0.188, -0.733,
+          0.221, -0.733, 0.212, -0.767, 0.192, -0.767, 0.151, -0.808, 0.093,
+          -0.767, 0.068, -0.708, 0.035, -0.708, 0.035, -0.65, 0.06, -0.65,
+          0.072, -0.633, 0.093, -0.633, 0.105, -0.692, 0.134, -0.725, 0.122,
+          -0.683, 0.159, -0.675, 0.126, -0.65, 0.109, -0.583, 0.064, -0.6,
+          0.064, -0.642, 0.047, -0.642, 0.052, -0.6, 0.023, -0.567, -0.019,
+          -0.567,
+        ],
+        // japan
+        [
+          0.72, -0.383, 0.769, -0.408, 0.777, -0.467, 0.786, -0.517, 0.777,
+          -0.567, 0.798, -0.583, 0.786, -0.542, 0.81, -0.458, 0.786, -0.458,
+          0.786, -0.408, 0.748, -0.358, 0.736, -0.358, 0.724, -0.325,
+        ],
+        // ailarts'
+        [
+          0.781, 0.2, 0.753, 0.183, 0.757, 0.142, 0.736, 0.142, 0.715, 0.183,
+          0.707, 0.158, 0.687, 0.2, 0.637, 0.25, 0.625, 0.308, 0.641, 0.35,
+          0.637, 0.4, 0.67, 0.383, 0.687, 0.375, 0.728, 0.342, 0.753, 0.392,
+          0.765, 0.367, 0.777, 0.417, 0.806, 0.425, 0.827, 0.425, 0.847, 0.317,
+          0.806, 0.2, 0.802, 0.158, 0.786, 0.133,
+        ],
+        // philippines, papua new guinea and other islands
+        [
+          0.555, -0.075, 0.571, -0.05, 0.571, 0, 0.596, 0.025, 0.596, 0.058,
+          0.645, 0.092, 0.703, 0.092, 0.592, 0.092, 0.555, 0.025, 0.555, -0.008,
+          0.53, -0.05, 0.559, -0.033,
+        ],
+        [
+          0.649, -0.067, 0.654, -0.033, 0.662, -0.017, 0.645, 0.05, 0.625,
+          0.033, 0.604, -0.008, 0.645, -0.067,
+        ],
+        [
+          0.67, -0.2, 0.658, -0.175, 0.666, -0.125, 0.649, -0.083, 0.678,
+          -0.117, 0.678, -0.083, 0.695, -0.05, 0.695, -0.117, 0.678, -0.158,
+        ],
+        [
+          0.695, 0.05, 0.724, 0.042, 0.753, 0.05, 0.761, 0.092, 0.781, 0.092,
+          0.81, 0.092, 0.831, 0.125, 0.814, 0.083, 0.843, 0.025, 0.81, 0.058,
+          0.773, 0.025, 0.748, 0.042,
+        ],
+        [0.81, 0.467, 0.802, 0.483, 0.814, 0.517, 0.827, 0.475],
+        [
+          0.951, 0.4, 0.963, 0.45, 0.922, 0.5, 0.942, 0.533, 0.942, 0.5, 0.959,
+          0.492, 0.979, 0.433,
+        ],
+        [0.909, 0.242, 0.926, 0.267],
+        [0.975, 0.192, 0.992, 0.208],
+        [0.06, -0.875, 0.101, -0.842, 0.134, -0.842, 0.155, -0.9],
+        // "great" britain
+        [-0.019, -0.65, 0.002, -0.608, -0.014, -0.608, -0.039, -0.633],
+        [-0.043, -0.583, -0.043, -0.575, -0.023, -0.567],
+        // isle of the easter heads
+        [-0.86, -0.208, -0.847, -0.183],
+      ];
+
+      reparseLines();
+      anim();
+    };
+    updateGlobe();
+    window.addEventListener("resize", updateGlobe);
+
+    return () => window.removeEventListener("resize", updateGlobe);
+  }, [window.innerWidth]);
 
   return (
     <>
       <div class="lg:pt-44 md:pt-48 sm:pt-[156px] pt-[126px] lg:pb-12 pb-0 overflow-hidden bg-gradient-to-r from-gray-200 to-blue-200">
-        <div class="  sm:left-14 left-16 xl:px-14 xs2:px-20 px-4 xl:left-12 xl:bottom-0 bottom-4 relative container mx-auto flex lg:pt-0 pt-2 flex-wrap flex-col md:flex-row items-center">
-          <div class="flex flex-col  xl:w-2/5 lg:w-[46%] relative xl:-right-6 xl:bottom-2 lg:-bottom-5 lg:right-72 md:right-6 sm:right-40 right-16 bottom-5 md:pl-0 sm:pl-8 pl-0 sm:w-full w-full mx-auto justify-center items-start text-left">
-            <p class="uppercase font-medium  text-sm  text-center lg:right-0 md:right-20 sm:-right-12 sm:left-20 md:-left-[52px] lg:-left-0 xl:left-[1px] right-0 mx-auto  top-5 -mt-10   relative md:w-full w-80">
-              IdeaStack - Student-Entrepreneurship Platform
+        <div class="  sm:left-14 left-16 xl:px-14 sm:px-20 px-12 xl:left-12 xl:bottom-0 bottom-4 relative container mx-auto flex lg:pt-0 pt-2 flex-wrap flex-col md:flex-row items-center">
+          <div class="flex tracking-[0.015em] flex-col  xl:w-2/5 lg:w-[46%] relative xl:right-4 xl:-bottom-2 lg:-mt-14 lg:-bottom-5 lg:right-[280px] md:right-6 sm:right-40 right-16 bottom-5 md:pl-0 sm:pl-8 pl-0 sm:w-full w-full mx-auto justify-center items-start lg:text-left text-center">
+            <p class="uppercase font-medium  text-sm  lg:text-left text-center xl:right-0 lg:right-5 md:right-20 sm:-right-12 sm:left-20 md:-left-[42px] lg:-left-8 xl:left-[-1px] right-0 mx-auto  top-5 -mt-10   relative md:w-full w-fit">
+              Mentorship & Networking{" "}
+              <span class="sm:inline hidden">Platform</span>
             </p>
-            <h1 class="relative my-4 mb-7 md:-ml-[120px] text-center mx-auto lg:text-6xl md:text-7xl  xl:-ml-[105px] top-[15px] lg:-ml-[135px] sm:text-6xl text-5xl sm:left-20 left-1 px-3 font-bold leading-tight">
-              Launch <span class=" text-blue-700">Your Idea!</span>
+            <h1 class="relative font-sans my-4 mb-7 md:-ml-[110px] lg:text-left text-center mx-auto xl:text-6xl md:text-5xl  sm:text-5xl text-4xl  xl:-ml-[105px] top-[15px] lg:-ml-[135px] sm:left-20 left-1 px-3 font-bold leading-tight">
+              <span class="sm:inline hidden">The</span> Growth-Hub{" "}
+              <br class="lg:hidden sm:block hidden" />
+              for{" "}
+              <span class=" from-indigo-500 to-blue-500 bg-clip-text text-transparent bg-gradient-to-r">
+                Student-led Ventures.
+              </span>
             </h1>
-            <p class="leading-normal font-medium mx-auto xl:text-xl xl:-right-7 lg:-right-2 lg:left-0 md:right-10  sm:-right-[100px] sm:left-20 md:-left-[47px] xl:left-[13px] xs:right-3 right-0   xs:w-96 md:w-3/4  lg:w-full md:text-xl sm:text-xl xl:w-80 w-72 text-lg mb-12 sm:mt-5 mt-2 relative text-center">
-              Networking and Mentorship Platform to Help Students Build and
-              Launch Their Ventures.
+            <p class="leading-normal font-medium  lg:mx-0 xl:ml-0.5 mx-auto xl:-right-3 lg:-right-2 md:right-0  sm:-right-[100px]  xl:left-[-10px] lg:left-[-40px] md:left-[-35px] sm:left-20    xs:right-3 right-0   xs:w-96 md:w-3/4  lg:w-fit md:text-lg sm:text-lg xl:w-80 sm:w-72 w-fit text-base mb-12 sm:mt-5 mt-2 relative lg:text-left text-center">
+              Connecting student-entrepreneurs with established founders,
+              mentors and advisors.
             </p>
             <a
               href="#about"
-              class=" mx-auto xl:left-[11px] md:uppercase lg:-left-[0px] left-[3px] md:left-[-45px] md:mb-0 sm:left-[84px]  relative xs:-mb-4 lg:bottom-8 md:bottom-6 bottom-6  bg-white text-gray-800 font-bold rounded-lg  my-4 sm:py-3 py-3 hover:cursor-pointer z-20 md:px-8 sm:px-6 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+              class=" xl:left-[-10px] md:uppercase lg:mx-0 mx-auto lg:left-[-40px] left-[3px] md:left-[-35px] md:mb-0 sm:-mb-4 -mb-2 sm:mt-4 mt-2 sm:left-[84px]  relative  lg:bottom-8 md:bottom-6 bottom-6  bg-white text-gray-800 font-bold rounded-lg  my-4 sm:py-3 py-3 hover:cursor-pointer z-20 md:px-8 sm:px-6 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
             >
               Learn More
             </a>
@@ -53,7 +354,7 @@ const Landing = () => {
               src={net}
             />
             <img
-              class="bottom-1 absolute z-10 xl:-top-32 -top-24 left-1/2 xl:w-1/3 w-2/5 lg:visible invisible  "
+              class="bottom-1 absolute z-10 xl:-top-32 -top-24 xl:left-1/2 left-[51%] xl:w-1/3 w-2/5 lg:visible invisible  "
               src={mainimg}
             />
           </div>
@@ -98,7 +399,7 @@ const Landing = () => {
         </svg>
       </div>
 
-      <section class="bg-white border-b sm:py-2 py-6 sm:pb-2 pb-0">
+      {/* <section class="bg-white border-b sm:py-2 py-6 sm:pb-2 pb-0">
         <div
           class="max-w-5xl sm:top-8 top-3 relative  mx-auto m-8"
           data-aos={"fade-up"}
@@ -366,14 +667,164 @@ const Landing = () => {
             </div>
           </div>
         </div>
-      </section>
-      <p class="relative bottom-14" id="features" />
-      <section
+      </section> */}
+
+      <p class="relative bottom-14 " id="features" />
+      <div
+        id="features"
+        class="bg-white relative lg:pt-14 sm:pt-10 pt-14 xl:pt-8 xl:pb-[99px] pb-[80px] px-12 border-b-2 border-dashed border-blue-700"
+      >
+        <div
+          data-aos={"fade-up"}
+          data-aos-once="true"
+          class="md:w-2/3 w-[90%]  lg:w-1/2 mx-auto block"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="w-6 h-6 relative text-blue-700 sm:top-2 xl:left-20 md:left-14 sm:left-24 left-14 text-secondary"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M9 4.5a.75.75 0 01.721.544l.813 2.846a3.75 3.75 0 002.576 2.576l2.846.813a.75.75 0 010 1.442l-2.846.813a3.75 3.75 0 00-2.576 2.576l-.813 2.846a.75.75 0 01-1.442 0l-.813-2.846a3.75 3.75 0 00-2.576-2.576l-2.846-.813a.75.75 0 010-1.442l2.846-.813A3.75 3.75 0 007.466 7.89l.813-2.846A.75.75 0 019 4.5zM18 1.5a.75.75 0 01.728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 010 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 01-1.456 0l-.258-1.036a2.625 2.625 0 00-1.91-1.91l-1.036-.258a.75.75 0 010-1.456l1.036-.258a2.625 2.625 0 001.91-1.91l.258-1.036A.75.75 0 0118 1.5zM16.5 15a.75.75 0 01.712.513l.394 1.183c.15.447.5.799.948.948l1.183.395a.75.75 0 010 1.422l-1.183.395c-.447.15-.799.5-.948.948l-.395 1.183a.75.75 0 01-1.422 0l-.395-1.183a1.5 1.5 0 00-.948-.948l-1.183-.395a.75.75 0 010-1.422l1.183-.395c.447-.15.799-.5.948-.948l.395-1.183A.75.75 0 0116.5 15z"
+              clip-rule="evenodd"
+            />
+          </svg>
+
+          <h2 class="my-8 text-3xl text-center  font-bold text-gray-700 md:text-4xl">
+            Our Features & Services
+          </h2>
+          <p class="text-gray-600 my-2 text-center">
+            Serious about growth & impact? We provide you with an
+            accessible-to-all pool of{" "}
+            <span class="sm:inline hidden">
+              business operators, startup founders
+            </span>{" "}
+            and leaders that drive success at the world's leading startups.
+          </p>
+        </div>
+        <div
+          data-aos={"fade-left"}
+          data-aos-once="true"
+          delay={100}
+          class="mt-12  grid divide-x divide-y divide-blue-700  overflow-hidden rounded-3xl mx-auto container border border-blue-700 text-gray-600  sm:grid-cols-1 lg:grid-cols-3 lg:divide-y-0 xl:grid-cols-3"
+        >
+          <div class="group relative bg-gradient-to-r from-indigo-100 to-blue-50  transition z-[1] shadow-2xl shadow-gray-600/10">
+            <div class="relative space-y-8 py-12 p-8">
+              <img
+                src={meeting}
+                class="w-16 mx-auto"
+                width="512"
+                height="512"
+                alt="burger illustration"
+              />
+
+              <div class="space-y-2 text-center">
+                <h5 class="text-xl font-semibold  text-gray-700  transition ">
+                  1:1 startup mentorship
+                </h5>
+                <p class="text-gray-600 ">
+                  Student teams are matched with a startup mentor every month,
+                  based on mentor expertise requirements and business
+                  objectives.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="group relative bg-gradient-to-r from-blue-50 to-indigo-100  transition z-[2] shadow-2xl shadow-gray-600/10">
+            <div class="relative space-y-8 py-12 p-8">
+              <img
+                src={networking}
+                class="w-16 mx-auto"
+                width="512"
+                height="512"
+                alt="burger illustration"
+              />
+
+              <div class="space-y-2 text-center">
+                <h5 class="text-xl font-semibold text-gray-700 transition ">
+                  A smart, supportive network.
+                </h5>
+                <p class="text-gray-600 ">
+                  Build new contacts with influential, experienced and
+                  knowledgable individuals across our diverse pool of successful
+                  <span class="xl:inline hidden">entrepreneurs and</span>{" "}
+                  mentors.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="group relative  bg-gradient-to-r from-indigo-100 to-blue-100  transition z-[2] shadow-2xl shadow-gray-600/10">
+            <div class="relative space-y-8 py-12 p-8 transition duration-300 ">
+              <img
+                src={management}
+                class="w-16 mx-auto"
+                width="512"
+                height="512"
+                alt="burger illustration"
+              />
+
+              <div class="space-y-2 text-center">
+                <h5 class="text-xl font-semibold text-gray-700  transition ">
+                  Easy team-management.
+                </h5>
+                <p class="text-gray-600 ">
+                  Enable collaboration. Documents, execution-work and other such
+                  paperwork to complete assignments that will accelerate your
+                  business.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-b-2 border-dashed border-blue-700 bg-gradient-to-r from-gray-200 to-blue-200">
+        <div
+          data-aos={"zoom-out"}
+          data-aos-once="true"
+          delay={100}
+          className="px-4 tracking-[0.015em]  mx-auto sm:max-w-xl  md:max-w-full bg-transparent lg:max-w-screen-xl md:px-24 lg:px-8 sm:py-[80px] sm:pt-[72px] py-[66px] pt-[50px]"
+        >
+          <div
+            aria-hidden="true"
+            class="relative inset-0 grid grid-cols-2 -mb-[112px] -space-x-52 opacity-40"
+          >
+            <div class="blur-[106px] h-[112px]   bg-gradient-to-br from-cyan-400 to-indigo-200 "></div>
+            <div class="blur-[106px] h-[64px]  bg-gradient-to-r from-cyan-200 to-indigo-600 "></div>
+          </div>
+          <h2 class="-mt-1 lg:mb-12 sm:mb-10 mb-[30px] text-3xl lg:text-5xl sm:text-4xl w-[88%] md:w-[88%]  lg:w-1/2 mx-auto block text-center  font-bold text-gray-800 ">
+            Building a Global{" "}
+            <span class="from-indigo-500 to-blue-500 bg-clip-text text-transparent bg-gradient-to-br">
+              Network
+            </span>
+          </h2>
+          <p class="text-gray-600 md:w-[88%] lg:w-2/3  xl:w-1/2 w-[88%] mx-auto block md:mb-14 lg:mb-16 sm:mb-[55px] mb-[45px] text-center">
+            The IdeaStack community is growing. Join now, and reap the benefits
+            of a{" "}
+            <span class="font-semibold text-blue-700">
+              talented pool of the region's leading startup founders, mentors
+              and advisors{" "}
+              <span class="sm:hidden text-gray-600 inline">
+                from diverse backgrounds and interests.
+              </span>
+            </span>
+            <span class="sm:inline hidden -ml-1">
+              . Abundant in experience, lessons and advice, our mentors come
+              from diverse backgrounds and interests.
+            </span>
+          </p>
+          <canvas
+            id="c"
+            class="block mx-auto transition-shadow  bg-transparent shadow-2xl shadow-gray-600/10 rounded-full"
+          />
+        </div>
+      </div>
+
+      {/* <section
         class="bg-white border-b py-8 pb-[25px] bg-no-repeat bg-cover"
-        style={{
-          backgroundImage:
-            "url(https://img.wallpapersafari.com/tablet/2048/2732/68/27/ZM5Amy.jpg",
-        }}
+        
       >
         <div class="container mx-auto flex flex-wrap pt-7 pb-10">
           <div class="w-full mb-4">
@@ -457,7 +908,7 @@ const Landing = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* // <!-- Change the colour #f8fafc to match the previous section colour --> */}
       <svg
@@ -497,7 +948,12 @@ const Landing = () => {
         class="relative bottom-52 xl:pt-0 lg:pt-5 md:pt-8 sm:pt-14 pt-[74px]"
       />
       <div class="">
-        <div className="px-4 py-16 -mt-[127px] mb-2 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20 lg:pt-20">
+        <div
+          data-aos={"fade-up"}
+          data-aos-once="true"
+          delay={100}
+          className="px-4 py-16 -mt-[127px] mb-2 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20 lg:pt-20"
+        >
           <div className="grid gap-2 row-gap-3 lg:grid-cols-2">
             <div className="lg:py-6 -mr-2 ml-3 relative top-2 lg:left-1 lg:pr-16 pr-8 lg:pl-0 pl-4">
               <div className="flex">
@@ -533,9 +989,9 @@ const Landing = () => {
                 <div className="pt-1 pb-8">
                   <p className="mb-2 text-lg font-bold">Step 1</p>
                   <p className="text-gray-700">
-                    Have a Project Idea? Finding it difficult to make your
-                    solution come true? Sign Up on IdeaStack and begin the
-                    process of building your STEM Project!
+                    Building an Venture? Finding it difficult to make your
+                    solution come true? Sign Up on IdeaStack and learn from the
+                    people who've been in your shoes!
                   </p>
                 </div>
               </div>
@@ -572,9 +1028,8 @@ const Landing = () => {
                 <div className="pt-1 pb-8">
                   <p className="mb-2 text-lg font-bold">Step 2</p>
                   <p className="text-gray-700">
-                    Looking to form or join a team? You have 2 options. Send a
-                    join request or "Create your Project" and invite users, or
-                    set an application process.
+                    Enter information on your startup and team-members. Your
+                    team will be screened and onboarded onto IdeaStack.
                   </p>
                 </div>
               </div>
@@ -611,9 +1066,9 @@ const Landing = () => {
                 <div className="pt-1 pb-8">
                   <p className="mb-2 text-lg font-bold">Step 3</p>
                   <p className="text-gray-700">
-                    Check your invites, requests and team applications. Verify
-                    whether an applicant or team suits you, and start working
-                    together!
+                    Browse our pool of experts, mentors and advisors. Request a
+                    mentor that fits your expertise requirements, and we'll
+                    consider your request in the matching process.
                   </p>
                 </div>
               </div>
@@ -650,9 +1105,9 @@ const Landing = () => {
                 <div className="pt-1 pb-8">
                   <p className="mb-2 text-lg font-bold">Step 4</p>
                   <p className="text-gray-700">
-                    Use our interface to collaborate, communicate and plan..
-                    Access free & exclusive mentorship sessions with experts of
-                    diverse backgrounds and strengths!
+                    Done! We match your team with a mentor, and provide you with
+                    a dashboard to undertake that mentorship. Weekly meetings,
+                    assignments, and doubt-clearing sessions, all for a month!
                   </p>
                 </div>
               </div>
@@ -678,7 +1133,9 @@ const Landing = () => {
                   </div>
                 </div>
                 <div className="pt-1">
-                  <p className="mb-2 text-lg font-bold">Project Launch!</p>
+                  <p className="mb-2 text-lg font-bold">
+                    Build, Launch & Execute!
+                  </p>
                   <p className="text-gray-700" />
                 </div>
               </div>
@@ -694,9 +1151,9 @@ const Landing = () => {
         </div>
       </div>
 
-      <div class="bg-gradient-to-r border-t-2 border-blue-700 border-dashed from-gray-200 to-blue-200 sm:pt-[25px] pt-[20px] xl:pb-[50px] lg:pb-[75px] md:pb-[345px] sm:pb-[553px] pb-[545px]  ">
+      <div class="bg-gradient-to-r tracking-[0.015em] border-t-2 border-blue-700 border-dashed from-gray-200 to-blue-200 sm:pt-[25px] pt-[20px] xl:pb-[50px] lg:pb-[75px] md:pb-[345px] sm:pb-[553px] pb-[545px]  ">
         <div class="h-auto  sm:px-[30px]  px-[15px]">
-          <span class="block mb-4 lg:mt-10 mt-12  text-center text-blue-700 text-lg uppercase text-primary font-semibold">
+          <span class="block mb-4 lg:mt-10 mt-12  text-center text-blue-700 text-sm uppercase text-primary font-semibold">
             Reach Out for Partnership
           </span>
           <h1 class="w-full lg:mb-[90px] sm:px-0 px-[5px] md:mb-[96px] mb-[60px] lg:normal-case uppercase  relative  md:text-5xl sm:text-[40px] text-[32px] font-bold  leading-tight  text-center text-gray-800">
@@ -704,16 +1161,16 @@ const Landing = () => {
           </h1>
 
           <div
-            data-aos={"zoom-in"}
+            data-aos={"fade-left"}
             data-aos-once="true"
-            className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:mt-0 md:-mt-8 lg:w-[900px]  md:w-[650px] sm:w-[350px] w-[250px] xl:bottom-16 relative sm:top-0 xl:-top-8 -top-2 mx-auto xs3:h-72 h-64 gap-12 xl:gap-14"
+            className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:mt-0 md:-mt-8 lg:w-[900px]  md:w-[650px] sm:w-[350px] w-[250px] xl:bottom-16 relative sm:top-0 xl:-top-8 -top-2 mx-auto  h-64 gap-12 xl:gap-14"
           >
             {/* ::Partner 1 -> ALL */}
             <div
               onClick={() => {
                 window.open("https://atpstem.com", "_blank");
               }}
-              className="col-span-1 sm:col-span-1 lg:col-span-1 md:py-12 py-[62px] px-5 flex hover:cursor-pointer hover:shadow-xl  justify-center items-center bg-white shadow-md rounded-md border-t-2 border-gray-300"
+              className="col-span-1 sm:col-span-1 lg:col-span-1 md:py-12 py-[62px] px-8 flex hover:cursor-pointer hover:shadow-xl  justify-center items-center bg-white shadow-md rounded-md border-t-2 border-gray-300"
             >
               <img
                 src={atp}
@@ -741,7 +1198,7 @@ const Landing = () => {
               onClick={() => {
                 window.open("https://miscible.co", "_blank");
               }}
-              className="col-span-1 sm:col-span-1 lg:col-span-1 lg:py-12 md:py-[90px] md:pb-[100px] py-[80px] pb-[90px] px-5 flex hover:cursor-pointer hover:shadow-xl justify-center items-center bg-white shadow-md rounded-md border-t-2 border-gray-300"
+              className="col-span-1 sm:col-span-1 lg:col-span-1 lg:py-12 md:py-[90px] md:pb-[100px] py-[80px] pb-[90px] px-8 flex hover:cursor-pointer hover:shadow-xl justify-center items-center bg-white shadow-md rounded-md border-t-2 border-gray-300"
             >
               <img
                 src={miscible}

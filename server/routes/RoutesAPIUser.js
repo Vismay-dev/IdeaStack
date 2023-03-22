@@ -8,6 +8,11 @@ const jwt = require("jsonwebtoken");
 const auth = require("../auth/auth");
 const multer = require("multer");
 const cloudinary = require("cloudinary");
+const cron = require("node-cron");
+
+const Agenda = require("agenda");
+const agenda = new Agenda({ db: { address: "mongodb://127.0.0.1/agenda" } });
+
 // const Mentor = require("../models/mentor");
 
 const fileStorageEngine = multer.diskStorage({
@@ -38,8 +43,8 @@ router.post("/sendUserQuery", (req, res) => {
       const mailOptions = {
         from: "IdeaStack <ideastackapp@gmail.com>",
         to: [req.body.mailId],
-        bcc: ["vismaysuramwar@gmail.com"],
-        subject: "Contacting IdeaStack",
+        bcc: ["vismaysuramwar@gmail.com", "raghavbhatia0611@gmail.com "],
+        subject: "Contacting IdeaStack - Query",
         text: `
                 Hey ${req.body.name} !
         
@@ -122,8 +127,8 @@ router.post("/register", async (req, res) => {
         return;
       }
 
+      const proj = await project.findById(req.body.projId);
       if (req.body.additionalMember) {
-        const proj = await project.findById(req.body.projId);
         let chk = true;
 
         for (let k = 0; k < proj.team.length; k++) {
@@ -143,6 +148,77 @@ router.post("/register", async (req, res) => {
           res.status(400).send("Invalid Unique Join Code...");
           return;
         } else {
+          async function sendOnboardedMail() {
+            try {
+              const transport = await nodemailer.createTransport({
+                host: "smtp.gmail.com",
+                port: 465,
+                auth: {
+                  type: "OAuth2",
+                  user: "ideastackapp@gmail.com",
+                  clientId: process.env.CLIENT_ID,
+                  clientSecret: process.env.CLIENT_SECRET,
+                  accessToken: process.env.ACCESS_TOKEN,
+                  refreshToken: process.env.REFRESH_TOKEN,
+                },
+              });
+
+              const mailOptions = {
+                from: "IdeaStack <ideastackapp@gmail.com>",
+                to: [proj.team[0].email],
+                bcc: [],
+                subject: `${req.body.firstName} has joined IdeaStack.org!`,
+                text: `
+                        Hey ${proj.team[0].firstName}!
+                
+                        Your team-member, ${req.body.firstName}, has onboarded your venture (${proj.name}) @ IdeaStack.org.
+                        
+                        We hope to take you and your team to new heights through mentorship!
+                        Explore our portfolio of mentors and request a mentor based on your specific needs; our team will take your requests into consideration while matching you with a mentor.
+    
+                        Contact us if you face any issues- our team prioritizes your experience above all else.
+                        
+                        Best Regards,
+                        Admin Team, IdeaStack`,
+                html: `
+                        <p>Hey ${proj.team[0].firstName}!</p>
+                
+                        <p>Your team-member, ${req.body.firstName}, has onboarded your venture (${proj.name}) @ IdeaStack.org.<br/>
+                        <h4>We hope to take you and your team to new heights through mentorship!.</h4>
+                        Explore our portfolio of mentors and request a mentor based on your specific needs; our team will take your requests into consideration while matching you with a mentor.<br/> 
+                        Contact us if you face any issues- our team prioritizes your experience above all else.
+                        </p>
+                        
+                        <p>Best Regards,<br/>
+                        Admin Team, IdeaStack</p>
+                        <br/><br/>
+                        <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                        `,
+                attachments: [
+                  {
+                    fileName: "IdeaStack.jpg",
+                    path: "server/routes/IdeaStack.jpg",
+                    cid: "ideastack@orgae.ee",
+                  },
+                ],
+              };
+              const result = await transport.sendMail(mailOptions);
+              return result;
+            } catch (err) {
+              return err;
+            }
+          }
+
+          sendOnboardedMail()
+            .then((result) => {
+              res.send("Successfully sent Email !");
+              console.log(result);
+            })
+            .catch((err) => {
+              console.log(err);
+              res.status(400).send(err);
+            });
+
           proj.markModified("team");
           await proj.save();
         }
@@ -151,6 +227,77 @@ router.post("/register", async (req, res) => {
         proj.markModified("teamOnboarded");
         await proj.save();
       }
+
+      async function sendRegistrationMail() {
+        try {
+          const transport = await nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            auth: {
+              type: "OAuth2",
+              user: "ideastackapp@gmail.com",
+              clientId: process.env.CLIENT_ID,
+              clientSecret: process.env.CLIENT_SECRET,
+              accessToken: process.env.ACCESS_TOKEN,
+              refreshToken: process.env.REFRESH_TOKEN,
+            },
+          });
+
+          const mailOptions = {
+            from: "IdeaStack <ideastackapp@gmail.com>",
+            to: [req.body.email],
+            bcc: ["vismaysuramwar@gmail.com", "raghavbhatia0611@gmail.com"],
+            subject: `${req.body.firstName}, Welcome to IdeaStack!`,
+            text: `
+                    Hey ${req.body.firstName}!
+            
+                    Welcome to IdeaStack.org.
+                    
+                    We hope to take you and your team @ ${proj.name} to new heights through mentorship!
+                    Explore our portfolio of mentors and request a mentor based on your specific needs; our team will take your requests into consideration while matching you with a mentor.
+
+                    Contact us if you face any issues- our team prioritizes your experience above all else.
+                    
+                    Best Regards,
+                    Admin Team, IdeaStack`,
+            html: `
+                    <p>Hey ${req.body.firstName}!</p>
+            
+                    <p> Welcome to IdeaStack.org.<br/>
+                    <h4>We hope to take you and your team @ ${proj.name} to new heights through mentorship!.</h4>
+                    Explore our portfolio of mentors and request a mentor based on your specific needs; our team will take your requests into consideration while matching you with a mentor.<br/> 
+                    Contact us if you face any issues- our team prioritizes your experience above all else.
+                    </p>
+                    
+                    <p>Best Regards,<br/>
+                    Admin Team, IdeaStack</p>
+                    <br/><br/>
+                    <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                    `,
+            attachments: [
+              {
+                fileName: "IdeaStack.jpg",
+                path: "server/routes/IdeaStack.jpg",
+                cid: "ideastack@orgae.ee",
+              },
+            ],
+          };
+          const result = await transport.sendMail(mailOptions);
+          return result;
+        } catch (err) {
+          return err;
+        }
+      }
+
+      sendRegistrationMail()
+        .then((result) => {
+          res.send("Successfully sent Email !");
+          console.log(result);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(400).send(err);
+        });
 
       const user = await newUser.save().catch((err) => console.log(err));
       const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
@@ -493,6 +640,88 @@ router.post("/updateMentor", auth, async (req, res) => {
       updateInfo
     );
     const updatedMentor = await newMentor.save();
+
+    if (req.body.acceptRequest && req.body.acceptRequest === true) {
+      // project id: latest index in req.body.acceptedRequests[req.body.acceptedRequests.length-1]
+
+      const proj = await project.findById(
+        req.body.mentor.acceptedRequests[
+          req.body.mentor.acceptedRequests.length - 1
+        ]
+      );
+
+      async function sendRequestAcceptedMail() {
+        try {
+          const transport = await nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            auth: {
+              type: "OAuth2",
+              user: "ideastackapp@gmail.com",
+              clientId: process.env.CLIENT_ID,
+              clientSecret: process.env.CLIENT_SECRET,
+              accessToken: process.env.ACCESS_TOKEN,
+              refreshToken: process.env.REFRESH_TOKEN,
+            },
+          });
+
+          const mailOptions = {
+            from: "IdeaStack <ideastackapp@gmail.com>",
+            to: [...proj.team.map((teamMember) => teamMember.email)],
+            bcc: [],
+            subject: `Mentorship Request Accepted - ${req.body.mentor.name} @ IdeaStack.org`,
+            text: `
+                    Hey, Entrepreneurs @ ${proj.name}!
+            
+                    IdeaStack mentor ${req.body.mentor.name} has accepted your mentorship request.
+                    
+                    We'll be taking this acceptance into consideration while matching you with a mentor! 
+                    Sign-in to IdeaStack.org, and make more requests to mentors that interest you- this will increase the likelihood that you're matched with a mentor that suits your preferences.
+    
+                    Contact us if you face any issues- our team prioritizes your experience above all else.
+                    
+                    Best Regards,
+                    Admin Team, IdeaStack`,
+            html: `
+                    <p>Hey, Entrepreneurs @ ${proj.name}!</p>
+            
+                    <p> IdeaStack mentor ${req.body.mentor.name} has accepted your mentorship request.<br/>
+                    <h4>We'll be taking this acceptance into consideration while matching you with a mentor! </h4>
+                    Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and make more requests to mentors that interest you- this will increase the likelihood that you're matched with a mentor that suits your preferences.<br/> 
+                    Contact us if you face any issues- our team prioritizes your experience above all else.
+                    </p>
+                    
+                    <p>Best Regards,<br/>
+                    Admin Team, IdeaStack</p>
+                    <br/><br/>
+                    <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                    `,
+            attachments: [
+              {
+                fileName: "IdeaStack.jpg",
+                path: "server/routes/IdeaStack.jpg",
+                cid: "ideastack@orgae.ee",
+              },
+            ],
+          };
+          const result = await transport.sendMail(mailOptions);
+          return result;
+        } catch (err) {
+          return err;
+        }
+      }
+
+      sendRequestAcceptedMail()
+        .then((result) => {
+          res.send("Successfully sent Email !");
+          console.log(result);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(400).send(err);
+        });
+    }
+
     res.send({ ...updatedMentor, ...updateInfo });
   } catch (err) {
     console.log(err);
@@ -1054,6 +1283,106 @@ router.post("/updateInstructions", auth, async (req, res) => {
     },
   };
 
+  const mentor = await workshop.findById(proj.mentorsMatched[index].mentorId);
+
+  async function sendInstructionsMail() {
+    try {
+      const transport = await nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        auth: {
+          type: "OAuth2",
+          user: "ideastackapp@gmail.com",
+          clientId: process.env.CLIENT_ID,
+          clientSecret: process.env.CLIENT_SECRET,
+          accessToken: process.env.ACCESS_TOKEN,
+          refreshToken: process.env.REFRESH_TOKEN,
+        },
+      });
+
+      const mailOptions = {
+        from: "IdeaStack <ideastackapp@gmail.com>",
+        to: [...proj.team.map((teamMember) => teamMember.email)],
+        bcc: [],
+        subject: `Mentorship Instructions Updated - ${mentor.name} @ IdeaStack.org`,
+        text: `
+                Hey, Entrepreneurs @ ${proj.name}!
+        
+                IdeaStack mentor ${
+                  mentor.name
+                } has set new instructions for week no. ${
+          req.body.week
+        } of mentorship:
+
+                Date: ${new Date(
+                  proj.mentorsMatched[index].upcomingMeeting.date
+                )
+                  .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+                  .substring(12, 17)} (GST), 
+                Instructions: "${req.body.instructions}"
+                
+                Kindly pay heed to the above instructions as you prepare for this week's mentorship meeting with ${
+                  mentor.name
+                }. 
+                Sign-in to IdeaStack.org, and explore more mentor details.
+
+                Contact us if you face any issues- our team prioritizes your experience above all else.
+                
+                Best Regards,
+                Admin Team, IdeaStack`,
+        html: `
+                <p>Hey, Entrepreneurs @ ${proj.name}!</p>
+        
+                <p> IdeaStack mentor ${
+                  mentor.name
+                } has set new instructions for week no. ${
+          req.body.week
+        } of mentorship:<br/>
+
+                <p>Date: ${new Date(
+                  proj.mentorsMatched[index].upcomingMeeting.date
+                )
+                  .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+                  .substring(12, 17)} (GST),</p>
+                <p>Instructions: "${req.body.instructions}"</p><br/>
+
+                <h4> Kindly pay heed to the above instructions as you prepare for this week's mentorship meeting with ${
+                  mentor.name
+                }.</h4>
+                Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and and explore more mentor details.<br/> 
+                Contact us if you face any issues- our team prioritizes your experience above all else.
+                </p>
+                
+                <p>Best Regards,<br/>
+                Admin Team, IdeaStack</p>
+                <br/><br/>
+                <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                `,
+        attachments: [
+          {
+            fileName: "IdeaStack.jpg",
+            path: "server/routes/IdeaStack.jpg",
+            cid: "ideastack@orgae.ee",
+          },
+        ],
+      };
+      const result = await transport.sendMail(mailOptions);
+      return result;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  sendInstructionsMail()
+    .then((result) => {
+      res.send("Successfully sent Email !");
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    });
+
   proj.markModified("mentorsMatched");
   await proj.save();
 
@@ -1074,6 +1403,8 @@ router.post("/confirmMeetingSlots", auth, async (req, res) => {
     }
   }
 
+  const mentor = await workshop.findById(proj.mentorsMatched[index].mentorId);
+
   if (req.body.week === 1) {
     proj.mentorsMatched[index].timeline.week1.availableDates =
       req.body.meetingSlots;
@@ -1087,6 +1418,100 @@ router.post("/confirmMeetingSlots", auth, async (req, res) => {
     proj.mentorsMatched[index].timeline.week4.availableDates =
       req.body.meetingSlots;
   }
+
+  async function sendSlotsSetMail() {
+    try {
+      const transport = await nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        auth: {
+          type: "OAuth2",
+          user: "ideastackapp@gmail.com",
+          clientId: process.env.CLIENT_ID,
+          clientSecret: process.env.CLIENT_SECRET,
+          accessToken: process.env.ACCESS_TOKEN,
+          refreshToken: process.env.REFRESH_TOKEN,
+        },
+      });
+
+      const mailOptions = {
+        from: "IdeaStack <ideastackapp@gmail.com>",
+        to: [...proj.team.map((teamMember) => teamMember.email)],
+        bcc: ["vismaysuramwar@gmail.com", "raghavbhatia0611@gmail.com"],
+        subject: `Meeting Slots Set - ${mentor.name} @ IdeaStack.org`,
+        text: `
+                Hey, Entrepreneurs @ ${proj.name}!
+        
+                IdeaStack mentor ${
+                  mentor.name
+                } has set the following meeting dates/slots for week no. ${
+          req.body.week
+        } of mentorship:
+
+                1. ${new Date(req.body.meetingSlots[0])
+                  .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+                  .substring(12, 17)} (GST), 
+                2. ${new Date(req.body.meetingSlots[1])
+                  .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+                  .substring(12, 17)} (GST)
+                
+                These are the only 2 available meeting slots for this week; you've been asked to confirm one of the slots within 2 days. 
+                Sign-in to IdeaStack.org, and select one of the slots. This is to finalize and schedule a meeting with your mentor.
+
+                Contact us if you face any issues- our team prioritizes your experience above all else.
+                
+                Best Regards,
+                Admin Team, IdeaStack`,
+        html: `
+                <p>Hey, Entrepreneurs @ ${proj.name}!</p>
+        
+                <p> IdeaStack mentor ${
+                  mentor.name
+                } has set the following meeting dates/slots for week no. ${
+          req.body.week
+        } of mentorship:<br/>
+
+                <p>1. ${new Date(req.body.meetingSlots[0])
+                  .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+                  .substring(12, 17)} (GST),</p>
+                <p>2. ${new Date(req.body.meetingSlots[1])
+                  .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+                  .substring(12, 17)} (GST)</p><br/>
+
+                <h4>These are the only 2 available meeting slots for this week; you've been asked to confirm one of the slots within 2 days.</h4>
+                Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and select one of the slots. This is to finalize and schedule a meeting with your mentor.<br/> 
+                Contact us if you face any issues- our team prioritizes your experience above all else.
+                </p>
+                
+                <p>Best Regards,<br/>
+                Admin Team, IdeaStack</p>
+                <br/><br/>
+                <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                `,
+        attachments: [
+          {
+            fileName: "IdeaStack.jpg",
+            path: "server/routes/IdeaStack.jpg",
+            cid: "ideastack@orgae.ee",
+          },
+        ],
+      };
+      const result = await transport.sendMail(mailOptions);
+      return result;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  sendSlotsSetMail()
+    .then((result) => {
+      res.send("Successfully sent Email !");
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    });
 
   proj.markModified("mentorsMatched");
   await proj.save();
@@ -1110,6 +1535,8 @@ router.post("/pickMentorshipDate", auth, async (req, res) => {
       index = i;
     }
   }
+
+  const mentor = await workshop.findById(proj.mentorsMatched[index].mentorId);
 
   if (req.body.week === 1) {
     proj.mentorsMatched[index].timeline.week1 = {
@@ -1147,6 +1574,352 @@ router.post("/pickMentorshipDate", auth, async (req, res) => {
       completed: false,
     },
   };
+
+  async function sendDatePickedMail() {
+    try {
+      const transport = await nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        auth: {
+          type: "OAuth2",
+          user: "ideastackapp@gmail.com",
+          clientId: process.env.CLIENT_ID,
+          clientSecret: process.env.CLIENT_SECRET,
+          accessToken: process.env.ACCESS_TOKEN,
+          refreshToken: process.env.REFRESH_TOKEN,
+        },
+      });
+
+      const mailOptions = {
+        from: "IdeaStack <ideastackapp@gmail.com>",
+        to: [mentor.email],
+        bcc: ["vismaysuramwar@gmail.com", "raghavbhatia0611@gmail.com"],
+        subject: `Mentorship Meeting Confirmed - ${proj.name} @ IdeaStack.org`,
+        text: `
+                Hey, ${mentor.name}!
+        
+                IdeaStack startup '${
+                  proj.name
+                }' has finalized the following meeting date for week no. ${
+          req.body.week
+        } of mentorship:
+
+                - ${new Date(req.body.datePicked)
+                  .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+                  .substring(12, 17)} (GST)
+                
+                Reminders will be sent to ensure you attend the meeting; Kindly review your mentees' details and prepare for the meeting.
+                Sign-in to IdeaStack.org/mentor, and explore more options to keep making an impact. Thank you for your support!
+
+                Contact us if you face any issues- our team prioritizes your experience above all else.
+                
+                Best Regards,
+                Admin Team, IdeaStack`,
+        html: `
+                <p>Hey, ${mentor.name}!</p>
+        
+                <p>IdeaStack startup '${
+                  proj.name
+                }' has finalized the following meeting date for week no. ${
+          req.body.week
+        } of mentorship:<br/>
+
+                <p>- ${new Date(req.body.datePicked)
+                  .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+                  .substring(12, 17)} (GST)</p><br/>
+                
+
+                <h4>Reminders will be sent to ensure you attend the meeting; Kindly review your mentees' details and prepare for the meeting.</h4>
+                Sign-in to <a href = "https://IdeaStack.org/mentor" target = "_blank">IdeaStack.org/mentor</a>, and explore more options to keep making an impact. Thank you for your support!<br/> 
+                Contact us if you face any issues- our team prioritizes your experience above all else.
+                </p>
+                
+                <p>Best Regards,<br/>
+                Admin Team, IdeaStack</p>
+                <br/><br/>
+                <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                `,
+        attachments: [
+          {
+            fileName: "IdeaStack.jpg",
+            path: "server/routes/IdeaStack.jpg",
+            cid: "ideastack@orgae.ee",
+          },
+        ],
+      };
+      const result = await transport.sendMail(mailOptions);
+      return result;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  sendDatePickedMail()
+    .then((result) => {
+      res.send("Successfully sent Email !");
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    });
+
+  function findSecondsDifference(date1, date2) {
+    var oneSecond_ms = 1000;
+
+    // Convert both dates to milliseconds
+    var date1_ms = date1.getTime();
+    var date2_ms = date2.getTime();
+
+    // Calculate the difference in milliseconds
+    var difference_ms = date2_ms - date1_ms;
+
+    // Convert back to days and return
+    return Math.round(difference_ms / oneSecond_ms);
+  }
+
+  async function sendReminderMail(uM, m, p) {
+    let upcomingMeeting = uM;
+    let mentor = m;
+    let proj = p;
+
+    try {
+      const transport = await nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        auth: {
+          type: "OAuth2",
+          user: "ideastackapp@gmail.com",
+          clientId: process.env.CLIENT_ID,
+          clientSecret: process.env.CLIENT_SECRET,
+          accessToken: process.env.ACCESS_TOKEN,
+          refreshToken: process.env.REFRESH_TOKEN,
+        },
+      });
+
+      const mailOptions = {
+        from: "IdeaStack <ideastackapp@gmail.com>",
+        to: "Undisclosed Recipients <ideastackapp@gmail.com>",
+        bcc: [
+          "vismaysuramwar@gmail.com",
+          "raghavbhatia0611@gmail.com",
+          mentor.email,
+          ...proj.team.map((teamMember) => teamMember.email),
+        ],
+        subject: `Reminder - Mentorship Meeting on ${new Date(
+          upcomingMeeting.date
+        )
+          .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+          .substring(12, 17)} (GST)`,
+        text: `
+                  Greetings,
+          
+                  Upcoming mentorship meeting between IdeaStack startup '${
+                    proj.name
+                  }' and mentor ${mentor.name} for week no. ${
+          upcomingMeeting.week
+        } of mentorship will happen on:
+    
+                  ${new Date(upcomingMeeting.date)
+                    .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+                    .substring(12, 17)} (GST)
+                  
+                  Sign-in to IdeaStack.org, and explore more options for mentorship.
+    
+                  Contact us if you face any issues- our team prioritizes your experience above all else.
+                  
+                  Best Regards,
+                  Admin Team, IdeaStack`,
+        html: `
+                  <p>Hey, ${mentor.name}!</p>
+          
+                  <p>Upcoming mentorship meeting between IdeaStack startup '${
+                    proj.name
+                  }' and mentor ${mentor.name} for week no. ${
+          upcomingMeeting.week
+        } of mentorship will happen on:<br/>
+    
+                  <p>- ${new Date(upcomingMeeting.date)
+                    .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+                    .substring(12, 17)} (GST)</p><br/>
+                  
+                  <p>Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and explore more options for mentorship.<br/> 
+                  Contact us if you face any issues- our team prioritizes your experience above all else.
+                  </p>
+                  
+                  <p>Best Regards,<br/>
+                  Admin Team, IdeaStack</p>
+                  <br/><br/>
+                  <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                  `,
+        attachments: [
+          {
+            fileName: "IdeaStack.jpg",
+            path: "server/routes/IdeaStack.jpg",
+            cid: "ideastack@orgae.ee",
+          },
+        ],
+      };
+      const result = await transport.sendMail(mailOptions);
+      return result;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  async function sendCompletionMail(uM, m, p) {
+    let upcomingMeeting = uM;
+    let mentor = m;
+    let proj = p;
+
+    try {
+      const transport = await nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        auth: {
+          type: "OAuth2",
+          user: "ideastackapp@gmail.com",
+          clientId: process.env.CLIENT_ID,
+          clientSecret: process.env.CLIENT_SECRET,
+          accessToken: process.env.ACCESS_TOKEN,
+          refreshToken: process.env.REFRESH_TOKEN,
+        },
+      });
+
+      const mailOptions = {
+        from: "IdeaStack <ideastackapp@gmail.com>",
+        to: "Undisclosed Recipients <ideastackapp@gmail.com>",
+        bcc: [
+          "vismaysuramwar@gmail.com",
+          "raghavbhatia0611@gmail.com",
+          mentor.email,
+          ...proj.team.map((teamMember) => teamMember.email),
+        ],
+        subject: `${mentor.name} x ${proj.name} - Mentorship Meeting Completed!`,
+        text: `
+                  Greetings,
+          
+                  Mentorship meeting between IdeaStack startup '${
+                    proj.name
+                  }' and mentor ${mentor.name} for week no. ${
+          upcomingMeeting.week
+        } has been succesfully completed! Logged meeting date:
+    
+                  ${new Date(upcomingMeeting.date)
+                    .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+                    .substring(12, 17)} (GST)
+                  
+                  Sign-in to IdeaStack.org, and explore more options for mentorship.
+    
+                  Contact us if you face any issues- our team prioritizes your experience above all else.
+                  
+                  Best Regards,
+                  Admin Team, IdeaStack`,
+        html: `
+                  <p>Hey, ${mentor.name}!</p>
+          
+                  <p>Mentorship meeting between IdeaStack startup '${
+                    proj.name
+                  }' and mentor ${mentor.name} for week no. ${
+          upcomingMeeting.week
+        } has been succesfully completed! Logged meeting date:<br/>
+    
+                  <p>- ${new Date(upcomingMeeting.date)
+                    .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+                    .substring(12, 17)} (GST)</p><br/>
+                  
+                  <p>Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and explore more options for mentorship.<br/> 
+                  Contact us if you face any issues- our team prioritizes your experience above all else.
+                  </p>
+                  
+                  <p>Best Regards,<br/>
+                  Admin Team, IdeaStack</p>
+                  <br/><br/>
+                  <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                  `,
+        attachments: [
+          {
+            fileName: "IdeaStack.jpg",
+            path: "server/routes/IdeaStack.jpg",
+            cid: "ideastack@orgae.ee",
+          },
+        ],
+      };
+      const result = await transport.sendMail(mailOptions);
+      return result;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  Date.prototype.addHours = function (h) {
+    this.setHours(this.getHours() + h);
+    return this;
+  };
+
+  agenda.define("reminderMail", () => {
+    sendReminderMail(proj.mentorsMatched[index].upcomingMeeting, mentor, proj)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
+  agenda.define("meetingCompleted", () => {
+    sendCompletionMail(proj.mentorsMatched[index].upcomingMeeting, mentor, proj)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
+  if (
+    new Date(proj.mentorsMatched[index].upcomingMeeting.date).addHours(2) >
+    new Date()
+  ) {
+    let timeFromNow1 = findSecondsDifference(
+      new Date(),
+      new Date(proj.mentorsMatched[index].upcomingMeeting.date).addHours(2)
+    );
+    agenda.schedule(timeFromNow1 + " seconds", "meetingCompleted");
+  }
+
+  if (
+    new Date(proj.mentorsMatched[index].upcomingMeeting.date).addHours(-1) >
+    new Date()
+  ) {
+    let timeFromNow2 = findSecondsDifference(
+      new Date(),
+      new Date(proj.mentorsMatched[index].upcomingMeeting.date).addHours(-1)
+    );
+    agenda.schedule(timeFromNow2 + " seconds", "reminderMail");
+  }
+
+  if (
+    new Date(proj.mentorsMatched[index].upcomingMeeting.date).addHours(-6) >
+    new Date()
+  ) {
+    let timeFromNow3 = findSecondsDifference(
+      new Date(),
+      new Date(proj.mentorsMatched[index].upcomingMeeting.date).addHours(-6)
+    );
+    agenda.schedule(timeFromNow3 + " seconds", "reminderMail");
+  }
+
+  if (
+    new Date(proj.mentorsMatched[index].upcomingMeeting.date).addHours(-24) >
+    new Date()
+  ) {
+    let timeFromNow4 = findSecondsDifference(
+      new Date(),
+      new Date(proj.mentorsMatched[index].upcomingMeeting.date).addHours(-24)
+    );
+    agenda.schedule(timeFromNow4 + " seconds", "reminderMail");
+  }
 
   proj.markModified("mentorsMatched");
   await proj.save();
@@ -1509,6 +2282,77 @@ router.post("/requestMentor", auth, async (req, res) => {
   } else {
     proj.mentorsRequested = [JSON.parse(req.body.workshopId)];
   }
+
+  async function sendRequestCreatedMail() {
+    try {
+      const transport = await nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        auth: {
+          type: "OAuth2",
+          user: "ideastackapp@gmail.com",
+          clientId: process.env.CLIENT_ID,
+          clientSecret: process.env.CLIENT_SECRET,
+          accessToken: process.env.ACCESS_TOKEN,
+          refreshToken: process.env.REFRESH_TOKEN,
+        },
+      });
+
+      const mailOptions = {
+        from: "IdeaStack <ideastackapp@gmail.com>",
+        to: [mentor.email],
+        bcc: ["vismaysuramwar@gmail.com", "raghavbhatia0611@gmail.com"],
+        subject: `Mentorship Request - ${proj.name} @ IdeaStack.org`,
+        text: `
+                Hey ${mentor.name}!
+        
+                IdeaStack's student-users of ${proj.name} (venture) have requested your mentorship.
+                
+                We'll be taking this request into consideration while matching you with a mentee startup. 
+                Sign-in to IdeaStack.org/mentor, and approve a request that interests you- this will increase the likelihood that you're matched with a startup that suits your preferences.
+
+                Contact us if you face any issues- our team prioritizes your experience above all else.
+                
+                Best Regards,
+                Admin Team, IdeaStack`,
+        html: `
+                <p>Hey ${mentor.name}!</p>
+        
+                <p> IdeaStack's student-users of ${proj.name} (venture) have requested your mentorship.<br/>
+                <h4>We'll be taking this request into consideration while matching you with a mentee startup.</h4>
+                Sign-in to <a href = "https://IdeaStack.org/mentor" target = "_blank">IdeaStack.org/mentor</a>, and approve a request that interests you- this will increase the likelihood that you're matched with a startup that suits your preferences.<br/> 
+                Contact us if you face any issues- our team prioritizes your experience above all else.
+                </p>
+                
+                <p>Best Regards,<br/>
+                Admin Team, IdeaStack</p>
+                <br/><br/>
+                <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                `,
+        attachments: [
+          {
+            fileName: "IdeaStack.jpg",
+            path: "server/routes/IdeaStack.jpg",
+            cid: "ideastack@orgae.ee",
+          },
+        ],
+      };
+      const result = await transport.sendMail(mailOptions);
+      return result;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  sendRequestCreatedMail()
+    .then((result) => {
+      res.send("Successfully sent Email !");
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    });
 
   await proj.markModified("mentorsRequested");
   await proj.save();

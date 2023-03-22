@@ -45,19 +45,21 @@ const MentorSignUp = () => {
           </svg>
         </div>
 
-        <div className="max-w-6xl mx-auto px-4  sm:px-6">
+        <div className="max-w-6xl mx-auto px-8  md:px-6">
           {/* Hero content */}
           <div className="pt-20 pb-12 md:pt-28 md:pb-20">
             {/* Section header */}
             <div className="text-center pb-12 md:pb-16">
-              <h1 className="text-5xl md:text-6xl font-extrabold leading-tighter tracking-tighter -mt-4 mb-11">
-                Mentor Up-&-Coming{" "}
+              <h1 className="sm:text-5xl text-4xl lg:text-6xl font-extrabold leading-tighter tracking-tighter md:-mt-4 sm:-mt-0 sm:mb-11 -mt-4 mb-9">
+                Mentor <br class="sm:hidden block" />
+                Up-&-Coming
+                <br class="sm:hidden block" />{" "}
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-indigo-400">
                   Startups
                 </span>
               </h1>
               <div className="max-w-3xl  mt-4 block mx-auto">
-                <p className="text-xl text-gray-600 mb-11">
+                <p className="md:text-xl sm:text-lg text-base text-gray-600 mb-11">
                   Find the most coachable student-led startup team, and help
                   them learn, level-up and grow faster. Focus? Vision? Value? We
                   screen startups for all relevant parameters, bringing you
@@ -67,7 +69,7 @@ const MentorSignUp = () => {
                   <div>
                     <a
                       onClick={() => setRegModalShow(true)}
-                      className="btn cursor-pointer text-white rounded-2xl text-sm shadow-sm hover:shadow-md tracking-wide font-bold uppercase px-4 py-3  w-full -mb-2 mt-1 sm:w-auto  bg-gradient-to-r from-blue-400 to-blue-600 hover:from-indigo-400 hover:to-indigo-600 active:bg-blue-500"
+                      className="btn cursor-pointer text-white rounded-2xl sm:text-base text-sm shadow-sm hover:shadow-md tracking-wide font-bold uppercase px-10 py-2.5 pb-3 w-full -mb-2 mt-1 sm:w-auto  bg-gradient-to-r from-blue-400 to-blue-600 hover:from-indigo-400 hover:to-indigo-600 active:bg-blue-500"
                     >
                       Sign In
                     </a>
@@ -78,7 +80,7 @@ const MentorSignUp = () => {
 
             {/* Hero image */}
             <div>
-              <div className="relative flex justify-center -mt-1.5 -mb-[150px]">
+              <div className="relative flex justify-center sm:-mt-1.5 mt-2 md:-mb-[150px] sm:-mb-[110px] -mb-[130px]">
                 <div className="flex flex-col justify-center">
                   <img
                     className="mx-auto shadow-md rounded-lg "

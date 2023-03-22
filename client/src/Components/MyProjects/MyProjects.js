@@ -147,33 +147,33 @@ const MyProjects = () => {
         ""
       )} */}
 
-      <div class="flex space-x-1 overflow-hidden bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pt-5 justify-center xl:w-full w-full md:pr-[125px] sm:pr-[175px] pr-[180px] rounded-b-lg mx-auto">
+      <div class="flex space-x-1 overflow-hidden bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pt-5 justify-center xl:w-full w-full md:pr-[125px] sm:pr-[125px] pr-[125px] rounded-b-lg mx-auto">
         <>
           <>
             <button
               onClick={() => {
                 history.push("/dashboard/overview");
               }}
-              class={`flex items-center h-12 relative ml-[130px] py-2 text-sm text-center text-gray-100 
+              class={`flex items-center h-12 relative ml-[130px] py-2 text-center text-gray-100 
         ${
           location.pathname === "/dashboard/overview"
             ? "bg-gray-800"
             : "bg-gray-500"
-        } md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
+        } px-6  border border-b-0  border-gray-300 text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
             >
               Overview
             </button>
-            <div class="sm:flex space-x-[3.5px] hidden">
+            <div class="flex space-x-[3.5px]">
               <button
                 onClick={() => {
                   history.push("/dashboard/yourmentor");
                 }}
-                class={`flex items-center h-12 py-2 text-sm text-center text-gray-100 
+                class={`flex items-center h-12 py-2 text-center text-gray-100 
         ${
           location.pathname.includes("yourmentor")
             ? "bg-gray-800"
             : "bg-gray-500"
-        } md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
+        } px-6 border border-b-0  border-gray-300 text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
               >
                 <span class="lg:inline hidden  mr-1.5">Your </span> Mentor
               </button>
@@ -182,12 +182,12 @@ const MyProjects = () => {
                 onClick={() => {
                   history.push("/dashboard/collaborate");
                 }}
-                class={` block items-center h-12 py-2 text-sm text-center text-gray-100 
+                class={` block items-center h-12 py-2  text-center text-gray-100 
         ${
           location.pathname === "/dashboard/collaborate"
             ? "bg-gray-800"
             : "bg-gray-500"
-        } md:px-6 px-3 border border-b-0  border-gray-300 sm:text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
+        } px-6 border border-b-0  border-gray-300 text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
               >
                 Collaborate
               </button>
@@ -215,8 +215,8 @@ const MyProjects = () => {
               }`}
             />
           </button> */}
-          <br />
-          <div class="sm:hidden block relative">
+          {/* <br /> */}
+          {/* <div class="sm:hidden block relative">
             <br />
             <div class="space-x-[3px] flex relative mt-8 -ml-[259px] mr-12 ">
               <button
@@ -269,7 +269,7 @@ const MyProjects = () => {
                 Collaborate
               </button>
             </div>
-          </div>
+          </div> */}
         </>
       </div>
 

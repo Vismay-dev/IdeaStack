@@ -11,7 +11,7 @@ import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import Team from "./Team/Team";
 import SignUp from "./SignUp/SignUp";
 import MentorSignUp from "./SignUp/MentorSignUp";
-import OurJourney from "./Our Journey/Our Journey";
+import WhyUs from "./WhyUs/WhyUs";
 import StartupMentorship from "./Mentors/StartupMentorship";
 import { io } from "socket.io-client";
 import { useEffect, useContext } from "react";
@@ -82,12 +82,8 @@ const MainContent = () => {
             }
           />
 
-          <Route path="/ourjourney">
-            {!sessionStorage.getItem("token") ? (
-              <OurJourney />
-            ) : (
-              <Redirect to="/" />
-            )}
+          <Route path="/whyUs">
+            {!sessionStorage.getItem("token") ? <WhyUs /> : <Redirect to="/" />}
           </Route>
 
           <Route path="/teamonboarding">

@@ -308,25 +308,28 @@ const NavBar = (props) => {
                   as="nav"
                   className="hidden md:flex space-x-10"
                 >
-                  <Popover className="relative">
+                  <span
+                    className={classNames(
+                      `group font-semibold text-sm tracking-wide ${
+                        location.pathname.includes("home")
+                          ? "text-indigo-600"
+                          : "text-gray-700"
+                      } transition-colors cursor-pointer duration-200 hover:text-indigo-500  bg-white px-2 pr-1 py-[2px] top-[1px]  rounded-md inline-flex items-center  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`
+                    )}
+                    onClick={() => {
+                      history.push("/home");
+                    }}
+                  >
+                    HOME
+                  </span>
+                  <Popover className="relative  block">
                     {({ open }) => (
                       <>
-                        <Popover.Button
-                          className={classNames(
-                            "group font-semibold text-sm tracking-wide text-gray-700 transition-colors duration-200 hover:text-indigo-500  bg-white px-2 pr-1 py-[2px] top-[1px]  rounded-md inline-flex items-center  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          )}
-                        >
-                          <span
-                            onClick={() => {
-                              history.push("/home");
-                            }}
-                          >
-                            HOME
-                          </span>
+                        <Popover.Button>
                           <ChevronDownIcon
                             className={classNames(
                               open ? "text-gray-600" : "text-gray-400",
-                              "ml-2  h-5 w-5 group-hover:text-gray-500"
+                              "-ml-[36px] relative top-[3px] mr-2 h-5 w-5 group-hover:text-gray-500"
                             )}
                             aria-hidden="true"
                           />
@@ -427,13 +430,17 @@ const NavBar = (props) => {
                 >
                   <a
                     onClick={() => {
-                      history.push("/ourjourney");
+                      history.push("/whyus");
                     }}
                     aria-label="Features"
                     title="Features"
-                    class="font-semibold text-sm tracking-wide text-gray-700  right-1.5 relative transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer"
+                    class={`font-semibold text-sm tracking-wide ${
+                      location.pathname.includes("whyus")
+                        ? "text-indigo-600"
+                        : "text-gray-700"
+                    }  right-1.5 relative transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer`}
                   >
-                    Our Journey
+                    Why Us
                   </a>
                 </li>
               </ul>
@@ -760,7 +767,7 @@ const NavBar = (props) => {
                           ).length == 0)
                           ? "hidden"
                           : "inline-flex"
-                      } absolute -top-2 -right-2 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-white dark:border-gray-900`}
+                      } absolute -top-2 order-2 -right-8 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-white dark:border-gray-900`}
                     >
                       {(user &&
                         user.notifications &&
@@ -780,7 +787,7 @@ const NavBar = (props) => {
                   onClick={() => {
                     showModalOut();
                   }}
-                  className="-ml-[80px] text-sm whitespace-nowrap order-2 xl:left-[80px] lg:left-[50px] sm:left-[123px] -left-7 md:left-1  lg:bottom-0 md:bottom-2.5 -bottom-0.5  sm:-bottom-2   relative inline-flex uppercase items-center justify-center lg:px-3 sm:px-2 px-2.5 py-2 md:pb-2.5 sm:py-2 pt-1.5 pb-2  border border-transparent rounded-md shadow-sm hover:shadow-xl active:shadow-sm font-semibold hover:cursor-pointer text-white bg-gradient-to-r from-blue-300 to-blue-500 sm:-mr-6 -mr-5 hover:from-indigo-300 hover:to-indigo-500 active:bg-blue-500"
+                  className="-ml-[80px] text-sm whitespace-nowrap order-3 xl:left-[80px] lg:left-[50px] sm:left-[123px] -left-7 md:left-1  lg:bottom-0 md:bottom-2.5 -bottom-0.5  sm:-bottom-2   relative inline-flex uppercase items-center justify-center lg:px-3 sm:px-2 px-2.5 py-2 md:pb-2.5 sm:py-2 pt-1.5 pb-2  border border-transparent rounded-md shadow-sm hover:shadow-xl active:shadow-sm font-semibold hover:cursor-pointer text-white bg-gradient-to-r from-blue-300 to-blue-500 sm:-mr-6 -mr-5 hover:from-indigo-300 hover:to-indigo-500 active:bg-blue-500"
                 >
                   Log Out
                 </a>
@@ -859,7 +866,8 @@ const NavBar = (props) => {
           </div>
 
           {sessionStorage.getItem("token") === null &&
-          sessionStorage.getItem("mentorToken") === null ? (
+          sessionStorage.getItem("mentorToken") === null &&
+          !location.pathname.includes("mentor") ? (
             <div class="lg:hidden">
               <button
                 aria-label="Open Menu"
@@ -940,16 +948,28 @@ const NavBar = (props) => {
                           <Popover className="relative">
                             {({ open }) => (
                               <>
+                                <span
+                                  class={`group font-semibold text-base tracking-wide ${
+                                    location.pathname.includes("home")
+                                      ? "text-indigo-600"
+                                      : "text-gray-700"
+                                  } transition-colors duration-200 hover:text-indigo-500 cursor-pointer  bg-white px-2 pr-1 py-[2px] top-[1px]  rounded-md inline-flex items-center  focus:outline-none focus:ring-2 focus:ring-offset-2`}
+                                  onClick={() => {
+                                    setIsMenuOpen(false);
+                                    history.push("/home");
+                                  }}
+                                >
+                                  Home
+                                </span>
                                 <Popover.Button
                                   className={classNames(
-                                    "group font-semibold text-base tracking-wide text-gray-700 transition-colors duration-200 hover:text-indigo-500  bg-white px-2 pr-1 py-[2px] top-[1px]  rounded-md inline-flex items-center  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    "group font-semibold text-base tracking-wide text-gray-700 transition-colors duration-200 hover:text-indigo-500  bg-white px-2 pr-1 py-[2px] top-[1px]  rounded-md inline-flex items-center  focus:outline-none focus:ring-2 focus:ring-offset-2 "
                                   )}
                                 >
-                                  <span>Home</span>
                                   <ChevronDownIcon
                                     className={classNames(
                                       open ? "text-gray-600" : "text-gray-400",
-                                      "ml-2  h-5 w-5 group-hover:text-gray-500"
+                                      "-ml-[5px] top-[4px] relative mt-[4px] block h-5 w-5 group-hover:text-gray-500"
                                     )}
                                     aria-hidden="true"
                                   />
@@ -1036,13 +1056,17 @@ const NavBar = (props) => {
                           <a
                             onClick={() => {
                               setIsMenuOpen(false);
-                              history.push("/ourjourney");
+                              history.push("/whyus");
                             }}
                             aria-label="Product pricing"
                             title="Product pricing"
-                            class="hover:cursor-pointer font-semibold tracking-wide text-gray-700  right-1.5 relative transition-colors duration-200 hover:text-indigo-500 "
+                            class={`hover:cursor-pointer font-semibold tracking-wide ${
+                              location.pathname.includes("whyus")
+                                ? "text-indigo-600"
+                                : "text-gray-700"
+                            } right-1.5 relative transition-colors duration-200  hover:text-indigo-500`}
                           >
-                            Our Journey
+                            Why Us
                           </a>
                         </li>
                       </ul>
@@ -1071,7 +1095,7 @@ const NavBar = (props) => {
                               <a
                                 onClick={() => {
                                   setIsMenuOpen(false);
-                                  showModalReg();
+                                  history.push("signup");
                                 }}
                                 href="#"
                                 className="uppercase items-center justify-center px-3 py-[9px] pb-2.5 border border-transparent rounded-md shadow-lg text-md tracking-wide font-semibold text-white bg-gradient-to-r from-blue-400 to-blue-600 hover:from-indigo-400 hover:to-indigo-600 active:bg-blue-500"

@@ -45,19 +45,19 @@ const SignUp = () => {
           </svg>
         </div>
 
-        <div className="max-w-6xl mx-auto px-4  sm:px-6">
+        <div className="max-w-6xl mx-auto px-8  md:px-6">
           {/* Hero content */}
           <div className="pt-20 pb-12 md:pt-28 md:pb-20">
             {/* Section header */}
             <div className="text-center pb-12 md:pb-16">
-              <h1 className="text-5xl md:text-6xl font-extrabold leading-tighter tracking-tighter -mt-4 mb-11">
+              <h1 className="text-5xl lg:text-6xl font-extrabold leading-tighter tracking-tighter md:-mt-4 -mt-1 mb-11">
                 Levelling-Up Your{" "}
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-indigo-400">
                   Venture
                 </span>
               </h1>
               <div className="max-w-3xl  mt-4 block mx-auto">
-                <p className="text-xl text-gray-600 mb-11">
+                <p className="md:text-xl sm:text-lg text-base text-gray-600 mb-11">
                   Find the region's best startup mentors, and help your team
                   learn, level-up and grow faster. Product-Market Fit? Building
                   Teams? Launching an App? Need Go-To-Market Advice?
@@ -78,7 +78,7 @@ const SignUp = () => {
 
             {/* Hero image */}
             <div>
-              <div className="relative flex justify-center -mt-1.5 -mb-[150px]">
+              <div className="relative flex justify-center sm:-mt-1.5 mt-2 md:-mb-[150px] sm:-mb-[110px] -mb-[130px]">
                 <div className="flex flex-col justify-center">
                   <img
                     className="mx-auto shadow-md rounded-lg "

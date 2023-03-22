@@ -270,17 +270,6 @@ const Meetings = (props) => {
 
   return (
     <>
-      {showDatePick ? (
-        <DateConfirm
-          datePicked={datePicked}
-          mentor={props.mentor}
-          close={() => setShowDatePick(false)}
-          weekNum={weekNum}
-        />
-      ) : (
-        ""
-      )}
-
       {showInstructions ? (
         <MentorInstructionsSet
           upcomingMeeting={upcomingMeeting}

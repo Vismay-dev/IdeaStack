@@ -67,7 +67,11 @@ const StartupMentorship = () => {
         process.env.NODE_ENV === "production"
           ? "https://ideastack.herokuapp.com/api/user/updateMentor" // was updateUser
           : "http://localhost:4000/api/user/updateMentor",
-        { mentor, token: sessionStorage.getItem("mentorToken") }
+        {
+          mentor,
+          token: sessionStorage.getItem("mentorToken"),
+          acceptRequest: true,
+        }
       )
       .then((res) => {
         mentorCon.setMentor(res.data);
