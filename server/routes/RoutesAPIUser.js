@@ -12,8 +12,8 @@ const cloudinary = require("cloudinary");
 const Agenda = require("agenda");
 const agenda = new Agenda({
   db: {
-    address: "mongodb://127.0.0.1/agenda?authSource=admin",
-    options: { useNewUrlParser: true },
+    address: process.env.MONGODB,
+    options: { useNewUrlParser: true, useUnifiedTopology: true },
   },
 });
 
