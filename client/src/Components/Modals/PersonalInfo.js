@@ -84,10 +84,10 @@ const PersonalInfo = (props) => {
   };
 
   return (
-    <div class="mt-10 sm:mt-0 relative mx-auto block justify-center">
-      <div class={`md:grid md:grid-cols-3    md:gap-6`}>
+    <div class="mt-10 sm:mt-0 relative mx-auto blockjustify-center">
+      <div class={`md:grid md:grid-cols-3 w-full mx-auto block md:gap-6`}>
         <div class="md:col-span-1 ">
-          <div class="px-8 sm:px-3 md:left-0 sm:left-3 left-4 relative mr-3">
+          <div class="px-8 sm:px-3 md:left-0  xl:bottom-5 bottom-9 md:mt-0 sm:mt-[44px] mt-[79px] sm:left-3 left-4 relative mr-3">
             <h3
               class={`  ${
                 loading
@@ -102,7 +102,7 @@ const PersonalInfo = (props) => {
             <p class="text-sm leading-6 mt-8 text-gray-500 uppercase font-semibold text-center">
               Join The Movement
             </p>
-            <p class="xl:mt-8 mt-6 md:mb-0 mb-7 text-sm text-gray-600 xl:px-14 lg:px-6 sm:px-2 px-0.5 text-center">
+            <p class="xl:mt-8 mt-6 md:mb-0 -mb-7 text-sm text-gray-600 xl:px-14 lg:px-6 sm:px-2 px-0.5 text-center">
               Safe and Secure.
               <br />
               <br /> We value the protection of your personal data above all
@@ -114,7 +114,7 @@ const PersonalInfo = (props) => {
           <form id="regForm" onSubmit={handleSubmit}>
             <div class="shadow overflow-hidden sm:rounded-md">
               <div
-                class={`px-3  py-2 pb-10 bg-gradient-to-r from-indigo-200 to-blue-200  sm:p-6`}
+                class={`px-3  sm:py-2 sm:pt-6 pt-5 pb-7 sm:pb-7 bg-gradient-to-r from-indigo-200 to-blue-200  sm:p-6`}
               >
                 {loading ? (
                   <div class="relative mx-auto my-8 mb-14  mt-40 sm:pb-3 pb-0 sm:mr-0 md:mr-0.5 pt-1.5 sm:left-0  text-center sm:top-[50%] top-[65%] translate-y-[-50%] block justify-center">
@@ -153,7 +153,7 @@ const PersonalInfo = (props) => {
                         />
                       </div>
 
-                      <div class="col-span-6 sm:col-span-6 lg:col-span-3">
+                      <div class="col-span-6 sm:col-span-3">
                         <label
                           for="city"
                           class="block text-sm font-semibold left-0.5 text-gray-700"
@@ -194,7 +194,7 @@ const PersonalInfo = (props) => {
                             />
                           </div>
 
-                          <div class="col-span-6 sm:col-span-6 lg:col-span-3">
+                          <div class="col-span-6 sm:col-span-3">
                             <label
                               for="city"
                               class="block text-sm font-semibold left-0.5 text-gray-700"
@@ -235,7 +235,7 @@ const PersonalInfo = (props) => {
                         />
                       </div>
 
-                      <div class="col-span-6 sm:col-span-8 lg:col-span-3">
+                      <div class="col-span-6 sm:col-span-3">
                         <label
                           for="city"
                           class="block text-sm font-semibold left-0.5 text-gray-700"
@@ -269,19 +269,19 @@ const PersonalInfo = (props) => {
                 <br />
                 <button
                   type="button"
-                  class="md:mr-2.5 mx-auto px-16 relative h-12 sm:w-[340px] w-full justify-center rounded-md border border-gray-300 shadow-sm py-1 bg-white text-lg font-semibold text-gray-700 hover:text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  mt-3 mb-3  sm:text-md"
+                  class="md:mr-2.5 mx-auto px-16 relative h-fit py-2.5 sm:w-[340px] w-full justify-center rounded-md border border-gray-300 shadow-sm bg-white text-lg font-semibold text-gray-700 hover:text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  mt-3 mb-3  sm:text-md"
                 >
                   <FcGoogle class="w-6 h-6 mr-2.5 -ml-1 inline relative bottom-[1px]" />
                   Sign up with Google
                 </button>
-                <br />
+                {/* <br />
                 <button
                   type="button"
                   class="md:mr-2.5 mx-auto px-16 relative h-12 sm:w-[340px] w-full justify-center rounded-md border border-gray-300 shadow-sm py-1 bg-white text-lg font-semibold text-gray-700 hover:text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  mb-3  sm:text-md"
                 >
                   <AiFillLinkedin class="w-6 h-6 mr-2.5 -ml-1 inline relative bottom-[1px]" />
                   Sign up with Linkedin
-                </button>
+                </button> */}
               </div>
             </div>
           </form>

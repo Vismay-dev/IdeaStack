@@ -694,7 +694,7 @@ const NavBar = (props) => {
                   </a>
                   <a
                     onClick={() => {
-                      if (location.pathname === "/signup") {
+                      if (location.pathname.includes("/signup")) {
                         setRegModalShow(true);
                       } else {
                         history.push("/signup");
@@ -1095,7 +1095,11 @@ const NavBar = (props) => {
                               <a
                                 onClick={() => {
                                   setIsMenuOpen(false);
-                                  history.push("signup");
+                                  if (location.pathname.includes("/signup")) {
+                                    setRegModalShow(true);
+                                  } else {
+                                    history.push("/signup");
+                                  }
                                 }}
                                 href="#"
                                 className="uppercase items-center justify-center px-3 py-[9px] pb-2.5 border border-transparent rounded-md shadow-lg text-md tracking-wide font-semibold text-white bg-gradient-to-r from-blue-400 to-blue-600 hover:from-indigo-400 hover:to-indigo-600 active:bg-blue-500"

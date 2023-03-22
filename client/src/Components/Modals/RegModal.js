@@ -99,9 +99,9 @@ const RegModal = (props) => {
         >
           <div class="bg-white px-1 pt-2 pb-2 sm:p-6 sm:pb-4">
             <div class="sm:flex sm:items-start">
-              <div class=" text-center sm:mt-0 sm:ml-4 sm:text-left">
+              <div class=" text-center sm:mt-0 md:ml-4 mx-auto sm:text-left">
                 <div>
-                  <p class="text-lg text-gray-500 pt-5">
+                  <p class="text-lg  text-gray-500 pt-5">
                     <PersonalInfo
                       isLoading={() => setLoading(true)}
                       isNotLoading={() => setLoading(false)}
