@@ -8,7 +8,6 @@ const jwt = require("jsonwebtoken");
 const auth = require("../auth/auth");
 const multer = require("multer");
 const cloudinary = require("cloudinary");
-const cron = require("node-cron");
 
 const Agenda = require("agenda");
 const agenda = new Agenda({
