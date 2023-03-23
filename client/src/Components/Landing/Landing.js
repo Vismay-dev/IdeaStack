@@ -704,7 +704,7 @@ const Landing = () => {
           </p>
         </div>
         <div
-          data-aos={"fade-left"}
+          data-aos={"fade-up"}
           data-aos-once="true"
           delay={100}
           class="mt-12  grid divide-x divide-y divide-blue-700  overflow-hidden rounded-3xl mx-auto container border border-blue-700 text-gray-600  sm:grid-cols-1 lg:grid-cols-3 lg:divide-y-0 xl:grid-cols-3"
@@ -781,7 +781,7 @@ const Landing = () => {
 
       <div class="border-b-2 border-dashed border-blue-700 bg-gradient-to-r from-gray-200 to-blue-200">
         <div
-          data-aos={"zoom-out"}
+          data-aos={"fade-up"}
           data-aos-once="true"
           delay={100}
           className="px-4 tracking-[0.015em]  mx-auto sm:max-w-xl  md:max-w-full bg-transparent lg:max-w-screen-xl md:px-24 lg:px-8 sm:py-[80px] sm:pt-[72px] py-[66px] pt-[50px]"
@@ -1160,7 +1160,7 @@ const Landing = () => {
           </h1>
 
           <div
-            data-aos={"fade-left"}
+            data-aos={"fade-up"}
             data-aos-once="true"
             className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:mt-0 md:-mt-8 lg:w-[900px]  md:w-[650px] sm:w-[350px] w-[250px] xl:bottom-16 relative sm:top-0 xl:-top-8 -top-2 mx-auto  h-64 gap-12 xl:gap-14"
           >
