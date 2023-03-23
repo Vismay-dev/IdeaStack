@@ -13,8 +13,12 @@ import ClipLoader from "react-spinners/ClipLoader";
 import React from "react";
 import ReactGA from "react-ga";
 
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+
 const LogModal = (props) => {
   const history = useHistory();
+  const GOOGLEOAUTHCLIENTID =
+    "1085293368367-1i2er7o64kk7mtpgdbt92bi6k8r6bjpk.apps.googleusercontent.com";
 
   useEffect(() => {
     AOS.init({
@@ -57,6 +61,15 @@ const LogModal = (props) => {
 
   const [checked, setChecked] = useState(false);
 
+  // const onSuccess = (res) => {
+  //   console.log("SUCCESS... Current User: " + res.profileObj);
+  // };
+
+  // const onFailure = (res) => {
+  //   console.log("LOGIN FAILED - res: " + res);
+  //   setError("Google Login Failed...");
+  // };
+
   const handleChange = (e) => {
     if (e.target.name === "rememberme") {
       console.log(studentUser.rememberme);
@@ -71,39 +84,6 @@ const LogModal = (props) => {
   const [error, setError] = useState("");
 
   const [loading, setLoading] = useState(false);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setError();
-    setLoading(true);
-    axios
-      .post(
-        process.env.NODE_ENV === "production"
-          ? "https://ideastack.herokuapp.com/api/user/login"
-          : "http://localhost:4000/api/user/login",
-        studentUser
-      )
-      .then((res) => {
-        sessionStorage.setItem("token", res.data.userToken);
-        props.logFunc(res.data.user);
-        if (res.data.cookieObj) {
-          console.log(res.data.cookieObj);
-          localStorage.setItem("cookieID", res.data.cookieObj.id);
-          localStorage.setItem("cookieExpires", res.data.cookieObj.expires);
-        } else {
-          localStorage.removeItem("cookieID");
-          localStorage.removeItem("cookieExpires");
-        }
-        gaEventTracker("Logged In");
-        history.push("/profile");
-        props.close();
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.response && err.response.data);
-        setLoading(false);
-      });
-  };
 
   const [forgot, setForgot] = useState(false);
   const [resetCode, setResetCode] = useState();
@@ -202,6 +182,78 @@ const LogModal = (props) => {
   };
 
   const gaEventTracker = useAnalyticsEventTracker("Log In");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError();
+    setLoading(true);
+    axios
+      .post(
+        process.env.NODE_ENV === "production"
+          ? "https://ideastack.herokuapp.com/api/user/login"
+          : "http://localhost:4000/api/user/login",
+        studentUser
+      )
+      .then((res) => {
+        sessionStorage.setItem("token", res.data.userToken);
+        props.logFunc(res.data.user);
+        if (res.data.cookieObj) {
+          console.log(res.data.cookieObj);
+          localStorage.setItem("cookieID", res.data.cookieObj.id);
+          localStorage.setItem("cookieExpires", res.data.cookieObj.expires);
+        } else {
+          localStorage.removeItem("cookieID");
+          localStorage.removeItem("cookieExpires");
+        }
+        gaEventTracker("Logged In");
+        history.push("/profile");
+        props.close();
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.response && err.response.data);
+        setLoading(false);
+      });
+  };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      setLoading(true);
+      axios
+        .post(
+          process.env.NODE_ENV === "production"
+            ? "https://ideastack.herokuapp.com/api/user/googleLogin"
+            : "http://localhost:4000/api/user/googleLogin",
+          {
+            oauthObj: tokenResponse,
+          }
+        )
+        .then((res) => {
+          sessionStorage.setItem("token", res.data.userToken);
+          props.logFunc(res.data.user);
+          if (res.data.cookieObj) {
+            console.log(res.data.cookieObj);
+            localStorage.setItem("cookieID", res.data.cookieObj.id);
+            localStorage.setItem("cookieExpires", res.data.cookieObj.expires);
+          } else {
+            localStorage.removeItem("cookieID");
+            localStorage.removeItem("cookieExpires");
+          }
+          gaEventTracker("Logged In");
+          history.push("/profile");
+          props.close();
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError(err.response && err.response.data);
+          setLoading(false);
+        });
+    },
+    onError: (error) => {
+      setError("Google login failed..");
+      console.log(error);
+    },
+  });
 
   //create change handlers
 
@@ -797,13 +849,17 @@ const LogModal = (props) => {
                                   </span>
                                   Sign in
                                 </button>
-                                <button
-                                  type="button"
-                                  class="md:mr-2.5 text-md font-medium rounded-md w-full  mx-auto px-10 relative h-fit pt-1.5 pb-1.5 justify-center border border-gray-300 shadow-sm bg-white text-lg  text-gray-700 hover:text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  mt-3 mb-3  sm:text-md"
-                                >
-                                  <FcGoogle class="w-6 h-6 mr-2.5 -ml-1 inline relative bottom-[1px]" />
-                                  Sign in with Google
-                                </button>
+
+                                <div id="googleSignIn" class="">
+                                  <button
+                                    type="button"
+                                    onClick={() => googleLogin()}
+                                    class="md:mr-2.5 text-md font-medium rounded-md w-full  mx-auto px-10 relative h-fit pt-1.5 pb-1.5 justify-center border border-gray-300 shadow-sm bg-white text-lg  text-gray-700 hover:text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  mt-3 mb-3  sm:text-md"
+                                  >
+                                    <FcGoogle class="w-6 h-6 mr-2.5 -ml-1 inline relative bottom-[1px]" />
+                                    Sign in with Google
+                                  </button>
+                                </div>
 
                                 <div class="text-sm sm:left-0 left-[3px] relative sm:hidden block mt-3 mb-2.5">
                                   <a

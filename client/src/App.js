@@ -12,6 +12,8 @@ import projectContext from "./context/projectContext";
 import mentorContext from "./context/mentorContext";
 import mentorAccContext from "./context/mentorAccContext";
 
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
 import axios from "axios";
 
 import ReactGA from "react-ga";
@@ -62,6 +64,9 @@ function App() {
         });
     }
   }, [location.pathname]);
+
+  const GOOGLEOAUTHCLIENTID =
+    "1085293368367-1i2er7o64kk7mtpgdbt92bi6k8r6bjpk.apps.googleusercontent.com";
 
   const [project, setProject] = useState(user.projects);
 
@@ -129,44 +134,48 @@ function App() {
   }, []);
 
   return (
-    <mentorAccContext.Provider value={{ mentor: mentor, setMentor: setMentor }}>
-      <mentorContext.Provider
-        value={{ mentors: mentors, setMentors: setMentors }}
+    <GoogleOAuthProvider clientId={GOOGLEOAUTHCLIENTID}>
+      <mentorAccContext.Provider
+        value={{ mentor: mentor, setMentor: setMentor }}
       >
-        <projectContext.Provider
-          value={{ project: project, setProject: setProject }}
+        <mentorContext.Provider
+          value={{ mentors: mentors, setMentors: setMentors }}
         >
-          <userContext.Provider value={{ user: user, setUser: setUser }}>
-            <div
-              class={` w-screen bg-gradient-to-r from-gray-200 to-blue-200 relative z-0 ${
-                location.pathname === "/home" || loading
-                  ? " h-screen"
-                  : " max-h-full"
-              }`}
-            >
-              {!loading ? (
-                <>
-                  <NavBar loginFunc={logIn} />
-                  <Notifications user={user} />
-                  <MainContent class="-z-10" />
-                  <Footer />
-                </>
-              ) : (
-                <div class=" w-[217px]  m-0 relative mx-auto sm:top-[48%] top-[45%]  translate-y-[-50%]  sm:pl-3 pl-2">
-                  <CircleLoader
-                    meshColor={"#6366F1"}
-                    lightColor={"#E0E7FF"}
-                    duration={1.5}
-                    desktopSize={"60px"}
-                    mobileSize={"60px"}
-                  />
-                </div>
-              )}
-            </div>
-          </userContext.Provider>
-        </projectContext.Provider>
-      </mentorContext.Provider>
-    </mentorAccContext.Provider>
+          <projectContext.Provider
+            value={{ project: project, setProject: setProject }}
+          >
+            <userContext.Provider value={{ user: user, setUser: setUser }}>
+              <div
+                class={` w-screen bg-gradient-to-r from-gray-200 to-blue-200 relative z-0 ${
+                  location.pathname === "/home" || loading
+                    ? " h-screen"
+                    : " max-h-full"
+                }`}
+              >
+                {!loading ? (
+                  <>
+                    <NavBar loginFunc={logIn} />
+                    <Notifications user={user} />
+                    <MainContent class="-z-10" />
+                    <Footer />
+                  </>
+                ) : (
+                  <div class=" w-[217px]  m-0 relative mx-auto sm:top-[48%] top-[45%]  translate-y-[-50%]  sm:pl-3 pl-2">
+                    <CircleLoader
+                      meshColor={"#6366F1"}
+                      lightColor={"#E0E7FF"}
+                      duration={1.5}
+                      desktopSize={"60px"}
+                      mobileSize={"60px"}
+                    />
+                  </div>
+                )}
+              </div>
+            </userContext.Provider>
+          </projectContext.Provider>
+        </mentorContext.Provider>
+      </mentorAccContext.Provider>
+    </GoogleOAuthProvider>
   );
 }
 

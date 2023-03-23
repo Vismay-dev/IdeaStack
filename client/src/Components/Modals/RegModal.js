@@ -65,6 +65,8 @@ const RegModal = (props) => {
     [myRef, () => props.close()]
   );
 
+  console.log(loading);
+
   return (
     <div
       class="fixed z-[100] inset-0 overflow-y-auto"
@@ -94,7 +96,7 @@ const RegModal = (props) => {
           data-aos={"fade-up"}
           data-aos-once="true"
           class={`pr-6 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mt-5 sm:align-middle lg:w-10/12 ${
-            loading ? "sm:w-8/12" : "sm:w-11/12"
+            loading ? "md:w-11/12" : "sm:w-11/12"
           } md:w-11/12 w-[98%]`}
         >
           <div class="bg-white px-1 pt-2 pb-2 sm:p-6 sm:pb-4">

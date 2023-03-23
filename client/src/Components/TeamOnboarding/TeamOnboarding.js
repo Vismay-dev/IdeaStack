@@ -67,7 +67,7 @@ const TeamOnboarding = () => {
 
           {/* Hero image */}
           <div>
-            <div className="relative flex justify-center -mt-1.5 -mb-[150px]">
+            <div className="relative flex justify-center -mt-1.5 -mb-[140px] sm:-mb-[110px] md:-mb-[150px]">
               <div className="flex flex-col justify-center">
                 <img
                   className="mx-auto shadow-md rounded-lg "

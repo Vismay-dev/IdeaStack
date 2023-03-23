@@ -324,26 +324,25 @@ const Landing = () => {
     <>
       <div class="lg:pt-44 md:pt-48 sm:pt-[156px] pt-[126px] lg:pb-12 pb-0 overflow-hidden bg-gradient-to-r from-gray-200 to-blue-200">
         <div class="  sm:left-14 left-16 xl:px-14 sm:px-20 px-12 xl:left-12 xl:bottom-0 bottom-4 relative container mx-auto flex lg:pt-0 pt-2 flex-wrap flex-col md:flex-row items-center">
-          <div class="flex tracking-[0.015em] flex-col  xl:w-2/5 lg:w-[46%] relative xl:right-4 xl:-bottom-2 lg:-mt-14 lg:-bottom-5 lg:right-[280px] md:right-6 sm:right-40 right-16 bottom-5 md:pl-0 sm:pl-8 pl-0 sm:w-full w-full mx-auto justify-center items-start lg:text-left text-center">
+          <div class="flex tracking-[0.015em] flex-col  xl:w-[43%] lg:w-[46%] relative xl:right-[365px] xl:-bottom-2 lg:-mt-14 lg:-bottom-5 lg:right-[280px] md:right-6 sm:right-40 right-16 bottom-5 md:pl-0 sm:pl-8 pl-0 sm:w-full w-full mx-auto justify-center items-start lg:text-left text-center">
             <p class="uppercase font-medium  text-sm  lg:text-left text-center xl:right-0 lg:right-5 md:right-20 sm:-right-12 sm:left-20 md:-left-[42px] lg:-left-8 xl:left-[-1px] right-0 mx-auto  top-5 -mt-10   relative md:w-full w-fit">
               Mentorship & Networking{" "}
               <span class="sm:inline hidden">Platform</span>
             </p>
-            <h1 class="relative font-sans my-4 mb-7 md:-ml-[110px] lg:text-left text-center mx-auto xl:text-6xl md:text-5xl  sm:text-5xl text-4xl  xl:-ml-[105px] top-[15px] lg:-ml-[135px] sm:left-20 left-1 px-3 font-bold leading-tight">
-              <span class="sm:inline hidden">The</span> Growth-Hub{" "}
+            <h1 class="relative font-sans my-4 mb-7  lg:text-left text-center mx-auto xl:text-6xl md:text-5xl  sm:text-5xl text-4xl  xl:-ml-[105px] top-[15px] lg:-ml-[135px] md:-ml-[50px] sm:left-20 left-1 px-3 font-bold leading-tight">
+              <span class="sm:inline hidden">The</span> Growth-Hub for{" "}
               <br class="lg:hidden sm:block hidden" />
-              for{" "}
               <span class=" from-indigo-500 to-blue-500 bg-clip-text text-transparent bg-gradient-to-r">
-                Student-led Ventures.
+                Student Ventures.
               </span>
             </h1>
             <p class="leading-normal font-medium  lg:mx-0 xl:ml-0.5 mx-auto xl:-right-3 lg:-right-2 md:right-0  sm:-right-[100px]  xl:left-[-10px] lg:left-[-40px] md:left-[-35px] sm:left-20    xs:right-3 right-0   xs:w-96 md:w-3/4  lg:w-fit md:text-lg sm:text-lg xl:w-80 sm:w-72 w-fit text-base mb-12 sm:mt-5 mt-2 relative lg:text-left text-center">
-              Connecting student-entrepreneurs with established founders,
+              We connect student-entrepreneurs with established founders,
               mentors and advisors.
             </p>
             <a
               href="#about"
-              class=" xl:left-[-10px] md:uppercase lg:mx-0 mx-auto lg:left-[-40px] left-[3px] md:left-[-35px] md:mb-0 sm:-mb-4 -mb-2 sm:mt-4 mt-2 sm:left-[84px]  relative  lg:bottom-8 md:bottom-6 bottom-6  bg-white text-gray-800 font-bold rounded-lg  my-4 sm:py-3 py-3 hover:cursor-pointer z-20 md:px-8 sm:px-6 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+              class=" xl:left-[-10px] md:uppercase lg:mx-0 mx-auto lg:left-[-40px] left-[3px] md:left-[-35px] md:-mb-1 sm:-mb-4 -mb-1 sm:mt-4 mt-2 sm:left-[84px]  relative  lg:bottom-8 md:bottom-6 bottom-6  bg-white text-gray-800 font-bold rounded-lg  my-4 sm:py-3 py-3 hover:cursor-pointer z-20 md:px-8 sm:px-6 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
             >
               Learn More
             </a>

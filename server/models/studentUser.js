@@ -16,7 +16,7 @@ const studentUserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: false,
   },
   isAdditionalMember: {
     type: Boolean,

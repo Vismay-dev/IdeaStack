@@ -9,15 +9,19 @@ const auth = require("../auth/auth");
 const multer = require("multer");
 const cloudinary = require("cloudinary");
 
+const https = require("https");
+
 const Agenda = require("agenda");
 const agenda = new Agenda({
   db: {
-    address: process.env.MONGODB,
+    address:
+      "mongodb+srv://Vismay3003:Momdad123@cluster0.kuil0.mongodb.net/?retryWrites=true&w=majority",
+    collection: "newNotification",
+
     options: { useNewUrlParser: true, useUnifiedTopology: true },
   },
+  processEvery: "40 seconds",
 });
-
-// const Mentor = require("../models/mentor");
 
 const fileStorageEngine = multer.diskStorage({
   filename: function (req, file, callback) {
@@ -25,8 +29,6 @@ const fileStorageEngine = multer.diskStorage({
   },
 });
 const upload = multer({ storage: fileStorageEngine });
-
-const request = require("request");
 
 router.post("/sendUserQuery", (req, res) => {
   async function sendMail() {
@@ -133,14 +135,18 @@ router.post("/register", async (req, res) => {
 
       const proj = await project.findById(req.body.projId);
       if (req.body.additionalMember) {
-        let chk = true;
+        let chk1 = true;
+        let chk2 = true;
 
         for (let k = 0; k < proj.team.length; k++) {
           if (
             parseInt(req.body.uniqueCode) ==
             parseInt(proj.team[k].uniqueJoinCode)
           ) {
-            chk = false;
+            chk1 = false;
+            if (proj.team[k].onboarded === false) {
+              chk2 = false;
+            }
             proj.team[k].name = req.body.firstName + " " + req.body.lastName;
             proj.team[k].email = req.body.email;
             proj.team[k].role = req.body.role;
@@ -148,8 +154,11 @@ router.post("/register", async (req, res) => {
           }
         }
 
-        if (chk) {
+        if (chk1) {
           res.status(400).send("Invalid Unique Join Code...");
+          return;
+        } else if (chk2) {
+          res.status(400).send("Member Already Onboarded...");
           return;
         } else {
           async function sendOnboardedMail() {
@@ -249,15 +258,17 @@ router.post("/register", async (req, res) => {
 
           const mailOptions = {
             from: "IdeaStack <ideastackapp@gmail.com>",
-            to: [req.body.email],
+            to: [newUser.email],
             bcc: ["vismaysuramwar@gmail.com", "raghavbhatia0611@gmail.com"],
-            subject: `${req.body.firstName}, Welcome to IdeaStack!`,
+            subject: `${newUser.firstName}, Welcome to IdeaStack!`,
             text: `
-                    Hey ${req.body.firstName}!
+                    Hey ${newUser.firstName}!
             
                     Welcome to IdeaStack.org.
                     
-                    We hope to take you and your team @ ${proj.name} to new heights through mentorship!
+                    We hope to take you and your team ${
+                      proj ? `@ ${proj.name} ` : ""
+                    }to new heights through mentorship!
                     Explore our portfolio of mentors and request a mentor based on your specific needs; our team will take your requests into consideration while matching you with a mentor.
 
                     Contact us if you face any issues- our team prioritizes your experience above all else.
@@ -265,10 +276,12 @@ router.post("/register", async (req, res) => {
                     Best Regards,
                     Admin Team, IdeaStack`,
             html: `
-                    <p>Hey ${req.body.firstName}!</p>
+                    <p>Hey ${newUser.firstName}!</p>
             
                     <p> Welcome to IdeaStack.org.<br/>
-                    <h4>We hope to take you and your team @ ${proj.name} to new heights through mentorship!.</h4>
+                    <h4>We hope to take you and your team ${
+                      proj ? `@ ${proj.name} ` : ""
+                    }to new heights through mentorship!.</h4>
                     Explore our portfolio of mentors and request a mentor based on your specific needs; our team will take your requests into consideration while matching you with a mentor.<br/> 
                     Contact us if you face any issues- our team prioritizes your experience above all else.
                     </p>
@@ -315,6 +328,260 @@ router.post("/register", async (req, res) => {
   } catch (err) {
     res.status(400).send(err);
   }
+});
+
+router.post("/registerWithGoogle", async (req, res) => {
+  await https
+    .get(
+      "https://www.googleapis.com/oauth2/v1/userinfo?access_token=" +
+        req.body.oauthObj.access_token,
+      (res) => {
+        let data = "";
+        res.on("data", (chunk) => {
+          data += chunk;
+        });
+        res.on("end", () => {
+          let userDetails = JSON.parse(data);
+          regUser(userDetails);
+        });
+      }
+    )
+    .on("error", (err) => {
+      console.log("Error: " + err.message);
+      res.status(401).send("Login failed...");
+    });
+
+  const regUser = async (details) => {
+    let existingUser = await studentUser.findOne({
+      email: details.email.trim(),
+    });
+
+    const all = await studentUser.find();
+
+    console.log(all);
+    if (existingUser) {
+      console.log(existingUser);
+      res.status(400).send("This Email ID has already been registered.");
+    } else {
+      const newUser = new studentUser({
+        firstName:
+          details.given_name.substring(0, 1).toUpperCase() +
+          details.given_name.substring(1),
+        lastName:
+          details.family_name.substring(0, 1).toUpperCase() +
+          details.family_name.substring(1),
+        email: details.email.toLowerCase().trim(),
+        isAdditionalMember: req.body.additionalMember,
+        initialized: false,
+        initializationStep: "pi",
+        role: req.body.additionalMember ? req.body.role : null,
+        projectId: req.body.additionalMember ? req.body.projId : null,
+      });
+      console.log("here1");
+
+      if (
+        req.body.additionalMember &&
+        req.body.uniqueCode &&
+        req.body.uniqueCode != req.body.requiredUniqueCode
+      ) {
+        res.status(400).send("Invalid Unique Join Code...");
+        return;
+      }
+
+      const proj = await project.findById(req.body.projId);
+      if (req.body.additionalMember) {
+        let chk1 = true;
+        let chk2 = true;
+
+        for (let k = 0; k < proj.team.length; k++) {
+          if (
+            parseInt(req.body.uniqueCode) ==
+            parseInt(proj.team[k].uniqueJoinCode)
+          ) {
+            chk1 = false;
+            if (proj.team[k].onboarded === false) {
+              chk2 = false;
+            }
+            proj.team[k].name = req.body.firstName + " " + req.body.lastName;
+            proj.team[k].email = req.body.email;
+            proj.team[k].role = req.body.role;
+            proj.team[k].onboarded = true;
+          }
+        }
+
+        if (chk1) {
+          res.status(400).send("Invalid Unique Join Code...");
+          return;
+        } else if (chk2) {
+          res.status(400).send("Member Already Onboarded...");
+          return;
+        } else {
+          async function sendOnboardedMail() {
+            try {
+              const transport = await nodemailer.createTransport({
+                host: "smtp.gmail.com",
+                port: 465,
+                auth: {
+                  type: "OAuth2",
+                  user: "ideastackapp@gmail.com",
+                  clientId: process.env.CLIENT_ID,
+                  clientSecret: process.env.CLIENT_SECRET,
+                  accessToken: process.env.ACCESS_TOKEN,
+                  refreshToken: process.env.REFRESH_TOKEN,
+                },
+              });
+
+              const mailOptions = {
+                from: "IdeaStack <ideastackapp@gmail.com>",
+                to: [proj.team[0].email],
+                bcc: [],
+                subject: `${req.body.firstName} has joined IdeaStack.org!`,
+                text: `
+                        Hey ${proj.team[0].firstName}!
+                
+                        Your team-member, ${req.body.firstName}, has onboarded your venture (${proj.name}) @ IdeaStack.org.
+                        
+                        We hope to take you and your team to new heights through mentorship!
+                        Explore our portfolio of mentors and request a mentor based on your specific needs; our team will take your requests into consideration while matching you with a mentor.
+    
+                        Contact us if you face any issues- our team prioritizes your experience above all else.
+                        
+                        Best Regards,
+                        Admin Team, IdeaStack`,
+                html: `
+                        <p>Hey ${proj.team[0].firstName}!</p>
+                
+                        <p>Your team-member, ${req.body.firstName}, has onboarded your venture (${proj.name}) @ IdeaStack.org.<br/>
+                        <h4>We hope to take you and your team to new heights through mentorship!.</h4>
+                        Explore our portfolio of mentors and request a mentor based on your specific needs; our team will take your requests into consideration while matching you with a mentor.<br/> 
+                        Contact us if you face any issues- our team prioritizes your experience above all else.
+                        </p>
+                        
+                        <p>Best Regards,<br/>
+                        Admin Team, IdeaStack</p>
+                        <br/><br/>
+                        <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                        `,
+                attachments: [
+                  {
+                    fileName: "IdeaStack.jpg",
+                    path: "server/routes/IdeaStack.jpg",
+                    cid: "ideastack@orgae.ee",
+                  },
+                ],
+              };
+              const result = await transport.sendMail(mailOptions);
+              return result;
+            } catch (err) {
+              return err;
+            }
+          }
+
+          sendOnboardedMail()
+            .then((result) => {
+              console.log(result);
+            })
+            .catch((err) => {
+              console.log(err);
+              res.status(400).send(err);
+            });
+
+          proj.markModified("team");
+          await proj.save();
+        }
+      } else if (proj && proj.team.length === 1) {
+        proj.teamOnboarded = true;
+        proj.markModified("teamOnboarded");
+        await proj.save();
+      }
+
+      console.log("here2");
+
+      async function sendRegistrationMail() {
+        try {
+          const transport = await nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            auth: {
+              type: "OAuth2",
+              user: "ideastackapp@gmail.com",
+              clientId: process.env.CLIENT_ID,
+              clientSecret: process.env.CLIENT_SECRET,
+              accessToken: process.env.ACCESS_TOKEN,
+              refreshToken: process.env.REFRESH_TOKEN,
+            },
+          });
+
+          const mailOptions = {
+            from: "IdeaStack <ideastackapp@gmail.com>",
+            to: [newUser.email],
+            bcc: ["vismaysuramwar@gmail.com", "raghavbhatia0611@gmail.com"],
+            subject: `${newUser.firstName}, Welcome to IdeaStack!`,
+            text: `
+                    Hey ${newUser.firstName}!
+            
+                    Welcome to IdeaStack.org.
+                    
+                    We hope to take you and your team ${
+                      proj ? `@ ${proj.name} ` : ""
+                    }to new heights through mentorship!
+                    Explore our portfolio of mentors and request a mentor based on your specific needs; our team will take your requests into consideration while matching you with a mentor.
+
+                    Contact us if you face any issues- our team prioritizes your experience above all else.
+                    
+                    Best Regards,
+                    Admin Team, IdeaStack`,
+            html: `
+                    <p>Hey ${req.body.firstName}!</p>
+            
+                    <p> Welcome to IdeaStack.org.<br/>
+                    <h4>We hope to take you and your team ${
+                      proj ? `@ ${proj.name} ` : ""
+                    }to new heights through mentorship!.</h4>
+                    Explore our portfolio of mentors and request a mentor based on your specific needs; our team will take your requests into consideration while matching you with a mentor.<br/> 
+                    Contact us if you face any issues- our team prioritizes your experience above all else.
+                    </p>
+                    
+                    <p>Best Regards,<br/>
+                    Admin Team, IdeaStack</p>
+                    <br/><br/>
+                    <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                    `,
+            attachments: [
+              {
+                fileName: "IdeaStack.jpg",
+                path: "server/routes/IdeaStack.jpg",
+                cid: "ideastack@orgae.ee",
+              },
+            ],
+          };
+          const result = await transport.sendMail(mailOptions);
+          return result;
+        } catch (err) {
+          return err;
+        }
+      }
+
+      sendRegistrationMail()
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(400).send(err);
+          return;
+        });
+
+      const user = await newUser.save().catch((err) => console.log(err));
+      const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
+        expiresIn: "2.5h",
+      });
+      console.log("- Logged In");
+
+      res.send({ user: user, userToken: token });
+      return;
+    }
+  };
 });
 
 router.post("/checkCookie", async (req, res) => {
@@ -397,6 +664,71 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
+});
+
+router.post("/googleLogin", async (req, res) => {
+  https
+    .get(
+      "https://www.googleapis.com/oauth2/v1/userinfo?access_token=" +
+        req.body.oauthObj.access_token,
+      (res) => {
+        let data = "";
+        res.on("data", (chunk) => {
+          data += chunk;
+        });
+        res.on("end", () => {
+          let userDetails = JSON.parse(data);
+          logUserIn(userDetails);
+        });
+      }
+    )
+    .on("error", (err) => {
+      console.log("Error: " + err.message);
+      res.status(401).send("Login failed...");
+    });
+
+  const logUserIn = async (userDetails) => {
+    try {
+      const user = await studentUser.findOne({
+        email: userDetails.email.toLowerCase().trim(),
+      });
+      if (!user) {
+        console.log("- User not found");
+        res.status(401).send("User not found");
+      } else {
+        const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
+          expiresIn: "2.5h",
+        });
+
+        const token2 = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
+          expiresIn: "14d",
+        });
+
+        console.log("- Logged In");
+
+        if (!req.body.rememberme) {
+          let cookieNow = req.session.cookie;
+          cookieNow.path = "www.ideastack.org/home";
+          cookieNow.id = token2;
+          cookieNow.expires = new Date(Date.now() + 900000);
+          req.session.isAuth = true;
+          res.send({
+            user: user,
+            userToken: token,
+            cookieObj: {
+              ...cookieNow,
+              id: token2,
+              expires: new Date(Date.now() + 900000),
+            },
+          });
+        } else {
+          res.send({ user: user, userToken: token });
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 });
 
 router.post("/loginMentor", async (req, res) => {
@@ -717,7 +1049,6 @@ router.post("/updateMentor", auth, async (req, res) => {
 
       sendRequestAcceptedMail()
         .then((result) => {
-          res.send("Successfully sent Email !");
           console.log(result);
         })
         .catch((err) => {
@@ -821,6 +1152,8 @@ router.post("/onboardTeam", auth, async (req, res) => {
   const projId = user.projectId;
   const currProject = await project.findById(projId);
 
+  let newUser;
+
   for (let i = 0; i < req.body.team.length; i++) {
     let uniqueCode = Math.trunc(Math.random() * 100000);
     currProject.team.push({
@@ -840,7 +1173,7 @@ router.post("/onboardTeam", auth, async (req, res) => {
           initialized: true,
         };
 
-        const newUser = await studentUser
+        newUser = await studentUser
           .findOneAndUpdate({ _id: req.user._id }, updateInfo)
           .catch((err) => console.log(err));
 
@@ -850,7 +1183,6 @@ router.post("/onboardTeam", auth, async (req, res) => {
         });
 
         console.log(result);
-        res.send(newUser);
       })
       .catch((err) => {
         console.log(err);
@@ -947,6 +1279,8 @@ router.post("/onboardTeam", auth, async (req, res) => {
       return err;
     }
   }
+
+  res.send(newUser);
 
   // update the project document
   // complete user initialization
@@ -1379,7 +1713,6 @@ router.post("/updateInstructions", auth, async (req, res) => {
 
   sendInstructionsMail()
     .then((result) => {
-      res.send("Successfully sent Email !");
       console.log(result);
     })
     .catch((err) => {
@@ -1509,7 +1842,6 @@ router.post("/confirmMeetingSlots", auth, async (req, res) => {
 
   sendSlotsSetMail()
     .then((result) => {
-      res.send("Successfully sent Email !");
       console.log(result);
     })
     .catch((err) => {
@@ -1660,7 +1992,6 @@ router.post("/pickMentorshipDate", auth, async (req, res) => {
 
   sendDatePickedMail()
     .then((result) => {
-      res.send("Successfully sent Email !");
       console.log(result);
     })
     .catch((err) => {
@@ -2223,10 +2554,13 @@ router.post("/getProject", auth, async (req, res) => {
 router.post("/getProjectMember", async (req, res) => {
   const projects = await project.find();
   let proj;
+
+  console.log(req.body);
+
   for (let j = 0; j < projects.length; j++) {
     if (
-      String(projects[j]["name"]).toLowerCase() ==
-      req.body.projectName.toLowerCase()
+      String(projects[j]["name"]).toLowerCase() ===
+      String(req.body.projectName).toLowerCase()
     ) {
       proj = projects[j];
     }
@@ -2350,7 +2684,6 @@ router.post("/requestMentor", auth, async (req, res) => {
 
   sendRequestCreatedMail()
     .then((result) => {
-      res.send("Successfully sent Email !");
       console.log(result);
     })
     .catch((err) => {

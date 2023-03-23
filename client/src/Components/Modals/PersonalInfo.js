@@ -6,6 +6,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 import { FcGoogle } from "react-icons/fc";
 import { AiFillLinkedin } from "react-icons/ai";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const PersonalInfo = (props) => {
   const currentUser = useContext(userContext);
@@ -53,7 +54,6 @@ const PersonalInfo = (props) => {
     setError();
     props.isLoading();
     setLoading(true);
-    console.log(studentUser);
     axios
       .post(
         process.env.NODE_ENV === "production"
@@ -83,11 +83,81 @@ const PersonalInfo = (props) => {
       });
   };
 
+  const completeGoogleSignUp = (tokenResponse, obj) => {
+    setLoading(true);
+    props.isLoading();
+
+    axios
+      .post(
+        process.env.NODE_ENV === "production"
+          ? "https://ideastack.herokuapp.com/api/user/registerWithGoogle"
+          : "http://localhost:4000/api/user/registerWithGoogle",
+        {
+          oauthObj: tokenResponse,
+          ...obj,
+        }
+      )
+      .then((res) => {
+        sessionStorage.setItem("token", res.data.userToken);
+        currentUser.setUser(res.data.user);
+        history.push("/onboarding");
+        props.close();
+        setLoading(false);
+        props.isNotLoading();
+      })
+      .catch((err) => {
+        console.log(err);
+        setError(
+          err && err.response
+            ? err.response.data
+              ? err.response.data
+              : err.response
+            : null
+        );
+        setLoading(false);
+        props.isNotLoading();
+      });
+  };
+
+  const [googleRequireUC, setGoogleRequireUC] = useState(false);
+  const [objPassed, setObjPassed] = useState({});
+  const [tokenResponsePassed, setTokenResponsePassed] = useState({});
+
+  const googleSignUp = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      setError();
+      let obj = {};
+      if (props.userDetails != null && props.userDetails.fullName) {
+        setObjPassed({
+          projId: props.userDetails.projId,
+          requiredUniqueCode: props.userDetails.uniqueCode,
+          role: props.userDetails.role,
+          uniqueCode: null,
+        });
+        setTokenResponsePassed(tokenResponse);
+        setGoogleRequireUC(true);
+      } else {
+        console.log(tokenResponse, obj);
+        completeGoogleSignUp(tokenResponse, obj);
+      }
+    },
+    onError: (error) => {
+      setError("Google login failed..");
+      console.log(error);
+    },
+  });
+
   return (
-    <div class="mt-10 sm:mt-0 relative mx-auto blockjustify-center">
+    <div class="mt-10 sm:mt-0 relative mx-auto block justify-center">
       <div class={`md:grid md:grid-cols-3 w-full mx-auto block md:gap-6`}>
         <div class="md:col-span-1 ">
-          <div class="px-8 sm:px-3 md:left-0  xl:bottom-5 bottom-9 md:mt-0 sm:mt-[44px] mt-[79px] sm:left-3 left-4 relative mr-3">
+          <div
+            class={`  md:left-0  xl:bottom-5 bottom-9 ${
+              googleRequireUC
+                ? "xl:-mt-[155px] lg:-mt-[135px] md:-mt-[135px] sm:mt-[44px] mt-[79px] sm:px-3 px-8 "
+                : "md:mt-0 sm:mt-[44px] mt-[79px] px-8 sm:px-3"
+            } sm:left-3 left-4 relative mr-3`}
+          >
             <h3
               class={`  ${
                 loading
@@ -110,11 +180,15 @@ const PersonalInfo = (props) => {
             </p>
           </div>
         </div>
-        <div class="mt-5 md:mt-0 md:left-0 sm:left-1.5 left-3 relative md:col-span-2">
+        <div
+          class={`mt-5 -mr-12 pr-12 ${
+            googleRequireUC ? "xl:mt-7 lg:mt-6 md:mt-7" : "md:mt-0"
+          } md:left-0 sm:left-1.5 left-3 relative md:col-span-2`}
+        >
           <form id="regForm" onSubmit={handleSubmit}>
             <div class="shadow overflow-hidden sm:rounded-md">
               <div
-                class={`px-3  sm:py-2 sm:pt-6 pt-5 pb-7 sm:pb-7 bg-gradient-to-r from-indigo-200 to-blue-200  sm:p-6`}
+                class={`px-3 sm:py-2 sm:pt-6 pt-5 pb-7 sm:pb-7 bg-gradient-to-r from-indigo-200 to-blue-200  sm:p-6`}
               >
                 {loading ? (
                   <div class="relative mx-auto my-8 mb-14  mt-40 sm:pb-3 pb-0 sm:mr-0 md:mr-0.5 pt-1.5 sm:left-0  text-center sm:top-[50%] top-[65%] translate-y-[-50%] block justify-center">
@@ -134,52 +208,14 @@ const PersonalInfo = (props) => {
                     )}
 
                     <div class="grid grid-cols-6 -mt-1 mb-1 gap-6">
-                      <div class="col-span-6 sm:col-span-3">
-                        <label
-                          for="first-name"
-                          class="block text-sm font-semibold left-0.5 text-gray-700"
-                        >
-                          First Name
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          onChange={handleChange}
-                          name="firstName"
-                          min={2}
-                          id="first-name"
-                          value={studentUser.firstName}
-                          class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
-                        />
-                      </div>
-
-                      <div class="col-span-6 sm:col-span-3">
-                        <label
-                          for="city"
-                          class="block text-sm font-semibold left-0.5 text-gray-700"
-                        >
-                          Last Name
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          onChange={handleChange}
-                          name="lastName"
-                          id="last-name"
-                          value={studentUser.lastName}
-                          class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
-                        />
-                      </div>
-
-                      {props.userDetails != null &&
-                      props.userDetails.fullName ? (
+                      {googleRequireUC ? (
                         <>
                           <div class="col-span-6 sm:col-span-3">
                             <label
                               for="first-name"
                               class="block text-sm font-semibold left-0.5 text-gray-700"
                             >
-                              Unique Join Code (sent to you by email)
+                              Unique Join Code <br /> (sent by email)
                             </label>
                             <input
                               type="text"
@@ -188,7 +224,7 @@ const PersonalInfo = (props) => {
                               name="uniqueCode"
                               min={10000}
                               max={99999}
-                              id="first-name"
+                              id="googleUniqueCode"
                               value={studentUser.uniqueCode}
                               class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
                             />
@@ -199,82 +235,187 @@ const PersonalInfo = (props) => {
                               for="city"
                               class="block text-sm font-semibold left-0.5 text-gray-700"
                             >
-                              Your Role (in your startup)
+                              Your Role <br /> (in your startup)
                             </label>
                             <input
                               type="text"
                               required
                               onChange={handleChange}
                               name="role"
-                              id="last-name"
+                              id="googleUserRole"
                               value={studentUser.role}
                               class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
                             />
                           </div>
                         </>
                       ) : (
-                        ""
+                        <>
+                          <div class="col-span-6 sm:col-span-3">
+                            <label
+                              for="first-name"
+                              class="block text-sm font-semibold left-0.5 text-gray-700"
+                            >
+                              First Name
+                            </label>
+                            <input
+                              type="text"
+                              required
+                              onChange={handleChange}
+                              name="firstName"
+                              min={2}
+                              id="first-name"
+                              value={studentUser.firstName}
+                              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
+                            />
+                          </div>
+
+                          <div class="col-span-6 sm:col-span-3">
+                            <label
+                              for="city"
+                              class="block text-sm font-semibold left-0.5 text-gray-700"
+                            >
+                              Last Name
+                            </label>
+                            <input
+                              type="text"
+                              required
+                              onChange={handleChange}
+                              name="lastName"
+                              id="last-name"
+                              value={studentUser.lastName}
+                              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
+                            />
+                          </div>
+
+                          {props.userDetails !== null &&
+                          props.userDetails.fullName ? (
+                            <>
+                              <div class="col-span-6 sm:col-span-3">
+                                <label
+                                  for="first-name"
+                                  class="block text-sm font-semibold left-0.5 text-gray-700"
+                                >
+                                  Unique Join Code (sent to you by email)
+                                </label>
+                                <input
+                                  type="text"
+                                  required
+                                  onChange={handleChange}
+                                  name="uniqueCode"
+                                  min={10000}
+                                  max={99999}
+                                  id="first-name"
+                                  value={studentUser.uniqueCode}
+                                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
+                                />
+                              </div>
+
+                              <div class="col-span-6 sm:col-span-3">
+                                <label
+                                  for="city"
+                                  class="block text-sm font-semibold left-0.5 text-gray-700"
+                                >
+                                  Your Role (in your startup)
+                                </label>
+                                <input
+                                  type="text"
+                                  required
+                                  onChange={handleChange}
+                                  name="role"
+                                  id="last-name"
+                                  value={studentUser.role}
+                                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
+                                />
+                              </div>
+                            </>
+                          ) : (
+                            ""
+                          )}
+
+                          <div class="col-span-6 sm:col-span-3">
+                            <label
+                              for="email-address"
+                              class="block text-sm font-semibold left-0.5 text-gray-700"
+                            >
+                              Email address
+                            </label>
+                            <input
+                              type="text"
+                              required
+                              onChange={handleChange}
+                              name="email"
+                              id="email-address"
+                              autocomplete="email"
+                              value={studentUser.email}
+                              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2 bg-white   shadow-md sm:text-sm border-gray-300 rounded-md"
+                            />
+                          </div>
+
+                          <div class="col-span-6 sm:col-span-3">
+                            <label
+                              for="city"
+                              class="block text-sm font-semibold left-0.5 text-gray-700"
+                            >
+                              Password
+                            </label>
+                            <input
+                              type="password"
+                              required={true}
+                              onChange={handleChange}
+                              name="password"
+                              id="city"
+                              value={studentUser.password}
+                              autocomplete="password"
+                              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
+                            />
+                          </div>
+                        </>
                       )}
-
-                      <div class="col-span-6 sm:col-span-3">
-                        <label
-                          for="email-address"
-                          class="block text-sm font-semibold left-0.5 text-gray-700"
-                        >
-                          Email address
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          onChange={handleChange}
-                          name="email"
-                          id="email-address"
-                          autocomplete="email"
-                          value={studentUser.email}
-                          class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2 bg-white   shadow-md sm:text-sm border-gray-300 rounded-md"
-                        />
-                      </div>
-
-                      <div class="col-span-6 sm:col-span-3">
-                        <label
-                          for="city"
-                          class="block text-sm font-semibold left-0.5 text-gray-700"
-                        >
-                          Password
-                        </label>
-                        <input
-                          type="password"
-                          required={true}
-                          onChange={handleChange}
-                          name="password"
-                          id="city"
-                          value={studentUser.password}
-                          autocomplete="password"
-                          class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
-                        />
-                      </div>
                     </div>
                   </>
                 )}
               </div>
               <div class="px-4 py-1 bg-gray-50 sm:px-6 text-center">
-                <button
-                  type="submit"
-                  class="md:mr-2.5 mx-auto px-16 relative h-12 w-full justify-center rounded-md border border-gray-300 shadow-sm py-1 bg-white text-lg font-semibold text-gray-700 hover:text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:ring-indigo-500  mt-3 mb-[13px] sm:w-auto sm:text-md"
-                >
-                  Register
-                </button>
-                <br />
-                OR
-                <br />
-                <button
-                  type="button"
-                  class="md:mr-2.5 mx-auto px-16 relative h-fit py-2.5 sm:w-[340px] w-full justify-center rounded-md border border-gray-300 shadow-sm bg-white text-lg font-semibold text-gray-700 hover:text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  mt-3 mb-3  sm:text-md"
-                >
-                  <FcGoogle class="w-6 h-6 mr-2.5 -ml-1 inline relative bottom-[1px]" />
-                  Sign up with Google
-                </button>
-                {/* <br />
+                {googleRequireUC ? (
+                  <>
+                    <button
+                      onClick={() => {
+                        completeGoogleSignUp(tokenResponsePassed, {
+                          ...objPassed,
+                          uniqueCode:
+                            document.getElementById("googleUniqueCode").value,
+                          role: document.getElementById("googleUserRole").value,
+                        });
+                      }}
+                      type="button"
+                      class="md:mr-2.5 mx-auto px-16 relative h-fit py-2.5 sm:w-[450px] w-full justify-center rounded-md border border-gray-300 shadow-sm bg-white text-lg font-semibold text-gray-700 hover:text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  mt-3 mb-3  sm:text-md"
+                    >
+                      <FcGoogle class="w-6 h-6 mr-2.5 -ml-1 inline relative bottom-[1px]" />
+                      Complete Registration
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      type="submit"
+                      class="md:mr-2.5 mx-auto px-16 relative h-12 w-full justify-center rounded-md border border-gray-300 shadow-sm py-1 bg-white text-lg font-semibold text-gray-700 hover:text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:ring-indigo-500  mt-3 mb-[13px] sm:w-auto sm:text-md"
+                    >
+                      Register
+                    </button>
+                    <br />
+                    OR
+                    <br />
+                    <button
+                      onClick={() => {
+                        googleSignUp();
+                      }}
+                      type="button"
+                      class="md:mr-2.5 mx-auto px-16 relative h-fit py-2.5 sm:w-[340px] w-full justify-center rounded-md border border-gray-300 shadow-sm bg-white text-lg font-semibold text-gray-700 hover:text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  mt-3 mb-3  sm:text-md"
+                    >
+                      <FcGoogle class="w-6 h-6 mr-2.5 -ml-1 inline relative bottom-[1px]" />
+                      Sign up with Google
+                    </button>
+                    {/* <br />
                 <button
                   type="button"
                   class="md:mr-2.5 mx-auto px-16 relative h-12 sm:w-[340px] w-full justify-center rounded-md border border-gray-300 shadow-sm py-1 bg-white text-lg font-semibold text-gray-700 hover:text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  mb-3  sm:text-md"
@@ -282,6 +423,8 @@ const PersonalInfo = (props) => {
                   <AiFillLinkedin class="w-6 h-6 mr-2.5 -ml-1 inline relative bottom-[1px]" />
                   Sign up with Linkedin
                 </button> */}
+                  </>
+                )}
               </div>
             </div>
           </form>
