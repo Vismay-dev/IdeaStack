@@ -301,7 +301,6 @@ export default function BrowseMentors() {
                   key={i}
                   onClick={() => {
                     setWorkshopId(workshop._id);
-                    console.log(workshop._id);
                     setShowWorkshop(true);
                   }}
                   class={`group z-20 pointer-events-auto shadow-md bg-slate-50 pb-1  rounded-md cursor-pointer`}
