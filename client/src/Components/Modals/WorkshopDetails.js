@@ -67,7 +67,25 @@ const WorkshopDetails = (props) => {
 
   const [requested, setRequested] = useState(false);
 
+  const [teamSize, setTeamSize] = useState();
+  const [mentorshipPackage, setMentorshipPackage] = useState({});
+
+  const [isMentor, setIsMentor] = useState(false);
+  const [isFirstFree, setIsFirstFree] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [workshop, setWorkshop] = useState(false);
+
+  const [dateOptions, setDateOptions] = useState([]);
+  const [requestedMentors, setRequestedMentors] = useState();
+
   const requestHandler = () => {
+    let currWS;
+    for (let x = 0; x < props.workshops.length; x++) {
+      if (JSON.stringify(props.workshops[x]._id) === JSON.stringify(props.id)) {
+        currWS = props.workshops[x];
+      }
+    }
+
     axios
       .post(
         process.env.NODE_ENV === "production"
@@ -75,7 +93,7 @@ const WorkshopDetails = (props) => {
           : "http://localhost:4000/api/user/requestMentor",
         {
           token: sessionStorage.getItem("token"),
-          workshopId: workshop._id,
+          workshop: currWS,
           projectId: user.projectId,
         }
       )
@@ -88,17 +106,6 @@ const WorkshopDetails = (props) => {
         console.log(err);
       });
   };
-
-  const [teamSize, setTeamSize] = useState();
-  const [mentorshipPackage, setMentorshipPackage] = useState({});
-
-  const [isMentor, setIsMentor] = useState(false);
-  const [isFirstFree, setIsFirstFree] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [workshop, setWorkshop] = useState(false);
-
-  const [dateOptions, setDateOptions] = useState([]);
-  const [requestedMentors, setRequestedMentors] = useState();
 
   useEffect(() => {
     setLoading(true);

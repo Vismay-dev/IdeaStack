@@ -46,7 +46,7 @@ const UploadFile = (props) => {
     setFile(e.target.files[0]);
     data.append("token", sessionStorage.getItem("token"));
 
-    console.log(data);
+    let fileCopy = e.target.files[0];
 
     axios
       .post(
@@ -62,9 +62,7 @@ const UploadFile = (props) => {
           title:
             upload.title.replace(" ", "_") +
             "." +
-            e.target.files[0].name.split(".")[
-              e.target.files[0].name.split(".").length - 1
-            ],
+            fileCopy.name.split(".")[fileCopy.name.split(".").length - 1],
         });
         setUploading(false);
       })
@@ -244,6 +242,7 @@ const UploadFile = (props) => {
                         type="file"
                         ref={inputRef}
                         class="hidden"
+                        name="file"
                         onClick={(e) => {
                           e.stopPropagation();
                         }}

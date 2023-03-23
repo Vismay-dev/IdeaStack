@@ -35,7 +35,7 @@ const TeamOnboarding = () => {
         <div className="pt-20 pb-12 md:pt-24 md:pb-20">
           {/* Section header */}
           <div className="text-center pb-12 md:pb-16">
-            <h1 className="text-5xl md:text-6xl font-extrabold leading-tighter tracking-tighter -mt-4 mb-11">
+            <h1 className="sm:text-5xl text-4xl md:text-6xl font-extrabold leading-tighter tracking-tighter -mt-4 mb-11">
               Welcome,{" "}
               <span className="bg-clip-text ml-3.5 text-transparent bg-gradient-to-r from-blue-500 to-indigo-400">
                 {" " + (userName && userName)}

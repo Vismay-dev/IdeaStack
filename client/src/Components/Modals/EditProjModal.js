@@ -329,10 +329,9 @@ const EditProjModal = (props) => {
 
                     <div class="relative z-0 mb-10 md:mts-0 w-full group">
                       <textarea
-                        type="number"
                         name="problem"
-                        min={140}
-                        max={190}
+                        minLength={140}
+                        maxLength={190}
                         onChange={changeHandler}
                         value={project.problem}
                         id="problem"

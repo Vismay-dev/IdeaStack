@@ -77,14 +77,24 @@ export default function CardTeam(props) {
                                 "viewToken",
                                 teamMember.email
                               );
-                              window.open(
-                                process.env.NODE_ENV === "production"
-                                  ? "https://ideastack.org/viewProfile"
-                                  : "http://localhost:3000/viewProfile",
-                                "_blank"
-                              );
+                              if (
+                                teamMember.onboarded &&
+                                teamMember.email !== user.email
+                              ) {
+                                window.open(
+                                  process.env.NODE_ENV === "production"
+                                    ? "https://ideastack.org/viewProfile"
+                                    : "http://localhost:3000/viewProfile",
+                                  "_blank"
+                                );
+                              }
                             }}
-                            class="hidden cursor-pointer object-cover w-10 h-10 shadow-md mx-2 relative right-1 rounded-full sm:block"
+                            class={`hidden ${
+                              teamMember.onboarded &&
+                              teamMember.email !== user.email
+                                ? "cursor-pointer"
+                                : ""
+                            } object-cover w-10 h-10 shadow-md mx-2 relative right-1 rounded-full sm:block`}
                             src={
                               teamMember.pic
                                 ? teamMember.pic
@@ -99,14 +109,24 @@ export default function CardTeam(props) {
                                 "viewToken",
                                 teamMember.email
                               );
-                              window.open(
-                                process.env.NODE_ENV === "production"
-                                  ? "https://ideastack.org/viewProfile"
-                                  : "http://localhost:3000/viewProfile",
-                                "_blank"
-                              );
+                              if (
+                                teamMember.onboarded &&
+                                teamMember.email !== user.email
+                              ) {
+                                window.open(
+                                  process.env.NODE_ENV === "production"
+                                    ? "https://ideastack.org/viewProfile"
+                                    : "http://localhost:3000/viewProfile",
+                                  "_blank"
+                                );
+                              }
                             }}
-                            class="font-bold text-gray-700 mr-6  relative cursor-pointer "
+                            class={`font-bold text-gray-700 mr-6  relative ${
+                              teamMember.onboarded &&
+                              teamMember.email !== user.email
+                                ? "cursor-pointer"
+                                : ""
+                            }`}
                           >
                             {projectCurr.project ? teamMember.name : ""}
                             {i == 0 ? " (Admin)" : ""}

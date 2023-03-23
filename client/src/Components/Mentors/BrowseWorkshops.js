@@ -298,10 +298,11 @@ export default function BrowseMentors() {
                   data-aos={"fade-up"}
                   data-aos-once="true"
                   delay={`${i % 3}00`}
-                  key={workshop.id}
+                  key={i}
                   onClick={() => {
-                    setShowWorkshop(true);
                     setWorkshopId(workshop._id);
+                    console.log(workshop._id);
+                    setShowWorkshop(true);
                   }}
                   class={`group z-20 pointer-events-auto shadow-md bg-slate-50 pb-1  rounded-md cursor-pointer`}
                 >

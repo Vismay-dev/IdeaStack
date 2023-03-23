@@ -27,7 +27,7 @@ const PersonalInfo = (props) => {
         projId: props.userDetails.projId,
         requiredUniqueCode: props.userDetails.uniqueCode,
         role: props.userDetails.role,
-        uniqueCode: null,
+        uniqueCode: 0,
       };
       setStudentUser({
         ...studentUser,
@@ -87,6 +87,8 @@ const PersonalInfo = (props) => {
     setLoading(true);
     props.isLoading();
 
+    console.log(obj);
+
     axios
       .post(
         process.env.NODE_ENV === "production"
@@ -106,12 +108,12 @@ const PersonalInfo = (props) => {
         props.isNotLoading();
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
         setError(
           err && err.response
             ? err.response.data
               ? err.response.data
-              : err.response
+              : "Error..."
             : null
         );
         setLoading(false);
@@ -128,11 +130,13 @@ const PersonalInfo = (props) => {
       setError();
       let obj = {};
       if (props.userDetails != null && props.userDetails.fullName) {
+        console.log(props.userDetails);
         setObjPassed({
           projId: props.userDetails.projId,
           requiredUniqueCode: props.userDetails.uniqueCode,
           role: props.userDetails.role,
           uniqueCode: null,
+          additionalMember: true,
         });
         setTokenResponsePassed(tokenResponse);
         setGoogleRequireUC(true);
@@ -154,13 +158,17 @@ const PersonalInfo = (props) => {
           <div
             class={`  md:left-0  xl:bottom-5 bottom-9 ${
               googleRequireUC
-                ? "xl:-mt-[155px] lg:-mt-[135px] md:-mt-[135px] sm:mt-[44px] mt-[79px] sm:px-3 px-8 "
+                ? "xl:-mt-[145px] lg:-mt-[120px] md:-mt-[120px] sm:mt-[44px] mt-[79px] sm:px-3 px-8 "
                 : "md:mt-0 sm:mt-[44px] mt-[79px] px-8 sm:px-3"
             } sm:left-3 left-4 relative mr-3`}
           >
             <h3
               class={`  ${
-                loading
+                loading &&
+                props.userDetails != null &&
+                props.userDetails.fullName
+                  ? "xl:mt-[280px] md:mt-24 sm:-mt-3 -mt-10 "
+                  : loading
                   ? "xl:mt-28 md:mt-24 sm:-mt-3 -mt-10 "
                   : props.userDetails != null && props.userDetails.fullName
                   ? "-mt-10 sm:-mt-4 md:mt-[170px]"
@@ -182,7 +190,7 @@ const PersonalInfo = (props) => {
         </div>
         <div
           class={`mt-5 -mr-12 pr-12 ${
-            googleRequireUC ? "xl:mt-7 lg:mt-6 md:mt-7" : "md:mt-0"
+            googleRequireUC ? "xl:mt-3 lg:mt-6 md:mt-5" : "md:mt-0"
           } md:left-0 sm:left-1.5 left-3 relative md:col-span-2`}
         >
           <form id="regForm" onSubmit={handleSubmit}>
@@ -225,8 +233,9 @@ const PersonalInfo = (props) => {
                               min={10000}
                               max={99999}
                               id="googleUniqueCode"
+                              defaultValue={null}
                               value={studentUser.uniqueCode}
-                              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
+                              class="mt-2.5 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
                             />
                           </div>
 
@@ -244,7 +253,7 @@ const PersonalInfo = (props) => {
                               name="role"
                               id="googleUserRole"
                               value={studentUser.role}
-                              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
+                              class="mt-2.5 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2   shadow-md sm:text-sm border-gray-300 rounded-md"
                             />
                           </div>
                         </>

@@ -9,6 +9,10 @@ const auth = require("../auth/auth");
 const multer = require("multer");
 const cloudinary = require("cloudinary");
 
+var mongoose = require("mongoose");
+
+const md5 = require("md5");
+
 const https = require("https");
 
 const Agenda = require("agenda");
@@ -24,11 +28,45 @@ const agenda = new Agenda({
 });
 
 const fileStorageEngine = multer.diskStorage({
-  filename: function (req, file, callback) {
-    callback(null, Date.now() + file.originalname);
+  filename: function (req, file, cb) {
+    filepath = Date.now();
+
+    const mimeType = file.mimetype.split("/");
+    var fileType = mimeType[1];
+    if (fileType == "vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+      fileType = "xlsx";
+    } else if (fileType == "text/plain") {
+      fileType = "txt";
+    } else if (fileType == "text/csv") {
+      fileType = "csv";
+    } else if (fileType == "vnd.ms-excel") {
+      fileType = "xls";
+    } else if (
+      fileType == "vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ) {
+      fileType = "docx";
+    } else if (fileType == "msword") {
+      fileType = "doc";
+    } else if (
+      fileType ==
+      "vnd.openxmlformats-officedocument.presentationml.presentation"
+    ) {
+      fileType = "pptx";
+    } else if (fileType == "vnd.ms-powerpoint") {
+      fileType = "ppt";
+    }
+
+    const fileName = filepath + "." + fileType;
+    console.log(fileName);
+    cb(null, fileName);
   },
 });
-const upload = multer({ storage: fileStorageEngine });
+
+const fileFilter = (req, file, cb) => {
+  cb(null, true);
+};
+
+const upload = multer({ storage: fileStorageEngine, fileFilter: fileFilter });
 
 router.post("/sendUserQuery", (req, res) => {
   async function sendMail() {
@@ -127,7 +165,7 @@ router.post("/register", async (req, res) => {
       if (
         req.body.additionalMember &&
         req.body.uniqueCode &&
-        req.body.uniqueCode != req.body.requiredUniqueCode
+        Number(req.body.uniqueCode) !== Number(req.body.requiredUniqueCode)
       ) {
         res.status(400).send("Invalid Unique Join Code...");
         return;
@@ -140,8 +178,7 @@ router.post("/register", async (req, res) => {
 
         for (let k = 0; k < proj.team.length; k++) {
           if (
-            parseInt(req.body.uniqueCode) ==
-            parseInt(proj.team[k].uniqueJoinCode)
+            Number(req.body.uniqueCode) === Number(proj.team[k].uniqueJoinCode)
           ) {
             chk1 = false;
             if (proj.team[k].onboarded === false) {
@@ -235,7 +272,7 @@ router.post("/register", async (req, res) => {
           proj.markModified("team");
           await proj.save();
         }
-      } else if (proj.team.length === 1) {
+      } else if (proj && proj.team && proj.team.length === 1) {
         proj.teamOnboarded = true;
         proj.markModified("teamOnboarded");
         await proj.save();
@@ -308,7 +345,6 @@ router.post("/register", async (req, res) => {
 
       sendRegistrationMail()
         .then((result) => {
-          res.send("Successfully sent Email !");
           console.log(result);
         })
         .catch((err) => {
@@ -326,6 +362,7 @@ router.post("/register", async (req, res) => {
       res.send({ user: user, userToken: token });
     }
   } catch (err) {
+    console.log(err);
     res.status(400).send(err);
   }
 });
@@ -348,7 +385,7 @@ router.post("/registerWithGoogle", async (req, res) => {
     )
     .on("error", (err) => {
       console.log("Error: " + err.message);
-      res.status(401).send("Login failed...");
+      return;
     });
 
   const regUser = async (details) => {
@@ -356,9 +393,6 @@ router.post("/registerWithGoogle", async (req, res) => {
       email: details.email.trim(),
     });
 
-    const all = await studentUser.find();
-
-    console.log(all);
     if (existingUser) {
       console.log(existingUser);
       res.status(400).send("This Email ID has already been registered.");
@@ -377,12 +411,11 @@ router.post("/registerWithGoogle", async (req, res) => {
         role: req.body.additionalMember ? req.body.role : null,
         projectId: req.body.additionalMember ? req.body.projId : null,
       });
-      console.log("here1");
 
       if (
         req.body.additionalMember &&
         req.body.uniqueCode &&
-        req.body.uniqueCode != req.body.requiredUniqueCode
+        Number(req.body.uniqueCode) !== Number(req.body.requiredUniqueCode)
       ) {
         res.status(400).send("Invalid Unique Join Code...");
         return;
@@ -395,15 +428,19 @@ router.post("/registerWithGoogle", async (req, res) => {
 
         for (let k = 0; k < proj.team.length; k++) {
           if (
-            parseInt(req.body.uniqueCode) ==
-            parseInt(proj.team[k].uniqueJoinCode)
+            Number(req.body.uniqueCode) === Number(proj.team[k].uniqueJoinCode)
           ) {
             chk1 = false;
             if (proj.team[k].onboarded === false) {
               chk2 = false;
             }
-            proj.team[k].name = req.body.firstName + " " + req.body.lastName;
-            proj.team[k].email = req.body.email;
+            proj.team[k].name =
+              details.given_name.substring(0, 1).toUpperCase() +
+              details.given_name.substring(1) +
+              " " +
+              details.family_name.substring(0, 1).toUpperCase() +
+              details.family_name.substring(1);
+            proj.team[k].email = details.email;
             proj.team[k].role = req.body.role;
             proj.team[k].onboarded = true;
           }
@@ -532,7 +569,7 @@ router.post("/registerWithGoogle", async (req, res) => {
                     Best Regards,
                     Admin Team, IdeaStack`,
             html: `
-                    <p>Hey ${req.body.firstName}!</p>
+                    <p>Hey ${newUser.firstName}!</p>
             
                     <p> Welcome to IdeaStack.org.<br/>
                     <h4>We hope to take you and your team ${
@@ -579,7 +616,6 @@ router.post("/registerWithGoogle", async (req, res) => {
       console.log("- Logged In");
 
       res.send({ user: user, userToken: token });
-      return;
     }
   };
 });
@@ -623,6 +659,10 @@ router.post("/login", async (req, res) => {
       console.log("- User not found");
       res.status(401).send("User not found");
     } else {
+      if (!user.password) {
+        res.status(400).send("Sign in with Google...");
+        return;
+      }
       const isMatch = await bcrypt.compare(
         req.body.password.trim(),
         user.password
@@ -667,16 +707,16 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/googleLogin", async (req, res) => {
-  https
+  await https
     .get(
       "https://www.googleapis.com/oauth2/v1/userinfo?access_token=" +
         req.body.oauthObj.access_token,
-      (res) => {
+      (resp) => {
         let data = "";
-        res.on("data", (chunk) => {
+        resp.on("data", (chunk) => {
           data += chunk;
         });
-        res.on("end", () => {
+        resp.on("end", () => {
           let userDetails = JSON.parse(data);
           logUserIn(userDetails);
         });
@@ -684,49 +724,46 @@ router.post("/googleLogin", async (req, res) => {
     )
     .on("error", (err) => {
       console.log("Error: " + err.message);
-      res.status(401).send("Login failed...");
+      return;
     });
 
   const logUserIn = async (userDetails) => {
-    try {
-      const user = await studentUser.findOne({
-        email: userDetails.email.toLowerCase().trim(),
+    const user = await studentUser.findOne({
+      email: userDetails.email.toLowerCase().trim(),
+    });
+    if (!user) {
+      console.log("- User not found");
+      res.status(401).send("User not found");
+      return;
+    } else {
+      const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
+        expiresIn: "2.5h",
       });
-      if (!user) {
-        console.log("- User not found");
-        res.status(401).send("User not found");
+
+      const token2 = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
+        expiresIn: "14d",
+      });
+
+      console.log("- Logged In");
+
+      if (!req.body.rememberme) {
+        let cookieNow = req.session.cookie;
+        cookieNow.path = "www.ideastack.org/home";
+        cookieNow.id = token2;
+        cookieNow.expires = new Date(Date.now() + 900000);
+        req.session.isAuth = true;
+        res.send({
+          user: user,
+          userToken: token,
+          cookieObj: {
+            ...cookieNow,
+            id: token2,
+            expires: new Date(Date.now() + 900000),
+          },
+        });
       } else {
-        const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
-          expiresIn: "2.5h",
-        });
-
-        const token2 = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
-          expiresIn: "14d",
-        });
-
-        console.log("- Logged In");
-
-        if (!req.body.rememberme) {
-          let cookieNow = req.session.cookie;
-          cookieNow.path = "www.ideastack.org/home";
-          cookieNow.id = token2;
-          cookieNow.expires = new Date(Date.now() + 900000);
-          req.session.isAuth = true;
-          res.send({
-            user: user,
-            userToken: token,
-            cookieObj: {
-              ...cookieNow,
-              id: token2,
-              expires: new Date(Date.now() + 900000),
-            },
-          });
-        } else {
-          res.send({ user: user, userToken: token });
-        }
+        res.send({ user: user, userToken: token });
       }
-    } catch (err) {
-      console.log(err);
     }
   };
 });
@@ -942,11 +979,13 @@ router.post("/updateUser", auth, async (req, res) => {
     ) {
       let teamChk = true;
 
+      console.log(proj.team);
+
       for (let i = 0; i < proj.team.length; i++) {
         let currTeamMember = await studentUser.findOne({
           email: proj.team[i].email,
         });
-        if (currTeamMember.initialized === false) {
+        if (currTeamMember && currTeamMember.initialized === false) {
           teamChk = false;
         }
       }
@@ -1254,7 +1293,7 @@ router.post("/onboardTeam", auth, async (req, res) => {
           user.firstName + " " + user.lastName
         }'>https://ideastack.org/teamonboarding/${teamMember.name}/${
           user.firstName + " " + user.lastName
-        }</a></p>
+        }/${currProject.name}</a></p>
                 
                 <p> Note: The link above is unique, and will not work for any other user. There are limited seats available for IdeaStack registration, so sign-up soon! </p>
 
@@ -1308,6 +1347,8 @@ router.post("/createProject", auth, async (req, res) => {
         name: userName,
         id: req.user._id,
         role: projectData.adminRole,
+        email: user.email,
+        onboarded: true,
       },
     ],
     projPic: projectData.projPic,
@@ -1318,7 +1359,7 @@ router.post("/createProject", auth, async (req, res) => {
     res.status(400).send(err);
   });
 
-  updateInfo = {
+  let updateInfo = {
     projectId: newProject._id,
     initializationStep: "otm",
     role: projectData.adminRole,
@@ -1332,7 +1373,7 @@ router.post("/createProject", auth, async (req, res) => {
     res.status(400).send(err);
   });
 
-  res.send(updatedUser);
+  res.send({ ...newUser, ...updateInfo });
 });
 
 router.post("/getUserProject", auth, async (req, res) => {
@@ -1428,11 +1469,19 @@ router.post("/uploadPic", upload.single("image"), async (req, res) => {
     let file = req.file;
     var fileUrl;
     await cloudinary.v2.uploader
-      .upload(file.path, { folder: "IdeaStack" }, (err, result) => {
-        console.log(err ? err : result);
-        fileUrl = result.secure_url;
-        console.log("File Uploaded");
-      })
+      .upload(
+        file.path,
+        { folder: "IdeaStack", resource_type: "raw" },
+        (err, result) => {
+          console.log(err ? err : result);
+          if (!result) {
+            res.status(400).send("Error in file..");
+            return;
+          }
+          fileUrl = result.secure_url;
+          console.log("File Uploaded");
+        }
+      )
       .catch((err) => console.log(err.response));
 
     res.send(fileUrl);
@@ -2553,7 +2602,7 @@ router.post("/getProject", auth, async (req, res) => {
 
 router.post("/getProjectMember", async (req, res) => {
   const projects = await project.find();
-  let proj;
+  let proj = null;
 
   console.log(req.body);
 
@@ -2610,15 +2659,14 @@ router.post("/modifyMentorAdmin", async (req, res) => {
 
 router.post("/requestMentor", auth, async (req, res) => {
   const user = await studentUser.findOne({ _id: req.user._id });
-  const mentor = await workshop.findOne({
-    _id: JSON.parse(req.body.workshopId),
-  });
+
+  const mentor = await workshop.findOne({ name: req.body.workshop.name });
   const proj = await project.findById(req.body.projectId);
 
   if (proj.mentorsRequested && proj.mentorsRequested.length > 0) {
-    proj.mentorsRequested.push(JSON.parse(req.body.workshopId));
+    proj.mentorsRequested.push(req.body.workshop._id);
   } else {
-    proj.mentorsRequested = [JSON.parse(req.body.workshopId)];
+    proj.mentorsRequested = [req.body.workshop._id];
   }
 
   async function sendRequestCreatedMail() {

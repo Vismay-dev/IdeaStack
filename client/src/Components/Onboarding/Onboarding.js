@@ -115,6 +115,7 @@ const Onboarding = () => {
   ];
 
   const [imageLoading, setImageLoading] = useState(false);
+  const [team, setTeam] = useState(0);
 
   const projPicUpload = (e) => {
     e.preventDefault();
@@ -167,6 +168,8 @@ const Onboarding = () => {
       setProgress(66);
     }
   }, [currentUser.user]);
+
+  console.log(team);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -232,8 +235,8 @@ const Onboarding = () => {
         )
         .then((res) => {
           currentUser.setUser(res.data);
+          console.log(res.data);
           setProgress(66);
-
           setLoading(false);
         })
         .catch((err) => {
@@ -242,16 +245,32 @@ const Onboarding = () => {
         });
     } else if (currentUser.user.initializationStep === "otm") {
       let chk = true;
+      console.log(team);
       for (let i = 0; i < team.length; i++) {
-        console.log(team[i]);
-        if (String(team[i]["email"]) == String(currentUser.user.email)) {
+        if (String(team[i].email) === String(currentUser.user.email)) {
           setError("Do not include your own account.");
           chk = false;
+          setLoading(false);
+          return;
           break;
         }
       }
-      if (!chk) {
-        console.log("bruh");
+      for (let i = 0; i < team.length; i++) {
+        if (
+          String(team[i].name) ===
+          String(currentUser.user.firstName + " " + currentUser.user.lastName)
+        ) {
+          setError("Do not include your own name.");
+          chk = false;
+          setLoading(false);
+          return;
+          break;
+        }
+      }
+      if (
+        !chk &&
+        team.map((member) => member.email).includes(currentUser.user.email)
+      ) {
         setLoading(false);
         return;
       } else {
@@ -266,11 +285,10 @@ const Onboarding = () => {
             setLoading(false);
             setProgress(100);
             setOnboardingLoader(true);
-
             setTimeout(() => {
               setOnboardingLoader(false);
               currentUser.setUser({ ...res.data, initialized: true });
-            }, 4000);
+            }, 2500);
           })
           .catch((err) => {
             console.log(err.response);
@@ -289,15 +307,12 @@ const Onboarding = () => {
     });
   };
 
-  console.log(error);
-
   const [seatsNum, setSeatsNum] = useState(0);
   const numChangeHandler = (e) => {
     setSeatsNum(e.target.value);
     setTeam(Array.apply(null, { length: e.target.value }));
   };
 
-  const [team, setTeam] = useState(0);
   const teamChangeHandler = (e) => {
     let teamCopy = team;
 
@@ -920,9 +935,9 @@ const Onboarding = () => {
                       <br />
                       <div class="relative z-0 mb-10 md:mt-0 w-full group">
                         <textarea
-                          type="number"
-                          min={140}
-                          max={190}
+                          type="text"
+                          minLength={140}
+                          maxLength={190}
                           name="problem"
                           id="problem"
                           onChange={changeHandler}

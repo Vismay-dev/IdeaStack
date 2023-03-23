@@ -349,7 +349,7 @@ const Feed = () => {
           <div class="relative mx-auto my-8 mb-10 pb-3 pt-32 top-3 text-center block justify-center">
             <ClipLoader color={"#0b0bbf"} loading={loading} size={70} />
           </div>
-        ) : feed.length === 0 ? (
+        ) : !feed || feed.length === 0 ? (
           <>
             {sendingMessage ? (
               ""

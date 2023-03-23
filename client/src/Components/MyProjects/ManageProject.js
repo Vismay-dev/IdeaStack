@@ -406,16 +406,14 @@ export default function ManageProject() {
                         {date ? date : ""}
                       </span>
                     </h3>
-                    <p class="text-base text-body-color mt-4 lg:w-full xl:w-[320px]  md:w-full  md:block md:mx-auto md:justify-center md:text-center leading-relaxed mb-7">
+                    <p class="text-base text-body-color mt-7 lg:w-full xl:full overflow-hidden text-ellipsis h-fit  md:w-full  md:block md:mx-auto md:justify-center md:text-center leading-relaxed ">
                       {projectCurr.project ? projectCurr.project.problem : ""}
                       <br />
-                      <p class="relative top-3 xl:top-7 -mb-5">
-                        <strong>Category:</strong>{" "}
-                        {projectCurr.project
-                          ? projectCurr.project.category
-                          : ""}
-                        <br />
-                      </p>
+                    </p>
+                    <p class="relative top-3 xl:top-7 mb-7">
+                      <strong>Category:</strong>{" "}
+                      {projectCurr.project ? projectCurr.project.category : ""}
+                      <br />
                     </p>
                   </div>
                 </div>
@@ -494,7 +492,7 @@ export default function ManageProject() {
                         : " "}
                     </h1>
                     <p class="text-sm relative text-center top-1.5 font-light text-gray-600 sm:px-[96px] px-[60px] lg:px-[40px] ">
-                      Latest Document Uploaded On:{" "}
+                      {!dateOfUpload ? "" : "Latest Document Uploaded On:"}{" "}
                       <span class="text-indigo-500 font-semibold">
                         {dateOfUpload
                           ? new Date(dateOfUpload.date)

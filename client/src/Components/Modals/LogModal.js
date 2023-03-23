@@ -216,6 +216,8 @@ const LogModal = (props) => {
       });
   };
 
+  console.log(error);
+
   const googleLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => {
       setLoading(true);
@@ -755,6 +757,10 @@ const LogModal = (props) => {
                                 ) : error === "Incorrect password" ? (
                                   <p class="text-red-500 text-center text-md relative bottom-3 mt-4 pt-3 pb-2 mb-2">
                                     Login Failed: Incorrect Password
+                                  </p>
+                                ) : error === "Sign in with Google..." ? (
+                                  <p class="text-red-500 text-center text-md relative bottom-3 mt-2 pt-3 pb-2 mb-2">
+                                    Login Failed: Must Sign-in With Google
                                   </p>
                                 ) : null}
 
