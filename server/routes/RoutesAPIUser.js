@@ -997,8 +997,8 @@ router.post("/updateUser", auth, async (req, res) => {
         const updatedProj = await newProj.save();
       }
     }
-
-    res.send({ ...newUser, ...updateInfo });
+    console.log({ ...userPrev, ...updateInfo });
+    res.send({ ...userPrev, ...updateInfo });
   } catch (err) {
     console.log(err);
     res.status(400).send(err);
@@ -1287,13 +1287,15 @@ router.post("/onboardTeam", auth, async (req, res) => {
                 <h4>Unique Registration Code: ${uniqueCodeParam}.</h4>
 
                 <p>Use the code above to access your team's mentorship dashboard & workspace.</p>
-                <p>Join using this link: <a href = 'https://ideastack.org/teamonboarding/${
-                  teamMember.name
-                }/${
+                <p>Join using this link: <a href = '${
+                  process.env.NODE_ENV === "production"
+                    ? "https://ideastack.org"
+                    : "http://localhost:3000"
+                }/teamonboarding/${teamMember.name}/${
           user.firstName + " " + user.lastName
-        }'>https://ideastack.org/teamonboarding/${teamMember.name}/${
-          user.firstName + " " + user.lastName
-        }/${currProject.name}</a></p>
+        }/${currProject.name}'>https://ideastack.org/teamonboarding/${
+          teamMember.name
+        }/${user.firstName + " " + user.lastName}/${currProject.name}</a></p>
                 
                 <p> Note: The link above is unique, and will not work for any other user. There are limited seats available for IdeaStack registration, so sign-up soon! </p>
 

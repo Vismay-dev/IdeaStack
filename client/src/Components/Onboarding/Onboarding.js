@@ -19,6 +19,8 @@ import { SiHiveBlockchain } from "react-icons/si";
 import { CgCodeClimate } from "react-icons/cg";
 import { BsCheckAll } from "react-icons/bs";
 
+import { useHistory } from "react-router-dom";
+
 const Onboarding = () => {
   const [onboardingLoader, setOnboardingLoader] = useState(false);
   const [project, setProject] = useState({});
@@ -148,6 +150,8 @@ const Onboarding = () => {
       });
   };
 
+  const history = useHistory();
+
   const removeProjPic = () => {
     setImage(null);
     setProject({
@@ -202,8 +206,18 @@ const Onboarding = () => {
           }
         )
         .then((res) => {
-          currentUser.setUser(res.data);
-          setProgress(33);
+          if (
+            currentUser.user &&
+            currentUser.user.isAdditionalMember &&
+            res.data.initialized
+          ) {
+            history.push("/profile");
+            currentUser.setUser(res.data);
+          } else {
+            currentUser.setUser(res.data);
+
+            setProgress(33);
+          }
           setTimeout(() => {
             setLoading(false);
           }, 1200);
