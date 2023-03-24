@@ -1208,19 +1208,6 @@ router.post("/onboardTeam", auth, async (req, res) => {
           res.status(400).send(err);
         });
 
-        let updateInfo = {
-          initialized: true,
-        };
-
-        newUser = await studentUser
-          .findOneAndUpdate({ _id: req.user._id }, updateInfo)
-          .catch((err) => console.log(err));
-
-        await newUser.save().catch((err) => {
-          console.log(err);
-          res.status(400).send(err);
-        });
-
         console.log(result);
       })
       .catch((err) => {
@@ -1228,6 +1215,19 @@ router.post("/onboardTeam", auth, async (req, res) => {
         res.status(400).send(err);
       });
   }
+
+  let updateInfo = {
+    initialized: true,
+  };
+
+  newUser = await studentUser
+    .findOneAndUpdate({ _id: req.user._id }, updateInfo)
+    .catch((err) => console.log(err));
+
+  await newUser.save().catch((err) => {
+    console.log(err);
+    res.status(400).send(err);
+  });
 
   async function sendMail(teamMember, uniqueCodeParam) {
     try {
@@ -1405,7 +1405,7 @@ router.post("/getWorkshops", auth, async (req, res) => {
 router.post("/getWorkshop", auth, async (req, res) => {
   const workshopSearched = await workshop.findById(req.body.workshopId);
   console.log(workshopSearched);
-  console.log(req.body.workshopId)
+  console.log(req.body.workshopId);
   res.send(workshopSearched);
 });
 

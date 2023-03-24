@@ -259,30 +259,32 @@ const Onboarding = () => {
         });
     } else if (currentUser.user.initializationStep === "otm") {
       let chk = true;
-      console.log(team);
-      for (let i = 0; i < team.length; i++) {
-        if (String(team[i].email) === String(currentUser.user.email)) {
-          setError("Do not include your own account.");
-          chk = false;
-          setLoading(false);
-          return;
-          break;
+      if (team && team.length > 0) {
+        for (let i = 0; i < team.length; i++) {
+          if (String(team[i].email) === String(currentUser.user.email)) {
+            setError("Do not include your own account.");
+            chk = false;
+            setLoading(false);
+            return;
+            break;
+          }
         }
-      }
-      for (let i = 0; i < team.length; i++) {
-        if (
-          String(team[i].name) ===
-          String(currentUser.user.firstName + " " + currentUser.user.lastName)
-        ) {
-          setError("Do not include your own name.");
-          chk = false;
-          setLoading(false);
-          return;
-          break;
+        for (let i = 0; i < team.length; i++) {
+          if (
+            String(team[i].name) ===
+            String(currentUser.user.firstName + " " + currentUser.user.lastName)
+          ) {
+            setError("Do not include your own name.");
+            chk = false;
+            setLoading(false);
+            return;
+            break;
+          }
         }
       }
       if (
         !chk &&
+        team &&
         team.map((member) => member.email).includes(currentUser.user.email)
       ) {
         setLoading(false);
@@ -359,8 +361,8 @@ const Onboarding = () => {
           <div
             class={`block mx-auto bg-gray-200 transition-all duration-300 ease-in-out delay-150 relative top-[65px] shadow-md  rounded-full  ${
               onboardingLoader
-                ? "h-5 w-[600px] top-[285px] mb-[480px] "
-                : "h-2.5 w-[400px]"
+                ? "h-5 sm:w-[600px] w-[300px] top-[285px] mb-[480px] "
+                : "h-2.5 sm:w-[400px] w-[250px]"
             }  `}
           >
             <div
@@ -379,7 +381,7 @@ const Onboarding = () => {
        border-gray-200 rounded-lg shadow-md md:text-base  relative  md:p-4 md:px-5 md:space-x-4`}
           >
             <li
-              class={`flex items-center text-sm ${
+              class={`flex items-center sm:text-sm text-xs ${
                 currentUser.user.initializationStep === "pi" ||
                 !currentUser.user.initializationStep
                   ? "text-indigo-600 font-semibold"
@@ -390,7 +392,7 @@ const Onboarding = () => {
               } `}
             >
               <span
-                class={`flex  items-center justify-center w-5 h-5 mr-2 text-sm border ${
+                class={`flex  items-center justify-center w-5 h-5 mr-2 sm:text-sm text-xs border ${
                   currentUser.user.initializationStep === "pi" ||
                   !currentUser.user.initializationStep
                     ? "border-indigo-600"
@@ -420,7 +422,7 @@ const Onboarding = () => {
               </svg>
             </li>
             <li
-              class={`flex items-center text-sm ${
+              class={`flex items-center sm:text-sm text-xs ${
                 currentUser.user.initializationStep === "sd"
                   ? "text-indigo-600 font-semibold"
                   : currentUser.user.initializationStep === "otm"
@@ -429,7 +431,7 @@ const Onboarding = () => {
               }`}
             >
               <span
-                class={`flex items-center justify-center w-5 h-5 mr-2 text-sm border ${
+                class={`flex items-center justify-center w-5 h-5 mr-2 sm:text-sm text-xs border ${
                   currentUser.user.initializationStep === "sd"
                     ? "border-indigo-600"
                     : currentUser.user.initializationStep === "otm"
@@ -439,7 +441,7 @@ const Onboarding = () => {
               >
                 2
               </span>
-              Startup/Venture{" "}
+              Startup <span class="hidden sm:inline-flex">/Venture</span>{" "}
               <span class="hidden md:inline-flex md:ml-1">Details</span>
               <svg
                 aria-hidden="true"
@@ -458,14 +460,14 @@ const Onboarding = () => {
               </svg>
             </li>
             <li
-              class={`flex items-center text-sm ${
+              class={`flex items-center sm:text-sm text-xs ${
                 currentUser.user.initializationStep === "otm"
                   ? "text-indigo-600 font-semibold"
                   : ""
               }`}
             >
               <span
-                class={`flex items-center text-sm justify-center w-5 h-5 mr-2  border  ${
+                class={`flex items-center sm:text-sm text-xs justify-center w-5 h-5 mr-2  border  ${
                   currentUser.user.initializationStep === "otm"
                     ? "border-indigo-600"
                     : ""
@@ -473,7 +475,7 @@ const Onboarding = () => {
               >
                 3
               </span>
-              Onboard Team{" "}
+              Onboard <span class="hidden sm:inline-flex sm:ml-1">Team</span>{" "}
               <span class="hidden md:inline-flex md:ml-1"> Members</span>
             </li>
           </ol>
@@ -492,10 +494,10 @@ const Onboarding = () => {
             <div
               class={`${
                 currentUser.user && currentUser.user.isAdditionalMember
-                  ? "mt-[100px] grid grid-cols-6 lg:w-[800px] gap-6"
+                  ? "mt-[100px] grid grid-cols-6 lg:w-[800px] md:w-[600px] sm:w-[500px] w-[300px] gap-6"
                   : currentUser.user.initializationStep === "pi"
-                  ? "grid grid-cols-6 mt-[140px] gap-6 lg:w-[800px]"
-                  : "block transform mt-[140px] transition-all sm:align-middle lg:w-[950px] align-bottom"
+                  ? "grid grid-cols-6 mt-[140px] gap-6 lg:w-[800px] md:w-[600px] sm:w-[500px] w-[300px]"
+                  : "block transform mt-[140px] transition-all sm:align-middle lg:w-[950px] w-[90%] align-bottom"
               }    mx-auto  mb-1 `}
             >
               {currentUser.user.initializationStep === "pi" ||
@@ -518,7 +520,7 @@ const Onboarding = () => {
                     />
                   </div>
 
-                  <div class="col-span-6 sm:col-span-6 lg:col-span-3">
+                  <div class="col-span-6 mt-5 sm:mt-0 sm:col-span-3 ">
                     <label
                       for="university"
                       class="block text-sm font-semibold left-0.5 text-gray-700"
@@ -534,7 +536,7 @@ const Onboarding = () => {
                     />
                   </div>
 
-                  <div class="col-span-6 mt-10 sm:col-span-3">
+                  <div class="col-span-6 sm:mt-10 mt-5 sm:col-span-3">
                     <label
                       for="city"
                       class="block text-sm font-semibold left-0.5 text-gray-700"
@@ -550,7 +552,7 @@ const Onboarding = () => {
                     />
                   </div>
 
-                  <div class="col-span-6 mt-10  sm:col-span-8 lg:col-span-3">
+                  <div class="sm:mt-10 mt-5  col-span-6 sm:col-span-3">
                     <label
                       for="city"
                       class="block text-sm font-semibold left-0.5 text-gray-700"
@@ -960,7 +962,7 @@ const Onboarding = () => {
                           required={true}
                         />
                         <label class="absolute text-sm left-0 text-gray-500 duration-300 transform -top-4 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  ">
-                          Startup Description
+                          Startup Description (Minimum 140 Characters)
                         </label>
                       </div>
                       <br />
@@ -1075,16 +1077,18 @@ const Onboarding = () => {
                       error
                         ? "border-red-500 border-[1px] bg-yellow-50"
                         : "bg-white"
-                    }  px-4 mt-2 mb-0 pt-4  shadow-lg  sm:p-6 rounded-lg`}
+                    }  px-4 mt-2 mb-0 pt-4  shadow-lg  sm:p-6 sm:pb-6 pb-4 rounded-lg`}
                   >
                     <div
-                      class={`bg-indigo-100 border-l-4 border-indigo-500 text-indigo-700 p-4 ${
-                        seatsNum !== null ? "mb-10" : "mb-8"
+                      class={`bg-indigo-100 border-l-4 sm:text-left text-center border-indigo-500 text-indigo-700 p-4 ${
+                        seatsNum !== null ? "sm:mb-10 mb-9" : "sm:mb-8 mb-7"
                       }`}
                       role="alert"
                     >
-                      <p class="font-bold mb-1">Onboarding Your Team</p>
-                      <p class="text-sm">
+                      <p class="font-bold mb-1 sm:text-base text-sm">
+                        Onboarding Your Team
+                      </p>
+                      <p class="sm:text-sm text-xs">
                         Enter your team-members'/cofounders' details here.{" "}
                         <br /> We'll send them an exclusive code to join your
                         startup workspace (IdeaStack Team Dashboard).
@@ -1107,7 +1111,7 @@ const Onboarding = () => {
                         />
                         <label
                           for="floating_repeat_name"
-                          class={`absolute text-sm left-0 text-gray-500  duration-300 transform  scale-75 top-0  origin-[0] peer-focus:left-0 peer-focus:mt-2.5 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:scale-75 peer-focus:-translate-y-6 ${
+                          class={`absolute sm:text-sm text-xs left-0 text-gray-500  duration-300 transform  scale-75 top-0  origin-[0] peer-focus:left-0 peer-focus:mt-2.5 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:scale-75 peer-focus:-translate-y-6 ${
                             seatsNum !== null
                               ? "-translate-y-4"
                               : "-translate-y-6"
