@@ -90,7 +90,7 @@ const UploadMentorshipFile = (props) => {
     setUploading(true);
     data.append("image", e.target.files[0]);
     setFile(e.target.files[0]);
-    console.log(props.type);
+    let fileCopy = e.target.files[0];
     data.append(
       "token",
       props.type === "none" || !props.type
@@ -112,9 +112,7 @@ const UploadMentorshipFile = (props) => {
           title:
             upload.title.replace(" ", "_") +
             "." +
-            e.target.files[0].name.split(".")[
-              e.target.files[0].name.split(".").length - 1
-            ],
+            fileCopy.name.split(".")[fileCopy.name.split(".").length - 1],
         });
         setUploading(false);
       })

@@ -376,7 +376,7 @@ const Onboarding = () => {
             class={`${
               onboardingLoader ? "hidden" : "flex"
             } uppercase mt-[100px] -mb-[70px] items-center w-fit mx-auto p-3 space-x-2 text-sm font-medium text-center text-gray-500 bg-white border
-       border-gray-200 rounded-lg shadow-md sm:text-base  relative  sm:p-4 sm:px-5 sm:space-x-4`}
+       border-gray-200 rounded-lg shadow-md md:text-base  relative  md:p-4 md:px-5 md:space-x-4`}
           >
             <li
               class={`flex items-center text-sm ${
@@ -402,10 +402,10 @@ const Onboarding = () => {
               >
                 1
               </span>
-              Personal <span class="hidden sm:inline-flex sm:ml-1">Info</span>
+              Personal <span class="hidden md:inline-flex md:ml-1">Info</span>
               <svg
                 aria-hidden="true"
-                class="w-4 h-4 ml-2 sm:ml-[16px]"
+                class="w-4 h-4 ml-2 md:ml-[16px]"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -440,10 +440,10 @@ const Onboarding = () => {
                 2
               </span>
               Startup/Venture{" "}
-              <span class="hidden sm:inline-flex sm:ml-1">Details</span>
+              <span class="hidden md:inline-flex md:ml-1">Details</span>
               <svg
                 aria-hidden="true"
-                class="w-4 h-4 ml-2 sm:ml-[16px] -mr-[1px]"
+                class="w-4 h-4 ml-2 md:ml-[16px] -mr-[1px]"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -474,7 +474,7 @@ const Onboarding = () => {
                 3
               </span>
               Onboard Team{" "}
-              <span class="hidden sm:inline-flex sm:ml-1"> Members</span>
+              <span class="hidden md:inline-flex md:ml-1"> Members</span>
             </li>
           </ol>
         </>

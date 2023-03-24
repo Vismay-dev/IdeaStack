@@ -24,7 +24,6 @@ const MainContent = () => {
   const location = useLocation();
   const user = useContext(userContext).user;
   const mentor = useContext(mentorAccContext).mentor;
-  console.log(user);
   return (
     <>
       <div

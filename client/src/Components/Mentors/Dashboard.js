@@ -110,6 +110,7 @@ const Dashboard = () => {
               ...mentorsMatchedInput[j],
               ...res.data,
             });
+            console.log(res.data);
             mentorCon.setMentors(mentorsMatchedCopy);
             setMentorsMatched(mentorsMatchedCopy);
           })
