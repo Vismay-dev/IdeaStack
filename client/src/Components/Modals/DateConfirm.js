@@ -72,81 +72,96 @@ const DateConfirm = (props) => {
                     {/* form starts here */}
                     <div class="right-2 min-h-full flex items-center justify-center py-3 px-5 sm:px-6 lg:px-5">
                       <div class="max-w-md w-full space-y-8">
-                        <div>
-                          <img
-                            class="mx-auto w-24 -mt-5  relative"
-                            src={logo}
-                            alt="Workflow"
-                          />
-                          <h2 class=" bottom-3 relative mb-1 text-center sm:text-3xl text-2xl font-extrabold text-gray-900">
-                            Are you sure you want to book this meeting?
-                          </h2>
-                          <h3 class="mt-5 bottom-3 relative mb-4 text-center  text-xl font-extrabold text-gray-900">
-                            Date:{" "}
-                            {new Date(props.datePicked)
-                              .toDateString()
-                              .substring(0, 10)}
-                            {", "}
-                            {new Date(props.datePicked)
-                              .toLocaleString("en-GB", {
-                                timeZone: "Asia/Dubai",
-                              })
-                              .substring(12, 17)}{" "}
-                            (GST) <br />
-                            Mentor: {props.mentor.name}
-                          </h3>
-
-                          <h3 class="mt-6 bottom-3 -mb-2 relative bg-yellow-50 border-red-700 border-dotted border-[1px] text-center p-2 rounded-md shadow-md text-sm font-semibold text-red-700">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke-width="1.5"
-                              stroke="currentColor"
-                              class="w-[20px] h-[20px] inline mr-1 relative bottom-[1px]"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                        {loading ? (
+                          <div class=" mx-auto block w-fit text-center mt-[100px] mb-[100px]">
+                            <ClipLoader
+                              color={"#0b0bbf"}
+                              loading={loading}
+                              size={90}
+                            />
+                          </div>
+                        ) : (
+                          <>
+                            <div>
+                              <img
+                                class="mx-auto w-24 -mt-5  relative"
+                                src={logo}
+                                alt="Workflow"
                               />
-                            </svg>
-                            Note: Inability to attend this meeting after
-                            confirmation could result in the cancellation of
-                            this mentorship match-up. Don't lose out!
-                          </h3>
-                        </div>
+                              <h2 class=" bottom-3 relative mb-1 text-center sm:text-3xl text-2xl font-extrabold text-gray-900">
+                                Are you sure you want to book this meeting?
+                              </h2>
+                              <h3 class="mt-5 bottom-3 relative mb-4 text-center  text-xl font-extrabold text-gray-900">
+                                Date:{" "}
+                                {new Date(props.datePicked)
+                                  .toDateString()
+                                  .substring(0, 10)}
+                                {", "}
+                                {new Date(props.datePicked)
+                                  .toLocaleString("en-GB", {
+                                    timeZone: "Asia/Dubai",
+                                  })
+                                  .substring(12, 17)}{" "}
+                                (GST) <br />
+                                Mentor: {props.mentor.name}
+                              </h3>
 
-                        <div>
-                          <button
-                            onClick={() => {
-                              axios
-                                .post(
-                                  process.env.NODE_ENV === "production"
-                                    ? "https://ideastack.herokuapp.com/api/user/pickMentorshipDate"
-                                    : "http://localhost:4000/api/user/pickMentorshipDate",
-                                  {
-                                    token: sessionStorage.getItem("token"),
-                                    mentorId: props.mentor.mentorId,
-                                    datePicked: props.datePicked,
-                                    week: props.weekNum,
-                                  }
-                                )
-                                .then((res) => {
-                                  console.log(res.data);
-                                  projCon.setProject(res.data);
-                                  props.close();
-                                })
-                                .catch((err) => {
-                                  console.log(err);
-                                });
-                            }}
-                            class="mt-2 mb-2 bottom-1 hover:shadow-lg group relative sm:w-4/6 w-[136px] mx-auto font-semibold flex justify-center py-1 pb-1.5 px-1 border border-transparent text-md  rounded-md text-white bg-gradient-to-r from-blue-300 to-blue-500 hover:from-blue-400 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
-                          >
-                            <span class="absolute left-0 inset-y-0 flex items-center pl-3"></span>
-                            Confirm
-                          </button>
-                        </div>
+                              <h3 class="mt-6 bottom-3 -mb-2 relative bg-yellow-50 border-red-700 border-dotted border-[1px] text-center p-2 rounded-md shadow-md text-sm font-semibold text-red-700">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1.5"
+                                  stroke="currentColor"
+                                  class="w-[20px] h-[20px] inline mr-1 relative bottom-[1px]"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                                  />
+                                </svg>
+                                Note: Inability to attend this meeting after
+                                confirmation could result in the cancellation of
+                                this mentorship match-up. Don't lose out!
+                              </h3>
+                            </div>
+
+                            <div>
+                              <button
+                                onClick={() => {
+                                  setLoading(true);
+                                  axios
+                                    .post(
+                                      process.env.NODE_ENV === "production"
+                                        ? "https://ideastack.herokuapp.com/api/user/pickMentorshipDate"
+                                        : "http://localhost:4000/api/user/pickMentorshipDate",
+                                      {
+                                        token: sessionStorage.getItem("token"),
+                                        mentorId: props.mentor.mentorId,
+                                        datePicked: props.datePicked,
+                                        week: props.weekNum,
+                                      }
+                                    )
+                                    .then((res) => {
+                                      console.log(res.data);
+                                      projCon.setProject(res.data);
+                                      setLoading(false);
+
+                                      props.close();
+                                    })
+                                    .catch((err) => {
+                                      console.log(err);
+                                    });
+                                }}
+                                class="mt-2 mb-2 bottom-1 hover:shadow-lg group relative sm:w-4/6 w-[136px] mx-auto font-semibold flex justify-center py-1 pb-1.5 px-1 border border-transparent text-md  rounded-md text-white bg-gradient-to-r from-blue-300 to-blue-500 hover:from-blue-400 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+                              >
+                                <span class="absolute left-0 inset-y-0 flex items-center pl-3"></span>
+                                Confirm
+                              </button>
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
                   </p>

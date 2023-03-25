@@ -41,6 +41,9 @@ const Meetings = (props) => {
   }
 
   const subDates = () => {
+    setLoading(true);
+
+    setError("");
     if (date1.getDay() === date2.getDay()) {
       setError("datesSame");
       return;
@@ -58,6 +61,7 @@ const Meetings = (props) => {
       setError("date2Range");
       return;
     }
+
     axios
       .post(
         process.env.NODE_ENV === "production"
@@ -73,6 +77,7 @@ const Meetings = (props) => {
       )
       .then((res) => {
         projCon.setProject(res.data);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -295,7 +300,11 @@ const Meetings = (props) => {
             <></>
           )}
 
-          {weekNum === 5 ? (
+          {loading ? (
+            <div class=" mx-auto block w-fit text-center mt-[105px]">
+              <ClipLoader color={"#0b0bbf"} loading={loading} size={90} />
+            </div>
+          ) : weekNum === 5 ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -858,10 +867,10 @@ const Meetings = (props) => {
 
                   {error === "datesSame"
                     ? "Timings/Days cannot be the same. Please select two different dates/slots."
-                    : error === "date1Range"
-                    ? "Timings must be between 2 PM and 8 PM; the first date slot is out of range"
                     : error === "date2Range"
                     ? "Timings must be between 2 PM and 8 PM; the second date slot is out of range"
+                    : error === "date1Range"
+                    ? "Timings must be between 2 PM and 8 PM; the first date slot is out of range"
                     : ""}
                 </p>
               ) : (
