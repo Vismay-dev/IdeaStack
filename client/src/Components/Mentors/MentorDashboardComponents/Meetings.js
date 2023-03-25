@@ -7,6 +7,7 @@ import projectContext from "../../../context/projectContext";
 
 import DateTimePicker from "react-datetime-picker";
 import mentorAccContext from "../../../context/mentorAccContext";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Meetings = (props) => {
   const [checkPoints, setCheckPoints] = useState([]);
@@ -17,6 +18,8 @@ const Meetings = (props) => {
   const [upcomingMeeting, setUpcomingMeeting] = useState(null);
   const [datePicked, setDatePicked] = useState();
   const [weekNum, setWeekNum] = useState(1);
+
+  const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState();
 

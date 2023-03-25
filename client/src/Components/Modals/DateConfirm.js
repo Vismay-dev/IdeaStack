@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import logo from "./logo.png";
 import axios from "axios";
 import projectContext from "../../context/projectContext";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const DateConfirm = (props) => {
   useEffect(() => {
@@ -12,6 +13,7 @@ const DateConfirm = (props) => {
       duration: 1000,
     });
   }, []);
+  const [loading, setLoading] = useState(false);
 
   const history = useHistory();
 
