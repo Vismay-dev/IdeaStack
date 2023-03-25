@@ -1735,7 +1735,7 @@ router.post("/updateInstructions", auth, async (req, res) => {
                 )
                   .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
                   .substring(12, 17)} (GST),</p>
-                <p>Instructions: "${req.body.instructions}"</p><br/>
+                <p>Instructions: "${req.body.instructions}"</p>
 
                 <h4> Kindly pay heed to the above instructions as you prepare for this week's mentorship meeting with ${
                   mentor.name
@@ -1866,7 +1866,7 @@ router.post("/confirmMeetingSlots", auth, async (req, res) => {
                   .substring(12, 17)} (GST),</p>
                 <p>2. ${new Date(req.body.meetingSlots[1])
                   .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
-                  .substring(12, 17)} (GST)</p><br/>
+                  .substring(12, 17)} (GST)</p>
 
                 <h4>These are the only 2 available meeting slots for this week; you've been asked to confirm one of the slots within 2 days.</h4>
                 Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and select one of the slots. This is to finalize and schedule a meeting with your mentor.<br/> 
@@ -2015,7 +2015,7 @@ router.post("/pickMentorshipDate", auth, async (req, res) => {
 
                 <p>- ${new Date(req.body.datePicked)
                   .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
-                  .substring(12, 17)} (GST)</p><br/>
+                  .substring(12, 17)} (GST)</p>
                 
 
                 <h4>Reminders will be sent to ensure you attend the meeting; Kindly review your mentees' details and prepare for the meeting.</h4>
@@ -2129,7 +2129,7 @@ router.post("/pickMentorshipDate", auth, async (req, res) => {
     
                   <p>- ${new Date(upcomingMeeting.date)
                     .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
-                    .substring(12, 17)} (GST)</p><br/>
+                    .substring(12, 17)} (GST)</p>
                   
                   <p>Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and explore more options for mentorship.<br/> 
                   Contact us if you face any issues- our team prioritizes your experience above all else.
@@ -2214,7 +2214,7 @@ router.post("/pickMentorshipDate", auth, async (req, res) => {
     
                   <p>- ${new Date(upcomingMeeting.date)
                     .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
-                    .substring(12, 17)} (GST)</p><br/>
+                    .substring(12, 17)} (GST)</p>
                   
                   <p>Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and explore more options for mentorship.<br/> 
                   Contact us if you face any issues- our team prioritizes your experience above all else.
