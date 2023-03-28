@@ -306,14 +306,16 @@ const WorkshopDetails = (props) => {
                       <h1 class="font-bold text-xl tracking-wide lg:mb-4 mb-2">
                         Co-founder/Mentor at the following companies:
                       </h1>
-                      <div
-                        class={`grid grid-cols-2 top-2 relative  ${
-                          workshop.orgs.length > 2 ? "mb-4" : "mb-7 pt-5"
-                        }`}
-                      >
+                      <div class={`grid grid-cols-2 top-2 relative  ${"mb-4"}`}>
                         {workshop.orgs.map((org, i) => {
                           return (
-                            <>
+                            <div
+                              class={
+                                workshop.orgs.length < 3
+                                  ? "col-span-2"
+                                  : "col-span-1"
+                              }
+                            >
                               <span class="block mb-3">
                                 {" "}
                                 <img
@@ -322,22 +324,14 @@ const WorkshopDetails = (props) => {
                                 ></img>{" "}
                                 <span class="ml-1">{org.name}</span>{" "}
                               </span>
-                            </>
+                            </div>
                           );
                         })}
                       </div>
 
-                      <form
-                        className={`${
-                          workshop.orgs.length > 2 ? "mt-0 mb-2" : "-mt-3 mb-4"
-                        } lg:hidden block`}
-                      >
+                      <form className={`${"mt-0 mb-2"} lg:hidden block`}>
                         {/* Colors */}
-                        <div
-                          class={`${
-                            workshop.orgs.length > 2 ? "" : "mb-7 block "
-                          }`}
-                        >
+                        <div class={`${""}`}>
                           <h3
                             className={`lg:text-sm text-xs ${
                               workshop.orgs.length > 2 ? "" : "   "
@@ -446,13 +440,7 @@ const WorkshopDetails = (props) => {
                         </div> */}
 
                         {/* Sizes */}
-                        <div
-                          class={`lg:block hidden ${
-                            workshop.orgs.length > 2
-                              ? ""
-                              : " relative top-2 block "
-                          }`}
-                        >
+                        <div class={`lg:block hidden `}>
                           {projCon.project.mentorsRequested &&
                           projCon.project.mentorsRequested.length > 3 ? (
                             <>
@@ -551,11 +539,7 @@ const WorkshopDetails = (props) => {
                               onClick={() => {
                                 setShowConfirm(true);
                               }}
-                              className={`${
-                                workshop.orgs.length > 2
-                                  ? "sm:mt-11 mt-6"
-                                  : "sm:mt-14 mt-6 "
-                              } mb-6 w-full 
+                              className={`${"sm:mt-9 mt-6"} mb-6 w-full 
                                  bg-indigo-600 shadow-md hover:shadow-xl hover:bg-indigo-700 hover:cursor-pointer 
                              border border-transparen rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                             >
@@ -613,11 +597,7 @@ const WorkshopDetails = (props) => {
                       </form>
 
                       <p
-                        className={` ${
-                          workshop.orgs.length > 2
-                            ? "lg:mt-1 mt-4"
-                            : "lg:mt-0 mt-4 block"
-                        } text-gray-900 relative top-3`}
+                        className={` ${"lg:mt-1 mt-4"} text-gray-900 relative top-3`}
                       >
                         <span
                           class={`font-bold tracking-wide bg-gradient-to-r w-fit from-blue-600 to-indigo-600 text-transparent mt-1  bg-clip-text ${
@@ -647,16 +627,10 @@ const WorkshopDetails = (props) => {
                       </p>
 
                       <form
-                        className={`${
-                          workshop.orgs.length > 2 ? "mt-4 mb-0" : "mt-5 -mb-3"
-                        } lg:block relative top-2 hidden`}
+                        className={`${"mt-4 mb-0"} lg:block relative top-2 hidden`}
                       >
                         {/* Colors */}
-                        <div
-                          class={`${
-                            workshop.orgs.length > 2 ? "" : "mb-12 pb-3 block "
-                          }`}
-                        >
+                        <div class={`${""}`}>
                           <h3
                             className={`text-sm ${
                               workshop.orgs.length > 2 ? "" : "   "
@@ -768,9 +742,11 @@ const WorkshopDetails = (props) => {
                         {/* Sizes */}
                         <div
                           class={`lg:block mt-3 hidden ${
-                            workshop.orgs.length > 2
-                              ? ""
-                              : " relative top-4 block "
+                            workshop.name.toLowerCase().includes("jessica") ||
+                            workshop.name.toLowerCase().includes("molly") ||
+                            workshop.name.toLowerCase().includes("aravind")
+                              ? "pb-4 "
+                              : ""
                           }`}
                         >
                           {projCon.project.mentorsRequested &&
@@ -871,11 +847,7 @@ const WorkshopDetails = (props) => {
                               onClick={() => {
                                 setShowConfirm(true);
                               }}
-                              className={`${
-                                workshop.orgs.length > 2
-                                  ? "sm:mt-[66px] mt-6"
-                                  : "sm:mt-14 mt-6 "
-                              } mb-3 w-full 
+                              className={`${"sm:mt-[60px] mt-6"} mb-3 w-full 
                                  bg-indigo-600 shadow-md hover:shadow-xl hover:bg-indigo-700 hover:cursor-pointer 
                              border border-transparen rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                             >
@@ -966,7 +938,7 @@ const WorkshopDetails = (props) => {
                         </div>
                       </div>
 
-                      <div className="mt-10">
+                      <div className="mt-10 lg:-mb-4">
                         <h2 className="text-sm font-medium text-gray-900">
                           Background Information and Interests
                         </h2>
@@ -979,13 +951,7 @@ const WorkshopDetails = (props) => {
                       </div>
                     </div>
 
-                    <div
-                      class={`lg:hidden -mt-12 block ${
-                        workshop.orgs.length > 2
-                          ? ""
-                          : " relative lg:hidden sm:pr-0 pr-4 block "
-                      }`}
-                    >
+                    <div class={`lg:hidden -mt-12 block ${""}`}>
                       {projCon.project.mentorsRequested &&
                       projCon.project.mentorsRequested.length > 3 ? (
                         <>

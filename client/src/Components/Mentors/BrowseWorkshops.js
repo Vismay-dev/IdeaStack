@@ -373,7 +373,9 @@ export default function BrowseMentors() {
                               class="w-8 h-8 shadow-md ml-2 mb-1 inline rounded-full"
                             ></img>{" "}
                             <span class="ml-1 inline">
-                              {org.name.split(" ")[0]}
+                              {org.name !== "UN Women"
+                                ? org.name.split(" ")[0]
+                                : org.name}
                             </span>{" "}
                           </span>
                         );
