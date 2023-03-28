@@ -1229,6 +1229,12 @@ router.post("/onboardTeam", auth, async (req, res) => {
     res.status(400).send(err);
   });
 
+  if (req.body.team.length === 0) {
+    currProject.teamOnboarded = true;
+    currProject.markModified("teamOnboarded");
+    await currProject.save();
+  }
+
   async function sendMail(teamMember, uniqueCodeParam) {
     try {
       const transport = await nodemailer.createTransport({
