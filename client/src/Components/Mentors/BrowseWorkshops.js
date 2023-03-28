@@ -238,7 +238,7 @@ export default function BrowseMentors() {
                   : " bg-transparent w-full absolute -mt-[80px] pb-[40px] h-full  backdrop-blur-md z-[33] rounded drop-shadow-lg"
               }
             >
-              <h2 class="bg-white sm:w-[550px] w-[320px]    border-indigo-700 border-dashed border-2 block top-[27%] relative mx-auto px-7 pt-4 pb-5 sm:text-2xl text-lg  rounded-lg shadow-md text-center font-bold">
+              <h2 class="bg-white sm:w-[550px] w-[320px]    border-indigo-700 border-dashed border-2 block top-[500px] relative mx-auto px-7 pt-4 pb-5 sm:text-2xl text-lg  rounded-lg shadow-md text-center font-bold">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
