@@ -336,7 +336,7 @@ const Landing = () => {
                 Student Ventures.
               </span>
             </h1>
-            <p class="leading-normal font-medium  lg:mx-0 xl:ml-0.5 mx-auto xl:-right-3 lg:-right-2 md:right-0  sm:-right-[100px]  xl:left-[-10px] lg:left-[-40px] md:left-[-35px] sm:left-20    xs:right-3 right-0   xs:w-96 md:w-3/4  lg:w-fit md:text-lg sm:text-lg xl:w-80 sm:w-72 w-fit text-base mb-12 sm:mt-5 mt-2 relative lg:text-left text-center">
+            <p class="leading-normal font-medium  lg:mx-0 xl:ml-0.5 mx-auto xl:-right-3 lg:-right-2 md:right-0  sm:-right-[100px]  xl:left-[-10px] lg:left-[-40px] md:left-[-35px] sm:left-20     right-0   md:w-3/4  lg:w-fit md:text-lg sm:text-lg xl:w-fit sm:w-72 w-fit text-base mb-12 sm:mt-5 mt-2 relative lg:text-left text-center">
               We connect student-entrepreneurs with established founders,
               mentors and advisors.
             </p>
