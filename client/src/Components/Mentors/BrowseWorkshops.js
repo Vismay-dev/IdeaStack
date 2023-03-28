@@ -372,10 +372,7 @@ export default function BrowseMentors() {
                               src={org.pic}
                               class="w-8 h-8 shadow-md ml-2 mb-1 inline rounded-full"
                             ></img>{" "}
-                            <span class="ml-1 lg:inline hidden">
-                              {org.name}
-                            </span>{" "}
-                            <span class="ml-1 lg:hidden inline">
+                            <span class="ml-1 inline">
                               {org.name.split(" ")[0]}
                             </span>{" "}
                           </span>
