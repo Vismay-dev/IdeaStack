@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import RegModal from "../Modals/RegModal";
+import axios from "axios";
 
 const TeamOnboarding = () => {
   const location = useLocation();
@@ -27,27 +28,7 @@ const TeamOnboarding = () => {
         { projId: projIdCopy }
       )
       .then(async (res) => {
-        let projCopy = res.data;
-        let teamCopy = [];
-        for (let i = 0; i < res.data.team.length; i++) {
-          await axios
-            .post(
-              process.env.NODE_ENV === "production"
-                ? "https://ideastack.herokuapp.com/api/user/getUserByMail"
-                : "http://localhost:4000/api/user/getUserByMail",
-              {
-                email: res.data.team[i].email,
-                token: sessionStorage.getItem("token"),
-              }
-            )
-            .then((res) => {
-              teamCopy.push({ ...res.data, ...projCopy.team[i] });
-            });
-        }
-        setProject({
-          ...projCopy,
-          team: teamCopy,
-        });
+        setProject(res.data);
       });
     setProjectAdmin(
       locationArray[locationArray.length - 2].replace("%20", " ")
