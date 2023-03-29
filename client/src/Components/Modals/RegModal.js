@@ -23,6 +23,7 @@ const RegModal = (props) => {
 
   useEffect(() => {
     if (props.onboardFullName && props.project) {
+      setLoading(true);
       axios
         .post(
           process.env.NODE_ENV === "production"
@@ -35,6 +36,8 @@ const RegModal = (props) => {
         )
         .then((res) => {
           console.log(res.data);
+          setLoading(false);
+
           setUserDetails(res.data);
         });
     }

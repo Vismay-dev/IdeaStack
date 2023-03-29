@@ -20,6 +20,7 @@ const PersonalInfo = (props) => {
 
   useEffect(() => {
     if (props.userDetails != null && props.userDetails.fullName) {
+      setLoading(true);
       let obj = {
         firstName: props.userDetails.fullName.split(" ")[0],
         lastName: props.userDetails.fullName.split(" ")[1],
@@ -34,6 +35,7 @@ const PersonalInfo = (props) => {
         ...obj,
         additionalMember: true,
       });
+      setLoading(false);
     }
   }, [props]);
 
