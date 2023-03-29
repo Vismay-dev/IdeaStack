@@ -41,7 +41,7 @@ const TeamOnboarding = () => {
         <RegModal
           close={closeFuncReg}
           onboardFullName={userName}
-          project={project.name}
+          project={project ? project.name : ""}
         />
       ) : (
         ""
@@ -61,10 +61,10 @@ const TeamOnboarding = () => {
               <p className="text-xl text-gray-600 mb-11">
                 You were invited by admin{" "}
                 <strong>{projectAdmin && projectAdmin}</strong> to register on
-                Ideastack.org as part of your venture ({project.name}). This
-                registration has been booked exclusively for you. There are
-                limited seats available for IdeaStack registration, so sign-up
-                soon!
+                Ideastack.org as part of your venture (
+                {project ? project.name : ""}). This registration has been
+                booked exclusively for you. There are limited seats available
+                for IdeaStack registration, so sign-up soon!
               </p>
               <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center">
                 <div>
