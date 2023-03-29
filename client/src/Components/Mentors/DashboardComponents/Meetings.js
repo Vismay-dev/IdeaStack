@@ -58,7 +58,7 @@ const Meetings = (props) => {
       availableDatesCopy = props.mentor.timeline.week2.availableDates.filter(
         (date) => new Date(date) > new Date()
       );
-      edDateCopy = props.mentor.timeline.week2.selectedDate;
+      selectedDateCopy = props.mentor.timeline.week2.selectedDate;
       setWeekNum(2);
     }
 
