@@ -540,6 +540,11 @@ router.post("/registerWithGoogle", async (req, res) => {
               res.status(400).send(err);
             });
 
+          mixpanel.track("Signed Up", {
+            distinct_id: newUser._id,
+            "Signup Type": "Additional Member",
+          });
+
           proj.markModified("team");
           await proj.save();
         }
@@ -547,6 +552,15 @@ router.post("/registerWithGoogle", async (req, res) => {
         proj.teamOnboarded = true;
         proj.markModified("teamOnboarded");
         await proj.save();
+        mixpanel.track("Signed Up", {
+          distinct_id: newUser._id,
+          "Signup Type": "Team Initiator",
+        });
+      } else {
+        mixpanel.track("Signed Up", {
+          distinct_id: newUser._id,
+          "Signup Type": "Team Initiator",
+        });
       }
 
       console.log("here2");
@@ -704,6 +718,9 @@ router.post("/login", async (req, res) => {
           cookieNow.id = token2;
           cookieNow.expires = new Date(Date.now() + 900000);
           req.session.isAuth = true;
+          mixpanel.track("Log In", {
+            distinct_id: user._id,
+          });
           res.send({
             user: user,
             userToken: token,
@@ -772,6 +789,9 @@ router.post("/googleLogin", async (req, res) => {
         cookieNow.id = token2;
         cookieNow.expires = new Date(Date.now() + 900000);
         req.session.isAuth = true;
+        mixpanel.track("Log In", {
+          distinct_id: user._id,
+        });
         res.send({
           user: user,
           userToken: token,
@@ -2785,7 +2805,7 @@ router.post("/requestMentor", auth, async (req, res) => {
   await mentor.markModified("mentorshipRequests");
   await mentor.save();
 
-  mixpanel.track("Mentorship Request", {
+  mixpanel.track("Mentorship Request Made", {
     distinct_id: proj._id,
   });
 
