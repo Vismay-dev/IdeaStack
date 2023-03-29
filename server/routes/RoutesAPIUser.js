@@ -8,10 +8,11 @@ const jwt = require("jsonwebtoken");
 const auth = require("../auth/auth");
 const multer = require("multer");
 const cloudinary = require("cloudinary");
+const dotenv = require("dotenv");
 
-var mongoose = require("mongoose");
+dotenv.config();
 
-const md5 = require("md5");
+var Mixpanel = require("mixpanel");
 
 const https = require("https");
 
@@ -67,6 +68,8 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({ storage: fileStorageEngine, fileFilter: fileFilter });
+
+var mixpanel = Mixpanel.init(process.env.MIXPANELTOKEN);
 
 router.post("/sendUserQuery", (req, res) => {
   async function sendMail() {
@@ -176,6 +179,11 @@ router.post("/register", async (req, res) => {
         let chk1 = true;
         let chk2 = true;
 
+        mixpanel.track("Signed Up", {
+          distinct_id: newUser._id,
+          "Signup Type": "Additional Member",
+        });
+
         for (let k = 0; k < proj.team.length; k++) {
           if (
             Number(req.body.uniqueCode) === Number(proj.team[k].uniqueJoinCode)
@@ -276,6 +284,15 @@ router.post("/register", async (req, res) => {
         proj.teamOnboarded = true;
         proj.markModified("teamOnboarded");
         await proj.save();
+        mixpanel.track("Signed Up", {
+          distinct_id: newUser._id,
+          "Signup Type": "Team Initiator",
+        });
+      } else {
+        mixpanel.track("Signed Up", {
+          distinct_id: newUser._id,
+          "Signup Type": "Team Initiator",
+        });
       }
 
       async function sendRegistrationMail() {
@@ -697,6 +714,9 @@ router.post("/login", async (req, res) => {
             },
           });
         } else {
+          mixpanel.track("Log In", {
+            distinct_id: user._id,
+          });
           res.send({ user: user, userToken: token });
         }
       }
@@ -762,6 +782,9 @@ router.post("/googleLogin", async (req, res) => {
           },
         });
       } else {
+        mixpanel.track("Log In", {
+          distinct_id: user._id,
+        });
         res.send({ user: user, userToken: token });
       }
     }
@@ -1088,6 +1111,9 @@ router.post("/updateMentor", auth, async (req, res) => {
 
       sendRequestAcceptedMail()
         .then((result) => {
+          mixpanel.track("Mentor Request Acceptance", {
+            distinct_id: updatedMentor._id,
+          });
           console.log(result);
         })
         .catch((err) => {
@@ -2051,6 +2077,9 @@ router.post("/pickMentorshipDate", auth, async (req, res) => {
 
   sendDatePickedMail()
     .then((result) => {
+      mixpanel.track("Meeting Confirmation", {
+        distinct_id: user._id,
+      });
       console.log(result);
     })
     .catch((err) => {
@@ -2755,6 +2784,10 @@ router.post("/requestMentor", auth, async (req, res) => {
   mentor.mentorshipRequests.push(proj._id);
   await mentor.markModified("mentorshipRequests");
   await mentor.save();
+
+  mixpanel.track("Mentorship Request", {
+    distinct_id: proj._id,
+  });
 
   res.send(proj);
 });

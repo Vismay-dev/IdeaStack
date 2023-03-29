@@ -27,6 +27,7 @@
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
     "md5": "^2.3.0",
+    "mixpanel": "^0.17.0",
     "mongoose": "^7.0.2",
     "multer": "^1.4.4",
     "node": "^14.16.1",
