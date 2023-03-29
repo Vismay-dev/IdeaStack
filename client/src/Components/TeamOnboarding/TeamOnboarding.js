@@ -6,6 +6,7 @@ const TeamOnboarding = () => {
   const location = useLocation();
   const [projectAdmin, setProjectAdmin] = useState();
   const [userName, setUserName] = useState();
+  const [projectId, setProjectId] = useState();
   const [project, setProject] = useState();
   const [regModalShow, setRegModalShow] = useState(false);
   const closeFuncReg = () => {
@@ -13,7 +14,41 @@ const TeamOnboarding = () => {
   };
   useEffect(() => {
     const locationArray = location.pathname.split("/");
-    setProject(locationArray[locationArray.length - 1].replace("%20", " "));
+    setProjectId(locationArray[locationArray.length - 1].replace("%20", " "));
+    let projIdCopy = locationArray[locationArray.length - 1].replace(
+      "%20",
+      " "
+    );
+    axios
+      .post(
+        process.env.NODE_ENV === "production"
+          ? "https://ideastack.herokuapp.com/api/user/getProject"
+          : "http://localhost:4000/api/user/getProject",
+        { projId: projIdCopy }
+      )
+      .then(async (res) => {
+        let projCopy = res.data;
+        let teamCopy = [];
+        for (let i = 0; i < res.data.team.length; i++) {
+          await axios
+            .post(
+              process.env.NODE_ENV === "production"
+                ? "https://ideastack.herokuapp.com/api/user/getUserByMail"
+                : "http://localhost:4000/api/user/getUserByMail",
+              {
+                email: res.data.team[i].email,
+                token: sessionStorage.getItem("token"),
+              }
+            )
+            .then((res) => {
+              teamCopy.push({ ...res.data, ...projCopy.team[i] });
+            });
+        }
+        setProject({
+          ...projCopy,
+          team: teamCopy,
+        });
+      });
     setProjectAdmin(
       locationArray[locationArray.length - 2].replace("%20", " ")
     );
@@ -25,7 +60,7 @@ const TeamOnboarding = () => {
         <RegModal
           close={closeFuncReg}
           onboardFullName={userName}
-          project={project}
+          project={project.name}
         />
       ) : (
         ""
@@ -45,7 +80,7 @@ const TeamOnboarding = () => {
               <p className="text-xl text-gray-600 mb-11">
                 You were invited by admin{" "}
                 <strong>{projectAdmin && projectAdmin}</strong> to register on
-                Ideastack.org as part of your venture ({project}). This
+                Ideastack.org as part of your venture ({project.name}). This
                 registration has been booked exclusively for you. There are
                 limited seats available for IdeaStack registration, so sign-up
                 soon!

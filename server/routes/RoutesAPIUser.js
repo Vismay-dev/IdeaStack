@@ -1318,7 +1318,7 @@ router.post("/onboardTeam", auth, async (req, res) => {
 
                 Join using this link (unique link, will not work for any other user): https://ideastack.org/teamonboarding/${
                   teamMember.name
-                }/${user.firstName + " " + user.lastName}/${currProject.name}
+                }/${user.firstName + " " + user.lastName}/${currProject._id}
 
                 Note: The link above is unique, and will not work for any other user. There are limited seats available for IdeaStack registration
 
@@ -1345,9 +1345,9 @@ router.post("/onboardTeam", auth, async (req, res) => {
                     : "http://localhost:3000"
                 }/teamonboarding/${teamMember.name}/${
           user.firstName + " " + user.lastName
-        }/${currProject.name}'>https://ideastack.org/teamonboarding/${
+        }/${currProject._id}'>https://ideastack.org/teamonboarding/${
           teamMember.name
-        }/${user.firstName + " " + user.lastName}/${currProject.name}</a></p>
+        }/${user.firstName + " " + user.lastName}/${currProject._id}</a></p>
                 
                 <p> Note: The link above is unique, and will not work for any other user. There are limited seats available for IdeaStack registration, so sign-up soon! </p>
 
@@ -2654,7 +2654,7 @@ router.post("/getProjectsPaid", async (req, res) => {
   res.send(projectsPaid);
 });
 
-router.post("/getProject", auth, async (req, res) => {
+router.post("/getProject", async (req, res) => {
   const proj = await project.findById(req.body.projId);
   res.send(proj);
 });
