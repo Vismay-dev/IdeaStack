@@ -96,7 +96,9 @@ export default function CardTeam(props) {
                                 : ""
                             } object-cover w-10 h-10 shadow-md mx-2 relative right-1 rounded-full sm:block`}
                             src={
-                              teamMember.pic
+                              teamMember.profilePic
+                                ? teamMember.profilePic
+                                : teamMember.pic
                                 ? teamMember.pic
                                 : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
                             }
