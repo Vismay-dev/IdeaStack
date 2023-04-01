@@ -1007,7 +1007,7 @@ const Onboarding = () => {
                                     }}
                                     class={`font-semibold uppercase  text-xl p-3 xl:mt-8 -mt-12 xl:mb-0 mb-20 shadow-md left-1  z-20 bg-gray-100 hover:bg-gray-200 px-4 rounded-md hover:cursor-pointer hover:text-indigo-600 text-blue-600`}
                                   >
-                                    Upload Project Cover Image
+                                    Upload Project Image / Logo
                                   </button>
                                   <br />
                                 </>
