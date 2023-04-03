@@ -28,7 +28,7 @@ const PersonalInfo = (props) => {
 
   useEffect(() => {
     console.log(props);
-    if (props.userDetails != null && props.userDetails.fullName != null) {
+    if (props.userDetails !== null && props.userDetails.fullName != null) {
       setLoading(true);
       let obj = {
         firstName: props.userDetails.fullName.split(" ")[0],
@@ -79,7 +79,7 @@ const PersonalInfo = (props) => {
         history.push("/onboarding");
         props.close();
         setLoading(false);
-        props.isNotLoading();
+        // props.isNotLoading();
       })
       .catch((err) => {
         setError(
@@ -96,9 +96,8 @@ const PersonalInfo = (props) => {
 
   const completeGoogleSignUp = (tokenResponse, obj) => {
     setLoading(true);
-    props.isLoading();
 
-    console.log(obj);
+    console.log("here");
 
     axios
       .post(
@@ -128,7 +127,6 @@ const PersonalInfo = (props) => {
             : null
         );
         setLoading(false);
-        props.isNotLoading();
       });
   };
 

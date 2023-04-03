@@ -429,6 +429,8 @@ router.post("/registerWithGoogle", async (req, res) => {
         projectId: req.body.additionalMember ? req.body.projId : null,
       });
 
+      console.log(req.body);
+
       if (
         req.body.additionalMember &&
         req.body.uniqueCode &&
@@ -439,6 +441,8 @@ router.post("/registerWithGoogle", async (req, res) => {
       }
 
       const proj = await project.findById(req.body.projId);
+      console.log("here2");
+
       if (req.body.additionalMember) {
         let chk1 = true;
         let chk2 = true;
