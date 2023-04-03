@@ -10,9 +10,11 @@ const TeamOnboarding = () => {
   const [projectId, setProjectId] = useState();
   const [project, setProject] = useState();
   const [regModalShow, setRegModalShow] = useState(false);
+
   const closeFuncReg = () => {
     setRegModalShow(false);
   };
+
   useEffect(() => {
     const locationArray = location.pathname.split("/");
     setProjectId(locationArray[locationArray.length - 1].replace("%20", " "));
@@ -35,6 +37,7 @@ const TeamOnboarding = () => {
     );
     setUserName(locationArray[locationArray.length - 3].replace("%20", " "));
   }, []);
+
   return (
     <>
       {regModalShow ? (

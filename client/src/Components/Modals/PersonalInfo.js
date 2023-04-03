@@ -19,6 +19,14 @@ const PersonalInfo = (props) => {
   });
 
   useEffect(() => {
+    if (props.loading) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [props.loading]);
+
+  useEffect(() => {
     if (props.userDetails != null && props.userDetails.fullName) {
       setLoading(true);
       let obj = {
@@ -131,7 +139,7 @@ const PersonalInfo = (props) => {
     onSuccess: (tokenResponse) => {
       setError();
       let obj = {};
-      if (props.userDetails != null && props.userDetails.fullName) {
+      if (props.userDetails !== null && props.userDetails.fullName) {
         console.log(props.userDetails);
         setObjPassed({
           projId: props.userDetails.projId,

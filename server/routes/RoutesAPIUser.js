@@ -2676,7 +2676,10 @@ router.post("/getProjectMember", async (req, res) => {
   let member = null;
 
   for (let i = 0; i < proj.team.length; i++) {
-    if (proj.team[i].name.toLowerCase() == req.body.memberName.toLowerCase()) {
+    if (
+      proj.team[i].name.toLowerCase().trim() ===
+      req.body.memberName.toLowerCase().trim()
+    ) {
       member = {
         fullName: proj.team[i].name,
         email: proj.team[i].email,

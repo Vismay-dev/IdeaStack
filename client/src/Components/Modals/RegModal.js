@@ -36,9 +36,8 @@ const RegModal = (props) => {
         )
         .then((res) => {
           console.log(res.data);
-          setLoading(false);
-
           setUserDetails(res.data);
+          setLoading(false);
         });
     }
   }, []);
@@ -110,6 +109,7 @@ const RegModal = (props) => {
                     <PersonalInfo
                       isLoading={() => setLoading(true)}
                       isNotLoading={() => setLoading(false)}
+                      loading={loading}
                       close={props.close}
                       userDetails={userDetails}
                     />
