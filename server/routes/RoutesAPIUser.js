@@ -156,7 +156,7 @@ router.post("/register", async (req, res) => {
         lastName: req.body.lastName,
         email: req.body.email.toLowerCase().trim(),
         password: hash,
-        isAdditionalMember: req.body.additionalMember,
+        isAdditionalMember: req.body.additionalMember || req.body.uniqueCode,
         initialized: false,
         initializationStep: "pi",
         role: req.body.additionalMember ? req.body.role : null,
@@ -422,7 +422,7 @@ router.post("/registerWithGoogle", async (req, res) => {
           details.family_name.substring(0, 1).toUpperCase() +
           details.family_name.substring(1),
         email: details.email.toLowerCase().trim(),
-        isAdditionalMember: req.body.additionalMember,
+        isAdditionalMember: req.body.additionalMember || req.body.uniqueCode,
         initialized: false,
         initializationStep: "pi",
         role: req.body.additionalMember ? req.body.role : null,
