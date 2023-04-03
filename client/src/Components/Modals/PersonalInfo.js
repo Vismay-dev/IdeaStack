@@ -27,7 +27,7 @@ const PersonalInfo = (props) => {
   }, [props.loading]);
 
   useEffect(() => {
-    if (props.userDetails !== null && props.userDetails.email !== null) {
+    if (props.userDetails != null && props.userDetails.fullName != null) {
       setLoading(true);
       let obj = {
         firstName: props.userDetails.fullName.split(" ")[0],
