@@ -22,6 +22,7 @@ const RegModal = (props) => {
   const [userDetails, setUserDetails] = useState({});
 
   useEffect(() => {
+    console.log(props);
     if (props.onboardFullName && props.project) {
       setLoading(true);
       axios
@@ -38,6 +39,9 @@ const RegModal = (props) => {
           console.log(res.data);
           setUserDetails(res.data);
           setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err.response);
         });
     }
   }, []);
@@ -66,8 +70,6 @@ const RegModal = (props) => {
     // ... passing it into this hook.
     [myRef, () => props.close()]
   );
-
-  console.log(loading);
 
   return (
     <div
@@ -107,9 +109,9 @@ const RegModal = (props) => {
                 <div>
                   <p class="text-lg  text-gray-500 pt-5">
                     <PersonalInfo
-                      isLoading={() => setLoading(true)}
-                      isNotLoading={() => setLoading(false)}
-                      loading={loading}
+                      // isLoading={() => setLoading(true)}
+                      // isNotLoading={() => setLoading(false)}
+                      // loading={loading}
                       close={props.close}
                       userDetails={userDetails}
                     />

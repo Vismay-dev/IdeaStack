@@ -18,15 +18,16 @@ const PersonalInfo = (props) => {
     password: "",
   });
 
-  useEffect(() => {
-    if (props.loading) {
-      setLoading(true);
-    } else {
-      setLoading(false);
-    }
-  }, [props.loading]);
+  // useEffect(() => {
+  //   if (props.loading) {
+  //     setLoading(true);
+  //   } else {
+  //     setLoading(false);
+  //   }
+  // }, [props.loading]);
 
   useEffect(() => {
+    console.log(props);
     if (props.userDetails != null && props.userDetails.fullName != null) {
       setLoading(true);
       let obj = {
@@ -62,7 +63,7 @@ const PersonalInfo = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError();
-    props.isLoading();
+    // props.isLoading();
     setLoading(true);
     axios
       .post(
@@ -89,7 +90,7 @@ const PersonalInfo = (props) => {
             : null
         );
         setLoading(false);
-        props.isNotLoading();
+        // props.isNotLoading();
       });
   };
 

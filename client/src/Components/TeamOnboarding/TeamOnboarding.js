@@ -29,8 +29,12 @@ const TeamOnboarding = () => {
           : "http://localhost:4000/api/user/getProject",
         { projId: projIdCopy }
       )
-      .then(async (res) => {
+      .then((res) => {
         setProject(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response);
       });
     setProjectAdmin(
       locationArray[locationArray.length - 2].replace("%20", " ")

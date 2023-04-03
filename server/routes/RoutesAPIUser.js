@@ -2655,7 +2655,18 @@ router.post("/getProjectsPaid", async (req, res) => {
 });
 
 router.post("/getProject", async (req, res) => {
-  const proj = await project.findById(req.body.projId);
+  console.log(req.body.projId);
+  const projects = await project.find({});
+  console.log(projects);
+  let proj;
+  for (let i = 0; i < projects.length; i++) {
+    if (JSON.stringify(projects[i]._id) == JSON.stringify(req.body.projId)) {
+      proj = projects[i];
+    }
+  }
+
+  console.log(proj);
+
   res.send(proj);
 });
 
