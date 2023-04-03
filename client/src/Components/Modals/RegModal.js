@@ -112,6 +112,7 @@ const RegModal = (props) => {
                       // isLoading={() => setLoading(true)}
                       // isNotLoading={() => setLoading(false)}
                       // loading={loading}
+                      componentLoading={loading}
                       close={props.close}
                       userDetails={userDetails}
                     />

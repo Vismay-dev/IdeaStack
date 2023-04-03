@@ -508,7 +508,7 @@ const WorkshopDetails = (props) => {
                                 .map((rM) => JSON.stringify(rM))
                                 .includes(JSON.stringify(workshop._id))) ? (
                             <>
-                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[69px] -mb-6 w-fit bg-gradient-to-r from-green-500 to-green-700">
+                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[69px] -mb-7 w-fit bg-gradient-to-r from-green-500 to-green-700">
                                 Mentor Requested
                               </h2>
                               <h3
@@ -816,7 +816,7 @@ const WorkshopDetails = (props) => {
                                 .map((rM) => JSON.stringify(rM))
                                 .includes(JSON.stringify(workshop._id))) ? (
                             <>
-                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[55px] -mb-6 w-fit bg-gradient-to-r from-green-500 to-green-700">
+                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[55px] -mb-[28px] w-fit bg-gradient-to-r from-green-500 to-green-700">
                                 Mentor Requested
                               </h2>
                               <h3
