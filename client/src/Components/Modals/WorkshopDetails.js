@@ -79,6 +79,7 @@ const WorkshopDetails = (props) => {
   const [requestedMentors, setRequestedMentors] = useState();
 
   const requestHandler = () => {
+    setLoading(true);
     let currWS;
     for (let x = 0; x < props.workshops.length; x++) {
       if (JSON.stringify(props.workshops[x]._id) === JSON.stringify(props.id)) {
@@ -99,8 +100,11 @@ const WorkshopDetails = (props) => {
       )
       .then((res) => {
         console.log(res.data);
-        setRequested(true);
-        setShowConfirm(false);
+        setTimeout(() => {
+          setRequested(true);
+          setShowConfirm(false);
+          setLoading(false);
+        }, 1200);
       })
       .catch((err) => {
         console.log(err);
@@ -749,40 +753,10 @@ const WorkshopDetails = (props) => {
                               : ""
                           }`}
                         >
-                          {projCon.project.mentorsRequested &&
-                          projCon.project.mentorsRequested.length >= 3 ? (
-                            <>
-                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[48px] -mb-7 w-fit bg-gradient-to-r from-orange-500 to-orange-700">
-                                Request Limit Reached
-                              </h2>
-                              <h3
-                                className={`text-sm ${
-                                  workshop.orgs.length > 2 ? "" : "   "
-                                } text-orange-800 block font-medium bg-orange-100 border-dashed border-orange-600 border-[1px] px-3 py-2 mb-3 relative mt-12 rounded-md shadow-md`}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke-width="1.5"
-                                  stroke="currentColor"
-                                  class="flex-shrink-0 inline relative bottom-[1.1px] w-5 h-5 mr-0.5"
-                                >
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
-                                  />
-                                </svg>{" "}
-                                You've already made 3 mentorship requests this
-                                month. Stay for the next month- and build your
-                                way forward!
-                              </h3>
-                            </>
-                          ) : projCon.project.mentorsMatched &&
-                            projCon.project.mentorsMatched
-                              .map((rM) => JSON.stringify(rM.mentorId))
-                              .includes(JSON.stringify(workshop._id)) ? (
+                          {projCon.project.mentorsMatched &&
+                          projCon.project.mentorsMatched
+                            .map((rM) => JSON.stringify(rM.mentorId))
+                            .includes(JSON.stringify(workshop._id)) ? (
                             <>
                               <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[55px] -mb-[26px] w-fit bg-gradient-to-r from-green-500 to-green-700">
                                 Mentor Matched!
@@ -816,7 +790,7 @@ const WorkshopDetails = (props) => {
                                 .map((rM) => JSON.stringify(rM))
                                 .includes(JSON.stringify(workshop._id))) ? (
                             <>
-                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[55px] -mb-[28px] w-fit bg-gradient-to-r from-green-500 to-green-700">
+                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[48px] -mb-[28px] w-fit bg-gradient-to-r from-green-500 to-green-700">
                                 Mentor Requested
                               </h2>
                               <h3
@@ -842,65 +816,97 @@ const WorkshopDetails = (props) => {
                                 while matching you to a mentor!
                               </h3>
                             </>
+                          ) : projCon.project.mentorsRequested &&
+                            projCon.project.mentorsRequested.length >= 3 ? (
+                            <>
+                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[48px] -mb-7 w-fit bg-gradient-to-r from-orange-500 to-orange-700">
+                                Request Limit Reached
+                              </h2>
+                              <h3
+                                className={`text-sm ${
+                                  workshop.orgs.length > 2 ? "" : "   "
+                                } text-orange-800 block font-medium bg-orange-100 border-dashed border-orange-600 border-[1px] px-3 py-2 mb-3 relative mt-12 rounded-md shadow-md`}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1.5"
+                                  stroke="currentColor"
+                                  class="flex-shrink-0 inline relative bottom-[1.1px] w-5 h-5 mr-0.5"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                                  />
+                                </svg>{" "}
+                                You've already made 3 mentorship requests this
+                                month. Stay for the next month- and build your
+                                way forward!
+                              </h3>
+                            </>
                           ) : (
-                            <button
-                              onClick={() => {
-                                setShowConfirm(true);
-                              }}
-                              className={`${"sm:mt-[60px] mt-6"} mb-3 w-full 
+                            <>
+                              <button
+                                onClick={() => {
+                                  setShowConfirm(true);
+                                }}
+                                className={`${"sm:mt-[60px] mt-6"} mb-3 w-full 
                                  bg-indigo-600 shadow-md hover:shadow-xl hover:bg-indigo-700 hover:cursor-pointer 
                              border border-transparen rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                class="w-5 h-5 mr-2"
                               >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
-                                />
-                              </svg>
-                              Request Mentor
-                            </button>
-                          )}
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1.5"
+                                  stroke="currentColor"
+                                  class="w-5 h-5 mr-2"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                                  />
+                                </svg>
+                                Request Mentor
+                              </button>
 
-                          <button
-                            onClick={() => {}}
-                            className={`mt-2  w-full 
-                                bg-blue-600 hover:bg-blue-700 hover:cursor-pointer
-                           ${
-                             showMail || showPhone ? "mb-6" : "mb-4"
-                           } border border-transparent rounded-md shadow-md hover:shadow-xl py-3 px-8 ${
-                              requested ||
-                              (projCon.project.mentorsRequested &&
-                                projCon.project.mentorsRequested
-                                  .map((rM) => JSON.stringify(rM))
-                                  .includes(JSON.stringify(workshop._id)))
-                                ? "hidden"
-                                : "flex"
-                            }  items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke-width="1.5"
-                              stroke="currentColor"
-                              class="w-5 h-5 mr-2"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
-                              />
-                            </svg>
-                            Recommend to Teammates
-                          </button>
+                              <button
+                                onClick={() => {}}
+                                className={`mt-2  w-full 
+    bg-blue-600 hover:bg-blue-700 hover:cursor-pointer
+${
+  showMail || showPhone ? "mb-6" : "mb-4"
+} border border-transparent rounded-md shadow-md hover:shadow-xl py-3 px-8 ${
+                                  requested ||
+                                  (projCon.project.mentorsRequested &&
+                                    projCon.project.mentorsRequested
+                                      .map((rM) => JSON.stringify(rM))
+                                      .includes(JSON.stringify(workshop._id)))
+                                    ? "hidden"
+                                    : "flex"
+                                }  items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1.5"
+                                  stroke="currentColor"
+                                  class="w-5 h-5 mr-2"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
+                                  />
+                                </svg>
+                                Recommend to Teammates
+                              </button>
+                            </>
+                          )}
                         </div>
                       </form>
                     </div>
@@ -1138,60 +1144,75 @@ const WorkshopDetails = (props) => {
                   <div class="border-2 border-dashed tracking-wide shadow-sm h-fit w-[95%] mb-36 mt-20 px-2 mx-auto block border-indigo-400">
                     <div class="mt-[75px] block">
                       <>
-                        <h2 class="text-center px-4">
-                          Are you sure about this request?{" "}
-                          <span class="font-bold sm:inline block">
-                            {" "}
-                            ({workshop.name})
-                          </span>
-                        </h2>
-                        <div class="block text-center items-center -mt-[2px] px-4  relative mx-auto mb-[60px]">
-                          <button
-                            onClick={() => {
-                              requestHandler();
-                            }}
-                            class="text-white uppercase text-sm bg-green-600 hover:bg-green-700 hover:shadow-md sm:p-3 p-2 sm:px-4 px-3 sm:mb-[25px] -mb-[20px] mt-7 rounded-sm font-semibold mr-2 inline"
+                        {loading ? (
+                          <div
+                            class={`relative mx-auto text-center mb-[75px] block justify-center`}
                           >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke-width="1.5"
-                              stroke="currentColor"
-                              class="w-5 h-5 mr-2 relative bottom-[1px] inline text-white"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                              />
-                            </svg>
-                            Confirm Request
-                          </button>
+                            <PulseLoader
+                              color={"#1a52c9"}
+                              loading={loading}
+                              size={30}
+                              margin={7}
+                            />
+                          </div>
+                        ) : (
+                          <>
+                            <h2 class="text-center px-4">
+                              Are you sure about this request?{" "}
+                              <span class="font-bold sm:inline block">
+                                {" "}
+                                ({workshop.name})
+                              </span>
+                            </h2>
+                            <div class="block text-center items-center -mt-[2px] px-4  relative mx-auto mb-[60px]">
+                              <button
+                                onClick={() => {
+                                  requestHandler();
+                                }}
+                                class="text-white uppercase text-sm bg-green-600 hover:bg-green-700 hover:shadow-md sm:p-3 p-2 sm:px-4 px-3 sm:mb-[25px] -mb-[20px] mt-7 rounded-sm font-semibold mr-2 inline"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1.5"
+                                  stroke="currentColor"
+                                  class="w-5 h-5 mr-2 relative bottom-[1px] inline text-white"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
+                                </svg>
+                                Confirm Request
+                              </button>
 
-                          <button
-                            onClick={() => {
-                              setShowConfirm(false);
-                            }}
-                            class="text-white uppercase text-sm bg-red-600 hover:bg-red-700 hover:shadow-md sm:p-3 p-2 sm:px-4 px-3 mb-[25px] mt-7 ml-2 rounded-sm font-semibold inline"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke-width="1.5"
-                              stroke="currentColor"
-                              class="w-5 h-5 mr-2 relative bottom-[1px] inline text-white"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                              />
-                            </svg>
-                            Cancel
-                          </button>
-                        </div>
+                              <button
+                                onClick={() => {
+                                  setShowConfirm(false);
+                                }}
+                                class="text-white uppercase text-sm bg-red-600 hover:bg-red-700 hover:shadow-md sm:p-3 p-2 sm:px-4 px-3 mb-[25px] mt-7 ml-2 rounded-sm font-semibold inline"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1.5"
+                                  stroke="currentColor"
+                                  class="w-5 h-5 mr-2 relative bottom-[1px] inline text-white"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
+                                </svg>
+                                Cancel
+                              </button>
+                            </div>
+                          </>
+                        )}
                       </>
 
                       <h1 class="font-bold tracking-wide sm:mt-4 -mt-2 block sm:text-3xl text-2xl text-center ">

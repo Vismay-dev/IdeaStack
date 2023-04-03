@@ -57,11 +57,9 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
     if (project) {
-      let mentorsMatchedInput = project.mentorsMatched
-        ? project.mentorsMatched
-        : [];
+      setLoading(true);
+
       let mentorsRequestedInput = project.mentorsRequested
         ? project.mentorsRequested.filter(
             (mentor) =>
@@ -70,9 +68,7 @@ const Dashboard = () => {
                 .includes(mentor)
           )
         : [];
-
       let mentorsRequestedCopy = [];
-      let mentorsMatchedCopy = [];
 
       for (let i = 0; i < mentorsRequestedInput.length; i++) {
         axios
@@ -90,9 +86,30 @@ const Dashboard = () => {
           })
           .catch((err) => {
             console.log(err.response);
-            setLoading(false);
           });
       }
+
+      setMentorsRequested(mentorsRequestedCopy);
+      setLoading(false);
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    setLoading(true);
+    if (project) {
+      let mentorsMatchedInput = project.mentorsMatched
+        ? project.mentorsMatched
+        : [];
+      let mentorsRequestedInput = project.mentorsRequested
+        ? project.mentorsRequested.filter(
+            (mentor) =>
+              !project.mentorsMatched
+                .map((mentorObj) => mentorObj.mentorId)
+                .includes(mentor)
+          )
+        : [];
+
+      let mentorsMatchedCopy = [];
 
       for (let j = 0; j < mentorsMatchedInput.length; j++) {
         axios
@@ -119,8 +136,6 @@ const Dashboard = () => {
             setLoading(false);
           });
       }
-
-      setMentorsRequested(mentorsRequestedCopy);
     }
     setLoading(false);
   }, [location.pathname, projCon.project]);
@@ -878,10 +893,13 @@ const Dashboard = () => {
         {mentorsRequested && mentorsRequested.length > 0 ? (
           <div class="w-full sm:px-7 px-3">
             <hr class="border-t-[2px]  border-dashed border-indigo-600 -mt-2 mb-8 block w-[60%] mx-auto" />
-            <h2 class="font-bold mx-auto text-center tracking-wide mb-6 sm:text-[27px] text-[26px]">
+            <h2 class="font-bold mx-auto text-center tracking-wide  sm:text-[32px] relative top-1 text-[28px]">
               Requested Mentors:{" "}
             </h2>
-            <div class="grid lg:grid-cols-2 grid-cols-1  lg:mb-14 md:mb-12 mb-12 lg:px-8 md:px-32 sm:px-16 px-0 lg:mt-12 mt-6 gap-3">
+            <p class=" text-xl bg-gradient-to-r px-5 mt-3 mb-4 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit">
+              Under Review
+            </p>
+            <div class="grid lg:grid-cols-2 grid-cols-1 -top-[2px]  lg:mb-12 md:mb-12 mb-12 lg:px-5 md:px-28 sm:px-14 px-0 lg:mt-12 mt-6 gap-5">
               {mentorsRequested.map((mentor) => {
                 return (
                   <div class="flex col-span-1 min-w-sm rounded-md bg-white shadow-md ">
@@ -893,7 +911,7 @@ const Dashboard = () => {
                           {" "}
                           <img
                             src={mentor.pic}
-                            class="sm:w-8 sm:h-8 w-7 h-7 shadow-md mb-1 inline rounded-full"
+                            class="sm:w-8 sm:h-8 w-7 h-7 shadow-md object-cover mb-1 inline rounded-full"
                           ></img>{" "}
                           <span class="ml-2 sm:text-xl text-lg bg-clip-text mx-auto text-transparent from-gray-700 to-gray-500 bg-gradient-to-br inline font-bold">
                             {mentor.name}
