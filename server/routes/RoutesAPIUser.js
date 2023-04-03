@@ -497,7 +497,7 @@ router.post("/registerWithGoogle", async (req, res) => {
                 text: `
                         Hey ${proj.team[0].firstName}!
                 
-                        Your team-member, ${req.body.firstName}, has onboarded your venture (${proj.name}) @ IdeaStack.org.
+                        Your team-member, ${proj.team[0].firstName}, has onboarded your venture (${proj.name}) @ IdeaStack.org.
                         
                         We hope to take you and your team to new heights through mentorship!
                         Explore our portfolio of mentors and request a mentor based on your specific needs; our team will take your requests into consideration while matching you with a mentor.

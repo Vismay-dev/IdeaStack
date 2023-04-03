@@ -93,7 +93,7 @@ const Contact = () => {
                     }
                     alt="avatar"
                   />
-                  <a class="font-bold text-gray-700 mr-6  relative cursor-pointer ">
+                  <a class="font-bold text-gray-700 mr-6  relative  ">
                     {proj ? proj.team[i].name : ""}
                     {i == 0 ? " (Admin)" : ""}
 
@@ -105,7 +105,7 @@ const Contact = () => {
                       onMouseOver={() => setShowToolTip(true)}
                       onMouseLeave={() => setShowToolTip(false)}
                       xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6 font-semibold hover:cursor-pointer text-xl absolute top-[0.5px] -right-9  text-indigo-600"
+                      class="h-6 w-6 font-semibold cursor-pointer hover:cursor-pointer text-xl absolute top-[0.5px] -right-9  text-indigo-600"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
