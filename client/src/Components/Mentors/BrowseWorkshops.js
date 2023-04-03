@@ -187,7 +187,7 @@ export default function BrowseMentors() {
                 type="text"
                 onChange={textChangeHandler}
                 class="px-4 py-2 sm:text-base text-sm sm:col-span-5 col-span-9 rounded-l-md shadow-sm border-0"
-                placeholder="Search Course"
+                placeholder="Search Mentor"
               />
               <button
                 onClick={() => filterByText()}

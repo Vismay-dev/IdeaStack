@@ -442,7 +442,7 @@ const WorkshopDetails = (props) => {
                         {/* Sizes */}
                         <div class={`lg:block hidden `}>
                           {projCon.project.mentorsRequested &&
-                          projCon.project.mentorsRequested.length > 3 ? (
+                          projCon.project.mentorsRequested.length >= 3 ? (
                             <>
                               <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[62px] -mb-7 w-fit bg-gradient-to-r from-orange-500 to-orange-700">
                                 Request Limit Reached
@@ -750,7 +750,7 @@ const WorkshopDetails = (props) => {
                           }`}
                         >
                           {projCon.project.mentorsRequested &&
-                          projCon.project.mentorsRequested.length > 3 ? (
+                          projCon.project.mentorsRequested.length >= 3 ? (
                             <>
                               <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[48px] -mb-7 w-fit bg-gradient-to-r from-orange-500 to-orange-700">
                                 Request Limit Reached
@@ -758,7 +758,7 @@ const WorkshopDetails = (props) => {
                               <h3
                                 className={`text-sm ${
                                   workshop.orgs.length > 2 ? "" : "   "
-                                } text-orange-800 block font-medium bg-orange-100 border-dashed border-orange-600 border-[1px] px-3 py-2 relative mt-12 rounded-md shadow-md`}
+                                } text-orange-800 block font-medium bg-orange-100 border-dashed border-orange-600 border-[1px] px-3 py-2 mb-3 relative mt-12 rounded-md shadow-md`}
                               >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -953,7 +953,7 @@ const WorkshopDetails = (props) => {
 
                     <div class={`lg:hidden -mt-12 block ${""}`}>
                       {projCon.project.mentorsRequested &&
-                      projCon.project.mentorsRequested.length > 3 ? (
+                      projCon.project.mentorsRequested.length >= 3 ? (
                         <>
                           <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[12px] -mb-7 w-fit bg-gradient-to-r from-orange-500 to-orange-700">
                             Request Limit Reached
