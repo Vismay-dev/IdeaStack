@@ -359,14 +359,14 @@ router.post("/register", async (req, res) => {
         }
       }
 
-      // sendRegistrationMail()
-      //   .then((result) => {
-      //     console.log(result);
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //     res.status(400).send(err);
-      //   });
+      sendRegistrationMail()
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(400).send(err);
+        });
 
       const user = await newUser.save().catch((err) => console.log(err));
       const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
@@ -1039,7 +1039,7 @@ router.post("/updateUser", auth, async (req, res) => {
   }
 
   console.log({ ...userPrev, ...updateInfo });
-  res.send({ ...userPrev, ...updateInfo });
+  return res.send({ ...userPrev, ...updateInfo });
 });
 
 router.post("/updateMentor", auth, async (req, res) => {
@@ -1243,8 +1243,7 @@ router.post("/onboardTeam", auth, async (req, res) => {
 
     await currProject.save().catch((err) => {
       console.log(err);
-      res.status(400).send(err);
-      return;
+      return res.status(400).send(err);
     });
 
     sendMail(req.body.team[i], uniqueCode)
@@ -1265,14 +1264,12 @@ router.post("/onboardTeam", auth, async (req, res) => {
     .findOneAndUpdate({ _id: req.user._id }, updateInfo)
     .catch((err) => {
       console.log(err);
-      res.status(400).send(err);
-      return;
+      return res.status(400).send(err);
     });
 
   await newUser.save().catch((err) => {
     console.log(err);
-    res.status(400).send(err);
-    return;
+    return res.status(400).send(err);
   });
 
   if (req.body.team.length === 0) {
@@ -1406,8 +1403,7 @@ router.post("/createProject", auth, async (req, res) => {
 
   newProject = await newProject.save().catch((err) => {
     console.log(err);
-    res.status(400).send(err);
-    return;
+    return res.status(400).send(err);
   });
 
   let updateInfo = {
@@ -1421,11 +1417,10 @@ router.post("/createProject", auth, async (req, res) => {
     .catch((err) => console.log(err));
   const updatedUser = await newUser.save().catch((err) => {
     console.log(err);
-    res.status(400).send(err);
-    return;
+    return res.status(400).send(err);
   });
 
-  res.send({ ...newUser, ...updateInfo });
+  return res.send({ ...newUser, ...updateInfo });
 });
 
 router.post("/getUserProject", auth, async (req, res) => {
