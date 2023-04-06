@@ -269,7 +269,6 @@ router.post("/register", async (req, res) => {
 
           sendOnboardedMail()
             .then((result) => {
-              res.send("Successfully sent Email !");
               console.log(result);
             })
             .catch((err) => {
@@ -360,14 +359,14 @@ router.post("/register", async (req, res) => {
         }
       }
 
-      sendRegistrationMail()
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((err) => {
-          console.log(err);
-          res.status(400).send(err);
-        });
+      // sendRegistrationMail()
+      //   .then((result) => {
+      //     console.log(result);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //     res.status(400).send(err);
+      //   });
 
       const user = await newUser.save().catch((err) => console.log(err));
       const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
@@ -1007,49 +1006,40 @@ router.post("/getUserView", async (req, res) => {
 });
 
 router.post("/updateUser", auth, async (req, res) => {
-  try {
-    const userPrev = await studentUser.findById(req.user._id);
-    updateInfo = { ...req.body.user, password: userPrev.password };
+  const userPrev = await studentUser.findById(req.user._id);
+  updateInfo = { ...req.body.user, password: userPrev.password };
 
-    const newUser = await studentUser.findByIdAndUpdate(
-      req.user._id,
-      updateInfo
-    );
-    const updatedUser = await newUser.save();
+  const newUser = await studentUser.findByIdAndUpdate(req.user._id, updateInfo);
+  const updatedUser = await newUser.save();
 
-    const proj = await project.findById(userPrev.projectId);
+  const proj = await project.findById(userPrev.projectId);
 
-    if (
-      req.body.flagTeamOnboarding ||
-      updateInfo.initialized ||
-      userPrev.isAdditionalMember
-    ) {
-      let teamChk = true;
+  if (
+    req.body.flagTeamOnboarding ||
+    updateInfo.initialized ||
+    userPrev.isAdditionalMember
+  ) {
+    let teamChk = true;
 
-      console.log(proj.team);
-
-      for (let i = 0; i < proj.team.length; i++) {
-        let currTeamMember = await studentUser.findOne({
-          email: proj.team[i].email,
-        });
-        if (currTeamMember && currTeamMember.initialized === false) {
-          teamChk = false;
-        }
-      }
-
-      if (teamChk === true) {
-        const newProj = await project.findByIdAndUpdate(proj._id, {
-          teamOnboarded: true,
-        });
-        const updatedProj = await newProj.save();
+    for (let i = 0; i < proj.team.length; i++) {
+      let currTeamMember = await studentUser.findOne({
+        email: proj.team[i].email,
+      });
+      if (currTeamMember && currTeamMember.initialized === false) {
+        teamChk = false;
       }
     }
-    console.log({ ...userPrev, ...updateInfo });
-    res.send({ ...userPrev, ...updateInfo });
-  } catch (err) {
-    console.log(err);
-    res.status(400).send(err);
+
+    if (teamChk === true) {
+      const newProj = await project.findByIdAndUpdate(proj._id, {
+        teamOnboarded: true,
+      });
+      const updatedProj = await newProj.save();
+    }
   }
+
+  console.log({ ...userPrev, ...updateInfo });
+  res.send({ ...userPrev, ...updateInfo });
 });
 
 router.post("/updateMentor", auth, async (req, res) => {
@@ -1251,18 +1241,19 @@ router.post("/onboardTeam", auth, async (req, res) => {
       onboarded: false,
     });
 
+    await currProject.save().catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+      return;
+    });
+
     sendMail(req.body.team[i], uniqueCode)
       .then(async (result) => {
-        await currProject.save().catch((err) => {
-          console.log(err);
-          res.status(400).send(err);
-        });
-
         console.log(result);
       })
       .catch((err) => {
         console.log(err);
-        res.status(400).send(err);
+        return;
       });
   }
 
@@ -1272,11 +1263,16 @@ router.post("/onboardTeam", auth, async (req, res) => {
 
   newUser = await studentUser
     .findOneAndUpdate({ _id: req.user._id }, updateInfo)
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+      return;
+    });
 
   await newUser.save().catch((err) => {
     console.log(err);
     res.status(400).send(err);
+    return;
   });
 
   if (req.body.team.length === 0) {
@@ -1286,27 +1282,26 @@ router.post("/onboardTeam", auth, async (req, res) => {
   }
 
   async function sendMail(teamMember, uniqueCodeParam) {
-    try {
-      const transport = await nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        auth: {
-          type: "OAuth2",
-          user: "ideastackapp@gmail.com",
-          clientId: process.env.CLIENT_ID,
-          clientSecret: process.env.CLIENT_SECRET,
-          accessToken: process.env.ACCESS_TOKEN,
-          refreshToken: process.env.REFRESH_TOKEN,
-        },
-      });
+    const transport = await nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      auth: {
+        type: "OAuth2",
+        user: "ideastackapp@gmail.com",
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        accessToken: process.env.ACCESS_TOKEN,
+        refreshToken: process.env.REFRESH_TOKEN,
+      },
+    });
 
-      const mailOptions = {
-        from: "IdeaStack <ideastackapp@gmail.com>",
-        to: teamMember.email,
-        cc: [user.email],
-        bcc: ["vismaysuramwar@gmail.com"],
-        subject: "IdeaStack Team Onboarding - " + user.firstName,
-        text: `
+    const mailOptions = {
+      from: "IdeaStack <ideastackapp@gmail.com>",
+      to: teamMember.email,
+      cc: [user.email],
+      bcc: ["vismaysuramwar@gmail.com"],
+      subject: "IdeaStack Team Onboarding - " + user.firstName,
+      text: `
                 Hey ${teamMember.name}!
         
                 ${
@@ -1330,7 +1325,7 @@ router.post("/onboardTeam", auth, async (req, res) => {
                 
                 Best Regards,
                 Admin, IdeaStack`,
-        html: `
+      html: `
                 <p>Hey ${teamMember.name}!</p>
         
                 <p> ${
@@ -1348,10 +1343,10 @@ router.post("/onboardTeam", auth, async (req, res) => {
                     ? "https://ideastack.org"
                     : "http://localhost:3000"
                 }/teamonboarding/${teamMember.name}/${
-          user.firstName + " " + user.lastName
-        }/${currProject._id}'>https://ideastack.org/teamonboarding/${
-          teamMember.name
-        }/${user.firstName + " " + user.lastName}/${currProject._id}</a></p>
+        user.firstName + " " + user.lastName
+      }/${currProject._id}'>https://ideastack.org/teamonboarding/${
+        teamMember.name
+      }/${user.firstName + " " + user.lastName}/${currProject._id}</a></p>
                 
                 <p> Note: The link above is unique, and will not work for any other user. There are limited seats available for IdeaStack registration, so sign-up soon! </p>
 
@@ -1362,19 +1357,16 @@ router.post("/onboardTeam", auth, async (req, res) => {
                 <br/>
                 <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
                 `,
-        attachments: [
-          {
-            fileName: "IdeaStack.jpg",
-            path: "server/routes/IdeaStack.jpg",
-            cid: "ideastack@orgae.ee",
-          },
-        ],
-      };
-      const result = await transport.sendMail(mailOptions);
-      return result;
-    } catch (err) {
-      return err;
-    }
+      attachments: [
+        {
+          fileName: "IdeaStack.jpg",
+          path: "server/routes/IdeaStack.jpg",
+          cid: "ideastack@orgae.ee",
+        },
+      ],
+    };
+    const result = await transport.sendMail(mailOptions);
+    return result;
   }
 
   res.send(newUser);
@@ -1415,6 +1407,7 @@ router.post("/createProject", auth, async (req, res) => {
   newProject = await newProject.save().catch((err) => {
     console.log(err);
     res.status(400).send(err);
+    return;
   });
 
   let updateInfo = {
@@ -1429,6 +1422,7 @@ router.post("/createProject", auth, async (req, res) => {
   const updatedUser = await newUser.save().catch((err) => {
     console.log(err);
     res.status(400).send(err);
+    return;
   });
 
   res.send({ ...newUser, ...updateInfo });

@@ -227,7 +227,7 @@ const Onboarding = () => {
           setLoading(false);
         });
     } else if (currentUser.user.initializationStep === "sd") {
-      if (image === "" || image === null) {
+      if (image == "" || image == null) {
         setError("Please upload a project cover image");
         setLoading(false);
         return;
@@ -563,9 +563,11 @@ const Onboarding = () => {
                       id="country"
                       required
                       name="country"
-                      autocomplete="country-name"
                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2  py-3 bg-white   shadow-md sm:text-sm border-gray-300 rounded-md"
                     >
+                      <option disabled selected value="">
+                        -- select a country --
+                      </option>
                       <option value="Afganistan">Afghanistan</option>
                       <option value="Albania">Albania</option>
                       <option value="Algeria">Algeria</option>
