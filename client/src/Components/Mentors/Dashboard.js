@@ -90,13 +90,16 @@ const Dashboard = () => {
       }
 
       setMentorsRequested(mentorsRequestedCopy);
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     }
   }, [location.pathname]);
 
   useEffect(() => {
-    setLoading(true);
     if (project) {
+      setLoading(true);
+
       let mentorsMatchedInput = project.mentorsMatched
         ? project.mentorsMatched
         : [];
@@ -133,12 +136,16 @@ const Dashboard = () => {
           })
           .catch((err) => {
             console.log(err.response);
-            setLoading(false);
           });
       }
+
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     }
-    setLoading(false);
   }, [location.pathname, projCon.project]);
+
+  console.log(loading);
 
   const [sessionsConfirmed, setSessionsConfirmed] = useState(false);
 
@@ -156,6 +163,17 @@ const Dashboard = () => {
           <p class=" text-xl bg-gradient-to-r mt-2.5 px-5 mb-1 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit">
             Learn from Industry Leaders
           </p>
+        ) : loading ? (
+          <div className="w-full  mb-14 xl:mb-0 px-3">
+            <div class="relative mx-auto my-8 mb-16 right-1 lg:py-[70px] lg:pb-[140px] py-[90px] sm:pb-[120px] pb-[100px] sm:left-0 left-1 text-center block justify-center">
+              <PulseLoader
+                color={"#1a52c9"}
+                loading={loading}
+                size={25}
+                margin={10}
+              />
+            </div>
+          </div>
         ) : (
           <p class=" md:text-2xl sm:text-xl text-lg bg-gradient-to-r lg:mt-6 -mt-2  lg:mb-1 mb-4 relative top-4 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit">
             {mentorCon.mentors[index].name + " X " + project.name}
@@ -890,7 +908,7 @@ const Dashboard = () => {
             )}
           </>
         )}
-        {mentorsRequested && mentorsRequested.length > 0 ? (
+        {loading || (mentorsRequested && mentorsRequested.length > 0) ? (
           <div class="w-full sm:px-7 px-3">
             <hr class="border-t-[2px]  border-dashed border-indigo-600 -mt-2 mb-8 block w-[60%] mx-auto" />
             <h2 class="font-bold mx-auto text-center tracking-wide  sm:text-[32px] relative top-1 text-[28px]">
@@ -900,78 +918,91 @@ const Dashboard = () => {
               Under Review
             </p>
             <div class="grid lg:grid-cols-2 grid-cols-1 -top-[2px]  lg:mb-12 md:mb-12 mb-12 lg:px-5 md:px-28 sm:px-14 px-0 lg:mt-12 mt-6 gap-5">
-              {mentorsRequested.map((mentor) => {
-                return (
-                  <div class="flex col-span-1 min-w-sm rounded-md bg-white shadow-md ">
-                    <div class="w-full">
-                      <div class="p-6 sm:text-left text-center">
-                        <span
-                          class={` mx-auto w-full mt-1 mb-0.5 sm:text-left text-center`}
-                        >
-                          {" "}
-                          <img
-                            src={mentor.pic}
-                            class="sm:w-8 sm:h-8 w-7 h-7 shadow-md object-cover mb-1 inline rounded-full"
-                          ></img>{" "}
-                          <span class="ml-2 sm:text-xl text-lg bg-clip-text mx-auto text-transparent from-gray-700 to-gray-500 bg-gradient-to-br inline font-bold">
-                            {mentor.name}
-                          </span>{" "}
-                        </span>
+              {loading ? (
+                <div className="w-full lg:col-span-2 col-span-1 mb-5 xl:-mb-9 px-3">
+                  <div class="relative mx-auto my-8 mb-16 right-1 lg:py-[70px] lg:pb-[140px] py-[90px] sm:pb-[120px] pb-[100px] sm:left-0 left-1 text-center block justify-center">
+                    <PulseLoader
+                      color={"#1a52c9"}
+                      loading={loading}
+                      size={25}
+                      margin={10}
+                    />
+                  </div>
+                </div>
+              ) : (
+                mentorsRequested.map((mentor) => {
+                  return (
+                    <div class="flex col-span-1 min-w-sm rounded-md bg-white shadow-md ">
+                      <div class="w-full">
+                        <div class="p-6 sm:text-left text-center">
+                          <span
+                            class={` mx-auto w-full mt-1 mb-0.5 sm:text-left text-center`}
+                          >
+                            {" "}
+                            <img
+                              src={mentor.pic}
+                              class="sm:w-8 sm:h-8 w-7 h-7 shadow-md object-cover mb-1 inline rounded-full"
+                            ></img>{" "}
+                            <span class="ml-2 sm:text-xl text-lg bg-clip-text mx-auto text-transparent from-gray-700 to-gray-500 bg-gradient-to-br inline font-bold">
+                              {mentor.name}
+                            </span>{" "}
+                          </span>
 
-                        <p class="mb-2 mt-4 sm:text-left text-center font-medium text-sm text-gray-700 ">
-                          <strong>Expertise:</strong> {mentor.expertise}
-                        </p>
+                          <p class="mb-2 mt-4 sm:text-left text-center font-medium text-sm text-gray-700 ">
+                            <strong>Expertise:</strong> {mentor.expertise}
+                          </p>
 
-                        <p class=" pb-[3px] text-sm sm:text-left lg:right-0 relative  text-center font-medium text-gray-700">
-                          <strong>Organizations:</strong> <br />
-                          {mentor &&
-                            mentor.orgs &&
-                            mentor.orgs.map((org, i) => {
-                              return (
-                                <span
-                                  class={` ${
-                                    i == 2
-                                      ? "-mt-[14px] inline pt-[16px]"
-                                      : "inline mt-1"
-                                  } relative right-1 top-3.5 pb-2.5`}
-                                >
-                                  {" "}
-                                  {i % 3 === 0 && i !== 0 ? (
-                                    <>
-                                      {" "}
-                                      <br class="sm:inline hidden" />{" "}
-                                    </>
-                                  ) : (
-                                    ""
-                                  )}
-                                  {i % 2 === 0 && i !== 0 ? (
-                                    <>
-                                      {" "}
-                                      <br class="sm:hidden inline" />{" "}
-                                    </>
-                                  ) : (
-                                    ""
-                                  )}
-                                  {i != 0 && i != 3 ? " || " : ""}{" "}
-                                  <img
-                                    src={org.pic}
-                                    class="w-6 h-6 shadow-md ml-2 mb-1 inline rounded-full"
-                                  ></img>{" "}
-                                  <span class="ml-1 mr-1 lg:inline hidden">
-                                    {org.name}
-                                  </span>{" "}
-                                  <span class="ml-1 mr-1 lg:hidden inline">
-                                    {org.name.split(" ")[0]}
-                                  </span>{" "}
-                                </span>
-                              );
-                            })}
-                        </p>
+                          <p class=" pb-[3px] text-sm sm:text-left lg:right-0 relative  text-center font-medium text-gray-700">
+                            <strong>Organizations:</strong> <br />
+                            {mentor &&
+                              mentor.orgs &&
+                              mentor.orgs.map((org, i) => {
+                                return (
+                                  <span
+                                    class={` ${
+                                      i == 2
+                                        ? "-mt-[14px] inline pt-[16px]"
+                                        : "inline mt-1"
+                                    } relative right-1 top-3.5 pb-2.5`}
+                                  >
+                                    {" "}
+                                    {i % 3 === 0 && i !== 0 ? (
+                                      <>
+                                        {" "}
+                                        <br class="sm:inline hidden" />{" "}
+                                      </>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {i % 2 === 0 && i !== 0 ? (
+                                      <>
+                                        {" "}
+                                        <br class="sm:hidden inline" />{" "}
+                                      </>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {i != 0 && i != 3 ? " || " : ""}{" "}
+                                    <img
+                                      src={org.pic}
+                                      class="w-6 h-6 shadow-md ml-2 mb-1 inline rounded-full"
+                                    ></img>{" "}
+                                    <span class="ml-1 mr-1 lg:inline hidden">
+                                      {org.name}
+                                    </span>{" "}
+                                    <span class="ml-1 mr-1 lg:hidden inline">
+                                      {org.name.split(" ")[0]}
+                                    </span>{" "}
+                                  </span>
+                                );
+                              })}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              )}
             </div>
           </div>
         ) : (

@@ -147,7 +147,6 @@ const StartupMentorship = () => {
         })
         .catch((err) => {
           console.log(err);
-          setLoading(false);
         });
     }
 
@@ -195,7 +194,6 @@ const StartupMentorship = () => {
         })
         .catch((err) => {
           console.log(err.response);
-          setLoading(false);
         });
     }
 
@@ -203,11 +201,17 @@ const StartupMentorship = () => {
     setMentorshipRequests(mentorshipRequestsCopy);
   };
 
+  console.log(loading);
+
   useEffect(() => {
     setLoading(true);
     effectFunc();
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   }, [location.pathname, projCon.project]); // removed mentorCon.mentor from here
+
+  console.log(loading);
 
   useEffect(() => {
     if ((sessionStorage.getItem("index") || index) && currentMentees) {
@@ -924,7 +928,7 @@ const StartupMentorship = () => {
             )}
           </>
         )}
-        {mentorshipRequests && mentorshipRequests.length > 0 ? (
+        {loading || (mentorshipRequests && mentorshipRequests.length > 0) ? (
           <div class="w-full sm:px-7 px-3">
             <hr class="border-t-[2px]  border-dashed border-indigo-600 -mt-2 mb-8 block w-[60%] mx-auto" />
             <h2 class="font-bold mx-auto text-center tracking-wide mb-6 sm:text-[27px] text-[24px]">
@@ -956,7 +960,19 @@ const StartupMentorship = () => {
               </p>
             </div>
             <div class="grid lg:grid-cols-2 grid-cols-1  lg:mb-14 md:mb-16 mb-12 lg:px-8 md:px-32 sm:px-16 px-0 lg:mt-12 mt-10 gap-3">
-              {mentorshipRequests &&
+              {loading ? (
+                <div className="w-full lg:col-span-2 col-span-1  mb-5 mt-3 xl:-mb-9 px-3">
+                  <div class="relative mx-auto my-8 mb-16 right-1 lg:py-[70px] lg:pb-[140px] py-[90px] sm:pb-[120px] pb-[100px] sm:left-0 left-1 text-center block justify-center">
+                    <PulseLoader
+                      color={"#1a52c9"}
+                      loading={loading}
+                      size={25}
+                      margin={10}
+                    />
+                  </div>
+                </div>
+              ) : (
+                mentorshipRequests &&
                 mentorshipRequests.map((startup, i) => {
                   return (
                     <div class="flex col-span-1 min-w-sm  rounded-md pb-1 bg-white shadow-md ">
@@ -1085,7 +1101,8 @@ const StartupMentorship = () => {
                       </div>
                     </div>
                   );
-                })}
+                })
+              )}
             </div>
           </div>
         ) : (

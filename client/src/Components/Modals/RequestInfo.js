@@ -206,6 +206,12 @@ const RequestInfo = (props) => {
                         >
                           {props.startup.category}
                         </p>
+                        <label
+                          for="floating_repeat_name"
+                          class="absolute text-sm font-semibold left-0 text-blue-700  duration-300 transform -translate-y-6 scale-75 top-4 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                          Category
+                        </label>
                       </div>
                       <div class="relative z-0 mb-10 md:mt-0 -mt-4 w-full group">
                         <p
@@ -247,6 +253,8 @@ const RequestInfo = (props) => {
                         {props.startup &&
                           props.startup.team &&
                           props.startup.team.map((member, i) => {
+                            console.log(member);
+
                             return (
                               <span
                                 class={` ${
@@ -274,7 +282,7 @@ const RequestInfo = (props) => {
                                   class="w-7 h-7 border-[1px] border-blue-700 shadow-md ml-2 mb-1 inline rounded-full"
                                 ></img>{" "}
                                 <span class="ml-1 mr-1 relative bottom-[0.5px] text-base inline">
-                                  {member.name}
+                                  {member.firstName + " " + member.lastName}
                                 </span>{" "}
                               </span>
                             );

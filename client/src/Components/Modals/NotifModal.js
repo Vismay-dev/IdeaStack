@@ -32,85 +32,87 @@ const NotifModal = (props) => {
 
     setNotifications(notifsDummy);
     setNotifArray(
-      notifsDummy.map((notif, i) => {
-        console.log(notif);
-        return (
-          <div
-            id="toast-notification"
-            class={`p-4 w-full mb-3 pb-7 overflow-hidden  rounded-lg  ${
-              notif.seen === true
-                ? "bg-gray-600 shadow-sm"
-                : "bg-gray-800 shadow-xl border-2 border-red-600"
-            } text-gray-300`}
-            role="alert"
-            key={i}
-          >
-            <div class="flex items-center mb-3">
-              <span class="mb-1 sm:text-base text-sm font-semibold text-white">
-                {notif.title}
-              </span>
-              <button
-                onClick={() => {
-                  deleteNotif(i);
-                }}
-                type="button"
-                class="ml-auto -mx-1.5 -my-1.5 -mt-2.5  rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 inline-flex h-8 w-8 text-gray-500 hover:text-white bg-gray-800 hover:bg-gray-700"
-                data-dismiss-target="#toast-notification"
-                aria-label="Close"
+      notifsDummy
+        ? notifsDummy.map((notif, i) => {
+            console.log(notif);
+            return (
+              <div
+                id="toast-notification"
+                class={`p-4 w-full mb-3 pb-7 overflow-hidden  rounded-lg  ${
+                  notif.seen === true
+                    ? "bg-gray-600 shadow-sm"
+                    : "bg-gray-800 shadow-xl border-2 border-red-600"
+                } text-gray-300`}
+                role="alert"
+                key={i}
               >
-                <span class="sr-only">Close</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="sm:h-5 sm:w-5 h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div class="flex items-center top-2 relative ">
-              <div class="inline-block relative xl:left-2 shrink-0">
-                <img
-                  class="w-12 h-12 bg-white relative sm:left-5 left-3 rounded-full"
-                  src={
-                    notif.icon
-                      ? notif.icon
-                      : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
-                  }
-                />
-                <span class="inline-flex absolute sm:-right-6 -right-4 bottom-0 justify-center items-center w-6 h-6 bg-blue-600 rounded-full">
-                  <svg
-                    aria-hidden="true"
-                    class="w-4 h-4 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
+                <div class="flex items-center mb-3">
+                  <span class="mb-1 sm:text-base text-sm font-semibold text-white">
+                    {notif.title}
+                  </span>
+                  <button
+                    onClick={() => {
+                      deleteNotif(i);
+                    }}
+                    type="button"
+                    class="ml-auto -mx-1.5 -my-1.5 -mt-2.5  rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 inline-flex h-8 w-8 text-gray-500 hover:text-white bg-gray-800 hover:bg-gray-700"
+                    data-dismiss-target="#toast-notification"
+                    aria-label="Close"
                   >
-                    <path
-                      fill-rule="evenodd"
-                      d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                  <span class="sr-only">Message icon</span>
-                </span>
-              </div>
-              <div class="ml-3 relative left-1 mb-1 text-sm font-normal">
-                <div class="sm:text-sm text-xs font-semibold text-white">
-                  {notif.subtitle}
+                    <span class="sr-only">Close</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="sm:h-5 sm:w-5 h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div class="flex items-center top-2 relative ">
+                  <div class="inline-block relative xl:left-2 shrink-0">
+                    <img
+                      class="w-12 h-12 bg-white relative sm:left-5 left-3 rounded-full"
+                      src={
+                        notif.icon
+                          ? notif.icon
+                          : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
+                      }
+                    />
+                    <span class="inline-flex absolute sm:-right-6 -right-4 bottom-0 justify-center items-center w-6 h-6 bg-blue-600 rounded-full">
+                      <svg
+                        aria-hidden="true"
+                        class="w-4 h-4 text-white"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                      <span class="sr-only">Message icon</span>
+                    </span>
+                  </div>
+                  <div class="ml-3 relative left-1 mb-1 text-sm font-normal">
+                    <div class="sm:text-sm text-xs font-semibold text-white">
+                      {notif.subtitle}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        );
-      })
+            );
+          })
+        : []
     );
 
     userCont.setUser({ ...user, notifications: notifsDummy });
@@ -130,87 +132,92 @@ const NotifModal = (props) => {
     setLoading(true);
     setNotifications(user.notifications ? user.notifications : []);
     setNotifArray(
-      user.notifications.map((notif, i) => {
-        console.log(notif);
-        return (
-          <div
-            id="toast-notification"
-            class={`p-4 w-full mb-3 pb-7 overflow-hidden  rounded-lg  ${
-              notif.seen === true
-                ? "bg-gray-600 shadow-sm"
-                : "bg-gray-800 shadow-xl border-2 border-red-600"
-            } text-gray-300`}
-            role="alert"
-            key={i}
-          >
-            <div class="flex items-center mb-3">
-              <span class="mb-1 text-base font-semibold text-white">
-                {notif.title}
-              </span>
-              <button
-                onClick={() => {
-                  deleteNotif(i);
-                }}
-                type="button"
-                class="ml-auto -mx-1.5 -my-1.5 -mt-2.5  rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 inline-flex h-8 w-8 text-gray-500 hover:text-white bg-gray-800 hover:bg-gray-700"
-                data-dismiss-target="#toast-notification"
-                aria-label="Close"
+      user.notifications
+        ? user.notifications.map((notif, i) => {
+            console.log(notif);
+            return (
+              <div
+                id="toast-notification"
+                class={`p-4 w-full mb-3 pb-7 overflow-hidden  rounded-lg  ${
+                  notif.seen === true
+                    ? "bg-gray-600 shadow-sm"
+                    : "bg-gray-800 shadow-xl border-2 border-red-600"
+                } text-gray-300`}
+                role="alert"
+                key={i}
               >
-                <span class="sr-only">Close</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="sm:h-5 sm:w-5 h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div class="flex items-center top-2 relative ">
-              <div class="inline-block relative xl:left-2 shrink-0">
-                <img
-                  class="w-12 h-12 bg-white relative sm:left-5 left-3 rounded-full"
-                  src={
-                    notif.icon
-                      ? notif.icon
-                      : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
-                  }
-                />
-                <span class="inline-flex absolute sm:-right-6 -right-4 bottom-0 justify-center items-center w-6 h-6 bg-blue-600 rounded-full">
-                  <svg
-                    aria-hidden="true"
-                    class="w-4 h-4 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
+                <div class="flex items-center mb-3">
+                  <span class="mb-1 text-base font-semibold text-white">
+                    {notif.title}
+                  </span>
+                  <button
+                    onClick={() => {
+                      deleteNotif(i);
+                    }}
+                    type="button"
+                    class="ml-auto -mx-1.5 -my-1.5 -mt-2.5  rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 inline-flex h-8 w-8 text-gray-500 hover:text-white bg-gray-800 hover:bg-gray-700"
+                    data-dismiss-target="#toast-notification"
+                    aria-label="Close"
                   >
-                    <path
-                      fill-rule="evenodd"
-                      d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                  <span class="sr-only">Message icon</span>
-                </span>
-              </div>
-              <div class="ml-3 relative w-fit  px-4 left-1 mb-1 text-center text-sm font-normal">
-                <div class="text-sm text-center font-semibold text-white">
-                  {notif.subtitle}
+                    <span class="sr-only">Close</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="sm:h-5 sm:w-5 h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div class="flex items-center top-2 relative ">
+                  <div class="inline-block relative xl:left-2 shrink-0">
+                    <img
+                      class="w-12 h-12 bg-white relative sm:left-5 left-3 rounded-full"
+                      src={
+                        notif.icon
+                          ? notif.icon
+                          : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
+                      }
+                    />
+                    <span class="inline-flex absolute sm:-right-6 -right-4 bottom-0 justify-center items-center w-6 h-6 bg-blue-600 rounded-full">
+                      <svg
+                        aria-hidden="true"
+                        class="w-4 h-4 text-white"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                      <span class="sr-only">Message icon</span>
+                    </span>
+                  </div>
+                  <div class="ml-3 relative w-fit  px-4 left-1 mb-1 text-center text-sm font-normal">
+                    <div class="text-sm text-center font-semibold text-white">
+                      {notif.subtitle}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        );
-      })
+            );
+          })
+        : []
     );
-    if (user.notifications.filter((notif) => notif.seen === false).length > 0) {
+    if (
+      user.notifications &&
+      user.notifications.filter((notif) => notif.seen === false).length > 0
+    ) {
       seeAllNotifs(user.notifications);
     }
     setLoading(false);
