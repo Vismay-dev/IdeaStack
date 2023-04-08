@@ -274,15 +274,47 @@ const RequestInfo = (props) => {
                                 )}
                                 {i != 0 && i != 3 ? " || " : ""}{" "}
                                 <img
+                                  // onClick={() => {
+                                  //   localStorage.setItem(
+                                  //     "viewToken",
+                                  //     member.id
+                                  //   );
+                                  //   window.open(
+                                  //     process.env.NODE_ENV === "production"
+                                  //       ? "https://ideastack.org/viewProfile"
+                                  //       : "http://localhost:3000/viewProfile",
+                                  //     "_blank"
+                                  //   );
+                                  // }}
                                   src={
                                     member.profilePic
                                       ? member.profilePic
                                       : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
                                   }
-                                  class="w-7 h-7 border-[1px] border-blue-700 shadow-md ml-2 mb-1 inline rounded-full"
+                                  class="w-7 h-7  border-[1px] border-blue-700 shadow-md ml-2 mb-1 inline rounded-full"
                                 ></img>{" "}
-                                <span class="ml-1 mr-1 relative bottom-[0.5px] text-base inline">
-                                  {member.firstName + " " + member.lastName}
+                                <span
+                                  // onClick={() => {
+                                  //   localStorage.setItem(
+                                  //     "viewToken",
+                                  //     member.id
+                                  //   );
+                                  //   window.open(
+                                  //     process.env.NODE_ENV === "production"
+                                  //       ? "https://ideastack.org/viewProfile"
+                                  //       : "http://localhost:3000/viewProfile",
+                                  //     "_blank"
+                                  //   );
+                                  // }}
+                                  class="ml-1 mr-1 relative bottom-[0.5px] text-base inline"
+                                >
+                                  {(member.firstName
+                                    ? member.firstName
+                                    : member.name.split(" ")[0]) +
+                                    " " +
+                                    (member.lastName
+                                      ? member.lastName
+                                      : member.name.split(" ")[1])}
                                 </span>{" "}
                               </span>
                             );
@@ -294,9 +326,9 @@ const RequestInfo = (props) => {
                     </div>
 
                     <div class="  mt-1 pt-1 block">
-                      <div class="relative border-2 -mt-1  block w-[150px] rounded-full mx-auto  h-[150px] p-3 border-dashed  border-gray-700 z-0 mb-14  group">
+                      <div class="relative border-2 -mt-1  block w-[150px] rounded-full mx-auto  h-[150px] p-0 border-dashed  border-gray-700 z-0 mb-14  group">
                         <img
-                          class=" relative w-full h-full object-contain mx-auto justify-center align-middle"
+                          class=" relative w-full h-full rounded-full object-contain mx-auto justify-center align-middle"
                           src={
                             props.startup.projPic ||
                             props.startup.projPic !== ""
