@@ -7,7 +7,7 @@ import founder1 from "./founder 2.jpg";
 import RegModal from "../Modals/RegModal";
 
 import logo from "../NavMenu/logo.png";
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 
 const WhyUs = () => {
   useEffect(() => {
@@ -16,7 +16,7 @@ const WhyUs = () => {
     });
   }, []);
 
-  const history = useHistory();
+  const history = useRouter();
 
   return (
     <>

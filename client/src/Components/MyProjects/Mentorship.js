@@ -9,11 +9,11 @@ import FindMentor from "./FindMentor.js";
 import MakePayment from "./MakePayment.js";
 import MentorshipSchedule from "./MentorshipSchedule.js";
 
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "next/router";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import PulseLoader from "react-spinners/PulseLoader";
-import { useLocation } from "react-router-dom";
+import { useRouter } from "next/router";
 import projectContext from "../../context/projectContext";
 
 import CancelModal from "../Modals/CancelModal";
@@ -33,7 +33,7 @@ const Mentorship = () => {
   }, []);
 
   const [cancel, setCancel] = useState(false);
-  const location = useLocation();
+  const location = useRouter();
   const projCon = useContext(projectContext);
 
   const [mentorshipPackages, setMentorshipPackages] = useState();

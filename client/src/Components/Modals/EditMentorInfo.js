@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useContext, useRef } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 import userContext from "../../context/userContext";
 import ClipLoader from "react-spinners/ClipLoader";
 import mentorAccContext from "../../context/mentorAccContext";
@@ -16,7 +16,7 @@ const EditMentorInfo = (props) => {
   );
   const inputRef = useRef(null);
 
-  const history = useHistory();
+  const history = useRouter();
 
   const handleChange = (e) => {
     if (e.target.name.includes("strength")) {

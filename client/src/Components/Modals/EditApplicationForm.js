@@ -4,13 +4,13 @@ import { PaperClipIcon } from "@heroicons/react/solid";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { CircleLoader } from "react-awesome-loaders";
-import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import { useRouter } from "next/router/cjs/next/router.min";
 import { useContext } from "react";
 import projectContext from "../../context/projectContext";
 
 const EditApplicationForm = (props) => {
   const projCon = useContext(projectContext);
-  const location = useLocation();
+  const location = useRouter();
 
   useEffect(() => {
     AOS.init({

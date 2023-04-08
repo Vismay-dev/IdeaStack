@@ -4,7 +4,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 
 const JoinRequests = () => {
   const [joinRequests, setJoinRequests] = useState([]);
@@ -79,7 +79,7 @@ const JoinRequests = () => {
   const [loading, setLoading] = useState(false);
   const [arr1, setArr1] = useState([]);
   const [arr2, setArr2] = useState([]);
-  const history = useHistory();
+  const history = useRouter();
 
   const confirmAcceptance = (index) => {
     setLoading(true);

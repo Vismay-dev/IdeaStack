@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState, useRef } from "react";
-import userContext from "../../context/userContext";
+import userContext from "../context/userContext";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import ScaleLoader from "react-spinners/ScaleLoader";
@@ -19,7 +19,7 @@ import { SiHiveBlockchain } from "react-icons/si";
 import { CgCodeClimate } from "react-icons/cg";
 import { BsCheckAll } from "react-icons/bs";
 
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 
 const Onboarding = () => {
   const [onboardingLoader, setOnboardingLoader] = useState(false);
@@ -150,7 +150,7 @@ const Onboarding = () => {
       });
   };
 
-  const history = useHistory();
+  const history = useRouter();
 
   const removeProjPic = () => {
     setImage(null);

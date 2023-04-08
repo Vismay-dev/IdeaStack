@@ -1,13 +1,13 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect, useState, useRef, useContext } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useRouter } from "next/router";
 import logo from "./logo2.png";
 import userContext from "../../context/userContext";
-import ExitModal from "../Modals/ExitModal";
+import ExitModal from "./ExitModal";
 
 const SideModal = (props) => {
-  const history = useHistory();
+  const history = useRouter();
   const myRef = useRef();
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const SideModal = (props) => {
     });
   }, []);
 
-  const location = useLocation();
+  const location = useRouter();
 
   useEffect(
     () => {

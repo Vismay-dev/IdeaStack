@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useRouter } from "next/router";
 
 const AdminPage = () => {
   const [projects, setProjects] = useState([]);
-  const location = useLocation();
+  const location = useRouter();
   let projectsTemp = [];
 
   const [showPanel, setShowPanel] = useState(false);

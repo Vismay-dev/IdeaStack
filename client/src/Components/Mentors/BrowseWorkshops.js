@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import WorkshopDetails from "../Modals/WorkshopDetails";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
-import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import { useRouter } from "next/router/cjs/next/router.min";
 import Dropdown from "./Dropdown";
 import logo from "../Modals/logo.png";
 import AOS from "aos";
@@ -16,7 +16,7 @@ export default function BrowseMentors() {
   const [workshopId, setWorkshopId] = useState(null);
   const [workshops, setWorkshops] = useState([]);
   const [loading, setLoading] = useState(false);
-  const location = useLocation();
+  const location = useRouter();
   const [origWorkshops, setOrigWorkshops] = useState([]);
 
   const project = useContext(projectContext).project;

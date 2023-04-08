@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useContext } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 import userContext from "../../context/userContext";
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -48,7 +48,7 @@ const PersonalInfo = (props) => {
     }
   }, [props]);
 
-  const history = useHistory();
+  const history = useRouter();
 
   const handleChange = (e) => {
     setStudentUser({

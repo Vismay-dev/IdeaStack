@@ -1,11 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import {
-  Switch,
-  Route,
-  Redirect,
-  useHistory,
-  useLocation,
-} from "react-router-dom";
+import { Switch, Route, Redirect, useRouter } from "next/router";
 
 import AOS from "aos";
 
@@ -29,8 +23,8 @@ const MyProjects = () => {
     });
   }, []);
 
-  const history = useHistory();
-  const location = useLocation();
+  const history = useRouter();
+  const location = useRouter();
   const projectCurr = useContext(projectContext);
   const [projectCurrent, setProjectCurrent] = useState("");
 

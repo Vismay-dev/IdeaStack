@@ -1,15 +1,15 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect, useState, useRef, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 import logo from "./logo2.png";
 import userContext from "../../context/userContext";
-import ExitModal from "../Modals/ExitModal";
+import ExitModal from "./ExitModal";
 import { returnSocket } from "../../Socket";
 import axios from "axios";
 
 const NotifModal = (props) => {
-  const history = useHistory();
+  const history = useRouter();
   const myRef = useRef();
   const userCont = useContext(userContext);
   const user = userCont.user;

@@ -6,7 +6,7 @@ import "aos/dist/aos.css";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 import { FcGoogle } from "react-icons/fc";
 
 import ClipLoader from "react-spinners/ClipLoader";
@@ -16,7 +16,7 @@ import ReactGA from "react-ga";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 
 const LogModal = (props) => {
-  const history = useHistory();
+  const history = useRouter();
   const GOOGLEOAUTHCLIENTID =
     "1085293368367-1i2er7o64kk7mtpgdbt92bi6k8r6bjpk.apps.googleusercontent.com";
 

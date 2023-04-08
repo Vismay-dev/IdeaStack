@@ -6,7 +6,7 @@ import "aos/dist/aos.css";
 import { useEffect, useState, useRef, useContext } from "react";
 import axios from "axios";
 
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 
 import ClipLoader from "react-spinners/ClipLoader";
 import React from "react";
@@ -16,7 +16,7 @@ import MentorInfo from "../Mentors/DashboardComponents/MentorInfo";
 import mentorAccContext from "../../context/mentorAccContext";
 
 const LogModalMentor = (props) => {
-  const history = useHistory();
+  const history = useRouter();
 
   useEffect(() => {
     AOS.init({

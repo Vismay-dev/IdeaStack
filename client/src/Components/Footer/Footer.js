@@ -1,8 +1,8 @@
 import logo from "../NavMenu/logo2.jpg";
-import { useLocation } from "react-router-dom";
+import { useRouter } from "next/router";
 
 const Footer = () => {
-  const location = useLocation();
+  const location = useRouter();
 
   return (
     <footer

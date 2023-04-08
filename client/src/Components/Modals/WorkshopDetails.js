@@ -4,8 +4,8 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { StarIcon } from "@heroicons/react/solid";
 import { RadioGroup } from "@headlessui/react";
-import { useHistory } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 import { MdOutlineMoneyOffCsred, MdCalendarToday } from "react-icons/md";
 import userContext from "../../context/userContext";
@@ -25,7 +25,7 @@ function classNames(...classes) {
 }
 
 const WorkshopDetails = (props) => {
-  const location = useLocation();
+  const location = useRouter();
 
   const user = useContext(userContext).user;
   const projCon = useContext(projectContext);
@@ -140,7 +140,7 @@ const WorkshopDetails = (props) => {
 
   const [showError, setShowError] = useState(false);
 
-  const history = useHistory();
+  const history = useRouter();
 
   const [selectedDates, setSelectedDates] = useState(["", "", "", ""]);
 

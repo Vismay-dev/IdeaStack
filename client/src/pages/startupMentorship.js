@@ -15,11 +15,11 @@ import TasksAndResources from "./MentorDashboardComponents/TasksAndResources";
 
 import { GiExitDoor } from "react-icons/gi";
 
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "next/router";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import PulseLoader from "react-spinners/PulseLoader";
-import { useLocation } from "react-router-dom";
+import { useRouter } from "next/router";
 import projectContext from "../../context/projectContext";
 
 import CancelModal from "../Modals/CancelModal";
@@ -28,7 +28,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 import userContext from "../../context/userContext";
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 import mentorContext from "../../context/mentorContext.js";
 import mentorAccContext from "../../context/mentorAccContext.js";
 
@@ -36,7 +36,7 @@ import RequestInfo from "../Modals/RequestInfo.js";
 
 const StartupMentorship = () => {
   const mentorCon = useContext(mentorAccContext);
-  const history = useHistory();
+  const history = useRouter();
 
   useEffect(() => {
     AOS.init({
@@ -45,7 +45,7 @@ const StartupMentorship = () => {
   }, []);
 
   const [cancel, setCancel] = useState(false);
-  const location = useLocation();
+  const location = useRouter();
 
   const [index, setIndex] = useState(
     sessionStorage.getItem("index") ? sessionStorage.getItem("index") : null

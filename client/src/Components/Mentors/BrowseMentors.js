@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ExpertDetails from "../Modals/ExpertDetails";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
-import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import { useRouter } from "next/router/cjs/next/router.min";
 import Dropdown from "./Dropdown";
 import logo from "../Modals/logo.png";
 import AOS from "aos";
@@ -15,7 +15,7 @@ export default function BrowseMentors() {
   const [expertId, setExpertId] = useState(null);
   const [experts, setExperts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const location = useLocation();
+  const location = useRouter();
   const [origExperts, setOrigExperts] = useState([]);
 
   useEffect(() => {

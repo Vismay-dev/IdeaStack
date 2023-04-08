@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { GiCash } from "react-icons/gi";
-import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import { useRouter } from "next/router/cjs/next/router.min";
 import ClipLoader from "react-spinners/ClipLoader";
 
 // components
@@ -9,7 +9,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 export default function CardSocialTraffic() {
   const [loading, setLoading] = useState(false);
   const [cardData, setCardData] = useState([]);
-  const location = useLocation();
+  const location = useRouter();
 
   useEffect(() => {
     setCardData([]);

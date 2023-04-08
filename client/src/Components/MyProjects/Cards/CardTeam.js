@@ -4,7 +4,7 @@ import projectContext from "../../../context/projectContext";
 import { RiTeamFill } from "react-icons/ri";
 import LeaveModal from "../../Modals/LeaveModal";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useRouter } from "next/router";
 import userContext from "../../../context/userContext";
 
 export default function CardTeam(props) {
@@ -12,7 +12,7 @@ export default function CardTeam(props) {
   const [proj, setProj] = useState("");
   const user = useContext(userContext).user;
 
-  const location = useLocation();
+  const location = useRouter();
 
   // useEffect(() => {
   //   if (sessionStorage.getItem("token") !== null) {

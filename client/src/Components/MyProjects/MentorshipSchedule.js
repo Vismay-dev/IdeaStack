@@ -1,8 +1,8 @@
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 import { useEffect, useState, useContext } from "react";
 
 const MentorshipSchedule = (props) => {
-  const history = useHistory();
+  const history = useRouter();
   const [loading, setLoading] = useState(true);
   const [numSesh, setNumSesh] = useState(0);
   const [consultant, setConsultant] = useState({});

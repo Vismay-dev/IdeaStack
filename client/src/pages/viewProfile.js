@@ -7,7 +7,7 @@ import Tooltip from "react-power-tooltip";
 import { FaProjectDiagram } from "react-icons/fa";
 import { RiFileList2Fill } from "react-icons/ri";
 import { TiPointOfInterest } from "react-icons/ti";
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 import ClipLoader from "react-spinners/ClipLoader";
 
 import AOS from "aos";
@@ -80,7 +80,7 @@ const ViewProfile = () => {
 
   const [picLoading, setPicLoading] = useState(false);
 
-  const history = useHistory();
+  const history = useRouter();
 
   return (
     <div class="xl:pt-28 pt-28 -mb-72 relative  overflow-hidden bg-gradient-to-r from-gray-200 to-blue-200">

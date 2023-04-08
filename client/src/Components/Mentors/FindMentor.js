@@ -1,8 +1,8 @@
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 import { MdPersonSearch } from "react-icons/md";
 
 const FindMentor = () => {
-  const history = useHistory();
+  const history = useRouter();
 
   return (
     <>

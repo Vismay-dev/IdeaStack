@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 import Dropdown from "./Dropdown";
 import axios from "axios";
 import MoreDetails from "../Modals/MoreDetails";
@@ -18,7 +18,7 @@ const Browse = () => {
     });
   }, [projects]);
 
-  const history = useHistory();
+  const history = useRouter();
   const [origProjects, setOrigProjects] = useState([]);
 
   const [loading, setLoading] = useState(false);

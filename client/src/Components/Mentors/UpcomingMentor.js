@@ -4,7 +4,7 @@ import PaymentsConsultant from "../Modals/PaymentsConsultant";
 import { SiZoom, SiGooglemeet } from "react-icons/si";
 import { MdPersonSearch } from "react-icons/md";
 import ClipLoader from "react-spinners/ClipLoader";
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 import userContext from "../../context/userContext";
 
 const UpcomingMentor = (props) => {
@@ -77,7 +77,7 @@ const UpcomingMentor = (props) => {
     setSessionCompleted(true);
   }
 
-  const history = useHistory();
+  const history = useRouter();
 
   function padTo2Digits(num) {
     return num.toString().padStart(2, "0");

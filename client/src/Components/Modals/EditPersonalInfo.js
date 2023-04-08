@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useContext, useRef } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 import userContext from "../../context/userContext";
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -13,7 +13,7 @@ const EditPersonalInfo = (props) => {
   );
   const inputRef = useRef(null);
 
-  const history = useHistory();
+  const history = useRouter();
 
   const handleChange = (e) => {
     setUser({

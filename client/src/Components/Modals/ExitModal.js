@@ -1,7 +1,7 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect, useState, useRef } from "react";
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 import logo from "./logo.png";
 
 const ExitModal = (props) => {
@@ -11,7 +11,7 @@ const ExitModal = (props) => {
     });
   }, []);
 
-  const history = useHistory();
+  const history = useRouter();
 
   const myRef = useRef();
 

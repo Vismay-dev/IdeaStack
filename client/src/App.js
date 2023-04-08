@@ -6,7 +6,7 @@ import ClockLoader from "react-spinners/ClipLoader";
 import { CircleLoader } from "react-awesome-loaders";
 import { io } from "socket.io-client";
 import Notifications from "../src/Components/Notifications/Notifications";
-import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import { useRouter } from "next/router/cjs/next/router.min";
 import userContext from "./context/userContext";
 import projectContext from "./context/projectContext";
 import mentorContext from "./context/mentorContext";
@@ -29,7 +29,7 @@ function App() {
     }, 2500);
   }, []);
 
-  const location = useLocation();
+  const location = useRouter();
 
   const [mentors, setMentors] = useState([]);
 

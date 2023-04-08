@@ -1,7 +1,7 @@
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 
 const FindMentor = () => {
-  const history = useHistory();
+  const history = useRouter();
 
   return (
     <>

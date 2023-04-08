@@ -1,19 +1,13 @@
 import BrowseWorkshops from "./BrowseWorkshops";
 import Dashboard from "./Dashboard";
 import { useState } from "react";
-import {
-  Switch,
-  Route,
-  Redirect,
-  useHistory,
-  useLocation,
-} from "react-router-dom";
+import { Switch, Route, Redirect, useRouter } from "next/router";
 
 export default function Mentors() {
   const [currChoice, setChoice] = useState(0);
 
-  const history = useHistory();
-  const location = useLocation();
+  const history = useRouter();
+  const location = useRouter();
 
   return (
     <>

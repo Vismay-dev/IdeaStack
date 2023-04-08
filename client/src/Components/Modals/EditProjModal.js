@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useContext, useRef } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 import userContext from "../../context/userContext";
 import Tooltip from "react-power-tooltip";
 import AOS from "aos";

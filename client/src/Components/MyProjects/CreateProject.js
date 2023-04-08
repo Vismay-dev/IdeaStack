@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import CreateProjectModal from "../Modals/CreateModal";
 import projectContext from "../../context/projectContext";
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -29,7 +29,7 @@ const CreateProject = () => {
     });
   }, [showMore]);
 
-  const history = useHistory();
+  const history = useRouter();
 
   return (
     <div class="block mr-10">

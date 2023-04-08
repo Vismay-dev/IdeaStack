@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import { useRouter } from "next/router/cjs/next/router.min";
 import projectContext from "../../context/projectContext";
 import { createSocket } from "../../Socket";
 import AOS from "aos";
@@ -14,7 +14,7 @@ const Notifications = (props) => {
     });
   }, []);
   var currTimeout;
-  const location = useLocation();
+  const location = useRouter();
   let user;
   const userCont = useContext(userContext);
   const projects = useContext(projectContext).projects;

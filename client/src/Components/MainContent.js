@@ -1,27 +1,27 @@
 import NavBar from "./NavMenu/NavBar";
-import Landing from "./Landing/Landing";
-import Browse from "./Browse/Browse";
-import Profile from "./Profile/Profile";
-import MyProjects from "./MyProjects/MyProjects";
-import Onboarding from "./Onboarding/Onboarding";
-import AdminPage from "./adminPage";
-import ViewProfile from "./Profile/ViewProfile";
-import TeamOnboarding from "./TeamOnboarding/TeamOnboarding";
-import { Switch, Route, Redirect, useLocation } from "react-router-dom";
-import Team from "./Team/Team";
-import SignUp from "./SignUp/SignUp";
-import MentorSignUp from "./SignUp/MentorSignUp";
-import WhyUs from "./WhyUs/WhyUs";
-import StartupMentorship from "./Mentors/StartupMentorship";
+import Landing from "../pages/landing";
+import Browse from "../pages/browse";
+import Profile from "../pages/profile";
+import MyProjects from "../pages/myprojects";
+import Onboarding from "../pages/onboarding";
+import AdminPage from "../pages/adminPage";
+import ViewProfile from "../pages/viewProfile";
+import TeamOnboarding from "../pages/teamOnboarding";
+import { Switch, Route, Redirect, useRouter } from "next/router";
+import Team from "../pages/team";
+import SignUp from "../pages/signUp";
+import MentorSignUp from "../pages/mentorSignUp";
+import WhyUs from "../pages/whyUs";
+import StartupMentorship from "../pages/startupMentorship";
 import { io } from "socket.io-client";
 import { useEffect, useContext } from "react";
-import Mentors from "../Components/Mentors/MentorsMain";
+import Mentors from "../pages/mentorsMain";
 import userContext from "../context/userContext";
-import MentorProfile from "./Profile/MentorProfile";
+import MentorProfile from "../pages/mentorProfile";
 import mentorAccContext from "../context/mentorAccContext";
 
 const MainContent = () => {
-  const location = useLocation();
+  const location = useRouter();
   const user = useContext(userContext).user;
   const mentor = useContext(mentorAccContext).mentor;
   return (

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useContext, useState } from "react";
 import AOS from "aos";
-import { useLocation } from "react-router-dom";
+import { useRouter } from "next/router";
 import "aos/dist/aos.css";
 import projectContext from "../../context/projectContext";
 import axios from "axios";
@@ -52,7 +52,7 @@ const ViewApplications = (props) => {
     [myRef, () => props.close()]
   );
 
-  const location = useLocation();
+  const location = useRouter();
 
   const projCon = useContext(projectContext);
   const [applications, setApplications] = useState();

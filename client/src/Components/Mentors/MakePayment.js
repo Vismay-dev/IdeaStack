@@ -1,4 +1,4 @@
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 import PaymentModal from "../Modals/PaymentModal";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -7,7 +7,7 @@ import CancelModal from "../Modals/CancelModal";
 import { TbFreeRights } from "react-icons/";
 
 const MakePayment = (props) => {
-  const history = useHistory();
+  const history = useRouter();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   const [consultant, setConsultant] = useState({});

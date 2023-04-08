@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, Fragment, useContext } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+// import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import LogModal from "../Modals/LogModal";
 import RegModal from "../Modals/RegModal";
 import ExitModal from "../Modals/ExitModal";
@@ -65,7 +66,7 @@ const NavBar = (props) => {
     setIsNotifOpen(false);
   };
 
-  const history = useHistory();
+  const history = useRouter();
 
   const user = useContext(userContext).user;
   const mentor = useContext(mentorAccContext).mentor;
@@ -109,7 +110,7 @@ const NavBar = (props) => {
     setExitModalShow(true);
   };
 
-  const location = useLocation();
+  const location = useRouter();
   const [pathParams, setPathParams] = useState();
 
   useEffect(() => {

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Switch, Route, Redirect, useLocation } from "react-router-dom";
+import { Switch, Route, Redirect, useRouter } from "next/router";
 import RegModal from "../Modals/RegModal";
 import axios from "axios";
 
 const TeamOnboarding = () => {
-  const location = useLocation();
+  const location = useRouter();
   const [projectAdmin, setProjectAdmin] = useState();
   const [userName, setUserName] = useState();
   const [projectId, setProjectId] = useState();

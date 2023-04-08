@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import projectContext from "../../context/projectContext.js";
-import { Route, Switch, Redirect, useLocation } from "react-router-dom";
+import { Route, Switch, Redirect, useRouter } from "next/router";
 // components
 
 import axios from "axios";
@@ -120,7 +120,7 @@ export default function ManageProject() {
     filterByText(e.target.value);
   };
 
-  const location = useLocation();
+  const location = useRouter();
 
   const filterByText = (s) => {
     setAllUsers(origUsers);
