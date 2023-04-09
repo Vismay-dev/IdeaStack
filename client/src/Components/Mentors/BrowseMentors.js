@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ExpertDetails from "../Modals/ExpertDetails";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
-import { useRouter } from "next/router/cjs/next/router.min";
+import { useRouter } from "next/router";
 import Dropdown from "./Dropdown";
 import logo from "../Modals/logo.png";
 import AOS from "aos";

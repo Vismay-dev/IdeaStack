@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { GiCash } from "react-icons/gi";
-import { useRouter } from "next/router/cjs/next/router.min";
+import { useRouter } from "next/router";
 import ClipLoader from "react-spinners/ClipLoader";
 
 // components

@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { useRouter } from "next/router/cjs/next/router.min";
+import { useRouter } from "next/router";
 import projectContext from "../../context/projectContext";
 import { createSocket } from "../../Socket";
 import AOS from "aos";
@@ -25,7 +25,10 @@ const Notifications = (props) => {
   const [showNotif, setShowNotif] = useState(false);
 
   useEffect(() => {
-    if (sessionStorage.getItem("token") !== null) {
+    if (
+      typeof window !== "undefined" &&
+      sessionStorage.getItem("token") !== null
+    ) {
       if (props.user) {
         user = props.user;
       }
@@ -171,7 +174,7 @@ const Notifications = (props) => {
         socket.disconnect();
       };
     }
-  }, [sessionStorage.getItem("token")]);
+  }, []);
 
   return (
     <>

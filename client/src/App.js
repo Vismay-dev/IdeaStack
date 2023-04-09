@@ -1,12 +1,12 @@
-import MainContent from "./Components/MainContent";
-import NavBar from "./Components/NavMenu/NavBar";
-import Footer from "./Components/Footer/Footer";
+import MainContent from "./components/MainContent";
+import NavBar from "./components/NavMenu/NavBar";
+import Footer from "./components/Footer/Footer";
 import { useEffect, useState } from "react";
 import ClockLoader from "react-spinners/ClipLoader";
 import { CircleLoader } from "react-awesome-loaders";
 import { io } from "socket.io-client";
-import Notifications from "../src/Components/Notifications/Notifications";
-import { useRouter } from "next/router/cjs/next/router.min";
+import Notifications from "../src/components/Notifications/Notifications";
+import { useRouter } from "next/router";
 import userContext from "./context/userContext";
 import projectContext from "./context/projectContext";
 import mentorContext from "./context/mentorContext";
@@ -15,10 +15,6 @@ import mentorAccContext from "./context/mentorAccContext";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import axios from "axios";
-
-import ReactGA from "react-ga";
-const TRACKING_ID = "UA-226293861-1"; // OUR_TRACKING_ID
-ReactGA.initialize(TRACKING_ID);
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -69,14 +65,6 @@ function App() {
     "1085293368367-1i2er7o64kk7mtpgdbt92bi6k8r6bjpk.apps.googleusercontent.com";
 
   const [project, setProject] = useState(user.projects);
-
-  useEffect(() => {
-    if (
-      location.pathname !==
-      "/admin-operations-passcode-IdeaStackOperations300305"
-    )
-      ReactGA.pageview(location.pathname);
-  }, [location.pathname]);
 
   useEffect(() => {
     if (sessionStorage.getItem("token") !== null) {

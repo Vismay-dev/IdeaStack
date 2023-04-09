@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { set } from "mongoose";
-import RingLoader from "react-spinners/RingLoader";
+// import RingLoader from "react-spinners/RingLoader";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -269,11 +269,11 @@ const Contact = () => {
               ) : (
                 <div class=" mx-auto py-48 white  text-center relative block justify-center">
                   <div class="bg-orange-600 z-40 relative right-14 bottom-16">
-                    <RingLoader
+                    {/* <RingLoader
                       color={"#364ed7"}
                       loading={loading}
                       size={115}
-                    />
+                    /> */}
                   </div>
                 </div>
               )}

@@ -9,9 +9,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { FcGoogle } from "react-icons/fc";
 
-import ClipLoader from "react-spinners/ClipLoader";
+// import ClipLoader from "react-spinners/ClipLoader";
 import React from "react";
-import ReactGA from "react-ga";
 
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 
@@ -174,15 +173,6 @@ const LogModal = (props) => {
       });
   };
 
-  const useAnalyticsEventTracker = (category = "Logins") => {
-    const eventTracker = (action = "Logged In", label = "Log In Modal") => {
-      ReactGA.event({ category, action, label });
-    };
-    return eventTracker;
-  };
-
-  const gaEventTracker = useAnalyticsEventTracker("Log In");
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setError();
@@ -205,7 +195,6 @@ const LogModal = (props) => {
           localStorage.removeItem("cookieID");
           localStorage.removeItem("cookieExpires");
         }
-        gaEventTracker("Logged In");
         history.push("/profile");
         props.close();
         setLoading(false);
@@ -241,7 +230,6 @@ const LogModal = (props) => {
             localStorage.removeItem("cookieID");
             localStorage.removeItem("cookieExpires");
           }
-          gaEventTracker("Logged In");
           history.push("/profile");
           props.close();
           setLoading(false);
@@ -329,11 +317,11 @@ const LogModal = (props) => {
 
                             {loading ? (
                               <div class="relative mx-auto my-8 mb-10 sm:pb-3 pb-14 pl-2 pt-1.5 sm:left-0 left-1 text-center block justify-center">
-                                <ClipLoader
+                                {/* <ClipLoader
                                   color={"#0b0bbf"}
                                   loading={loading}
                                   size={70}
-                                />
+                                /> */}
                               </div>
                             ) : (
                               <form class="mt-24 space-y-6 pb-2 relative">

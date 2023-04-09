@@ -4,7 +4,7 @@ import { PaperClipIcon } from "@heroicons/react/solid";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { CircleLoader } from "react-awesome-loaders";
-import { useRouter } from "next/router/cjs/next/router.min";
+import { useRouter } from "next/router";
 import { useContext } from "react";
 import projectContext from "../../context/projectContext";
 

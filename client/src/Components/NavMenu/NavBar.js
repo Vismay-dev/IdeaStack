@@ -31,7 +31,6 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 import React from "react";
-import ReactGA from "react-ga";
 import userContext from "../../context/userContext";
 import mentorAccContext from "../../context/mentorAccContext";
 
@@ -81,14 +80,14 @@ const NavBar = (props) => {
           { cookieString: localStorage.getItem("cookieID") }
         )
         .then((res) => {
-          if (res.data !== "Invalid Token" && res.data.isValid) {
+          if (
+            res.data !== "Invalid Token" &&
+            res.data.isValid &&
+            typeof window !== "undefined"
+          ) {
             sessionStorage.setItem("token", res.data.userToken);
             props.loginFunc(res.data.user);
-            ReactGA.event({
-              category: "Log In",
-              action: "Logged In",
-              label: "Cookie Login",
-            });
+
             history.push("/profile");
           } else {
             setLogModalShow(true);
@@ -148,7 +147,7 @@ const NavBar = (props) => {
     });
 
     setPathParams(pathParamArr);
-    if (pathParamArr[1] !== "manage Project") {
+    if (pathParamArr[1] !== "manage Project" && typeof window !== "undefined") {
       sessionStorage.removeItem("managing");
     }
   }, [location.pathname]);
@@ -248,6 +247,7 @@ const NavBar = (props) => {
 
       <div
         class={`mx-auto w-screen lg:px-20 md:px-32 px-10 shadow-lg md:h-fit ${
+          typeof window !== "undefined" &&
           sessionStorage.getItem("token") === null &&
           sessionStorage.getItem("mentorToken") === null
             ? "sm:h-[105px]"
@@ -287,6 +287,7 @@ const NavBar = (props) => {
                      md:w-32 w-28 sm:top-[38px]
                  relative block  mx-auto text-center -mt-16`
                   : `lg:w-40   lg:py-0 py-6 pb-8  lg:top-[41px] sm:top-[36px]  top-[34px] ${
+                      typeof window !== "undefined" &&
                       sessionStorage.getItem("token") === null &&
                       sessionStorage.getItem("mentorToken") === null
                         ? "md:-left-[96px] md:w-32 w-28 sm:top-[40px]"
@@ -295,7 +296,8 @@ const NavBar = (props) => {
               }
             />
           </a>
-          {sessionStorage.getItem("token") === null &&
+          {typeof window !== "undefined" &&
+          sessionStorage.getItem("token") === null &&
           sessionStorage.getItem("mentorToken") === null ? (
             location.pathname.split("/").includes("teamonboarding") ||
             location.pathname === "/mentor" ||
@@ -450,6 +452,7 @@ const NavBar = (props) => {
             <nav class="flex" aria-label="Breadcrumb">
               <ol
                 class={`items-center space-x-0 absolute ${
+                  typeof window !== "undefined" &&
                   sessionStorage.getItem("mentorToken")
                     ? "xl:left-[200px] lg:left-[200px] left-[70px]"
                     : "xl:left-[180px] lg:left-[180px] left-[50px]"
@@ -539,7 +542,8 @@ const NavBar = (props) => {
               {location.pathname === "/onboarding" ||
               location.pathname.includes("viewProfile") ? (
                 ""
-              ) : sessionStorage.getItem("mentorToken") ? (
+              ) : typeof window !== "undefined" &&
+                sessionStorage.getItem("mentorToken") ? (
                 <>
                   <li
                     class="xl:block hidden text-sm relative uppercase  top-[1px] xl:ml-[300px] ml-[300px] mr-9"
@@ -678,7 +682,8 @@ const NavBar = (props) => {
             </nav>
           )}
           <div className="flex items-center justify-end  w-0 xl:left-[280px] lg:left-[220px] md:left-[210px] sm:left-[20px] left-[80px] md:bottom-0 sm:bottom-3 bottom-2 mt-0.5 md:mt-0 ml-1 relative">
-            {sessionStorage.getItem("token") === null &&
+            {typeof window !== "undefined" &&
+            sessionStorage.getItem("token") === null &&
             sessionStorage.getItem("mentorToken") === null ? (
               location.pathname.split("/").includes("teamonboarding") ||
               location.pathname === "/mentor" ||
@@ -866,7 +871,8 @@ const NavBar = (props) => {
             )}
           </div>
 
-          {sessionStorage.getItem("token") === null &&
+          {typeof window !== "undefined" &&
+          sessionStorage.getItem("token") === null &&
           sessionStorage.getItem("mentorToken") === null &&
           !location.pathname.includes("mentor") ? (
             <div class="lg:hidden">
@@ -878,6 +884,7 @@ const NavBar = (props) => {
               >
                 <svg
                   class={`${
+                    typeof window !== "undefined" &&
                     sessionStorage.getItem("token") === null &&
                     sessionStorage.getItem("mentorToken") === null
                       ? "w-9"
@@ -1072,7 +1079,8 @@ const NavBar = (props) => {
                         </li>
                       </ul>
                       <div className="align-middle justify-items-center justify-center mt-7 mb-3.5 bottom-[2px] mx-auto relative">
-                        {sessionStorage.getItem("token") === null &&
+                        {typeof window !== "undefined" &&
+                        sessionStorage.getItem("token") === null &&
                         sessionStorage.getItem("mentorToken") === null ? (
                           location.pathname
                             .split("/")
@@ -1114,7 +1122,9 @@ const NavBar = (props) => {
                             <a
                               onClick={() => {
                                 setIsMenuOpen(false);
-                                sessionStorage.removeItem("token");
+                                if (typeof window !== "undefined") {
+                                  sessionStorage.removeItem("token");
+                                }
                                 history.push("/home");
                               }}
                               className="whitespace-nowrap bottom-1 relative uppercase items-center justify-center px-3 py-2 border border-transparent rounded-sm shadow-sm text-lg  font-semibold hover:cursor-pointer  text-white bg-blue-600 hover:bg-blue-700"

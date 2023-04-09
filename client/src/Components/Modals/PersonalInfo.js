@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo, useContext } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import userContext from "../../context/userContext";
-import ClipLoader from "react-spinners/ClipLoader";
+// import ClipLoader from "react-spinners/ClipLoader";
 
 import { FcGoogle } from "react-icons/fc";
 import { AiFillLinkedin } from "react-icons/ai";
@@ -209,7 +209,7 @@ const PersonalInfo = (props) => {
               >
                 {loading ? (
                   <div class="relative mx-auto my-8 mb-14  mt-40 sm:pb-3 pb-0 sm:mr-0 md:mr-0.5 pt-1.5 sm:left-0  text-center sm:top-[50%] top-[65%] translate-y-[-50%] block justify-center">
-                    <ClipLoader color={"#0b0bbf"} loading={loading} size={70} />
+                    {/* <ClipLoader color={"#0b0bbf"} loading={loading} size={70} /> */}
                   </div>
                 ) : (
                   <>

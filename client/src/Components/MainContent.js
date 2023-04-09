@@ -1,18 +1,18 @@
 import NavBar from "./NavMenu/NavBar";
-import Landing from "../pages/landing";
+import Landing from "../pages";
 import Browse from "../pages/browse";
 import Profile from "../pages/profile";
-import MyProjects from "../pages/myprojects";
+import MyProjects from "../pages/dashboard";
 import Onboarding from "../pages/onboarding";
 import AdminPage from "../pages/adminPage";
 import ViewProfile from "../pages/viewProfile";
-import TeamOnboarding from "../pages/teamOnboarding";
+import TeamOnboarding from "../pages/teamonboarding";
 import { Switch, Route, Redirect, useRouter } from "next/router";
 import Team from "../pages/team";
-import SignUp from "../pages/signUp";
-import MentorSignUp from "../pages/mentorSignUp";
+import SignUp from "../pages/signup";
+import MentorSignUp from "../pages/mentor";
 import WhyUs from "../pages/whyUs";
-import StartupMentorship from "../pages/startupMentorship";
+import StartupMentorship from "../pages/startupmentorship";
 import { io } from "socket.io-client";
 import { useEffect, useContext } from "react";
 import Mentors from "../pages/mentorsMain";
@@ -33,7 +33,7 @@ const MainContent = () => {
             : "sm:top-[90px]"
         }`}
       >
-        <Switch>
+        {/* <Switch>
           <Redirect from="/:url*(/+)" to={location.pathname.slice(0, -1)} />
 
           <Route path="/home">
@@ -60,7 +60,7 @@ const MainContent = () => {
           />
 
           <Route
-            path="/mentor/"
+            path="/mentor"
             render={() =>
               !sessionStorage.getItem("token") ? (
                 <MentorSignUp />
@@ -182,7 +182,7 @@ const MainContent = () => {
               <Redirect to="/profile" />
             )}
           </Route>
-        </Switch>
+        </Switch> */}
         {/* <Landing/> */}
       </div>
     </>
