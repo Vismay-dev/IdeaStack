@@ -15,7 +15,7 @@ import WhyUs from "./WhyUs/WhyUs";
 import StartupMentorship from "./Mentors/StartupMentorship";
 import { io } from "socket.io-client";
 import { useEffect, useContext } from "react";
-import Mentors from "../Components/Mentors/MentorsMain";
+import Mentors from "./Mentors/MentorsMain";
 import userContext from "../context/userContext";
 import MentorProfile from "./Profile/MentorProfile";
 import mentorAccContext from "../context/mentorAccContext";
