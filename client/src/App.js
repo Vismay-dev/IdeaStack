@@ -31,7 +31,7 @@ function App() {
 
   const location = useLocation();
 
-  const [mentors, setMentors] = useState([]);
+  const [mentors, setMentors] = useState();
 
   const [user, setUser] = useState({
     firstName: "",
@@ -49,6 +49,15 @@ function App() {
   const logIn = (userInfo) => {
     setUser(userInfo);
   };
+
+  useEffect(() => {
+    if (
+      !location.pathname.includes("startupmentorship") &&
+      !location.pathname.includes("yourmentor")
+    ) {
+      sessionStorage.removeItem("index");
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     if (sessionStorage.getItem("token") !== null) {
@@ -111,7 +120,7 @@ function App() {
           });
         });
     }
-  }, [location.pathname]);
+  }, [location.pathname, user]);
 
   const [mentor, setMentor] = useState({});
 

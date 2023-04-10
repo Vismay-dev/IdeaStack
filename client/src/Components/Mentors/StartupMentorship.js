@@ -201,20 +201,33 @@ const StartupMentorship = () => {
     setMentorshipRequests(mentorshipRequestsCopy);
   };
 
-  console.log(loading);
-
   useEffect(() => {
-    setLoading(true);
-    effectFunc();
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    if (
+      (sessionStorage.getItem("index") &&
+        index &&
+        currentMentees &&
+        projCon.project &&
+        JSON.stringify(projCon.project._id) !==
+          JSON.stringify(
+            currentMentees[sessionStorage.getItem("index")]._id
+          )) ||
+      !currentMentees
+    ) {
+      setLoading(true);
+      effectFunc();
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }
   }, [location.pathname, projCon.project]); // removed mentorCon.mentor from here
 
-  console.log(loading);
-
   useEffect(() => {
-    if ((sessionStorage.getItem("index") || index) && currentMentees) {
+    if (
+      (sessionStorage.getItem("index") || index) &&
+      currentMentees &&
+      JSON.stringify(projCon.project._id) !==
+        JSON.stringify(currentMentees[sessionStorage.getItem("index")]._id)
+    ) {
       projCon.setProject(currentMentees[sessionStorage.getItem("index")]);
     }
   }, [index, location.pathname]);
@@ -928,7 +941,8 @@ const StartupMentorship = () => {
             )}
           </>
         )}
-        {loading || (mentorshipRequests && mentorshipRequests.length > 0) ? (
+        {!sessionStorage.getItem("index") &&
+        (loading || (mentorshipRequests && mentorshipRequests.length > 0)) ? (
           <div class="w-full sm:px-7 px-3">
             <hr class="border-t-[2px]  border-dashed border-indigo-600 -mt-2 mb-8 block w-[60%] mx-auto" />
             <h2 class="font-bold mx-auto text-center tracking-wide mb-6 sm:text-[27px] text-[24px]">

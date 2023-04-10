@@ -56,9 +56,53 @@ const Dashboard = () => {
 
   const [loading, setLoading] = useState(true);
 
+  // useEffect(() => {
+  //   if (project && !mentorsRequested) {
+  //     setLoading(true);
+
+  //     setTimeout(() => {
+  //       setLoading(false);
+  //     }, 1000);
+  //   }
+  // }, [location.pathname]);
+
   useEffect(() => {
-    if (project) {
+    if (mentorCon.mentors && mentorsRequested && mentorsMatched) {
+      setLoading(false);
+    }
+    if (project && (!mentorCon.mentors || !mentorsRequested)) {
       setLoading(true);
+
+      let mentorsMatchedInput = project.mentorsMatched
+        ? project.mentorsMatched
+        : [];
+
+      let mentorsMatchedCopy = [];
+
+      for (let j = 0; j < mentorsMatchedInput.length; j++) {
+        axios
+          .post(
+            process.env.NODE_ENV === "production"
+              ? "https://ideastack.herokuapp.com/api/user/getWorkshop"
+              : "http://localhost:4000/api/user/getWorkshop",
+            {
+              token: sessionStorage.getItem("token"),
+              workshopId: mentorsMatchedInput[j].mentorId,
+            }
+          )
+          .then((res) => {
+            mentorsMatchedCopy.push({
+              ...mentorsMatchedInput[j],
+              ...res.data,
+            });
+            mentorCon.setMentors(mentorsMatchedCopy);
+          })
+          .catch((err) => {
+            console.log(err.response);
+          });
+      }
+
+      setMentorsMatched(mentorsMatchedCopy);
 
       let mentorsRequestedInput = project.mentorsRequested
         ? project.mentorsRequested.filter(
@@ -90,62 +134,12 @@ const Dashboard = () => {
       }
 
       setMentorsRequested(mentorsRequestedCopy);
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-    }
-  }, [location.pathname]);
-
-  useEffect(() => {
-    if (project) {
-      setLoading(true);
-
-      let mentorsMatchedInput = project.mentorsMatched
-        ? project.mentorsMatched
-        : [];
-      let mentorsRequestedInput = project.mentorsRequested
-        ? project.mentorsRequested.filter(
-            (mentor) =>
-              !project.mentorsMatched
-                .map((mentorObj) => mentorObj.mentorId)
-                .includes(mentor)
-          )
-        : [];
-
-      let mentorsMatchedCopy = [];
-
-      for (let j = 0; j < mentorsMatchedInput.length; j++) {
-        axios
-          .post(
-            process.env.NODE_ENV === "production"
-              ? "https://ideastack.herokuapp.com/api/user/getWorkshop"
-              : "http://localhost:4000/api/user/getWorkshop",
-            {
-              token: sessionStorage.getItem("token"),
-              workshopId: mentorsMatchedInput[j].mentorId,
-            }
-          )
-          .then((res) => {
-            mentorsMatchedCopy.push({
-              ...mentorsMatchedInput[j],
-              ...res.data,
-            });
-            console.log(res.data);
-            mentorCon.setMentors(mentorsMatchedCopy);
-            setMentorsMatched(mentorsMatchedCopy);
-          })
-          .catch((err) => {
-            console.log(err.response);
-          });
-      }
 
       setTimeout(() => {
         setLoading(false);
       }, 1000);
     }
   }, [location.pathname, projCon.project]);
-
-  console.log(loading);
 
   const [sessionsConfirmed, setSessionsConfirmed] = useState(false);
 
@@ -163,17 +157,6 @@ const Dashboard = () => {
           <p class=" text-xl bg-gradient-to-r mt-2.5 px-5 mb-1 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit">
             Learn from Industry Leaders
           </p>
-        ) : loading ? (
-          <div className="w-full  mb-14 xl:mb-0 px-3">
-            <div class="relative mx-auto my-8 mb-16 right-1 lg:py-[70px] lg:pb-[140px] py-[90px] sm:pb-[120px] pb-[100px] sm:left-0 left-1 text-center block justify-center">
-              <PulseLoader
-                color={"#1a52c9"}
-                loading={loading}
-                size={25}
-                margin={10}
-              />
-            </div>
-          </div>
         ) : (
           <p class=" md:text-2xl sm:text-xl text-lg bg-gradient-to-r lg:mt-6 -mt-2  lg:mb-1 mb-4 relative top-4 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit">
             {mentorCon.mentors[index].name + " X " + project.name}
@@ -201,7 +184,7 @@ const Dashboard = () => {
           </div>
         ) : (
           <>
-            {mentorCon.mentors.length > 0 ? (
+            {mentorCon.mentors && mentorCon.mentors.length > 0 ? (
               sessionStorage.getItem("index") == null && !index ? (
                 <>
                   <p
@@ -908,7 +891,8 @@ const Dashboard = () => {
             )}
           </>
         )}
-        {loading || (mentorsRequested && mentorsRequested.length > 0) ? (
+        {!sessionStorage.getItem("index") &&
+        (loading || (mentorsRequested && mentorsRequested.length > 0)) ? (
           <div class="w-full sm:px-7 px-3">
             <hr class="border-t-[2px]  border-dashed border-indigo-600 -mt-2 mb-8 block w-[60%] mx-auto" />
             <h2 class="font-bold mx-auto text-center tracking-wide  sm:text-[32px] relative top-1 text-[28px]">
