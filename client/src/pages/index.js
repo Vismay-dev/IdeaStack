@@ -311,9 +311,9 @@ const Landing = () => {
 
   return (
     <>
-      <div class="lg:pt-44 md:pt-48 sm:pt-[156px] pt-[126px] lg:pb-12 pb-0 overflow-hidden bg-gradient-to-r from-gray-200 to-blue-200">
+      <div class="lg:pt-[280px] md:pt-[220px] sm:pt-[156px] pt-[126px] lg:pb-8 pb-0 overflow-hidden bg-gradient-to-r from-gray-200 to-blue-200">
         <div class="  sm:left-14 left-16 xl:px-14 sm:px-20 px-12 xl:left-12 xl:bottom-0 bottom-4 relative container mx-auto flex lg:pt-0 pt-2 flex-wrap flex-col md:flex-row items-center">
-          <div class="flex tracking-[0.015em] flex-col  xl:w-[43%] lg:w-[46%] relative xl:right-[365px] xl:-bottom-2 lg:-mt-14 lg:-bottom-5 lg:right-[280px] md:right-6 sm:right-40 right-16 bottom-5 md:pl-0 sm:pl-8 pl-0 sm:w-full w-full mx-auto justify-center items-start lg:text-left text-center">
+          <div class="flex tracking-[0.015em] flex-col  xl:w-[43%] lg:w-[46%] relative xl:right-[365px] xl:-bottom-2 lg:-mt-14 lg:-bottom-5 lg:right-[260px] md:right-6 sm:right-40 right-16 bottom-5 md:pl-0 sm:pl-8 pl-0 sm:w-full w-full mx-auto justify-center items-start lg:text-left text-center">
             <p class="uppercase font-medium  text-sm  lg:text-left text-center xl:right-0 lg:right-5 md:right-20 sm:-right-12 sm:left-20 md:-left-[42px] lg:-left-8 xl:left-[-1px] right-0 mx-auto  top-5 -mt-10   relative md:w-full w-fit">
               Mentorship & Networking{" "}
               <span class="sm:inline hidden">Platform</span>
@@ -339,11 +339,11 @@ const Landing = () => {
           <div class="w-full md:w-3/5 py-6 text-center  ">
             <img
               class="left-1/2 -mt-96 bottom-32 absolute w-3/4 z-0 -right-20 transform filter brightness-95 xl:visible invisible rotate-180 contrast-90"
-              src={"/imgs/net.png"}
+              src={"/images/net.png"}
             />
             <img
               class="bottom-1 absolute z-10 xl:-top-32 -top-24 xl:left-1/2 left-[51%] xl:w-1/3 w-2/5 lg:visible invisible  "
-              src={"/imgs/mainimg.png"}
+              src={"/images/mainimg.png"}
             />
           </div>
         </div>
@@ -701,7 +701,7 @@ const Landing = () => {
           <div class="group relative bg-gradient-to-r from-indigo-100 to-blue-50  transition z-[1] shadow-2xl shadow-gray-600/10">
             <div class="relative space-y-8 py-12 p-8">
               <img
-                src={"/imgs/meeting.png"}
+                src={"/images/meeting.png"}
                 class="w-16 mx-auto"
                 width="512"
                 height="512"
@@ -723,7 +723,7 @@ const Landing = () => {
           <div class="group relative bg-gradient-to-r from-blue-50 to-indigo-100  transition z-[2] shadow-2xl shadow-gray-600/10">
             <div class="relative space-y-8 py-12 p-8">
               <img
-                src={"/imgs/networking.png"}
+                src={"/images/networking.png"}
                 class="w-16 mx-auto"
                 width="512"
                 height="512"
@@ -746,7 +746,7 @@ const Landing = () => {
           <div class="group relative  bg-gradient-to-r from-indigo-100 to-blue-100  transition z-[2] shadow-2xl shadow-gray-600/10">
             <div class="relative space-y-8 py-12 p-8 transition duration-300 ">
               <img
-                src={"/imgs/management.png"}
+                src={"/images/management.png"}
                 class="w-16 mx-auto"
                 width="512"
                 height="512"
@@ -1131,7 +1131,7 @@ const Landing = () => {
             <div className="relative">
               <img
                 className="inset-0  object-contain w-fit block mx-auto rounded shadow-lg h-96 lg:mt-0 mt-16 lg:absolute lg:h-full"
-                src={"/imgs/steps.jpg"}
+                src={"/images/steps.jpg"}
                 alt=""
               />
             </div>
@@ -1161,7 +1161,7 @@ const Landing = () => {
               className="col-span-1 sm:col-span-1 lg:col-span-1 md:py-12 py-[62px] px-8 flex hover:cursor-pointer hover:shadow-xl  justify-center items-center bg-white shadow-md rounded-md border-t-2 border-gray-300"
             >
               <img
-                src={"/imgs/atplogo.png"}
+                src={"/images/atplogo.png"}
                 alt=""
                 className="md:max-h-[110px] md:w-auto w-[270px]  bottom-1 relative"
               />
@@ -1189,7 +1189,7 @@ const Landing = () => {
               className="col-span-1 sm:col-span-1 lg:col-span-1 lg:py-12 md:py-[90px] md:pb-[100px] py-[80px] pb-[90px] px-8 flex hover:cursor-pointer hover:shadow-xl justify-center items-center bg-white shadow-md rounded-md border-t-2 border-gray-300"
             >
               <img
-                src={"/imgs/miscible-mono.png"}
+                src={"/images/miscible-mono.png"}
                 alt=""
                 className="lg:max-h-40 lg:w-auto md:w-[300px] w-[200px] bottom-1 relative"
               />

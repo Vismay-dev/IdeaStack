@@ -1,4 +1,3 @@
-import logo from "../NavMenu/logo2.jpg";
 import { useRouter } from "next/router";
 
 const Footer = () => {
@@ -15,7 +14,7 @@ const Footer = () => {
       <div className="container flex flex-wrap items-center justify-center mx-auto space-y-4 sm:justify-between sm:space-y-0">
         <div className="flex flex-row pr-3 relative lg:top-0 sm:-top-3 top-0 lg:right-0 right-44  lg:mx-0 mx-auto space-x-4 sm:space-x-8">
           <img
-            src={logo}
+            src={"./images/logo2.jpg"}
             className="w-36 rounded-lg p-1 shadow-md lg:mr-16 mr-60 bg-white  shadow-gray-900 lg:visible invisible"
             style={{ width: "148px", height: "82px" }}
           ></img>

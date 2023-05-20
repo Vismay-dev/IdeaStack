@@ -23,7 +23,7 @@ function App({ Component, pageProps }) {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 2500);
+    }, 0);
   }, []);
 
   const location = useRouter();
@@ -66,14 +66,6 @@ function App({ Component, pageProps }) {
     "1085293368367-1i2er7o64kk7mtpgdbt92bi6k8r6bjpk.apps.googleusercontent.com";
 
   const [project, setProject] = useState(user.projects);
-
-  useEffect(() => {
-    if (
-      location.pathname !==
-      "/admin-operations-passcode-IdeaStackOperations300305"
-    )
-      ReactGA.pageview(location.pathname);
-  }, [location.pathname]);
 
   useEffect(() => {
     if (sessionStorage.getItem("token") !== null) {
@@ -153,7 +145,7 @@ function App({ Component, pageProps }) {
                   {!loading ? (
                     <>
                       <NavBar loginFunc={logIn} />
-                      <Notifications user={user} />
+                      {/* <Notifications user={user} /> */}
                       <Component {...pageProps} />
                       {/* <MainContent class="-z-10" /> */}
                       <Footer />

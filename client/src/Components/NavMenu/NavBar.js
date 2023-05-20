@@ -24,7 +24,6 @@ import {
   XIcon,
   UserGroupIcon,
 } from "@heroicons/react/outline";
-import logo from "./logo.png";
 import { Popover, Transition } from "@headlessui/react";
 
 import AOS from "aos";
@@ -33,6 +32,9 @@ import "aos/dist/aos.css";
 import React from "react";
 import userContext from "../../context/userContext";
 import mentorAccContext from "../../context/mentorAccContext";
+
+import Image from "next/image";
+import logo from "../../../public/images/logo.png";
 
 const NavBar = (props) => {
   useEffect(() => {
@@ -275,10 +277,9 @@ const NavBar = (props) => {
                 : "cursor-pointer"
             } `}
           >
-            <img
+            <div
               data-aos={"fade-left"}
               data-aos-once="true"
-              src={logo}
               className={
                 location.pathname.split("/").includes("teamonboarding") ||
                 location.pathname === "/mentor" ||
@@ -294,7 +295,30 @@ const NavBar = (props) => {
                         : "md:-left-[120px] sm:visible invisible  md:top-[30px] w-28 md:w-[123px] md:mb-[7px] lg:mb-0 sm:top-[30px]"
                     } xl:-left-10 lg:-left-12  -left-[10px] relative block  -mt-16 lg:top-10`
               }
-            />
+            >
+              <Image src={"/images/logo.png"} alt="IdeaStack Logo" fill />
+            </div>
+
+            {/* <img
+              data-aos={"fade-left"}
+              data-aos-once="true"
+              src={"./images/logo.png"}
+              className={
+                location.pathname.split("/").includes("teamonboarding") ||
+                location.pathname === "/mentor" ||
+                location.pathname === "/mentor/"
+                  ? `lg:w-40   lg:py-0 py-6 pb-8  lg:top-[41px]  top-[34px] 
+                     md:w-32 w-28 sm:top-[38px]
+                 relative block  mx-auto text-center -mt-16`
+                  : `lg:w-40   lg:py-0 py-6 pb-8  lg:top-[41px] sm:top-[36px]  top-[34px] ${
+                      typeof window !== "undefined" &&
+                      sessionStorage.getItem("token") === null &&
+                      sessionStorage.getItem("mentorToken") === null
+                        ? "md:-left-[96px] md:w-32 w-28 sm:top-[40px]"
+                        : "md:-left-[120px] sm:visible invisible  md:top-[30px] w-28 md:w-[123px] md:mb-[7px] lg:mb-0 sm:top-[30px]"
+                    } xl:-left-10 lg:-left-12  -left-[10px] relative block  -mt-16 lg:top-10`
+              }
+            /> */}
           </a>
           {typeof window !== "undefined" &&
           sessionStorage.getItem("token") === null &&
@@ -924,10 +948,9 @@ const NavBar = (props) => {
                           title="Company"
                           class="inline-flex items-center mb-5"
                         >
-                          <img
-                            src={logo}
-                            className="w-40 md:w-48 absolute -mt-16 top-9 sm:visible invisible "
-                          />
+                          <div className="w-40 md:w-48 absolute -mt-16 top-9 sm:visible invisible ">
+                            <Image src={logo} alt="IdeaStack Logo" fill />
+                          </div>
                         </a>
                       </div>
                       <div>
