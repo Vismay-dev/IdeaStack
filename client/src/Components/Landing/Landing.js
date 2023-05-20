@@ -11,9 +11,7 @@ import networking from "./images/networking.png";
 
 import steps from "./images/steps.jpg";
 
-import Contact from "./Contact";
-
-import { useEffect } from "react";
+import { useEffect, Suspense, lazy } from "react";
 
 import { GrNetwork, GrUserExpert } from "react-icons/gr";
 import { GiArchiveResearch } from "react-icons/gi";
@@ -21,6 +19,8 @@ import { FaUserTie } from "react-icons/fa";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
+
+const Contact = lazy(() => import("./Contact"));
 
 const Landing = () => {
   useEffect(() => {
@@ -1209,7 +1209,9 @@ const Landing = () => {
         </div>
       </div>
 
-      <Contact class="-mt-4 mb-2 relative" />
+      <Suspense>
+        <Contact class="-mt-4 mb-2 relative" />
+      </Suspense>
     </>
   );
 };

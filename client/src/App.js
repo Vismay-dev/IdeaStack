@@ -1,11 +1,8 @@
-import MainContent from "./Components/MainContent";
-import NavBar from "./Components/NavMenu/NavBar";
-import Footer from "./Components/Footer/Footer";
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
+
 import ClockLoader from "react-spinners/ClipLoader";
 import { CircleLoader } from "react-awesome-loaders";
 import { io } from "socket.io-client";
-import Notifications from "../src/Components/Notifications/Notifications";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 import userContext from "./context/userContext";
 import projectContext from "./context/projectContext";
@@ -13,10 +10,16 @@ import mentorContext from "./context/mentorContext";
 import mentorAccContext from "./context/mentorAccContext";
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
-
 import axios from "axios";
-
 import ReactGA from "react-ga";
+
+const NavBar = lazy(() => import("./Components/NavMenu/NavBar"));
+const Notifications = lazy(() =>
+  import("../src/Components/Notifications/Notifications")
+);
+const MainContent = lazy(() => import("./Components/MainContent"));
+const Footer = lazy(() => import("./Components/Footer/Footer"));
+
 const TRACKING_ID = "UA-226293861-1"; // OUR_TRACKING_ID
 ReactGA.initialize(TRACKING_ID);
 
@@ -161,24 +164,34 @@ function App() {
                     : " max-h-full"
                 }`}
               >
-                {!loading ? (
-                  <>
-                    <NavBar loginFunc={logIn} />
-                    <Notifications user={user} />
-                    <MainContent class="-z-10" />
-                    <Footer />
-                  </>
-                ) : (
-                  <div class=" w-[217px]  m-0 relative mx-auto sm:top-[48%] top-[45%]  translate-y-[-50%]  sm:pl-3 pl-2">
-                    <CircleLoader
-                      meshColor={"#6366F1"}
-                      lightColor={"#E0E7FF"}
-                      duration={1.5}
-                      desktopSize={"60px"}
-                      mobileSize={"60px"}
-                    />
-                  </div>
-                )}
+                <>
+                  <Suspense
+                    fallback={
+                      <div class=" w-[217px]  m-0 relative mx-auto sm:top-[48%] top-[45%]  translate-y-[-50%]  sm:pl-3 pl-2">
+                        <CircleLoader
+                          meshColor={"#6366F1"}
+                          lightColor={"#E0E7FF"}
+                          duration={1.5}
+                          desktopSize={"60px"}
+                          mobileSize={"60px"}
+                        />
+                      </div>
+                    }
+                  >
+                    <Suspense>
+                      <NavBar loginFunc={logIn} />
+                    </Suspense>
+                    <Suspense>
+                      <Notifications user={user} />
+                    </Suspense>
+                    <Suspense>
+                      <MainContent class="-z-10" />
+                    </Suspense>
+                    <Suspense>
+                      <Footer />
+                    </Suspense>
+                  </Suspense>
+                </>
               </div>
             </userContext.Provider>
           </projectContext.Provider>

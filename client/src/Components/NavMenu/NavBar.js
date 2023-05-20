@@ -1,13 +1,15 @@
-import { useState, useRef, useEffect, Fragment, useContext } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  Fragment,
+  useContext,
+  lazy,
+  Suspense,
+} from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import LogModal from "../Modals/LogModal";
-import RegModal from "../Modals/RegModal";
-import ExitModal from "../Modals/ExitModal";
-import SideModal from "../Modals/SideModal";
-import NotifModal from "../Modals/NotifModal";
 import axios from "axios";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-
 import {
   BookmarkAltIcon,
   CalendarIcon,
@@ -31,8 +33,15 @@ import "aos/dist/aos.css";
 
 import React from "react";
 import ReactGA from "react-ga";
+
 import userContext from "../../context/userContext";
 import mentorAccContext from "../../context/mentorAccContext";
+
+const LogModal = lazy(() => import("../Modals/LogModal"));
+const RegModal = lazy(() => import("../Modals/RegModal"));
+const ExitModal = lazy(() => import("../Modals/ExitModal"));
+const SideModal = lazy(() => import("../Modals/SideModal"));
+const NotifModal = lazy(() => import("../Modals/NotifModal"));
 
 const NavBar = (props) => {
   useEffect(() => {
@@ -236,14 +245,40 @@ const NavBar = (props) => {
   return (
     <div class="z-50">
       {logModalShow ? (
-        <LogModal close={closeFuncLog} logFunc={props.loginFunc} />
+        <Suspense>
+          <LogModal close={closeFuncLog} logFunc={props.loginFunc} />
+        </Suspense>
       ) : (
         ""
       )}
-      {regModalShow ? <RegModal close={closeFuncReg} /> : ""}
-      {exitModalShow ? <ExitModal close={closeFuncOut} /> : ""}
-      {isNotifOpen ? <NotifModal close={closeFuncNotif} /> : ""}
-      {isSideMenuOpen ? <SideModal close={closeFuncSide} /> : ""}
+      {regModalShow ? (
+        <Suspense>
+          <RegModal close={closeFuncReg} />
+        </Suspense>
+      ) : (
+        ""
+      )}
+      {exitModalShow ? (
+        <Suspense>
+          <ExitModal close={closeFuncOut} />
+        </Suspense>
+      ) : (
+        ""
+      )}
+      {isNotifOpen ? (
+        <Suspense>
+          <NotifModal close={closeFuncNotif} />{" "}
+        </Suspense>
+      ) : (
+        ""
+      )}
+      {isSideMenuOpen ? (
+        <Suspense>
+          <SideModal close={closeFuncSide} />{" "}
+        </Suspense>
+      ) : (
+        ""
+      )}
 
       <div
         class={`mx-auto w-screen lg:px-20 md:px-32 px-10 shadow-lg md:h-fit ${

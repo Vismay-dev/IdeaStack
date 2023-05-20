@@ -13,6 +13,7 @@ const cloudinary = require("cloudinary");
 const session = require("express-session");
 const MongoDBSession = require("connect-mongodb-session")(session);
 const socketIo = require("socket.io");
+const compression = require("compression");
 
 dotenv.config();
 
@@ -35,6 +36,8 @@ mongoose
 mongoose.connection.on("error", function (err) {
   console.log(err);
 });
+
+app.use(compression());
 
 app.use(express.json());
 let linkUrl =
@@ -80,6 +83,12 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+app.get("*.js", function (req, res, next) {
+  req.url = req.url + ".gz";
+  res.set("Content-Encoding", "gzip");
+  next();
+});
 
 app.use("/api/user", RoutesAPIUser);
 app.use("/api/project", RoutesAPIProject);

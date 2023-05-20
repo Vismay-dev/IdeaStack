@@ -16,6 +16,7 @@
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "cloudinary": "^1.28.1",
+    "compression": "^1.7.4",
     "connect-flash": "^0.1.1",
     "connect-mongodb-session": "^3.1.1",
     "cookie-parser": "^1.4.6",
@@ -51,5 +52,9 @@
   "bugs": {
     "url": "https://github.com/Vismay-dev/IdeaStack-Prelaunch/issues"
   },
-  "homepage": "https://github.com/Vismay-dev/IdeaStack-Prelaunch#readme"
+  "homepage": "https://github.com/Vismay-dev/IdeaStack-Prelaunch#readme",
+  "devDependencies": {
+    "webpack": "^5.83.1",
+    "webpack-cli": "^5.1.1"
+  }
 }
