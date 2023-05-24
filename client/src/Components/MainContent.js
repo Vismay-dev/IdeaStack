@@ -5,20 +5,35 @@ import userContext from "../context/userContext";
 import MentorProfile from "./Profile/MentorProfile";
 import mentorAccContext from "../context/mentorAccContext";
 
-const Mentors = lazy(() => import("./Mentors/MentorsMain"));
-const StartupMentorship = lazy(() => import("./Mentors/StartupMentorship"));
-const WhyUs = lazy(() => import("./WhyUs/WhyUs"));
-const MentorSignUp = lazy(() => import("./SignUp/MentorSignUp"));
-const SignUp = lazy(() => import("./SignUp/SignUp"));
-const Team = lazy(() => import("./Team/Team"));
-const TeamOnboarding = lazy(() => import("./TeamOnboarding/TeamOnboarding"));
-const ViewProfile = lazy(() => import("./Profile/ViewProfile"));
-// const AdminPage = lazy(() => import("./adminPage"));
-const Landing = lazy(() => import("./Landing/Landing"));
-const Browse = lazy(() => import("./Browse/Browse"));
-const Profile = lazy(() => import("./Profile/Profile"));
-const MyProjects = lazy(() => import("./MyProjects/MyProjects"));
-const Onboarding = lazy(() => import("./Onboarding/Onboarding"));
+// const Mentors = lazy(() => import("./Mentors/MentorsMain"));
+// const StartupMentorship = lazy(() => import("./Mentors/StartupMentorship"));
+// const WhyUs = lazy(() => import("./WhyUs/WhyUs"));
+// const MentorSignUp = lazy(() => import("./SignUp/MentorSignUp"));
+// const SignUp = lazy(() => import("./SignUp/SignUp"));
+// const Team = lazy(() => import("./Team/Team"));
+// const TeamOnboarding = lazy(() => import("./TeamOnboarding/TeamOnboarding"));
+// const ViewProfile = lazy(() => import("./Profile/ViewProfile"));
+// // const AdminPage = lazy(() => import("./adminPage"));
+// const Landing = lazy(() => import("./Landing/Landing"));
+// const Browse = lazy(() => import("./Browse/Browse"));
+// const Profile = lazy(() => import("./Profile/Profile"));
+// const MyProjects = lazy(() => import("./MyProjects/MyProjects"));
+// const Onboarding = lazy(() => import("./Onboarding/Onboarding"));
+
+import Landing from "./Landing/Landing";
+import Browse from "./Browse/Browse";
+import Profile from "./Profile/Profile";
+import MyProjects from "./MyProjects/MyProjects";
+import Onboarding from "./Onboarding/Onboarding";
+import AdminPage from "./adminPage";
+import ViewProfile from "./Profile/ViewProfile";
+import TeamOnboarding from "./TeamOnboarding/TeamOnboarding";
+import Team from "./Team/Team";
+import SignUp from "./SignUp/SignUp";
+import MentorSignUp from "./SignUp/MentorSignUp";
+import WhyUs from "./WhyUs/WhyUs";
+import StartupMentorship from "./Mentors/StartupMentorship";
+import Mentors from "./Mentors/MentorsMain";
 
 const MainContent = () => {
   const location = useLocation();
@@ -38,32 +53,23 @@ const MainContent = () => {
 
           <Route path="/home">
             {!sessionStorage.getItem("token") ? (
-              <Suspense>
-                <Landing />
-              </Suspense>
+              //
+              <Landing />
             ) : (
+              //
               <Redirect to="/" />
             )}
           </Route>
 
           <Route path="/team">
-            {!sessionStorage.getItem("token") ? (
-              <Suspense>
-                <Team />
-              </Suspense>
-            ) : (
-              <Redirect to="/" />
-            )}
+            {!sessionStorage.getItem("token") ? <Team /> : <Redirect to="/" />}
           </Route>
 
           <Route
             path="/signup"
             render={() =>
               !sessionStorage.getItem("token") ? (
-                <Suspense>
-                  {" "}
-                  <SignUp />
-                </Suspense>
+                <SignUp />
               ) : (
                 <Redirect to="/" />
               )
@@ -74,9 +80,7 @@ const MainContent = () => {
             path="/mentor/"
             render={() =>
               !sessionStorage.getItem("token") ? (
-                <Suspense>
-                  <MentorSignUp />
-                </Suspense>
+                <MentorSignUp />
               ) : (
                 <Redirect to="/" />
               )
@@ -87,9 +91,7 @@ const MainContent = () => {
             path="/mentorProfile"
             render={() =>
               sessionStorage.getItem("mentorToken") && mentor ? (
-                <Suspense>
-                  <MentorProfile />
-                </Suspense>
+                <MentorProfile />
               ) : (
                 <Redirect to="/mentor" />
               )
@@ -97,20 +99,12 @@ const MainContent = () => {
           />
 
           <Route path="/whyUs">
-            {!sessionStorage.getItem("token") ? (
-              <Suspense>
-                <WhyUs />
-              </Suspense>
-            ) : (
-              <Redirect to="/" />
-            )}
+            {!sessionStorage.getItem("token") ? <WhyUs /> : <Redirect to="/" />}
           </Route>
 
           <Route path="/teamonboarding">
             {!sessionStorage.getItem("token") ? (
-              <Suspense>
-                <TeamOnboarding />
-              </Suspense>
+              <TeamOnboarding />
             ) : (
               <Redirect to="/" />
             )}
@@ -119,9 +113,7 @@ const MainContent = () => {
           <Route path="/onboarding">
             {sessionStorage.getItem("token") && user ? (
               !user.initialized ? (
-                <Suspense>
-                  <Onboarding />
-                </Suspense>
+                <Onboarding />
               ) : (
                 <Redirect to="/profile" />
               )
@@ -135,9 +127,7 @@ const MainContent = () => {
             render={() =>
               sessionStorage.getItem("token") && user ? (
                 user.initialized ? (
-                  <Suspense>
-                    <Profile />
-                  </Suspense>
+                  <Profile />
                 ) : (
                   <Redirect to="/onboarding" />
                 )
@@ -149,23 +139,14 @@ const MainContent = () => {
           <Route
             path="/browse"
             render={() =>
-              sessionStorage.getItem("token") ? (
-                <Suspense>
-                  <Browse />
-                </Suspense>
-              ) : (
-                <Redirect to="/" />
-              )
+              sessionStorage.getItem("token") ? <Browse /> : <Redirect to="/" />
             }
           />
           <Route
             path="/dashboard"
             render={() =>
               sessionStorage.getItem("token") ? (
-                <Suspense>
-                  {" "}
-                  <MyProjects />
-                </Suspense>
+                <MyProjects />
               ) : (
                 <Redirect to="/" />
               )
@@ -176,10 +157,7 @@ const MainContent = () => {
             path="/viewProfile"
             render={() =>
               localStorage.getItem("viewToken") ? (
-                <Suspense>
-                  {" "}
-                  <ViewProfile />
-                </Suspense>
+                <ViewProfile />
               ) : (
                 <Redirect to="/" />
               )
@@ -190,9 +168,7 @@ const MainContent = () => {
             path="/mentorship"
             render={() =>
               sessionStorage.getItem("token") ? (
-                <Suspense>
-                  <Mentors />
-                </Suspense>
+                <Mentors />
               ) : (
                 <Redirect to="/" />
               )
@@ -203,9 +179,7 @@ const MainContent = () => {
             path="/startupmentorship"
             render={() =>
               sessionStorage.getItem("mentorToken") ? (
-                <Suspense>
-                  <StartupMentorship />
-                </Suspense>
+                <StartupMentorship />
               ) : (
                 <Redirect to="/mentor" />
               )

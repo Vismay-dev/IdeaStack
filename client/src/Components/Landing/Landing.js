@@ -20,7 +20,8 @@ import { FaUserTie } from "react-icons/fa";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-const Contact = lazy(() => import("./Contact"));
+// const Contact = lazy(() => import("./Contact"));
+import Contact from "./Contact";
 
 const Landing = () => {
   useEffect(() => {
@@ -1209,9 +1210,9 @@ const Landing = () => {
         </div>
       </div>
 
-      <Suspense>
-        <Contact class="-mt-4 mb-2 relative" />
-      </Suspense>
+      {/* <Suspense> */}
+      <Contact class="-mt-4 mb-2 relative" />
+      {/* </Suspense> */}
     </>
   );
 };

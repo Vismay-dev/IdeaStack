@@ -1,12 +1,4 @@
-import {
-  useState,
-  useRef,
-  useEffect,
-  Fragment,
-  useContext,
-  lazy,
-  Suspense,
-} from "react";
+import { useState, useRef, useEffect, Fragment, useContext, lazy } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import axios from "axios";
 import { ChevronDownIcon } from "@heroicons/react/solid";
@@ -37,11 +29,17 @@ import ReactGA from "react-ga";
 import userContext from "../../context/userContext";
 import mentorAccContext from "../../context/mentorAccContext";
 
-const LogModal = lazy(() => import("../Modals/LogModal"));
-const RegModal = lazy(() => import("../Modals/RegModal"));
-const ExitModal = lazy(() => import("../Modals/ExitModal"));
-const SideModal = lazy(() => import("../Modals/SideModal"));
-const NotifModal = lazy(() => import("../Modals/NotifModal"));
+// const LogModal = lazy(() => import("../Modals/LogModal"));
+// const RegModal = lazy(() => import("../Modals/RegModal"));
+// const ExitModal = lazy(() => import("../Modals/ExitModal"));
+// const SideModal = lazy(() => import("../Modals/SideModal"));
+// const NotifModal = lazy(() => import("../Modals/NotifModal"));
+
+import LogModal from "../Modals/LogModal";
+import RegModal from "../Modals/RegModal";
+import ExitModal from "../Modals/ExitModal";
+import SideModal from "../Modals/SideModal";
+import NotifModal from "../Modals/NotifModal";
 
 const NavBar = (props) => {
   useEffect(() => {
@@ -245,37 +243,37 @@ const NavBar = (props) => {
   return (
     <div class="z-50">
       {logModalShow ? (
-        <Suspense>
+        <>
           <LogModal close={closeFuncLog} logFunc={props.loginFunc} />
-        </Suspense>
+        </>
       ) : (
         ""
       )}
       {regModalShow ? (
-        <Suspense>
+        <>
           <RegModal close={closeFuncReg} />
-        </Suspense>
+        </>
       ) : (
         ""
       )}
       {exitModalShow ? (
-        <Suspense>
+        <>
           <ExitModal close={closeFuncOut} />
-        </Suspense>
+        </>
       ) : (
         ""
       )}
       {isNotifOpen ? (
-        <Suspense>
+        <>
           <NotifModal close={closeFuncNotif} />{" "}
-        </Suspense>
+        </>
       ) : (
         ""
       )}
       {isSideMenuOpen ? (
-        <Suspense>
+        <>
           <SideModal close={closeFuncSide} />{" "}
-        </Suspense>
+        </>
       ) : (
         ""
       )}
@@ -617,9 +615,33 @@ const NavBar = (props) => {
                           : "text-gray-700"
                       }   right-1.5 relative transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer`}
                     >
-                      MENTORSHIP
+                      Networks
                     </a>
                   </li>
+
+                  {/* <li
+                    class="xl:block hidden text-sm   uppercase  top-[1px] -mr-[680px]"
+                    data-aos={"fade-left"}
+                    data-aos-once="true"
+                    data-aos-delay="500"
+                  >
+                    <a
+                      onClick={() => {
+                        history.push("/startupmentorship");
+                      }}
+                      aria-label="Features"
+                      title="Features"
+                      class={`font-semibold tracking-wide ${
+                        location.pathname
+                          .split("/")
+                          .includes("startupmentorship")
+                          ? "text-indigo-700"
+                          : "text-gray-700"
+                      }   right-1.5 relative transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer`}
+                    >
+                      MENTORSHIP
+                    </a>
+                  </li> */}
                 </>
               ) : (
                 <>
@@ -683,9 +705,30 @@ const NavBar = (props) => {
                           : "text-gray-700"
                       }   right-1.5 relative transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer`}
                     >
-                      MENTORSHIP
+                      NETWORKS
                     </a>
                   </li>
+                  {/* <li
+                    class="xl:block hidden text-sm   uppercase  top-[1px] -mr-[510px]"
+                    data-aos={"fade-left"}
+                    data-aos-once="true"
+                    data-aos-delay="500"
+                  >
+                    <a
+                      onClick={() => {
+                        history.push("/mentorship");
+                      }}
+                      aria-label="Features"
+                      title="Features"
+                      class={`font-semibold tracking-wide ${
+                        location.pathname.split("/").includes("mentorship")
+                          ? "text-indigo-700"
+                          : "text-gray-700"
+                      }   right-1.5 relative transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer`}
+                    >
+                      MENTORSHIP
+                    </a>
+                  </li> */}
                   {/* <li
                     class="xl:block hidden text-sm  uppercase  top-[1px] -mr-[490px]"
                     data-aos={"fade-left"}

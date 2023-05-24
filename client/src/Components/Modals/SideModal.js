@@ -233,7 +233,7 @@ const SideModal = (props) => {
                         />
                       </svg>
 
-                      <span class="mx-4 font-semibold">Mentorship</span>
+                      <span class="mx-4 font-semibold">Networks</span>
                     </a>
                   </>
                 }

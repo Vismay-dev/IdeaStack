@@ -154,41 +154,44 @@ const MyProjects = () => {
               onClick={() => {
                 history.push("/dashboard/overview");
               }}
-              class={`flex items-center h-12 relative ml-[130px] py-2 text-center text-gray-100 
+              class={`flex items-center h-12 relative ml-[130px] py-2 pb-[9px] text-center text-gray-100 
         ${
           location.pathname === "/dashboard/overview"
-            ? "bg-gray-800"
+            ? "bg-gray-800 font-bold"
             : "bg-gray-500"
         } px-6  border border-b-0  border-gray-300 text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
             >
-              Overview
+              <i class="fas fa-rocket mr-2.5 relative top-[0.5px]"></i>
+              Your Startup
             </button>
             <div class="flex space-x-[3.5px]">
               <button
                 onClick={() => {
                   history.push("/dashboard/yourmentor");
                 }}
-                class={`flex items-center h-12 py-2 text-center text-gray-100 
+                class={`flex items-center h-12 py-2 pb-[9px] text-center text-gray-100 
         ${
           location.pathname.includes("yourmentor")
-            ? "bg-gray-800"
+            ? "bg-gray-800 font-bold"
             : "bg-gray-500"
         } px-6 border border-b-0  border-gray-300 text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
               >
-                <span class="lg:inline hidden  mr-1.5">Your </span> Mentor
+                <i className="fas fa-video mr-2.5 relative top-[0.5px] "></i>
+                <span class="lg:inline hidden  mr-1.5">Upcoming </span> Meetings
               </button>
 
               <button
                 onClick={() => {
                   history.push("/dashboard/collaborate");
                 }}
-                class={` block items-center h-12 py-2  text-center text-gray-100 
+                class={` block items-center h-12 py-2 pb-[9px]  text-center text-gray-100 
         ${
           location.pathname === "/dashboard/collaborate"
-            ? "bg-gray-800"
+            ? "bg-gray-800 font-bold"
             : "bg-gray-500"
         } px-6 border border-b-0  border-gray-300 text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
               >
+                <i class="fas fa-users mr-2.5 relative top-[0.5px]"></i>
                 Collaborate
               </button>
             </div>
@@ -196,7 +199,7 @@ const MyProjects = () => {
 
           {/* <button
             onClick={() => {
-              setShowHeader(showHeader ? false : true);
+              setShowHeader(showHeader ? false : true)
             }}
             class={` items-center h-12 ${
               sessionStorage.getItem("managing")
@@ -221,7 +224,7 @@ const MyProjects = () => {
             <div class="space-x-[3px] flex relative mt-8 -ml-[259px] mr-12 ">
               <button
                 onClick={() => {
-                  history.push("/dashboard/overview");
+                  history.push("/dashboard/overview")
                 }}
                 class={`flex items-center h-12 py-2 ${
                   location.pathname.includes("yourmentor") ? "sm:" : ""
@@ -237,7 +240,7 @@ const MyProjects = () => {
 
               <button
                 onClick={() => {
-                  history.push("/dashboard/yourmentor");
+                  history.push("/dashboard/yourmentor")
                 }}
                 class={`flex items-center h-12 py-2 ${
                   location.pathname.includes("yourmentor") ? "sm:" : ""
@@ -255,7 +258,7 @@ const MyProjects = () => {
 
               <button
                 onClick={() => {
-                  history.push("/dashboard/collaborate");
+                  history.push("/dashboard/collaborate")
                 }}
                 class={` block items-center h-12 py-2 ${
                   location.pathname === "/dashboard/mentorship" ? "hidden" : ""

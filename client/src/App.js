@@ -13,26 +13,56 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "axios";
 import ReactGA from "react-ga";
 
-const NavBar = lazy(() => import("./Components/NavMenu/NavBar"));
-const Notifications = lazy(() =>
-  import("../src/Components/Notifications/Notifications")
-);
-const MainContent = lazy(() => import("./Components/MainContent"));
-const Footer = lazy(() => import("./Components/Footer/Footer"));
+// const NavBar = lazy(() => import("./Components/NavMenu/NavBar"));
+// const Notifications = lazy(() =>
+//   import("../src/Components/Notifications/Notifications")
+// );
+// const MainContent = lazy(() => import("./Components/MainContent"));
+// const Footer = lazy(() => import("./Components/Footer/Footer"));
+
+import MainContent from "./Components/MainContent";
+import NavBar from "./Components/NavMenu/NavBar";
+import Footer from "./Components/Footer/Footer";
+import Notifications from "../src/Components/Notifications/Notifications";
+
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+import logo from "./Components/NavMenu/logo.png";
 
 const TRACKING_ID = "UA-226293861-1"; // OUR_TRACKING_ID
 ReactGA.initialize(TRACKING_ID);
 
 function App() {
+  useEffect(() => {
+    AOS.init({
+      duration: 1100,
+    });
+  }, []);
+
   const [loading, setLoading] = useState(false);
+  const [showLogo, setShowLogo] = useState(false);
+
+  const location = useLocation();
+
+  const loadFunc = () => {
+    if (location.pathname === "/" || location.pathname === "/home") {
+      setShowLogo(true);
+      setTimeout(() => {
+        setLoading(false);
+        setShowLogo(false);
+      }, 1250);
+    } else {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
-      setLoading(false);
-    }, 2500);
+      loadFunc();
+    }, 2250);
   }, []);
-
-  const location = useLocation();
 
   const [mentors, setMentors] = useState();
 
@@ -165,9 +195,23 @@ function App() {
                 }`}
               >
                 <>
-                  <Suspense
-                    fallback={
-                      <div class=" w-[217px]  m-0 relative mx-auto sm:top-[48%] top-[45%]  translate-y-[-50%]  sm:pl-3 pl-2">
+                  {!loading ? (
+                    <>
+                      <NavBar loginFunc={logIn} />
+                      <Notifications user={user} />
+                      <MainContent class="-z-10" />
+                      <Footer />
+                    </>
+                  ) : (
+                    <div class=" w-[217px] animate-fade  m-0 relative mx-auto sm:top-[48%] top-[45%] translate-y-[-50%]  sm:pl-3 pl-2">
+                      {showLogo ? (
+                        <img
+                          data-aos={"fade"}
+                          data-aos-once="true"
+                          src={logo}
+                          className="sm:w-40 w-36 md:w-48 md:right-0 sm:right-4 right-8 shadow-md rounded-md bg-white px-2 absolute -top-3 -mt-[60px]"
+                        />
+                      ) : (
                         <CircleLoader
                           meshColor={"#6366F1"}
                           lightColor={"#E0E7FF"}
@@ -175,9 +219,10 @@ function App() {
                           desktopSize={"60px"}
                           mobileSize={"60px"}
                         />
-                      </div>
-                    }
-                  >
+                      )}
+                    </div>
+                  )}
+                  {/* <Suspense>
                     <Suspense>
                       <NavBar loginFunc={logIn} />
                     </Suspense>
@@ -190,7 +235,7 @@ function App() {
                     <Suspense>
                       <Footer />
                     </Suspense>
-                  </Suspense>
+                  </Suspense> */}
                 </>
               </div>
             </userContext.Provider>
