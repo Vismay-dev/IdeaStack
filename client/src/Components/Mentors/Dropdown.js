@@ -3,26 +3,12 @@ import { Fragment, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
-import {
-  MdDeveloperMode,
-  MdWeb,
-  MdOutlineCastForEducation,
-  MdHealthAndSafety,
-  MdProductionQuantityLimits,
-  MdDesignServices,
-} from "react-icons/md";
-import {
-  GiVintageRobot,
-  GiPowerGenerator,
-  GiArtificialIntelligence,
-} from "react-icons/gi";
-import { GrDeliver } from "react-icons/gr";
-import { SiHiveBlockchain } from "react-icons/si";
-import { BsCheckAll } from "react-icons/bs";
-import { CgCodeClimate } from "react-icons/cg";
-import { FcBusinessman } from "react-icons/fc";
-import { FaHouseUser, FaBusinessTime } from "react-icons/fa";
+import { MdDeveloperMode, MdDesignServices } from "react-icons/md";
+import { BsCheckAll, BsRocketTakeoffFill } from "react-icons/bs";
+import { FaHouseUser, FaBusinessTime, FaDatabase } from "react-icons/fa";
 import { AiOutlineAntDesign } from "react-icons/ai";
+import { FiTrendingUp, FiThumbsUp } from "react-icons/fi";
+import { GiBrain } from "react-icons/gi";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -40,109 +26,60 @@ export default function Dropdown(props) {
       id: 0,
     },
     {
-      name: "Robotics",
+      name: "Product-Market Fit",
       icon: (
-        <GiVintageRobot class="inline mr-[3.5px] w-[18px] right-[1px] bottom-[0.85px] relative h-[18px]" />
+        <FiThumbsUp class="inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
       ),
       id: 1,
+    },
+    {
+      name: "Product Launches",
+      icon: (
+        <BsRocketTakeoffFill class="inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
+      ),
+      id: 2,
+    },
+    {
+      name: "Business Strategy",
+      icon: (
+        <FaBusinessTime class="inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
+      ),
+      id: 3,
     },
     {
       name: "Branding & Design",
       icon: (
         <MdDesignServices class="inline mr-[4.6px]  left-[0px] ml-[0px] w-[17px] bottom-[0.85px] relative h-[17px]" />
       ),
-      id: 10,
-    },
-    // {
-    //   name: "Environment",
-    //   icon: (
-    //     <CgCodeClimate class="inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]" />
-    //   ),
-    //   id: 10,
-    // },
-    // {
-    //   name: "Energy",
-    //   icon: (
-    //     <GiPowerGenerator class="inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]" />
-    //   ),
-    //   id: 7,
-    // },
-    {
-      name: "Web Development",
-      icon: (
-        <MdWeb class="inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]" />
-      ),
-      id: 2,
+      id: 4,
     },
     {
-      name: "Mobile App Development",
+      name: "Technology-Focus",
       icon: (
         <MdDeveloperMode class="inline mr-[3.5px] w-[18px] right-[1px] bottom-[0.85px] relative h-[18px]" />
       ),
-      id: 3,
-    },
-    // {
-    //   name: "EdTech (Educational Technology)",
-    //   icon: (
-    //     <MdOutlineCastForEducation class="inline mr-[4px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
-    //   ),
-    //   id: 5,
-    // },
-    // {
-    //   name: "Healthcare",
-    //   icon: (
-    //     <MdHealthAndSafety class="inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]" />
-    //   ),
-    //   id: 6,
-    // },
-    {
-      name: "AI",
-      icon: (
-        <GiArtificialIntelligence class="inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]" />
-      ),
-      id: 8,
-    },
-    // {
-    //   name: "Blockchain",
-    //   icon: (
-    //     <SiHiveBlockchain class="inline mr-[3.5px] w-[18px] bottom-[0.85px] right-[1px] relative h-[18px]" />
-    //   ),
-    //   id: 9,
-    // },
-    // {
-    //   name: "Logistics (Transport and Storage of Goods)",
-    //   icon: (
-    //     <GrDeliver class="inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
-    //   ),
-    //   id: 4,
-    // },
-    {
-      name: "Business Development",
-      icon: (
-        <FaBusinessTime class="inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
-      ),
-      id: 10,
+      id: 5,
     },
     {
-      name: "Product Management",
+      name: "Growth Marketing",
       icon: (
-        <MdProductionQuantityLimits class="inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
+        <FiTrendingUp class="inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
       ),
-      id: 11,
+      id: 6,
     },
     {
-      name: "Architecture",
+      name: "Data Science",
       icon: (
-        <FaHouseUser class="inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
+        <FaDatabase class="inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
       ),
-      id: 12,
+      id: 7,
     },
     {
       name: "Design Thinking",
       icon: (
-        <AiOutlineAntDesign class="inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
+        <GiBrain class="inline mr-[4.6px]  left-[1px] ml-[0.5px] w-[17px] bottom-[0.85px] relative h-[17px]" />
       ),
-      id: 13,
+      id: 8,
     },
   ];
   return (
