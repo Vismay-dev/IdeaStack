@@ -159,10 +159,10 @@ const MyProjects = () => {
           location.pathname === "/dashboard/overview"
             ? "bg-gray-800 font-bold"
             : "bg-gray-500"
-        } px-6  border border-b-0  border-gray-300 text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
+        } sm:px-6 px-2.5  border border-b-0  border-gray-300 sm:text-base text-sm  rounded-t-md   whitespace-nowrap focus:outline-none`}
             >
-              <i class="fas fa-rocket mr-2.5 relative top-[0.5px]"></i>
-              Your Startup
+              <i class="fas fa-rocket sm:mr-2.5 mr-1.5 relative top-[0.5px]"></i>
+              <span class="sm:inline hidden  mr-1.5">Your</span> Startup
             </button>
             <div class="flex space-x-[3.5px]">
               <button
@@ -174,10 +174,10 @@ const MyProjects = () => {
           location.pathname.includes("yourmentor")
             ? "bg-gray-800 font-bold"
             : "bg-gray-500"
-        } px-6 border border-b-0  border-gray-300 text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
+        } sm:px-6 px-2.5 border border-b-0  border-gray-300 sm:text-base text-sm  rounded-t-md   whitespace-nowrap focus:outline-none`}
               >
-                <i class="fas fa-user-tie mr-2.5 relative top-[0.5px]"></i>
-                <span class="lg:inline hidden  mr-1.5">Mentorship</span>
+                <i class="fas fa-user-tie sm:mr-2.5 mr-1.5 relative top-[0.5px]"></i>
+                Mentorship
               </button>
 
               <button
@@ -189,9 +189,9 @@ const MyProjects = () => {
           location.pathname === "/dashboard/collaborate"
             ? "bg-gray-800 font-bold"
             : "bg-gray-500"
-        } px-6 border border-b-0  border-gray-300 text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
+        } sm:px-6 px-2.5 border border-b-0  border-gray-300 sm:text-base text-sm  rounded-t-md   whitespace-nowrap focus:outline-none`}
               >
-                <i class="fas fa-users mr-2.5 relative top-[0.5px]"></i>
+                <i class="fas fa-users sm:mr-2.5 mr-1.5 relative top-[0.5px]"></i>
                 Collaborate
               </button>
             </div>

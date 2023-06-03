@@ -88,7 +88,7 @@ export default function Dropdown(props) {
       className="relative md:col-span-2 col-span-6 inline-block z-40 pointer-events-auto  text-left"
     >
       <div>
-        <Menu.Button className="py-2 inline-flex justify-center z-40 w-full border-[1px] rounded-md border-gray-300 shadow-sm px-4 bg-white text-md font-medium text-gray-700 hover:bg-gray-50 focus:outline-none  ">
+        <Menu.Button className="py-2 inline-flex justify-center z-40 md:w-full sm:w-[450px] w-[300px]  border-[1px] rounded-md border-gray-300 shadow-sm px-4 bg-white text-md font-medium text-gray-700 hover:bg-gray-50 focus:outline-none  ">
           {catSelected
             ? catSelected === "All"
               ? "All Categories"

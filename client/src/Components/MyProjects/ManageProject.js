@@ -332,14 +332,14 @@ export default function ManageProject() {
             )}
 
             <h2
-              class={`text-center tracking-wide font-bold sm:text-5xl text-4xl  text-gray-800 top-1 relative  mt-10 
+              class={`text-center tracking-wide font-bold sm:text-5xl text-3xl  text-gray-800 top-1 relative  mt-10 
                
-                   mb-4
+                   mb-4 px-4
                `}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="sm:h-12 sm:w-12 w-10 h-10 sm:bottom-[3.2px] bottom-[3.1px] relative inline text-gray-800  font-bold"
+                class="sm:h-12 sm:w-12 w-8 h-8 sm:bottom-[3.2px] bottom-[3.1px] relative inline text-gray-800  font-bold"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -352,7 +352,7 @@ export default function ManageProject() {
                 />
               </svg>{" "}
               Startup Overview
-              <p class="mt-[4px] text-xl text-center pl-3 bg-gradient-to-r bg-clip-text text-transparent from-blue-500 to-indigo-600 w-fit block mx-auto font-semibold">
+              <p class="sm:mt-[4px] mt-[15px] sm:mb-0 -mb-2 text-xl text-center pl-3 bg-gradient-to-r bg-clip-text text-transparent from-blue-500 to-indigo-600 w-fit block mx-auto font-semibold">
                 All Important Details: Your Startup
               </p>
             </h2>
@@ -377,7 +377,7 @@ export default function ManageProject() {
                   d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
                 />
               </svg>
-              View Your Mentorships
+              View <span class="sm:inline hidden">Your</span> Mentorships
             </button>
 
             <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 xl:left-0 left-0.5  relative justify-center mx-auto lg:px-[60px]  md:px-[160px] sm:px-[70px] px-[30px] lg:mt-[63px] mt-[45px] -mb-5  xl:gap-5 gap-9 ">

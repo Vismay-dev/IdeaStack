@@ -211,9 +211,8 @@ const SideModal = (props) => {
 
                     <a
                       onClick={() => {
-                        if (!location.pathname.includes("mentorship")) {
-                          history.push("/mentorship");
-                        }
+                          history.push("/networks/");
+                        
                         props.close();
                       }}
                       class="flex items-center px-4 py-2 mt-5 cursor-pointer text-gray-700 transition-colors duration-200 transform rounded-md  bg-white shadow-sm hover:shadow-md hover:bg-gray-200 active:shadow-md  hover:text-gray-900"

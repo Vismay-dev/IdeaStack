@@ -29,28 +29,28 @@ const Networks = () => {
         data-aos={"fade"}
         data-aos-once="true"
         src={logo}
-        className="w-36 md:w-40  rounded-md  block mx-auto top-10 relative"
+        className="w-36 md:w-40  rounded-md  block mx-auto lg:top-10 top-6 relative"
       />
 
-      <h3 class="tracking-wide text-sm my-6 mb-2 w-[65%] mx-auto block text-center text-gray-700 relative top-3">
+      <h3 class="tracking-wide text-sm lg:my-6 md:my-4 my-2 mb-2 md:w-[65%] sm:w-[75%] w-[85%] mx-auto block text-center text-gray-700 relative top-3">
         Market strategy, investment opportunities and cutting-edge
         research/knowledge in the deep sciences (tech, climate, agri, pharma
         etc.)- brought to you by a world-class network of founder-type
         individuals who specialize in creating high-value ventures.
       </h3>
-      <div class="h-[367px] w-[85%] mx-auto mt-[60px] -mb-[215px] right-1.5 relative grid md:grid-cols-3 grid-cols-1 gap-8">
+      <div class="h-fit lg:w-[90%] md:w-[70%] sm:w-[80%] w-[90%] mx-auto mt-[60px] -mb-[222px] lg:right-1.5 relative grid lg:grid-cols-3 grid-cols-1 xl:gap-8 gap-5">
         <div
           onClick={() => {
             history.push("/networks/mentorship");
           }}
-          class="tracking-wide transition ease-in-out delay-75 hover:-translate-y-1 hover:scale-[1.02] duration-200 cursor-pointer hover:bg-gray-200 hover:border-indigo-500 relative  bg-gray-100 text-center rounded-md shadow-md border-2 border-gray-600"
+          class="tracking-wide px-3 transition ease-in-out delay-75 hover:-translate-y-1 hover:scale-[1.02] duration-200 cursor-pointer hover:bg-gray-200 hover:border-indigo-500 relative  bg-gray-100 text-center rounded-md shadow-md border-2 border-gray-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             enable-background="new 0 0 64 64"
             viewBox="0 0 64 64"
             id="strategy"
-            class="w-[188px] h-[188px] my-[16px] mt-6  mx-auto block"
+            class="lg:w-[188px] lg:h-[188px] sm:w-[170px] sm:h-[170px] w-[130px] h-[130px] my-[16px] mt-6  mx-auto block"
           >
             <polyline
               fill="#dbe7f6"
@@ -209,12 +209,12 @@ const Networks = () => {
           <hr class="border-[1px] border-dashed border-gray-600 mx-auto my-2 mt-5 block w-[70%]" />
 
           <h2 class="text-xl mt-4 block font-bold">Strategic Mentorship</h2>
-          <h2 class="text-base mt-3 block text-gray-600 font-semibold px-4">
-            Executive Advice, Design Thinking & Business Insights
+          <h2 class="md:text-base pb-7 text-sm mt-3 block text-gray-600 font-semibold px-4">
+            Executive Coaching & Growth Strategy
           </h2>
         </div>
 
-        <div class="tracking-wide relative opacity-70 bg-gray-100  text-center rounded-md shadow-md border-2 border-gray-600">
+        <div class="tracking-wide px-3  relative opacity-70 bg-gray-100  text-center rounded-md shadow-md border-2 border-gray-600">
           <div class="ml-4 absolute -right-2 -top-2 text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-orange-200 text-orange-700 rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -239,7 +239,7 @@ const Networks = () => {
             id="SvgjsSvg1177"
             xmlns="http://www.w3.org/2000/svg"
             version="1.1"
-            class="w-[180px] h-[180px] my-6 mt-6  mx-auto block"
+            class="lg:w-[180px] lg:h-[180px] sm:w-[170px] sm:h-[170px] w-[130px] h-[130px] my-6 mt-6  mx-auto block"
           >
             <defs id="SvgjsDefs1178"></defs>
             <g id="SvgjsG1179">
@@ -576,12 +576,12 @@ const Networks = () => {
           <hr class="border-[1px] border-dashed border-gray-600 mx-auto my-2 mt-5 block w-[70%]" />
 
           <h2 class="text-xl mt-4 block font-bold">Funding Opportunities</h2>
-          <h2 class="text-base mt-3 block text-gray-600 font-semibold px-4">
-            Investment for High Impact Ventures and High Potential Founders.
+          <h2 class="md:text-base pb-7 text-sm mt-3 block text-gray-600 font-semibold px-4">
+            Investment for High Potential Ventures.
           </h2>
         </div>
 
-        <div class="tracking-wide relative opacity-70 bg-gray-100  text-center rounded-md shadow-md border-2 border-gray-600">
+        <div class="tracking-wide px-3  relative opacity-70 bg-gray-100  text-center rounded-md shadow-md border-2 border-gray-600">
           <div class="ml-4 absolute -right-2 -top-2 text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-orange-200 text-orange-700 rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -601,11 +601,12 @@ const Networks = () => {
             </svg>
             Coming Soon
           </div>
-          <div class="w-52 h-52 my-4 mt-1  mx-auto block">
+          <div class="w-52 h-52 lg:mb-4 sm:-mb-6 -mb-14 lg:mt-1 sm:mt-2 mt-3  mx-auto block">
             <svg
               xmlns="http://www.w3.org/2000/svg"
+              version="1.1"
               viewBox="0 0 64 64"
-              class="w-full h-full"
+              class="lg:w-full lg:h-full  sm:w-[180px] sm:h-[180px] w-[145px] h-[145px] mx-auto block"
             >
               <g
                 transform="translate(-728 -1783.871)"
@@ -782,8 +783,8 @@ const Networks = () => {
           <hr class="border-[1px] border-dashed border-gray-600 mx-auto my-2 w-[70%]" />
 
           <h2 class="text-xl mt-4 block font-bold">Knowledge Partners</h2>
-          <h2 class="text-base mt-3 block text-gray-600 font-semibold">
-            State-of-the-art technology, research and market-expertise.
+          <h2 class="md:text-base pb-7 text-sm mt-3 block text-gray-600 font-semibold">
+            Cutting edge technology, expertise & research.
           </h2>
         </div>
       </div>

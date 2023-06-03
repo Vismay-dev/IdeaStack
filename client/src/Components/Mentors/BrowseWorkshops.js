@@ -177,17 +177,17 @@ export default function BrowseMentors() {
               </svg>{" "}
               Strategic Mentorship
             </p>
-            <p class="text-base uppercase mt-1.5 -mb-1 px-3 left-1.5 relative font-semibold">
+            <p class="text-base md:uppercase mt-1.5 -mb-1 px-3 left-1.5 relative font-semibold">
               Executive Advice & Founder Coaching
             </p>
           </div>
         </h2>
 
         <div class="flex pointer-events-auto  z-[35] px-4 -space-x-4 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pb-2 bottom-[71.5px] relative justify-center  w-full  rounded-b-lg  mx-auto">
-          <div class="grid grid-cols-10  sm:text-base -ml-[75px] text-sm gap-2 items-center z-40 justify-center relative">
+          <div class="flex md:flex-row flex-col sm:text-base md:-ml-[75px] text-sm gap-2 items-center z-40 justify-center relative">
             <div
               onClick={() => history.push("/networks/main")}
-              class="tracking-wide cursor-pointer block text-white font-semibold text-center hover:shadow-md border-[1px] md:col-span-2 py-2 col-span-2 sm:text-base text-sm pointer-events-auto rounded-md border-gray-300  bg-blue-700 hover:bg-blue-800 "
+              class="tracking-wide md:ml-10 lg:ml-0  ml-auto mr-auto cursor-pointer block text-white font-semibold sm:normal-case uppercase md:w-fit sm:w-[450px] w-[300px] text-center hover:shadow-md border-[1px] md:col-span-2 py-2 px-4 col-span-2 sm:text-base text-sm pointer-events-auto rounded-md border-gray-300  bg-blue-700 hover:bg-blue-800 "
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -206,16 +206,16 @@ export default function BrowseMentors() {
               Go Back
             </div>
 
-            <div class=" border-[1px] md:col-span-4 ml-20 col-span-6 grid sm:grid-cols-6 sm:text-base text-sm grid-cols-12 rounded-md border-gray-300">
+            <div class=" border-[1px] md:col-span-4 md:ml-10 lg:ml-12 ml-auto mr-auto col-span-2 grid lg:grid-cols-6 grid-cols-4 md:w-fit sm:w-[450px] w-[300px]  sm:text-base text-sm rounded-md border-gray-300">
               <input
                 type="text"
                 onChange={textChangeHandler}
-                class="px-4 py-2 sm:text-base text-sm sm:col-span-5 col-span-9 rounded-l-md shadow-sm border-0"
+                class="px-4 py-2 sm:text-base text-sm lg:col-span-5 md:col-span-3 col-span-3 rounded-l-md shadow-sm border-0"
                 placeholder="Search Mentor"
               />
               <button
                 onClick={() => filterByText()}
-                class="items-center sm:col-span-1 col-span-3 hover:shadow-lg hover:bg-blue-700 rounded-r-md active:shadow-sm shadow-sm justify-center px-4 border-l bg-blue-600"
+                class="items-center sm:col-span-1 col-span-1 hover:shadow-lg hover:bg-blue-700 rounded-r-md active:shadow-sm shadow-sm justify-center px-4 border-l bg-blue-600"
               >
                 <svg
                   class="w-6 h-6 text-gray-100 text-center mx-auto block"
@@ -296,7 +296,7 @@ export default function BrowseMentors() {
               onClick={() => {
                 history.push("/dashboard/yourmentor");
               }}
-              class="block -mt-7 text-white text-sm uppercase bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 font-semibold rounded-md px-4 py-2 pt-2.5 mb-[53px] mx-auto"
+              class="block sm:-mt-7 -mt-9 sm:mb-[53px] mb-[47px] text-white text-sm uppercase bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 font-semibold rounded-md px-4 py-2 pt-2.5  mx-auto"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -312,7 +312,7 @@ export default function BrowseMentors() {
                   d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
                 />
               </svg>
-              View Approved Mentorships
+              View <span class="sm:inline hidden">Approved</span> Mentorships
             </button>
 
             {project.mentorsRequested && project.mentorsRequested.length > 0 ? (
@@ -353,7 +353,7 @@ export default function BrowseMentors() {
               ""
             )}
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 xl:px-12 xl:gap-x-5 gap-x-7 xl:gap-y-9 sm:gap-y-12 gap-y-14 xl:max-w-[1500px] lg:max-w-[1250px] lg:px-12 md:max-w-[740px] max-w-[500px] mx-auto z-30 pointer-events-none -mt-2 -mb-8 relative top-[4px]  md:px-1 sm:px-7 px-7      ">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 xl:px-12 xl:gap-x-5 gap-x-7 xl:gap-y-9 sm:gap-y-10 gap-y-12 xl:max-w-[1500px] lg:max-w-[1250px] lg:px-12 md:max-w-[740px] max-w-[500px] mx-auto -mt-2  z-30 pointer-events-none  relative top-[4px]  md:px-1 sm:px-7 px-7">
               {[...workshops].map((workshop, i) => (
                 <a
                   data-aos={"fade-up"}
