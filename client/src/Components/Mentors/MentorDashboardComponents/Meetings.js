@@ -115,12 +115,15 @@ const Meetings = (props) => {
         }
       )
       .then((res) => {
+        console.log("here");
         projCon.setProject(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  const [timelineCompleted, setTimelineCompleted] = useState(false);
 
   useEffect(() => {
     let startingDate = new Date(props.startup.currentMentorship.matchedDate);
@@ -142,6 +145,7 @@ const Meetings = (props) => {
 
     let availableDatesCopy;
     let selectedDateCopy;
+    let duration = props.startup.currentMentorship.duration;
 
     if (
       new Date() < checkPointsCopy2[0] ||
@@ -154,21 +158,21 @@ const Meetings = (props) => {
           props.startup.currentMentorship.timeline.week1.selectedDate;
         setMinDate(add3Day(checkPointsCopy2[0]));
         setMaxDate(checkPointsCopy2[1]);
-      } else if (moveIndex === 1) {
+      } else if (moveIndex === 1 && duration > 1) {
         availableDatesCopy =
           props.startup.currentMentorship.timeline.week2.availableDates;
         selectedDateCopy =
           props.startup.currentMentorship.timeline.week2.selectedDate;
         setMinDate(add3Day(checkPointsCopy2[1]));
         setMaxDate(checkPointsCopy2[2]);
-      } else if (moveIndex === 2) {
+      } else if (moveIndex === 2 && duration > 2) {
         availableDatesCopy =
           props.startup.currentMentorship.timeline.week3.availableDates;
         selectedDateCopy =
           props.startup.currentMentorship.timeline.week3.selectedDate;
         setMinDate(add3Day(checkPointsCopy2[2]));
         setMaxDate(checkPointsCopy2[3]);
-      } else if (moveIndex === 3) {
+      } else if (moveIndex === 3 && duration > 3) {
         availableDatesCopy =
           props.startup.currentMentorship.timeline.week4.availableDates;
         selectedDateCopy =
@@ -180,29 +184,30 @@ const Meetings = (props) => {
     }
 
     if (
-      (new Date() > checkPointsCopy2[1] && new Date() < checkPointsCopy2[2]) ||
-      (props.startup.currentMentorship.timeline.week1.selectedDate &&
-        new Date() >
-          new Date(
-            props.startup.currentMentorship.timeline.week1.selectedDate
-          ) &&
-        new Date() < checkPointsCopy2[2])
+      duration > 1 &&
+      ((new Date() > checkPointsCopy2[1] && new Date() < checkPointsCopy2[2]) ||
+        (props.startup.currentMentorship.timeline.week1.selectedDate &&
+          new Date() >
+            new Date(
+              props.startup.currentMentorship.timeline.week1.selectedDate
+            ) &&
+          new Date() < checkPointsCopy2[2]))
     ) {
-      if (moveIndex === 0) {
+      if (moveIndex === 0 && duration > 1) {
         availableDatesCopy =
           props.startup.currentMentorship.timeline.week2.availableDates;
         selectedDateCopy =
           props.startup.currentMentorship.timeline.week2.selectedDate;
         setMinDate(add3Day(checkPointsCopy2[1]));
         setMaxDate(checkPointsCopy2[2]);
-      } else if (moveIndex === 1) {
+      } else if (moveIndex === 1 && duration > 2) {
         availableDatesCopy =
           props.startup.currentMentorship.timeline.week3.availableDates;
         selectedDateCopy =
           props.startup.currentMentorship.timeline.week3.selectedDate;
         setMinDate(add3Day(checkPointsCopy2[2]));
         setMaxDate(checkPointsCopy2[3]);
-      } else if (moveIndex === 2) {
+      } else if (moveIndex === 2 && duration > 3) {
         availableDatesCopy =
           props.startup.currentMentorship.timeline.week4.availableDates;
         selectedDateCopy =
@@ -210,27 +215,27 @@ const Meetings = (props) => {
         setMinDate(add3Day(checkPointsCopy2[3]));
         setMaxDate(checkPointsCopy2[4]);
       }
-
       setWeekNum(2);
     }
 
     if (
-      (new Date() > checkPointsCopy2[2] && new Date() < checkPointsCopy2[3]) ||
-      (props.startup.currentMentorship.timeline.week2.selectedDate &&
-        new Date() >
-          new Date(
-            props.startup.currentMentorship.timeline.week2.selectedDate
-          ) &&
-        new Date() < checkPointsCopy2[3])
+      duration > 2 &&
+      ((new Date() > checkPointsCopy2[2] && new Date() < checkPointsCopy2[3]) ||
+        (props.startup.currentMentorship.timeline.week2.selectedDate &&
+          new Date() >
+            new Date(
+              props.startup.currentMentorship.timeline.week2.selectedDate
+            ) &&
+          new Date() < checkPointsCopy2[3]))
     ) {
-      if (moveIndex === 0) {
+      if (moveIndex === 0 && duration > 2) {
         availableDatesCopy =
           props.startup.currentMentorship.timeline.week3.availableDates;
         selectedDateCopy =
           props.startup.currentMentorship.timeline.week3.selectedDate;
         setMinDate(add3Day(checkPointsCopy2[2]));
         setMaxDate(checkPointsCopy2[3]);
-      } else if (moveIndex === 1) {
+      } else if (moveIndex === 1 && duration > 3) {
         availableDatesCopy =
           props.startup.currentMentorship.timeline.week4.availableDates;
         selectedDateCopy =
@@ -243,15 +248,16 @@ const Meetings = (props) => {
     }
 
     if (
-      (new Date() > checkPointsCopy2[3] && new Date() < checkPointsCopy2[4]) ||
-      (props.startup.currentMentorship.timeline.week3.selectedDate &&
-        new Date() >
-          new Date(
-            props.startup.currentMentorship.timeline.week3.selectedDate
-          ) &&
-        new Date() < checkPointsCopy2[4])
+      duration > 3 &&
+      ((new Date() > checkPointsCopy2[3] && new Date() < checkPointsCopy2[4]) ||
+        (props.startup.currentMentorship.timeline.week3.selectedDate &&
+          new Date() >
+            new Date(
+              props.startup.currentMentorship.timeline.week3.selectedDate
+            ) &&
+          new Date() < checkPointsCopy2[4]))
     ) {
-      if (moveIndex === 0) {
+      if (moveIndex === 0 && duration > 3) {
         availableDatesCopy =
           props.startup.currentMentorship.timeline.week4.availableDates;
         selectedDateCopy =
@@ -262,12 +268,24 @@ const Meetings = (props) => {
       setWeekNum(4);
     }
 
-    if (new Date() > checkPointsCopy2[4]) {
+    if (duration === 4 && new Date() > checkPointsCopy2[4]) {
       setWeekNum(5);
     }
 
     if (props.startup.currentMentorship.upcomingMeeting) {
       setUpcomingMeeting(props.startup.currentMentorship.upcomingMeeting);
+    }
+
+    if (
+      (props.startup.currentMentorship.pastMeetings.length >= duration &&
+        new Date(
+          props.startup.currentMentorship.pastMeetings[
+            props.startup.currentMentorship.pastMeetings.length - 1
+          ].date
+        ) < new Date()) ||
+      (new Date() > checkPointsCopy2[duration] && duration > 1)
+    ) {
+      setTimelineCompleted(true);
     }
 
     setSelectedDate(selectedDateCopy);
@@ -291,7 +309,7 @@ const Meetings = (props) => {
       <div class="h-fit md:w-[100%] sm:w-[100%] w-[100%]  md:px-0 sm:px-7 px-0 mx-auto mt-1 md:mb-14 mb-11 right-1.5 relative grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
         <div class="bg-white rounded-md col-span-1 block h-[400px] border-blue-700 border shadow-md ">
           <p class="w-full text-xl tracking-wide bg-gray-200 border-b-1.5 py-3 text-center font-bold border-dashed border-gray-600">
-            Upcoming Meetings
+            Upcoming Meeting
           </p>
           {weekNum === 5 ? (
             <>
@@ -586,11 +604,30 @@ const Meetings = (props) => {
                 ) : (
                   ""
                 )}
-                Meeting {weekNum + moveIndex} of {4}
+                Meeting {weekNum + moveIndex} of{" "}
+                {props.startup.currentMentorship.duration}
               </>
             )}
           </p>
-          {weekNum === 5 ? (
+          {timelineCompleted ? (
+            <p class="text-green-600 relative top-[110px] text-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-[22px] h-[22px] inline mr-1.5 relative bottom-[1.5px]"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              Mentorship Completed
+            </p>
+          ) : weekNum === 5 ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -666,33 +703,38 @@ const Meetings = (props) => {
                   </div>
                 );
               })}
-              <p class="mx-auto block text-xs bg-gradient-to-br mt-5 from-green-500 to-green-600 text-white border-y-2 border-green-700 uppercase tracking-wide border-b-1.5 py-2 px-2 text-center font-bold border-dashed ">
-                <>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-[18px] h-[18px] inline  relative bottom-[1.6px]"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>{" "}
-                  You've already picked 2 meeting slots for week{" "}
-                  {weekNum + moveIndex}.{" "}
-                  {moveIndex + weekNum === 4
-                    ? ""
-                    : `Wish to do the same for week ${
-                        weekNum + 1 + moveIndex
-                      }?`}{" "}
-                </>
-              </p>
+              {props.startup.currentMentorship.duration > 1 ? (
+                <p class="mx-auto block text-xs bg-gradient-to-br mt-5 from-green-500 to-green-600 text-white border-y-2 border-green-700 uppercase tracking-wide border-b-1.5 py-2 px-2 text-center font-bold border-dashed ">
+                  <>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-[18px] h-[18px] inline  relative bottom-[1.6px]"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>{" "}
+                    You've already picked 2 meeting slots for week{" "}
+                    {weekNum + moveIndex}.{" "}
+                    {moveIndex + weekNum === 4
+                      ? ""
+                      : `Wish to do the same for week ${
+                          weekNum + 1 + moveIndex
+                        }?`}{" "}
+                  </>
+                </p>
+              ) : (
+                ""
+              )}
 
-              {!(moveIndex + weekNum === 4) ? (
+              {!(moveIndex + weekNum === 4) &&
+              props.startup.currentMentorship.duration > 1 ? (
                 <button
                   onClick={moveForward}
                   class={`bg-blue-700 hover:bg-blue-600 text-sm ${
@@ -721,7 +763,7 @@ const Meetings = (props) => {
             </>
           ) : (
             <>
-              <p class="mx-auto block text-xs bg-gradient-to-br from-orange-400 to-orange-600 text-white border-b-2 border-blue-700 uppercase tracking-wide border-b-1.5 py-2 px-2 text-center font-bold border-dashed ">
+              <p class="mx-auto block text-xs bg-gradient-to-br from-orange-400 to-orange-600 text-white border-b-2 border-blue-700 uppercase tracking-wide border-b-1.5 py-2 px-3 text-center font-bold border-dashed ">
                 <>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -729,7 +771,7 @@ const Meetings = (props) => {
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="w-[18px] h-[18px] inline  relative bottom-[1.6px]"
+                    class="w-[18px] h-[18px] inline  relative bottom-[1.4px]"
                   >
                     <path
                       stroke-linecap="round"
@@ -737,8 +779,7 @@ const Meetings = (props) => {
                       d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
                     />
                   </svg>{" "}
-                  Pick 2 meeting slots for this week. Your mentees will select
-                  one slot.
+                  Pick 2 meeting slots. Your mentees will select one slot.
                 </>
               </p>
 
@@ -888,6 +929,72 @@ const Meetings = (props) => {
             Timeline
           </p>
 
+          <p class="text-red-500 relative top-[145px] text-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-[22px] h-[22px] inline mr-1.5 relative bottom-[1.5px]"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+              />
+            </svg>
+            Only 1 Meeting Included
+          </p>
+
+          {/* {checkPoints.length > 1 ? (
+            <ol class="relative border-l border-blue-700 block -left-[19px] justify-center text-center mx-auto w-fit pt-[22px] pb-[0.1px]">
+              {checkPoints
+                .filter((c, i) => i != checkPoints.length - 1)
+                .map((chkPoint, i) => {
+                  return (
+                    <li class="mb-[29px] ml-10 mx-auto">
+                      <div class="absolute w-3 h-3 bg-blue-700 rounded-full mt-1.5 -left-1.5 border border-white "></div>
+                      <time class="mb-1 text-sm font-bold leading-none text-blue-700 ">
+                        {chkPoint} - {checkPoints[i + 1]}
+                      </time>
+                      <h3 class="text-lg font-semibold text-gray-900   ">
+                        Week {i + 1}
+                      </h3>
+                    </li>
+                  );
+                })}
+            </ol>
+          ) : (
+            ""
+          )} */}
+        </div>
+      </div>
+
+      <div class="bg-white rounded-md lg:hidden md:block hidden w-[50%] -mt-7 mb-16 mx-auto h-[400px] border-blue-700 border shadow-md ">
+        <p class="w-full text-xl tracking-wide bg-gray-200 border-b-1.5 py-3 text-center font-bold border-dashed border-gray-600">
+          Timeline
+        </p>
+
+        <p class="text-red-500 relative top-[145px] text-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-[22px] h-[22px] inline mr-1.5 relative bottom-[1.5px]"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+            />
+          </svg>
+          Only 1 Meeting Included
+        </p>
+
+        {/* {checkPoints.length > 1 ? (
           <ol class="relative border-l border-blue-700 block -left-[19px] justify-center text-center mx-auto w-fit pt-[22px] pb-[0.1px]">
             {checkPoints
               .filter((c, i) => i != checkPoints.length - 1)
@@ -905,31 +1012,9 @@ const Meetings = (props) => {
                 );
               })}
           </ol>
-        </div>
-      </div>
-
-      <div class="bg-white rounded-md lg:hidden md:block hidden w-[50%] -mt-7 mb-16 mx-auto h-[400px] border-blue-700 border shadow-md ">
-        <p class="w-full text-xl tracking-wide bg-gray-200 border-b-1.5 py-3 text-center font-bold border-dashed border-gray-600">
-          Timeline
-        </p>
-
-        <ol class="relative border-l border-blue-700 block -left-[19px] justify-center text-center mx-auto w-fit pt-[22px] pb-[0.1px]">
-          {checkPoints
-            .filter((c, i) => i != checkPoints.length - 1)
-            .map((chkPoint, i) => {
-              return (
-                <li class="mb-[29px] ml-10 mx-auto">
-                  <div class="absolute w-3 h-3 bg-blue-700 rounded-full mt-1.5 -left-1.5 border border-white "></div>
-                  <time class="mb-1 text-sm font-bold leading-none text-blue-700 ">
-                    {chkPoint} - {checkPoints[i + 1]}
-                  </time>
-                  <h3 class="text-lg font-semibold text-gray-900   ">
-                    Week {i + 1}
-                  </h3>
-                </li>
-              );
-            })}
-        </ol>
+        ) : (
+          ""
+        )} */}
       </div>
     </>
   );

@@ -2,7 +2,10 @@ import { useState, useEffect, useContext } from "react";
 import WorkshopDetails from "../Modals/WorkshopDetails";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
-import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  useHistory,
+  useLocation,
+} from "react-router-dom/cjs/react-router-dom.min";
 import Dropdown from "./Dropdown";
 import logo from "../Modals/logo.png";
 import AOS from "aos";
@@ -15,11 +18,13 @@ export default function BrowseMentors() {
   const [showWorkshop, setShowWorkshop] = useState(false);
   const [workshopId, setWorkshopId] = useState(null);
   const [workshops, setWorkshops] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
   const [origWorkshops, setOrigWorkshops] = useState([]);
 
   const project = useContext(projectContext).project;
+
+  const history = useHistory();
 
   useEffect(() => {
     AOS.init({
@@ -146,7 +151,7 @@ export default function BrowseMentors() {
       ) : (
         ""
       )}
-      <div class="w-full mx-auto pt-10 md:pb-0 pb-1 lg:-mb-[205px] md:-mb-[195px] -mb-[225px] relative  ">
+      <div class="w-full mx-auto md:pb-0 pb-1 lg:-mb-[205px] md:-mb-[195px] -mb-[225px] relative  ">
         <h2
           style={{
             backgroundImage:
@@ -172,17 +177,38 @@ export default function BrowseMentors() {
                   d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"
                 />
               </svg>{" "}
-              Browse Mentors
+              Strategic Mentorship
             </p>
             <p class="text-base uppercase mt-1.5 -mb-1 px-3 left-1.5 relative font-semibold">
-              Level-up your Venture with Mentorship
+              Executive Advice & Founder Coaching
             </p>
           </div>
         </h2>
 
         <div class="flex pointer-events-auto  z-[35] px-4 -space-x-4 bg-gradient-to-l from-gray-300 to-slate-50 shadow-md py-1 pb-2 bottom-[71.5px] relative justify-center  w-full  rounded-b-lg  mx-auto">
-          <div class="grid grid-cols-6 sm:text-base  md:px-12 sm:px-8 px-4 text-sm gap-2 items-center z-40 justify-center relative">
-            <div class=" border-[1px] md:col-span-4 col-span-6 grid sm:grid-cols-6 sm:text-base text-sm grid-cols-12 pointer-events-auto rounded-md border-gray-300">
+          <div class="grid grid-cols-10  sm:text-base -ml-[75px] text-sm gap-2 items-center z-40 justify-center relative">
+            <div
+              onClick={() => history.push("/networks/main")}
+              class="tracking-wide cursor-pointer block text-white font-semibold text-center hover:shadow-md border-[1px] md:col-span-2 py-2 col-span-2 sm:text-base text-sm pointer-events-auto rounded-md border-gray-300  bg-blue-700 hover:bg-blue-800 "
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="relative mx-auto inline text-center text-lg mr-2 bottom-[2px] w-5 h-5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+                />
+              </svg>
+              Go Back
+            </div>
+
+            <div class=" border-[1px] md:col-span-4 ml-20 col-span-6 grid sm:grid-cols-6 sm:text-base text-sm grid-cols-12 pointer-events-auto rounded-md border-gray-300">
               <input
                 type="text"
                 onChange={textChangeHandler}
@@ -268,31 +294,68 @@ export default function BrowseMentors() {
               </h2>
             </div>
 
+            <button
+              onClick={() => {
+                history.push("/dashboard/yourmentor");
+              }}
+              class="block -mt-8 text-white text-sm uppercase bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 font-semibold rounded-md px-4 py-2 pt-2.5 mb-12 mx-auto"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 inline  relative bottom-[0.2px] mr-0.5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                />
+              </svg>
+              View Approved Mentorships
+            </button>
+
             {project.mentorsRequested && project.mentorsRequested.length > 0 ? (
               <div
                 class={`${
-                  project && project.mentorsRequested.length === 3
+                  project &&
+                  project.mentorsRequested.length +
+                    project.mentorsMatched.length ===
+                    5
                     ? "bg-orange-50 border-orange-500 text-orange-700"
                     : "bg-indigo-50 border-indigo-500 text-indigo-700"
-                }  w-fit mx-auto block text-base border-l-4 -mt-6 mb-12 shadow-md relative left-1.5  p-4 pt-3 
+                }  w-fit mx-auto block text-base  rounded-md border-l-4 -mt-8 mb-9 shadow-md relative left-1.5  p-4 pt-3 pb-[13px]
                             `}
                 role="alert"
               >
                 <p class="text-sm">
                   Your team has made{" "}
-                  <strong>{project.mentorsRequested.length} </strong>
+                  <strong>
+                    {project.mentorsRequested.length +
+                      project.mentorsMatched.length}{" "}
+                  </strong>
                   mentorship request
-                  {project.mentorsRequested.length > 1 ? "s" : ""}.{" "}
-                  <br class="sm:hidden block" />{" "}
-                  <strong>{3 - project.mentorsRequested.length}</strong> out of{" "}
-                  <strong>3</strong> requests remaining for this month.
+                  {project.mentorsRequested.length +
+                    project.mentorsMatched.length >
+                  1
+                    ? "s"
+                    : ""}
+                  . <br class="sm:hidden block" />{" "}
+                  <strong>
+                    {5 -
+                      project.mentorsRequested.length -
+                      project.mentorsMatched.length}
+                  </strong>{" "}
+                  out of <strong>5</strong> requests remaining for this month.
                 </p>
               </div>
             ) : (
               ""
             )}
 
-            <div class="grid grid-cols-1 lg:max-w-[1250px] lg:px-12 md:max-w-[740px] max-w-[500px] mx-auto z-30 pointer-events-none lg:mb-8 md:-mb-8 sm:mb-6 mb-1.5 lg:-mt-2 sm:mt-1 -mt-1 relative top-[8px]  md:px-1 sm:px-7 px-7    sm:gap-y-12 gap-y-14 md:grid-cols-2 xl:gap-x-12 gap-x-7 lg:grid-cols-2 ">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 xl:px-12 xl:gap-x-5 gap-x-7 xl:gap-y-9 sm:gap-y-12 gap-y-14 xl:max-w-[1500px] lg:max-w-[1250px] lg:px-12 md:max-w-[740px] max-w-[500px] mx-auto z-30 pointer-events-none lg:mb-8 md:-mb-8 sm:mb-6 mb-1.5 lg:-mt-2 sm:mt-1 -mt-1 relative top-[8px]  md:px-1 sm:px-7 px-7      ">
               {[...workshops].map((workshop, i) => (
                 <a
                   data-aos={"fade-up"}
@@ -303,7 +366,7 @@ export default function BrowseMentors() {
                     setWorkshopId(workshop._id);
                     setShowWorkshop(true);
                   }}
-                  class={`group z-20 pointer-events-auto shadow-md bg-slate-50 pb-1  rounded-md cursor-pointer`}
+                  class={`group z-20 transition ease-in-out delay-150 hover:border-b-indigo-600 hover:border-b-2 hover:rounded-b-xl  duration-600 pointer-events-auto shadow-md hover:bg-slate-200 bg-slate-50 pb-1  rounded-md cursor-pointer`}
                 >
                   <div class="w-full z-20 py-5 bg-gray-800  ">
                     {workshop.orgPic ? (
@@ -336,7 +399,7 @@ export default function BrowseMentors() {
                           ? "xl:right-0 lg:right-6 right-10 relative"
                           : ""
                       } mx-auto shadow-sm
-                        rounded-full border-blue-100 border my-2  lg:h-[190px] lg:w-[190px] w-[160px] h-[160px]  object-center object-cover group-hover:opacity-75`}
+                        rounded-full border-blue-100 border my-2 xl:h-[160px] xl:w-[160px]  lg:h-[190px] lg:w-[190px] w-[160px] h-[160px]  object-center object-cover group-hover:opacity-75`}
                     />
                   </div>
                   <h3 class="mt-4 text-xl tracking-wide sm:text-left text-center bg-gradient-to-r w-fit sm:mx-0 mx-auto block from-blue-500 to-indigo-500 text-transparent bg-clip-text px-6  lg:right-0 relative font-bold  text-gray-900">
@@ -346,7 +409,7 @@ export default function BrowseMentors() {
                     Expertise: {workshop.expertise}
                   </p>
                   <p class="mt-2 pb-[14px] text-md px-6 sm:text-left lg:right-0 relative  text-center font-medium text-gray-700">
-                    <span class="sm:inline md:hidden lg:inline hidden ">
+                    <span class="sm:inline md:hidden lg:inline xl:hidden hidden ">
                       Organizations:
                     </span>{" "}
                     {workshop.orgs
@@ -370,7 +433,7 @@ export default function BrowseMentors() {
                             {i != 0 && i != 2 ? "& " : ""}{" "}
                             <img
                               src={org.pic}
-                              class="w-8 h-8 shadow-md ml-2 mb-1 inline rounded-full"
+                              class="w-7 h-7 shadow-md ml-2 mb-1 inline rounded-full"
                             ></img>{" "}
                             <span class="ml-1 inline">
                               {org.name !== "UN Women"

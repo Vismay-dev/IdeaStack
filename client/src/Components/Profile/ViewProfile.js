@@ -66,10 +66,6 @@ const ViewProfile = () => {
         )
         .then((res) => {
           setProject(res.data);
-          for (let i = 0; i < res.data.mentorsMatched.length; i++) {
-            sessionsHeldCopy += res.data.mentorsMatched[i].pastMeetings.length;
-          }
-          setSessionsHeld(sessionsHeldCopy);
           setLoading(false);
         });
     }
@@ -200,10 +196,12 @@ const ViewProfile = () => {
                     </div>
                     <div className="mr-4 p-3 text-center">
                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                        {sessionsHeld}
+                        {project &&
+                          project.mentorsMatched &&
+                          project.mentorsMatched.length}
                       </span>
                       <span className="text-sm top-1 relative text-blueGray-400">
-                        Sessions held with mentors
+                        Current no. of mentors{" "}
                       </span>
                     </div>
                   </div>

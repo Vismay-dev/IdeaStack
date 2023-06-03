@@ -17,7 +17,7 @@ export default function Mentors() {
 
   return (
     <>
-      <div class="block mx-auto text-center px-3 pt-16 sm:mb-3 -mb-2.5 rounded-lg">
+      {/* <div class="block mx-auto text-center px-3 pt-16 sm:mb-3 -mb-2.5 rounded-lg">
         <a
           onClick={() => {
             history.push("/mentorship/yourmentor");
@@ -70,24 +70,24 @@ export default function Mentors() {
           </span>
           Browse Mentors
         </a>
-      </div>
+      </div> */}
 
       <>
         <Switch>
-          <Route path="/mentorship/yourmentor">
+          {/* <Route path="/mentorship/yourmentor">
             <Dashboard />
-          </Route>
+          </Route> */}
 
-          <Route path="/mentorship/bookworkshops">
+          <Route path="/networks/mentorship">
             <BrowseWorkshops />
           </Route>
 
-          <Route path="/mentorship">
-            <Redirect to="/mentorship/yourmentor" />
+          {/* <Route path="/mentorship">
+            <Redirect to="/mentorship/bookworkshops" />
           </Route>
-
-          <Route path="/mentorship/">
-            <Redirect to="/mentorship/yourmentor" />
+ */}
+          <Route path="/networks/mentorship/">
+            <Redirect to="/networks/mentorship" />
           </Route>
         </Switch>
       </>

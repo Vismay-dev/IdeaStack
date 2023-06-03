@@ -22,6 +22,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 import userContext from "../../context/userContext.js";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min.js";
 
 export default function ManageProject() {
   useEffect(() => {
@@ -266,6 +267,8 @@ export default function ManageProject() {
       });
   }, [location.pathname, projectCurr.project]);
 
+  const history = useHistory();
+
   const [inviteSent, setInviteSent] = useState(false);
   const [showLeave, setShowLeave] = useState(false);
   const sendInvite = () => {
@@ -329,7 +332,7 @@ export default function ManageProject() {
             )}
 
             <h2
-              class={`text-center tracking-wide font-bold sm:text-5xl text-4xl  text-gray-800 top-1 relative  mt-12 
+              class={`text-center tracking-wide font-bold sm:text-5xl text-4xl  text-gray-800 top-1 relative  mt-10 
                
                    mb-4
                `}
@@ -354,11 +357,34 @@ export default function ManageProject() {
               </p>
             </h2>
 
-            <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 xl:left-0 left-0.5  relative justify-center mx-auto lg:px-[60px]  md:px-[160px] sm:px-[70px] px-[30px] lg:mt-[63px] mt-[45px] mb-2  xl:gap-5 gap-9 ">
+            <button
+              onClick={() => {
+                history.push("/dashboard/yourmentor");
+              }}
+              class="block mt-10 -mb-4 text-white text-sm uppercase bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 font-semibold rounded-md px-4 py-2 pt-2.5  mx-auto"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 inline  relative bottom-[0.2px] mr-0.5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                />
+              </svg>
+              View Your Mentorships
+            </button>
+
+            <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 xl:left-0 left-0.5  relative justify-center mx-auto lg:px-[60px]  md:px-[160px] sm:px-[70px] px-[30px] lg:mt-[63px] mt-[45px] -mb-5  xl:gap-5 gap-9 ">
               <div
                 data-aos={"fade-up"}
                 data-aos-once="true"
-                class={`w-full relative lg:h-[520px] mt-1 xl:h-[530px] col-span-1  `}
+                class={`w-full flex flex-1 flex-col relative lg:h-[520px] mt-1 xl:h-[530px] col-span-1  `}
               >
                 <div
                   class={`rounded-lg shadow-lg bg-gradient-to-r border-[1px] border-blue-600 lg:h-[520px] xl:top-0 lg:-top-[3px] relative xl:h-[530px]  from-blue-50 to-indigo-100 h-fit overflow-hidden mb-0`}
@@ -423,7 +449,7 @@ export default function ManageProject() {
                 data-aos={"fade-up"}
                 data-aos-once="true"
                 data-aos-delay="200"
-                class={`w-full  relative h-fit lg:h-[480px] xl:h-[530px] col-span-1`}
+                class={`w-full flex flex-1 flex-col  relative h-fit lg:h-[480px] xl:h-[530px] col-span-1`}
               >
                 <div
                   class={`rounded-lg shadow-lg bg-gradient-to-r  border-[1px] border-blue-600 h-fit lg:h-[520px] xl:h-[530px]  from-blue-50 to-indigo-200 overflow-hidden mb-0`}
@@ -509,7 +535,7 @@ export default function ManageProject() {
                 data-aos={"fade-up"}
                 data-aos-once="true"
                 data-aos-delay="400"
-                className=" col-span-1 lg:left-[50%] xl:left-0 lg:relative  xl:mb-0"
+                className=" col-span-1 flex flex-1 flex-col  lg:left-[50%] xl:left-0 lg:relative  xl:mb-0"
               >
                 <CardTeam triggerRemover={remover} />
               </div>

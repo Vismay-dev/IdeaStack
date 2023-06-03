@@ -279,7 +279,9 @@ const WorkshopDetails = (props) => {
                           <div
                             class={`${
                               projCon.project &&
-                              projCon.project.mentorsRequested.length === 3
+                              projCon.project.mentorsRequested.length +
+                                projCon.project.mentorsMatched.length ===
+                                5
                                 ? "bg-orange-50 border-orange-500 text-orange-700"
                                 : "bg-indigo-50 border-indigo-500 text-indigo-700"
                             }  sm:text-sm text-xs xl:ml-5 relative -top-[5px] w-full mx-auto  just inline font-normal sm:border-l-4 sm:text-left text-center  shadow-md  sm:p-4 sm:pl-2 sm:pr-3 sm:pt-3 pt-3 pb-3.5 pl-2 pr-1  sm:pb-3.5
@@ -287,7 +289,8 @@ const WorkshopDetails = (props) => {
                             role="alert"
                           >
                             <strong>
-                              {projCon.project.mentorsRequested.length}{" "}
+                              {projCon.project.mentorsRequested.length +
+                                projCon.project.mentorsMatched.length}{" "}
                             </strong>
                             mentorship request
                             {projCon.project.mentorsRequested.length > 1
@@ -295,9 +298,11 @@ const WorkshopDetails = (props) => {
                               : " "}
                             made.{" "}
                             <strong>
-                              {3 - projCon.project.mentorsRequested.length}
+                              {5 -
+                                projCon.project.mentorsRequested.length -
+                                projCon.project.mentorsMatched.length}
                             </strong>{" "}
-                            out of <strong>3</strong> requests remaining.
+                            out of <strong>5</strong> requests remaining.
                           </div>
                         ) : (
                           ""
@@ -479,7 +484,7 @@ const WorkshopDetails = (props) => {
                             projCon.project.mentorsMatched
                               .map((rM) => JSON.stringify(rM.mentorId))
                               .includes(JSON.stringify(workshop._id)) ? (
-                            <>
+                            <div>
                               <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[69px] -mb-6 w-fit bg-gradient-to-r from-green-500 to-green-700">
                                 Mentor Matched!
                               </h2>
@@ -505,7 +510,7 @@ const WorkshopDetails = (props) => {
                                 You've already been matched to this mentor!
                                 Email us with any feedback.
                               </h3>
-                            </>
+                            </div>
                           ) : requested ||
                             (projCon.project.mentorsRequested &&
                               projCon.project.mentorsRequested
@@ -543,7 +548,7 @@ const WorkshopDetails = (props) => {
                               onClick={() => {
                                 setShowConfirm(true);
                               }}
-                              className={`${"sm:mt-9 mt-6"} mb-6 w-full 
+                              className={`${"sm:mt-7 mt-6"} mb-6 w-full 
                                  bg-indigo-600 shadow-md hover:shadow-xl hover:bg-indigo-700 hover:cursor-pointer 
                              border border-transparen rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                             >
@@ -557,11 +562,10 @@ const WorkshopDetails = (props) => {
                               >
                                 <path
                                   stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                                  d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
                                 />
-                              </svg>
-                              Request Mentor
+                              </svg>{" "}
+                              Request Meeting
                             </button>
                           )}
 
@@ -604,7 +608,7 @@ const WorkshopDetails = (props) => {
                         className={` ${"lg:mt-1 mt-4"} text-gray-900 relative top-3`}
                       >
                         <span
-                          class={`font-bold tracking-wide bg-gradient-to-r w-fit from-blue-600 to-indigo-600 text-transparent mt-1  bg-clip-text ${
+                          class={`font-bold tracking-wide bg-gradient-to-r w-fit from-blue-600 to-indigo-600 text-transparent mt-1 top-1  bg-clip-text ${
                             requested ||
                             (projCon.project.mentorsRequested &&
                               projCon.project.mentorsRequested
@@ -758,7 +762,7 @@ const WorkshopDetails = (props) => {
                             .map((rM) => JSON.stringify(rM.mentorId))
                             .includes(JSON.stringify(workshop._id)) ? (
                             <>
-                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[55px] -mb-[26px] w-fit bg-gradient-to-r from-green-500 to-green-700">
+                              <h2 class="text-2xl  tracking-wide font-bold bg-clip-text text-transparent mt-[55px] -mb-[26px] w-fit bg-gradient-to-r from-green-500 to-green-700">
                                 Mentor Matched!
                               </h2>
                               <h3
@@ -790,13 +794,13 @@ const WorkshopDetails = (props) => {
                                 .map((rM) => JSON.stringify(rM))
                                 .includes(JSON.stringify(workshop._id))) ? (
                             <>
-                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[48px] -mb-[28px] w-fit bg-gradient-to-r from-green-500 to-green-700">
+                              <h2 class="text-2xl tracking-wide font-bold bg-clip-text text-transparent mt-[42px] -mb-[32px] w-fit bg-gradient-to-r from-green-500 to-green-700">
                                 Mentor Requested
                               </h2>
                               <h3
                                 className={`text-sm ${
                                   workshop.orgs.length > 2 ? "" : "   "
-                                } text-green-800 block font-medium bg-green-100 border-dashed border-green-600 border-[1px] px-3 py-2 relative mt-12 rounded-md shadow-md`}
+                                } text-green-800 block font-medium bg-green-100 border-dashed border-green-600 border-[1px] px-3 py-2 relative mt-12 mb-3 rounded-md shadow-md`}
                               >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -812,8 +816,8 @@ const WorkshopDetails = (props) => {
                                     d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                   />
                                 </svg>{" "}
-                                Your request for this mentor will be considered
-                                while matching you to a mentor!
+                                Your meeting request for this mentor has been
+                                received. We're working on it!
                               </h3>
                             </>
                           ) : projCon.project.mentorsRequested &&
@@ -852,7 +856,7 @@ const WorkshopDetails = (props) => {
                                 onClick={() => {
                                   setShowConfirm(true);
                                 }}
-                                className={`${"sm:mt-[60px] mt-6"} mb-3 w-full 
+                                className={`${"sm:mt-[55px] mt-6"} mb-3 w-full 
                                  bg-indigo-600 shadow-md hover:shadow-xl hover:bg-indigo-700 hover:cursor-pointer 
                              border border-transparen rounded-md py-3 px-8 flex items-center justify-center sm:text-base text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                               >
@@ -866,11 +870,10 @@ const WorkshopDetails = (props) => {
                                 >
                                   <path
                                     stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                                    d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
                                   />
                                 </svg>
-                                Request Mentor
+                                Request Meeting
                               </button>
 
                               <button
@@ -1058,7 +1061,7 @@ ${
                           }}
                           className={`${
                             workshop.orgs.length > 2
-                              ? "sm:mt-[12px] mt-[12px]"
+                              ? "sm:mt-[10px] mt-[12px]"
                               : "mt-[12px]"
                           } mb-10 w-full 
                                  bg-indigo-600 shadow-md hover:shadow-xl hover:bg-indigo-700 hover:cursor-pointer 
@@ -1070,15 +1073,14 @@ ${
                             viewBox="0 0 24 24"
                             stroke-width="1.5"
                             stroke="currentColor"
-                            class="w-4 h-4 mr-2"
+                            class="w-5 h-5 mr-2"
                           >
                             <path
                               stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                              d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
                             />
                           </svg>
-                          Request Mentor
+                          Request Meeting
                         </button>
                       )}
 
@@ -1250,8 +1252,9 @@ ${
                                 1:1 Mentorship
                               </h3>
                               <p class="text-gray-500 sm:text-base text-sm">
-                                Mentor will meet you online every week, helping
-                                you fine-tune your thought processes.
+                                Mentor will help you fine-tune your thought
+                                processes with respect to their area of
+                                expertise.
                               </p>
                             </div>
 
@@ -1296,8 +1299,8 @@ ${
                                 Assignments
                               </h3>
                               <p class="text-gray-500 sm:text-base text-sm">
-                                Mentor will personally check your submitted
-                                assignments, and provide you with custom
+                                Mentor will personally check your documents
+                                (strategy planning), and provide you with custom
                                 feedback .
                               </p>
                             </div>

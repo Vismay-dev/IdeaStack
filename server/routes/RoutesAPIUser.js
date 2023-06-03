@@ -58,7 +58,6 @@ const fileStorageEngine = multer.diskStorage({
     }
 
     const fileName = filepath + "." + fileType;
-    console.log(fileName);
     cb(null, fileName);
   },
 });
@@ -267,14 +266,14 @@ router.post("/register", async (req, res) => {
             }
           }
 
-          sendOnboardedMail()
-            .then((result) => {
-              console.log(result);
-            })
-            .catch((err) => {
-              console.log(err);
-              res.status(400).send(err);
-            });
+          // sendOnboardedMail()
+          //   .then((result) => {
+          //     console.log(result);
+          //   })
+          //   .catch((err) => {
+          //     console.log(err);
+          //     res.status(400).send(err);
+          //   });
 
           proj.markModified("team");
           await proj.save();
@@ -428,8 +427,6 @@ router.post("/registerWithGoogle", async (req, res) => {
         projectId: req.body.additionalMember ? req.body.projId : null,
       });
 
-      console.log(req.body);
-
       if (
         req.body.additionalMember &&
         req.body.uniqueCode &&
@@ -440,7 +437,6 @@ router.post("/registerWithGoogle", async (req, res) => {
       }
 
       const proj = await project.findById(req.body.projId);
-      console.log("here2");
 
       if (req.body.additionalMember) {
         let chk1 = true;
@@ -979,10 +975,10 @@ router.post("/getUserByMail", auth, async (req, res) => {
 
 router.post("/getUserForMentor", auth, async (req, res) => {
   try {
-    const user = await studentUser.findById(req.body.teamMember);
-    console.log(user);
+    const user = await studentUser.findById(JSON.parse(req.body.teamMember));
     res.send(user);
   } catch (err) {
+    console.log(err);
     res.status(400).send(err);
   }
 });
@@ -1062,78 +1058,78 @@ router.post("/updateMentor", auth, async (req, res) => {
         ]
       );
 
-      async function sendRequestAcceptedMail() {
-        try {
-          const transport = await nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 465,
-            auth: {
-              type: "OAuth2",
-              user: "ideastackapp@gmail.com",
-              clientId: process.env.CLIENT_ID,
-              clientSecret: process.env.CLIENT_SECRET,
-              accessToken: process.env.ACCESS_TOKEN,
-              refreshToken: process.env.REFRESH_TOKEN,
-            },
-          });
+      // async function sendRequestAcceptedMail() {
+      //   try {
+      //     const transport = await nodemailer.createTransport({
+      //       host: "smtp.gmail.com",
+      //       port: 465,
+      //       auth: {
+      //         type: "OAuth2",
+      //         user: "ideastackapp@gmail.com",
+      //         clientId: process.env.CLIENT_ID,
+      //         clientSecret: process.env.CLIENT_SECRET,
+      //         accessToken: process.env.ACCESS_TOKEN,
+      //         refreshToken: process.env.REFRESH_TOKEN,
+      //       },
+      //     });
 
-          const mailOptions = {
-            from: "IdeaStack <ideastackapp@gmail.com>",
-            to: [...proj.team.map((teamMember) => teamMember.email)],
-            bcc: [],
-            subject: `Mentorship Request Accepted - ${req.body.mentor.name} @ IdeaStack.org`,
-            text: `
-                    Hey, Entrepreneurs @ ${proj.name}!
-            
-                    IdeaStack mentor ${req.body.mentor.name} has accepted your mentorship request.
-                    
-                    We'll be taking this acceptance into consideration while matching you with a mentor! 
-                    Sign-in to IdeaStack.org, and make more requests to mentors that interest you- this will increase the likelihood that you're matched with a mentor that suits your preferences.
-    
-                    Contact us if you face any issues- our team prioritizes your experience above all else.
-                    
-                    Best Regards,
-                    Admin Team, IdeaStack`,
-            html: `
-                    <p>Hey, Entrepreneurs @ ${proj.name}!</p>
-            
-                    <p> IdeaStack mentor ${req.body.mentor.name} has accepted your mentorship request.<br/>
-                    <h4>We'll be taking this acceptance into consideration while matching you with a mentor! </h4>
-                    Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and make more requests to mentors that interest you- this will increase the likelihood that you're matched with a mentor that suits your preferences.<br/> 
-                    Contact us if you face any issues- our team prioritizes your experience above all else.
-                    </p>
-                    
-                    <p>Best Regards,<br/>
-                    Admin Team, IdeaStack</p>
-                    <br/><br/>
-                    <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
-                    `,
-            attachments: [
-              {
-                fileName: "IdeaStack.jpg",
-                path: "server/routes/IdeaStack.jpg",
-                cid: "ideastack@orgae.ee",
-              },
-            ],
-          };
-          const result = await transport.sendMail(mailOptions);
-          return result;
-        } catch (err) {
-          return err;
-        }
-      }
+      //     const mailOptions = {
+      //       from: "IdeaStack <ideastackapp@gmail.com>",
+      //       to: [...proj.team.map((teamMember) => teamMember.email)],
+      //       bcc: [],
+      //       subject: `Mentorship Request Accepted - ${req.body.mentor.name} @ IdeaStack.org`,
+      //       text: `
+      //               Hey, Entrepreneurs @ ${proj.name}!
 
-      sendRequestAcceptedMail()
-        .then((result) => {
-          mixpanel.track("Mentor Request Acceptance", {
-            distinct_id: updatedMentor._id,
-          });
-          console.log(result);
-        })
-        .catch((err) => {
-          console.log(err);
-          res.status(400).send(err);
-        });
+      //               IdeaStack mentor ${req.body.mentor.name} has accepted your mentorship request.
+
+      //               We'll be taking this acceptance into consideration while matching you with a mentor!
+      //               Sign-in to IdeaStack.org, and make more requests to mentors that interest you- this will increase the likelihood that you're matched with a mentor that suits your preferences.
+
+      //               Contact us if you face any issues- our team prioritizes your experience above all else.
+
+      //               Best Regards,
+      //               Admin Team, IdeaStack`,
+      //       html: `
+      //               <p>Hey, Entrepreneurs @ ${proj.name}!</p>
+
+      //               <p> IdeaStack mentor ${req.body.mentor.name} has accepted your mentorship request.<br/>
+      //               <h4>We'll be taking this acceptance into consideration while matching you with a mentor! </h4>
+      //               Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and make more requests to mentors that interest you- this will increase the likelihood that you're matched with a mentor that suits your preferences.<br/>
+      //               Contact us if you face any issues- our team prioritizes your experience above all else.
+      //               </p>
+
+      //               <p>Best Regards,<br/>
+      //               Admin Team, IdeaStack</p>
+      //               <br/><br/>
+      //               <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+      //               `,
+      //       attachments: [
+      //         {
+      //           fileName: "IdeaStack.jpg",
+      //           path: "server/routes/IdeaStack.jpg",
+      //           cid: "ideastack@orgae.ee",
+      //         },
+      //       ],
+      //     };
+      //     const result = await transport.sendMail(mailOptions);
+      //     return result;
+      //   } catch (err) {
+      //     return err;
+      //   }
+      // }
+
+      // sendRequestAcceptedMail()
+      //   .then((result) => {
+      //     mixpanel.track("Mentor Request Acceptance", {
+      //       distinct_id: updatedMentor._id,
+      //     });
+      //     console.log(result);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //     res.status(400).send(err);
+      //   });
     }
 
     res.send({ ...updatedMentor, ...updateInfo });
@@ -1246,14 +1242,14 @@ router.post("/onboardTeam", auth, async (req, res) => {
       return res.status(400).send(err);
     });
 
-    sendMail(req.body.team[i], uniqueCode)
-      .then(async (result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        console.log(err);
-        return;
-      });
+    // sendMail(req.body.team[i], uniqueCode)
+    //   .then(async (result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     return;
+    //   });
   }
 
   let updateInfo = {
@@ -1278,93 +1274,93 @@ router.post("/onboardTeam", auth, async (req, res) => {
     await currProject.save();
   }
 
-  async function sendMail(teamMember, uniqueCodeParam) {
-    const transport = await nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      auth: {
-        type: "OAuth2",
-        user: "ideastackapp@gmail.com",
-        clientId: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        accessToken: process.env.ACCESS_TOKEN,
-        refreshToken: process.env.REFRESH_TOKEN,
-      },
-    });
+  // async function sendMail(teamMember, uniqueCodeParam) {
+  //   const transport = await nodemailer.createTransport({
+  //     host: "smtp.gmail.com",
+  //     port: 465,
+  //     auth: {
+  //       type: "OAuth2",
+  //       user: "ideastackapp@gmail.com",
+  //       clientId: process.env.CLIENT_ID,
+  //       clientSecret: process.env.CLIENT_SECRET,
+  //       accessToken: process.env.ACCESS_TOKEN,
+  //       refreshToken: process.env.REFRESH_TOKEN,
+  //     },
+  //   });
 
-    const mailOptions = {
-      from: "IdeaStack <ideastackapp@gmail.com>",
-      to: teamMember.email,
-      cc: [user.email],
-      bcc: ["vismaysuramwar@gmail.com"],
-      subject: "IdeaStack Team Onboarding - " + user.firstName,
-      text: `
-                Hey ${teamMember.name}!
-        
-                ${
-                  user.firstName
-                }, from your startup, has registered you & your team for mentorship
-                on IdeaStack. You've been listed as a team-member with the role: ${
-                  teamMember.role
-                }
-                
-                Unique Registration Code: ${uniqueCodeParam}.
+  //   const mailOptions = {
+  //     from: "IdeaStack <ideastackapp@gmail.com>",
+  //     to: teamMember.email,
+  //     cc: [user.email],
+  //     bcc: ["vismaysuramwar@gmail.com"],
+  //     subject: "IdeaStack Team Onboarding - " + user.firstName,
+  //     text: `
+  //               Hey ${teamMember.name}!
 
-                Use the code above to access your team's mentorship dashboard & workspace. 
+  //               ${
+  //                 user.firstName
+  //               }, from your startup, has registered you & your team for mentorship
+  //               on IdeaStack. You've been listed as a team-member with the role: ${
+  //                 teamMember.role
+  //               }
 
-                Join using this link (unique link, will not work for any other user): https://ideastack.org/teamonboarding/${
-                  teamMember.name
-                }/${user.firstName + " " + user.lastName}/${currProject._id}
+  //               Unique Registration Code: ${uniqueCodeParam}.
 
-                Note: The link above is unique, and will not work for any other user. There are limited seats available for IdeaStack registration
+  //               Use the code above to access your team's mentorship dashboard & workspace.
 
-                Reply to this mail if you face any issues; we'll get back to you as soon as possible!
-                
-                Best Regards,
-                Admin, IdeaStack`,
-      html: `
-                <p>Hey ${teamMember.name}!</p>
-        
-                <p> ${
-                  user.firstName
-                }, from your startup, has registered you & your team for mentorship<br/>
-                on IdeaStack. You've been listed as a team-member with the role: ${
-                  teamMember.role
-                }</p>
-               
-                <h4>Unique Registration Code: ${uniqueCodeParam}.</h4>
+  //               Join using this link (unique link, will not work for any other user): https://ideastack.org/teamonboarding/${
+  //                 teamMember.name
+  //               }/${user.firstName + " " + user.lastName}/${currProject._id}
 
-                <p>Use the code above to access your team's mentorship dashboard & workspace.</p>
-                <p>Join using this link: <a href = '${
-                  process.env.NODE_ENV === "production"
-                    ? "https://ideastack.org"
-                    : "http://localhost:3000"
-                }/teamonboarding/${teamMember.name}/${
-        user.firstName + " " + user.lastName
-      }/${currProject._id}'>https://ideastack.org/teamonboarding/${
-        teamMember.name
-      }/${user.firstName + " " + user.lastName}/${currProject._id}</a></p>
-                
-                <p> Note: The link above is unique, and will not work for any other user. There are limited seats available for IdeaStack registration, so sign-up soon! </p>
+  //               Note: The link above is unique, and will not work for any other user. There are limited seats available for IdeaStack registration
 
-                <p> Reply to this mail if you face any issues; we'll get back to you as soon as possible! </p>
+  //               Reply to this mail if you face any issues; we'll get back to you as soon as possible!
 
-                <p>Best Regards,<br/>
-                 Admin, IdeaStack</p>
-                <br/>
-                <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
-                `,
-      attachments: [
-        {
-          fileName: "IdeaStack.jpg",
-          path: "server/routes/IdeaStack.jpg",
-          cid: "ideastack@orgae.ee",
-        },
-      ],
-    };
-    const result = await transport.sendMail(mailOptions);
-    return result;
-  }
+  //               Best Regards,
+  //               Admin, IdeaStack`,
+  //     html: `
+  //               <p>Hey ${teamMember.name}!</p>
+
+  //               <p> ${
+  //                 user.firstName
+  //               }, from your startup, has registered you & your team for mentorship<br/>
+  //               on IdeaStack. You've been listed as a team-member with the role: ${
+  //                 teamMember.role
+  //               }</p>
+
+  //               <h4>Unique Registration Code: ${uniqueCodeParam}.</h4>
+
+  //               <p>Use the code above to access your team's mentorship dashboard & workspace.</p>
+  //               <p>Join using this link: <a href = '${
+  //                 process.env.NODE_ENV === "production"
+  //                   ? "https://ideastack.org"
+  //                   : "http://localhost:3000"
+  //               }/teamonboarding/${teamMember.name}/${
+  //       user.firstName + " " + user.lastName
+  //     }/${currProject._id}'>https://ideastack.org/teamonboarding/${
+  //       teamMember.name
+  //     }/${user.firstName + " " + user.lastName}/${currProject._id}</a></p>
+
+  //               <p> Note: The link above is unique, and will not work for any other user. There are limited seats available for IdeaStack registration, so sign-up soon! </p>
+
+  //               <p> Reply to this mail if you face any issues; we'll get back to you as soon as possible! </p>
+
+  //               <p>Best Regards,<br/>
+  //                Admin, IdeaStack</p>
+  //               <br/>
+  //               <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+  //               `,
+  //     attachments: [
+  //       {
+  //         fileName: "IdeaStack.jpg",
+  //         path: "server/routes/IdeaStack.jpg",
+  //         cid: "ideastack@orgae.ee",
+  //       },
+  //     ],
+  //   };
+  //   const result = await transport.sendMail(mailOptions);
+  //   return result;
+  // }
 
   res.send(newUser);
 
@@ -1449,8 +1445,6 @@ router.post("/getWorkshops", auth, async (req, res) => {
 
 router.post("/getWorkshop", auth, async (req, res) => {
   const workshopSearched = await workshop.findById(req.body.workshopId);
-  console.log(workshopSearched);
-  console.log(req.body.workshopId);
   res.send(workshopSearched);
 });
 
@@ -1655,13 +1649,161 @@ router.post("/acknowledgeMeetingCompletion", auth, async (req, res) => {
     },
   };
 
+  if (
+    proj.mentorsMatched[index].pastMeetings.length >=
+      proj.mentorsMatched[index].duration &&
+    new Date(
+      proj.mentorsMatched[index].pastMeetings[
+        proj.mentorsMatched[index].pastMeetings.length - 1
+      ].date
+    ) < new Date()
+  ) {
+    proj.mentorsMatched[index] = {
+      ...proj.mentorsMatched[index],
+      mentorshipCompleted: true,
+    };
+  }
+
   proj.markModified("mentorsMatched");
   await proj.save();
 
   res.send(proj);
 });
 
-router.post("/acknowledgeMeetingCompletionMentor", auth, async (req, res) => {
+router.post("/endMentorship", auth, async (req, res) => {
+  const user = await studentUser.findById(req.user._id);
+  const proj = await project.findById(user.projectId);
+
+  let mentorMatched;
+  let index;
+
+  for (let i = 0; i < proj.mentorsMatched.length; i++) {
+    if (
+      JSON.stringify(proj.mentorsMatched[i].mentorId) ===
+      JSON.stringify(req.body.mentorId)
+    ) {
+      mentorMatched = proj.mentorsMatched[i];
+      index = i;
+    }
+  }
+
+  let mentorsTemp = proj.mentorsMatched;
+  mentorsTemp.splice(index, 1);
+  proj.mentorsMatched = mentorsTemp;
+
+  proj.markModified("mentorsMatched");
+  await proj.save();
+
+  const mentor = await workshop.findById(mentorMatched.mentorId);
+  let indexTemp = mentor.currentMentees.indexOf(user.projectId);
+
+  let menteesTemp = mentor.currentMentees;
+  menteesTemp.splice(indexTemp, 1);
+  mentor.currentMentees = menteesTemp;
+
+  mentor.markModified("currentMentees");
+  await mentor.save();
+
+  res.send(proj);
+});
+
+router.post("/repeatMentorship", auth, async (req, res) => {
+  const user = await studentUser.findById(req.user._id);
+  const proj = await project.findById(user.projectId);
+
+  let mentorMatched;
+  let index;
+
+  for (let i = 0; i < proj.mentorsMatched.length; i++) {
+    if (
+      JSON.stringify(proj.mentorsMatched[i].mentorId) ===
+      JSON.stringify(req.body.mentorId)
+    ) {
+      mentorMatched = proj.mentorsMatched[i];
+      index = i;
+    }
+  }
+
+  proj.mentorsMatched[index] = {
+    ...proj.mentorsMatched[index],
+    repeatRequested: true,
+  };
+
+  proj.markModified("mentorsMatched");
+  await proj.save();
+
+  res.send(proj);
+});
+
+router.post("/denyRepeatRequest", async (req, res) => {
+  const proj = await project.findById(req.body.projId);
+
+  let mentorMatched;
+  let index;
+
+  for (let i = 0; i < proj.mentorsMatched.length; i++) {
+    if (
+      JSON.stringify(proj.mentorsMatched[i].mentorId) ===
+      JSON.stringify(req.body.mentorId)
+    ) {
+      mentorMatched = proj.mentorsMatched[i];
+      index = i;
+    }
+  }
+
+  proj.mentorsMatched[index] = {
+    ...proj.mentorsMatched[index],
+    repeatRequestApproved: "no",
+  };
+
+  console.log(proj.mentorsMatched[index]);
+
+  proj.markModified("mentorsMatched");
+  await proj.save();
+
+  res.send(proj);
+});
+
+router.post("/acceptRepeatRequest", async (req, res) => {
+  const proj = await project.findById(req.body.projId);
+
+  let mentorMatched;
+  let index;
+
+  for (let i = 0; i < proj.mentorsMatched.length; i++) {
+    if (
+      JSON.stringify(proj.mentorsMatched[i].mentorId) ===
+      JSON.stringify(req.body.mentorId)
+    ) {
+      mentorMatched = proj.mentorsMatched[i];
+      index = i;
+    }
+  }
+
+  currDate = new Date(proj.mentorsMatched[index].endDate);
+  currDate.setMonth(currDate.getMonth() + 1);
+
+  proj.mentorsMatched[index] = {
+    ...proj.mentorsMatched[index],
+    repeatRequestApproved: "yes",
+    mentorshipCompleted: false,
+    endDate: currDate,
+    timeline: {
+      week1: {
+        availableDates: [],
+      },
+    },
+    pastMeetings: [],
+    upcomingMeeting: {},
+  };
+
+  proj.markModified("mentorsMatched");
+  await proj.save();
+
+  res.send(proj);
+});
+
+router.post("/acknowledgeMeetingCompletionMentor", async (req, res) => {
   const proj = await project.findById(req.body.projectId);
 
   let mentorMatched;
@@ -1688,6 +1830,21 @@ router.post("/acknowledgeMeetingCompletionMentor", auth, async (req, res) => {
       completed: true,
     },
   };
+
+  if (
+    proj.mentorsMatched[index].pastMeetings.length >=
+      proj.mentorsMatched[index].duration &&
+    new Date(
+      proj.mentorsMatched[index].pastMeetings[
+        proj.mentorsMatched[index].pastMeetings.length - 1
+      ].date
+    ) < new Date()
+  ) {
+    proj.mentorsMatched[index] = {
+      ...proj.mentorsMatched[index],
+      mentorshipCompleted: true,
+    };
+  }
 
   proj.markModified("mentorsMatched");
   await proj.save();
@@ -1721,102 +1878,102 @@ router.post("/updateInstructions", auth, async (req, res) => {
 
   const mentor = await workshop.findById(proj.mentorsMatched[index].mentorId);
 
-  async function sendInstructionsMail() {
-    try {
-      const transport = await nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        auth: {
-          type: "OAuth2",
-          user: "ideastackapp@gmail.com",
-          clientId: process.env.CLIENT_ID,
-          clientSecret: process.env.CLIENT_SECRET,
-          accessToken: process.env.ACCESS_TOKEN,
-          refreshToken: process.env.REFRESH_TOKEN,
-        },
-      });
+  // async function sendInstructionsMail() {
+  //   try {
+  //     const transport = await nodemailer.createTransport({
+  //       host: "smtp.gmail.com",
+  //       port: 465,
+  //       auth: {
+  //         type: "OAuth2",
+  //         user: "ideastackapp@gmail.com",
+  //         clientId: process.env.CLIENT_ID,
+  //         clientSecret: process.env.CLIENT_SECRET,
+  //         accessToken: process.env.ACCESS_TOKEN,
+  //         refreshToken: process.env.REFRESH_TOKEN,
+  //       },
+  //     });
 
-      const mailOptions = {
-        from: "IdeaStack <ideastackapp@gmail.com>",
-        to: [...proj.team.map((teamMember) => teamMember.email)],
-        bcc: [],
-        subject: `Mentorship Instructions Updated - ${mentor.name} @ IdeaStack.org`,
-        text: `
-                Hey, Entrepreneurs @ ${proj.name}!
-        
-                IdeaStack mentor ${
-                  mentor.name
-                } has set new instructions for week no. ${
-          req.body.week
-        } of mentorship:
+  //     const mailOptions = {
+  //       from: "IdeaStack <ideastackapp@gmail.com>",
+  //       to: [...proj.team.map((teamMember) => teamMember.email)],
+  //       bcc: [],
+  //       subject: `Mentorship Instructions Updated - ${mentor.name} @ IdeaStack.org`,
+  //       text: `
+  //               Hey, Entrepreneurs @ ${proj.name}!
 
-                Date: ${new Date(
-                  proj.mentorsMatched[index].upcomingMeeting.date
-                )
-                  .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
-                  .substring(12, 17)} (GST), 
-                Instructions: "${req.body.instructions}"
-                
-                Kindly pay heed to the above instructions as you prepare for this week's mentorship meeting with ${
-                  mentor.name
-                }. 
-                Sign-in to IdeaStack.org, and explore more mentor details.
+  //               IdeaStack mentor ${
+  //                 mentor.name
+  //               } has set new instructions for week no. ${
+  //         req.body.week
+  //       } of mentorship:
 
-                Contact us if you face any issues- our team prioritizes your experience above all else.
-                
-                Best Regards,
-                Admin Team, IdeaStack`,
-        html: `
-                <p>Hey, Entrepreneurs @ ${proj.name}!</p>
-        
-                <p> IdeaStack mentor ${
-                  mentor.name
-                } has set new instructions for week no. ${
-          req.body.week
-        } of mentorship:<br/>
+  //               Date: ${new Date(
+  //                 proj.mentorsMatched[index].upcomingMeeting.date
+  //               )
+  //                 .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+  //                 .substring(12, 17)} (GST),
+  //               Instructions: "${req.body.instructions}"
 
-                <p>Date: ${new Date(
-                  proj.mentorsMatched[index].upcomingMeeting.date
-                )
-                  .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
-                  .substring(12, 17)} (GST),</p>
-                <p>Instructions: "${req.body.instructions}"</p>
+  //               Kindly pay heed to the above instructions as you prepare for this week's mentorship meeting with ${
+  //                 mentor.name
+  //               }.
+  //               Sign-in to IdeaStack.org, and explore more mentor details.
 
-                <h4> Kindly pay heed to the above instructions as you prepare for this week's mentorship meeting with ${
-                  mentor.name
-                }.</h4>
-                Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and and explore more mentor details.<br/> 
-                Contact us if you face any issues- our team prioritizes your experience above all else.
-                </p>
-                
-                <p>Best Regards,<br/>
-                Admin Team, IdeaStack</p>
-                <br/><br/>
-                <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
-                `,
-        attachments: [
-          {
-            fileName: "IdeaStack.jpg",
-            path: "server/routes/IdeaStack.jpg",
-            cid: "ideastack@orgae.ee",
-          },
-        ],
-      };
-      const result = await transport.sendMail(mailOptions);
-      return result;
-    } catch (err) {
-      return err;
-    }
-  }
+  //               Contact us if you face any issues- our team prioritizes your experience above all else.
 
-  sendInstructionsMail()
-    .then((result) => {
-      console.log(result);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(400).send(err);
-    });
+  //               Best Regards,
+  //               Admin Team, IdeaStack`,
+  //       html: `
+  //               <p>Hey, Entrepreneurs @ ${proj.name}!</p>
+
+  //               <p> IdeaStack mentor ${
+  //                 mentor.name
+  //               } has set new instructions for week no. ${
+  //         req.body.week
+  //       } of mentorship:<br/>
+
+  //               <p>Date: ${new Date(
+  //                 proj.mentorsMatched[index].upcomingMeeting.date
+  //               )
+  //                 .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+  //                 .substring(12, 17)} (GST),</p>
+  //               <p>Instructions: "${req.body.instructions}"</p>
+
+  //               <h4> Kindly pay heed to the above instructions as you prepare for this week's mentorship meeting with ${
+  //                 mentor.name
+  //               }.</h4>
+  //               Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and and explore more mentor details.<br/>
+  //               Contact us if you face any issues- our team prioritizes your experience above all else.
+  //               </p>
+
+  //               <p>Best Regards,<br/>
+  //               Admin Team, IdeaStack</p>
+  //               <br/><br/>
+  //               <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+  //               `,
+  //       attachments: [
+  //         {
+  //           fileName: "IdeaStack.jpg",
+  //           path: "server/routes/IdeaStack.jpg",
+  //           cid: "ideastack@orgae.ee",
+  //         },
+  //       ],
+  //     };
+  //     // const result = await transport.sendMail(mailOptions);
+  //     return result;
+  //   } catch (err) {
+  //     return err;
+  //   }
+  // }
+
+  // sendInstructionsMail()
+  //   .then((result) => {
+  //     console.log(result);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //     res.status(400).send(err);
+  //   });
 
   proj.markModified("mentorsMatched");
   await proj.save();
@@ -1938,14 +2095,14 @@ router.post("/confirmMeetingSlots", auth, async (req, res) => {
     }
   }
 
-  sendSlotsSetMail()
-    .then((result) => {
-      console.log(result);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(400).send(err);
-    });
+  // sendSlotsSetMail()
+  //   .then((result) => {
+  //     console.log(result);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //     res.status(400).send(err);
+  //   });
 
   proj.markModified("mentorsMatched");
   await proj.save();
@@ -1998,7 +2155,13 @@ router.post("/pickMentorshipDate", auth, async (req, res) => {
     ...proj.mentorsMatched[index],
     pastMeetings: [
       ...proj.mentorsMatched[index].pastMeetings,
-      { ...proj.mentorsMatched[index].upcomingMeeting, completed: true },
+      {
+        date: req.body.datePicked,
+        mentorInstructions: "",
+        link: "",
+        week: req.body.week,
+        completed: false,
+      },
     ],
     upcomingMeeting: {
       date: req.body.datePicked,
@@ -2088,17 +2251,17 @@ router.post("/pickMentorshipDate", auth, async (req, res) => {
     }
   }
 
-  sendDatePickedMail()
-    .then((result) => {
-      mixpanel.track("Meeting Confirmation", {
-        distinct_id: user._id,
-      });
-      console.log(result);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(400).send(err);
-    });
+  // sendDatePickedMail()
+  //   .then((result) => {
+  //     mixpanel.track("Meeting Confirmation", {
+  //       distinct_id: user._id,
+  //     });
+  //     console.log(result);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //     res.status(400).send(err);
+  //   });
 
   function findSecondsDifference(date1, date2) {
     var oneSecond_ms = 1000;
@@ -2648,9 +2811,7 @@ router.post("/getProjectsPaid", async (req, res) => {
 });
 
 router.post("/getProject", async (req, res) => {
-  console.log(req.body.projId);
   const projects = await project.find({});
-  console.log(projects);
   let proj;
   for (let i = 0; i < projects.length; i++) {
     if (JSON.stringify(projects[i]._id) == JSON.stringify(req.body.projId)) {
@@ -2658,7 +2819,27 @@ router.post("/getProject", async (req, res) => {
     }
   }
 
-  console.log(proj);
+  // const updateInfo = {
+  //   mentorsMatched: [
+  //     ...proj.mentorsMatched,
+  //     {
+  //       mentorId: "642302959f5fdae7ba07b265",
+  //       timeline: { week1: { availableDates: [] } },
+  //       duration: 1,
+  //       matchedDate: new Date("2023-06-03T15:02:51.972+00:00"),
+  //       endDate: new Date("2023-07-02T15:02:51.972+00:00"),
+  //       materials: {
+  //         otherDocs: [],
+  //         taskRefs: [],
+  //         uploads: [],
+  //       },
+  //       pastMeetings: [],
+  //       upcomingMeeting: null,
+  //     },
+  //   ],
+  // };
+  // const newProj = await project.findByIdAndUpdate(proj._id, updateInfo);
+  // newProj.save();
 
   res.send(proj);
 });
@@ -2666,8 +2847,6 @@ router.post("/getProject", async (req, res) => {
 router.post("/getProjectMember", async (req, res) => {
   const projects = await project.find();
   let proj = null;
-
-  console.log(req.body);
 
   for (let j = 0; j < projects.length; j++) {
     if (
@@ -2699,6 +2878,7 @@ router.post("/getProjectMember", async (req, res) => {
 
 router.post("/modifyMentorAdmin", async (req, res) => {
   const updateInfo = req.body.mentor;
+
   const newMentor = await Mentor.findByIdAndUpdate(req.body.id, updateInfo);
   newMentor.save();
 
@@ -2735,75 +2915,75 @@ router.post("/requestMentor", auth, async (req, res) => {
     proj.mentorsRequested = [req.body.workshop._id];
   }
 
-  async function sendRequestCreatedMail() {
-    try {
-      const transport = await nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        auth: {
-          type: "OAuth2",
-          user: "ideastackapp@gmail.com",
-          clientId: process.env.CLIENT_ID,
-          clientSecret: process.env.CLIENT_SECRET,
-          accessToken: process.env.ACCESS_TOKEN,
-          refreshToken: process.env.REFRESH_TOKEN,
-        },
-      });
+  // async function sendRequestCreatedMail() {
+  //   try {
+  //     const transport = await nodemailer.createTransport({
+  //       host: "smtp.gmail.com",
+  //       port: 465,
+  //       auth: {
+  //         type: "OAuth2",
+  //         user: "ideastackapp@gmail.com",
+  //         clientId: process.env.CLIENT_ID,
+  //         clientSecret: process.env.CLIENT_SECRET,
+  //         accessToken: process.env.ACCESS_TOKEN,
+  //         refreshToken: process.env.REFRESH_TOKEN,
+  //       },
+  //     });
 
-      const mailOptions = {
-        from: "IdeaStack <ideastackapp@gmail.com>",
-        to: [mentor.email],
-        bcc: ["vismaysuramwar@gmail.com", "raghavbhatia0611@gmail.com"],
-        subject: `Mentorship Request - ${proj.name} @ IdeaStack.org`,
-        text: `
-                Hey ${mentor.name}!
-        
-                IdeaStack's student-users of ${proj.name} (venture) have requested your mentorship.
-                
-                We'll be taking this request into consideration while matching you with a mentee startup. 
-                Sign-in to IdeaStack.org/mentor, and approve a request that interests you- this will increase the likelihood that you're matched with a startup that suits your preferences.
+  //     const mailOptions = {
+  //       from: "IdeaStack <ideastackapp@gmail.com>",
+  //       to: [mentor.email],
+  //       bcc: ["vismaysuramwar@gmail.com", "raghavbhatia0611@gmail.com"],
+  //       subject: `Mentorship Request - ${proj.name} @ IdeaStack.org`,
+  //       text: `
+  //               Hey ${mentor.name}!
 
-                Contact us if you face any issues- our team prioritizes your experience above all else.
-                
-                Best Regards,
-                Admin Team, IdeaStack`,
-        html: `
-                <p>Hey ${mentor.name}!</p>
-        
-                <p> IdeaStack's student-users of ${proj.name} (venture) have requested your mentorship.<br/>
-                <h4>We'll be taking this request into consideration while matching you with a mentee startup.</h4>
-                Sign-in to <a href = "https://IdeaStack.org/mentor" target = "_blank">IdeaStack.org/mentor</a>, and approve a request that interests you- this will increase the likelihood that you're matched with a startup that suits your preferences.<br/> 
-                Contact us if you face any issues- our team prioritizes your experience above all else.
-                </p>
-                
-                <p>Best Regards,<br/>
-                Admin Team, IdeaStack</p>
-                <br/><br/>
-                <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
-                `,
-        attachments: [
-          {
-            fileName: "IdeaStack.jpg",
-            path: "server/routes/IdeaStack.jpg",
-            cid: "ideastack@orgae.ee",
-          },
-        ],
-      };
-      const result = await transport.sendMail(mailOptions);
-      return result;
-    } catch (err) {
-      return err;
-    }
-  }
+  //               IdeaStack's student-users of ${proj.name} (venture) have requested your mentorship.
 
-  sendRequestCreatedMail()
-    .then((result) => {
-      console.log(result);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(400).send(err);
-    });
+  //               We'll be taking this request into consideration while matching you with a mentee startup.
+  //               Sign-in to IdeaStack.org/mentor, and approve a request that interests you- this will increase the likelihood that you're matched with a startup that suits your preferences.
+
+  //               Contact us if you face any issues- our team prioritizes your experience above all else.
+
+  //               Best Regards,
+  //               Admin Team, IdeaStack`,
+  //       html: `
+  //               <p>Hey ${mentor.name}!</p>
+
+  //               <p> IdeaStack's student-users of ${proj.name} (venture) have requested your mentorship.<br/>
+  //               <h4>We'll be taking this request into consideration while matching you with a mentee startup.</h4>
+  //               Sign-in to <a href = "https://IdeaStack.org/mentor" target = "_blank">IdeaStack.org/mentor</a>, and approve a request that interests you- this will increase the likelihood that you're matched with a startup that suits your preferences.<br/>
+  //               Contact us if you face any issues- our team prioritizes your experience above all else.
+  //               </p>
+
+  //               <p>Best Regards,<br/>
+  //               Admin Team, IdeaStack</p>
+  //               <br/><br/>
+  //               <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+  //               `,
+  //       attachments: [
+  //         {
+  //           fileName: "IdeaStack.jpg",
+  //           path: "server/routes/IdeaStack.jpg",
+  //           cid: "ideastack@orgae.ee",
+  //         },
+  //       ],
+  //     };
+  //     const result = await transport.sendMail(mailOptions);
+  //     return result;
+  //   } catch (err) {
+  //     return err;
+  //   }
+  // }
+
+  // sendRequestCreatedMail()
+  //   .then((result) => {
+  //     console.log(result);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //     res.status(400).send(err);
+  //   });
 
   await proj.markModified("mentorsRequested");
   await proj.save();

@@ -136,12 +136,16 @@ const NavBar = (props) => {
         pathParamArr[i] = "Book Workshops";
       } else if (param === "mentorProfile") {
         pathParamArr[i] = "Mentor Profile";
+      } else if (param === "mentorshipCompleted") {
+        pathParamArr[i] = "Completion!";
       } else if (param === "startupmentorship") {
         pathParamArr[i] = "Startup Mentorship";
       } else if (param === "yourstartup") {
         pathParamArr[i] = "Mentee Startup";
       } else if (param === "startupinfo") {
         pathParamArr[i] = "Startup Info";
+      } else if (param === "main") {
+        pathParamArr[i] = "Select Network";
       } else if (
         param === "admin-operations-passcode-IdeaStackOperations300305"
       ) {
@@ -527,6 +531,8 @@ const NavBar = (props) => {
                         "admin-operations-passcode-IdeaStackOperations300305";
                     } else if (pathParam === "ViewProfile") {
                       pathParam = "viewProfile";
+                    } else if (pathParam === "SelectNetwork") {
+                      pathParam = "main";
                     }
                     return (
                       <li>
@@ -595,7 +601,7 @@ const NavBar = (props) => {
                     </a>
                   </li>
 
-                  <li
+                  {/* <li
                     class="xl:block hidden text-sm   uppercase  top-[1px] -mr-[680px]"
                     data-aos={"fade-left"}
                     data-aos-once="true"
@@ -603,23 +609,21 @@ const NavBar = (props) => {
                   >
                     <a
                       onClick={() => {
-                        history.push("/startupmentorship");
+                        history.push("/networks");
                       }}
                       aria-label="Features"
                       title="Features"
                       class={`font-semibold tracking-wide ${
-                        location.pathname
-                          .split("/")
-                          .includes("startupmentorship")
+                        location.pathname.split("/").includes("networks")
                           ? "text-indigo-700"
                           : "text-gray-700"
                       }   right-1.5 relative transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer`}
                     >
                       Networks
                     </a>
-                  </li>
+                  </li> */}
 
-                  {/* <li
+                  <li
                     class="xl:block hidden text-sm   uppercase  top-[1px] -mr-[680px]"
                     data-aos={"fade-left"}
                     data-aos-once="true"
@@ -641,7 +645,7 @@ const NavBar = (props) => {
                     >
                       MENTORSHIP
                     </a>
-                  </li> */}
+                  </li>
                 </>
               ) : (
                 <>
@@ -695,12 +699,12 @@ const NavBar = (props) => {
                   >
                     <a
                       onClick={() => {
-                        history.push("/mentorship");
+                        history.push("/networks");
                       }}
                       aria-label="Features"
                       title="Features"
                       class={`font-semibold tracking-wide ${
-                        location.pathname.split("/").includes("mentorship")
+                        location.pathname.split("/").includes("networks")
                           ? "text-indigo-700"
                           : "text-gray-700"
                       }   right-1.5 relative transition-colors duration-200 hover:text-indigo-500 hover:cursor-pointer`}

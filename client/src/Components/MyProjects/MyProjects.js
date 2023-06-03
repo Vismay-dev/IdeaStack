@@ -176,8 +176,8 @@ const MyProjects = () => {
             : "bg-gray-500"
         } px-6 border border-b-0  border-gray-300 text-base  rounded-t-md   whitespace-nowrap focus:outline-none`}
               >
-                <i className="fas fa-video mr-2.5 relative top-[0.5px] "></i>
-                <span class="lg:inline hidden  mr-1.5">Upcoming </span> Meetings
+                <i class="fas fa-user-tie mr-2.5 relative top-[0.5px]"></i>
+                <span class="lg:inline hidden  mr-1.5">Mentorship</span>
               </button>
 
               <button

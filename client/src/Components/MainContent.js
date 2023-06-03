@@ -33,7 +33,7 @@ import SignUp from "./SignUp/SignUp";
 import MentorSignUp from "./SignUp/MentorSignUp";
 import WhyUs from "./WhyUs/WhyUs";
 import StartupMentorship from "./Mentors/StartupMentorship";
-import Mentors from "./Mentors/MentorsMain";
+import Networks from "./Networks/Networks";
 
 const MainContent = () => {
   const location = useLocation();
@@ -165,10 +165,10 @@ const MainContent = () => {
           />
 
           <Route
-            path="/mentorship"
+            path="/networks/"
             render={() =>
               sessionStorage.getItem("token") ? (
-                <Mentors />
+                <Networks />
               ) : (
                 <Redirect to="/" />
               )

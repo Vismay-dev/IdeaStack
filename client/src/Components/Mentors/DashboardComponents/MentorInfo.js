@@ -9,29 +9,54 @@ const MentorInfo = (props) => {
       <div className="object-center  sm:w-[90%] w-[100%] bg-white shadow-md rounded-md pt-4 mb-12  relative mx-auto block ">
         <br />
 
+        {props.mentor.duration === 1 ? (
+          <div
+            class={`
+                    
+                     bg-indigo-50 border-indigo-500 text-indigo-700
+                   w-fit block text-base lg:ml-20 sm:ml-12 ml-6  rounded-md border-l-4 -mt-2 mb-7 shadow-md relative left-1.5  p-4 pt-3 pb-[13px]
+                              `}
+            role="alert"
+          >
+            <p class="text-sm">This mentorship only includes 1 meeting.</p>
+          </div>
+        ) : (
+          ""
+        )}
+
         <img
           src={props.mentor && props.mentor.pic}
           alt={props.mentor && props.mentor.pic}
-          className="rounded-full border-blue-700 border-dashed border mb-6 sm:w-[170px] sm:h-[170px] w-[140px] h-[140px]  object-center object-cover relative mx-auto block shadow-md"
+          className="rounded-full border-blue-700 border-dashed border mb-5 sm:w-[170px] sm:h-[170px] w-[140px] h-[140px]  object-center object-cover relative mx-auto block shadow-md"
         />
         <h1 class="bg-gradient-to-r text-center px-4 mx-auto block font-bold sm:text-4xl text-3xl w-fit from-blue-500 to-indigo-500 text-transparent bg-clip-text">
           {props.mentor.name}
         </h1>
-        <h1 class=" text-center mx-auto sm:text-xl text-lg mb-9  px-4 block mt-2 font-semibold ">
+        <h1 class=" text-center mx-auto sm:text-xl text-lg mb-11  px-4 block mt-1 font-semibold ">
           Expertise: {props.mentor.expertise}
         </h1>
-        <p class="mb-4 lg:px-20 sm:text-left text-center sm:text-base text-sm sm:px-12 px-6">
-          <strong>Time Remaining With This Mentor:</strong>
-          <br class="sm:hidden block" /> {diffDays} days{" "}
-        </p>
+        {props.mentor.duration > 1 ? (
+          <p class="mb-4 lg:px-20 sm:text-left text-center sm:text-base text-sm sm:px-12 px-6">
+            <strong>Time Remaining With This Mentor:</strong>
+            <br class="sm:hidden block" /> {diffDays} days{" "}
+          </p>
+        ) : (
+          ""
+        )}
         <p class="mb-4 lg:px-20 sm:text-left text-center sm:text-base text-sm sm:px-12 px-6">
           <strong>Mentorship Started On:</strong>
           <br class="sm:hidden block" /> {date1.toDateString().substring(0, 10)}{" "}
         </p>
-        <p class="mb-4 lg:px-20 sm:text-left text-center sm:text-base text-sm sm:px-12 px-6">
-          <strong>Mentorship Ends On:</strong>
-          <br class="sm:hidden block" /> {date2.toDateString().substring(0, 10)}{" "}
-        </p>
+        {props.mentor.duration > 1 ? (
+          <p class="mb-4 lg:px-20 sm:text-left text-center sm:text-base text-sm sm:px-12 px-6">
+            <strong>Mentorship Ends On:</strong>
+            <br class="sm:hidden block" />{" "}
+            {date2.toDateString().substring(0, 10)}{" "}
+          </p>
+        ) : (
+          ""
+        )}
+
         <p class="mb-4 lg:px-20 sm:text-left text-center sm:text-base text-sm sm:px-12 px-6">
           <strong>Meetings Held:</strong>
           <br class="sm:hidden block" /> {props.mentor.pastMeetings.length}{" "}

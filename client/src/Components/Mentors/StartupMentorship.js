@@ -142,6 +142,9 @@ const StartupMentorship = () => {
               )
               .then((res) => {
                 currentMenteesCopy[i].team[k] = res.data;
+              })
+              .catch((err) => {
+                console.log(err);
               });
           }
         })
@@ -193,15 +196,21 @@ const StartupMentorship = () => {
           }
         })
         .catch((err) => {
-          console.log(err.response);
+          console.log(err);
         });
     }
 
-    setCurrentMentees(currentMenteesCopy);
+    setCurrentMentees(
+      currentMenteesCopy.filter(
+        (mentee) => mentee.currentMentorship.repeatRequestApproved !== "no"
+      )
+    );
     setMentorshipRequests(mentorshipRequestsCopy);
   };
 
   useEffect(() => {
+    console.log(currentMentees);
+    console.log(!currentMentees == true);
     if (
       (sessionStorage.getItem("index") &&
         index &&
@@ -223,7 +232,7 @@ const StartupMentorship = () => {
 
   useEffect(() => {
     if (
-      (sessionStorage.getItem("index") || index) &&
+      sessionStorage.getItem("index") &&
       currentMentees &&
       JSON.stringify(projCon.project._id) !==
         JSON.stringify(currentMentees[sessionStorage.getItem("index")]._id)
@@ -231,6 +240,49 @@ const StartupMentorship = () => {
       projCon.setProject(currentMentees[sessionStorage.getItem("index")]);
     }
   }, [index, location.pathname]);
+
+  const acceptRepeatRequest = () => {
+    axios
+      .post(
+        process.env.NODE_ENV === "production"
+          ? "https://ideastack.herokuapp.com/api/user/acceptRepeatRequest"
+          : "http://localhost:4000/api/user/acceptRepeatRequest",
+        {
+          token: sessionStorage.getItem("mentorToken"),
+          projId: currentMentees[index]._id,
+          mentorId: mentorCon.mentor._id,
+        }
+      )
+      .then((res) => {
+        projCon.setProject(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const denyRepeatRequest = () => {
+    axios
+      .post(
+        process.env.NODE_ENV === "production"
+          ? "https://ideastack.herokuapp.com/api/user/denyRepeatRequest"
+          : "http://localhost:4000/api/user/denyRepeatRequest",
+        {
+          token: sessionStorage.getItem("mentorToken"),
+          projId: currentMentees[index]._id,
+          mentorId: mentorCon.mentor._id,
+        }
+      )
+      .then((res) => {
+        sessionStorage.removeItem("index");
+        setIndex(null);
+        history.push("/startupmentorship/");
+        projCon.setProject(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <>
@@ -244,9 +296,10 @@ const StartupMentorship = () => {
         ""
       )}
       <h2 class="text-center bg-no-repeat bg-center bg-cover py-7 lg:pt-20 md:pt-24 sm:pt-28 pt-14 pb-[35px] font-bold  xl:px-[365px] lg:px-[250px] md:px-[150px] sm:px-[100px] sm:w-fit sm:left-0 left-[0.1px] w-full mx-auto rounded-md right-0.5 text-gray-900 -top-2 -mb-[55px] relative">
-        <p class="lg:text-5xl md:text-4xl text-3xl sm:mt-1 mt-3 px-6 tracking-wide">
+        <p class="lg:text-5xl md:text-4xl text-3xl sm:mt-0 mt-3 px-6 tracking-wide">
           Startup Mentorship
         </p>
+
         {!currentMentees ||
         currentMentees.length === 0 ||
         (sessionStorage.getItem("index") == null && !index) ? (
@@ -254,7 +307,15 @@ const StartupMentorship = () => {
             Mentor the Next Generation of Founders
           </p>
         ) : (
-          <p class=" md:text-2xl sm:text-xl text-lg bg-gradient-to-r lg:mt-6 -mt-2  lg:mb-1 mb-4 relative top-4 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit">
+          <p
+            class={`md:text-2xl sm:text-xl text-lg bg-gradient-to-r ${
+              index &&
+              currentMentees[index].currentMentorship.mentorshipCompleted ===
+                true
+                ? "lg:mt-[20px] -mt-2"
+                : "lg:mt-6 -mt-2"
+            }   lg:mb-1 mb-4 relative top-4 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit`}
+          >
             {currentMentees[index].name + " X " + mentorCon.mentor.name}
           </p>
         )}
@@ -286,13 +347,19 @@ const StartupMentorship = () => {
                   <p
                     data-aos={"fade-up"}
                     data-aos-once="true"
-                    class="font-bold sm:text-[27px] text-[24px] -mt-2 mb-1 xl:left-6 text-gray-800"
+                    class="font-bold sm:text-[27px] text-[24px] -mt-4 mb-1 xl:left-6 text-gray-800"
                   >
-                    Startup <span class="text-blue-700">You've Been </span>{" "}
+                    Startups <span class="text-blue-700">You've Been </span>{" "}
                     Matched With: ({currentMentees.length})
                   </p>
                   <br />
-                  <div class=" w-full gap-5 mt-9 mb-14">
+                  <div
+                    class={` ${
+                      currentMentees.length > 1
+                        ? "lg:grid-cols-2 grid-cols-1 mb-10 w-full"
+                        : "grid-cols-1 mb-12  w-full"
+                    }  grid gap-6  mt-9 `}
+                  >
                     {currentMentees &&
                       currentMentees.map((startup, i) => {
                         return (
@@ -308,8 +375,9 @@ const StartupMentorship = () => {
                             >
                               <div class="sm:flex items-center justify-between ">
                                 <span class="text-sm block sm:w-full w-fit -mt-6 uppercase -mb-2 relative sm:top-0 top-[22px] sm:left-0 -left-2 font-light text-gray-600">
-                                  {startup.currentMentorship &&
-                                    startup.currentMentorship.duration +
+                                  {startup.currentMentorship.duration == 1
+                                    ? "1 Meeting Only"
+                                    : startup.currentMentorship.duration +
                                       " week mentorship"}
                                 </span>
 
@@ -397,15 +465,24 @@ const StartupMentorship = () => {
                 </>
               ) : (
                 <>
-                  <div class="mx-auto justify-center xl:left-40 lg:block hidden -top-32 absolute text-center">
+                  <div
+                    class={`mx-auto justify-center xl:left-40 lg:block hidden ${
+                      index &&
+                      currentMentees &&
+                      currentMentees[index].currentMentorship
+                        .mentorshipCompleted === true
+                        ? "-top-24"
+                        : "-top-32"
+                    } absolute text-center`}
+                  >
                     <button
                       onClick={() => {
                         setIndex(null);
                         sessionStorage.removeItem("index");
-                        history.push("/startupmentorship");
+                        history.push("/dashboard/yourmentor");
                         projCon.setProject({});
                       }}
-                      class="w-32 p-2 rounded-md font-semibold tracking-wide shadow-md mt-3  bg-blue-700 hover:bg-blue-600 text-base hover:shadow-xl active:shadow-md text-white  uppercase "
+                      class="w-32 p-2 rounded-md font-semibold tracking-wide shadow-md mt-3  bg-blue-700 hover:bg-blue-800 text-base hover:shadow-xl active:shadow-md text-white  "
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -430,9 +507,9 @@ const StartupMentorship = () => {
                       onClick={() => {
                         setIndex(null);
                         sessionStorage.removeItem("index");
-                        history.push("/mentorship");
+                        history.push("/dashboard/yourmentor");
                       }}
-                      class="w-[135px] px-3 py-2.5 rounded-md font-semibold tracking-wide shadow-md mt-8 mb-4   bg-blue-700 hover:bg-blue-600   sm:text-base text-sm hover:shadow-xl active:shadow-md text-white  uppercase "
+                      class="w-[135px] px-3 py-2.5 rounded-md font-semibold tracking-wide shadow-md mt-8 mb-4   bg-blue-700 hover:bg-blue-800   sm:text-base text-sm hover:shadow-xl active:shadow-md text-white  "
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -452,129 +529,314 @@ const StartupMentorship = () => {
                     </button>
                   </div>
 
-                  <div class="block mx-auto text-center px-3 -mt-5 sm:right-3 right-1.5 lg:w-full w-fit relative mb-16 rounded-lg">
-                    <a
-                      onClick={() => {
-                        history.push(
-                          "/startupmentorship/yourstartup/startupinfo"
-                        );
-                      }}
-                      class={` ${
-                        location.pathname.includes("startupinfo")
-                          ? "bg-blue-700 text-gray-100 border-blue-700 border shadow-md"
-                          : "bg-white shadow-md  text-gray-800"
-                      } hover:cursor-pointer relative top-2 normal-case hover:bg-blue-700 hover:border-r-indigo-50  hover:shadow-sm hover:border-blue-700 inline-flex items-center justify-center  sm:rounded-l-lg sm:rounded-r-none  rounded-l-lg rounded-r-none border py-[10px]  lg:px-[60px] sm:px-[20px] px-[10px] text-center sm:text-base text-sm font-semibold  transition-all hover:text-gray-100 sm:py-4`}
-                    >
-                      <span class="pr-2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                          class="sm:w-5 sm:h-5 w-4 h-4"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                          />
-                        </svg>
-                      </span>
-                      Mentor Info
-                    </a>
-                    <a
-                      onClick={() => {
-                        history.push("/startupmentorship/yourstartup/meetings");
-                      }}
-                      class={`${
-                        location.pathname.includes("meetings")
-                          ? "bg-blue-700 border-blue-700 text-gray-100 border shadow-md"
-                          : "bg-white shadow-md text-gray-800"
-                      } hover:cursor-pointer relative top-2 normal-case hover:bg-blue-700 hover:shadow-sm hover:border-l-indigo-50 hover:border-blue-700 active:border-blue-700 inline-flex items-center justify-center  sm:rounded-l-none sm:rounded-r-none rounded-r-lg rounded-l-none  border py-[10px]  lg:px-[60px] sm:px-[20px] px-[10px]  text-center sm:text-base text-sm font-semibold  transition-all hover:text-gray-100 sm:py-4 `}
-                    >
-                      <span class="pr-2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                          class="sm:w-5 sm:h-5 w-4 h-4"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
-                          />
-                        </svg>
-                      </span>
-                      1:1 Meetings
-                    </a>
-                    <br class="sm:hidden block" />
+                  {index != null &&
+                  currentMentees.length > 0 &&
+                  currentMentees[index].currentMentorship.mentorshipCompleted ==
+                    true ? (
+                    ""
+                  ) : (
+                    <div class="block mx-auto text-center px-3 -mt-5 sm:right-3 right-1.5 lg:w-full w-fit relative mb-16 rounded-lg">
+                      <a
+                        onClick={() => {
+                          history.push(
+                            "/startupmentorship/yourstartup/startupinfo"
+                          );
+                        }}
+                        class={` ${
+                          location.pathname.includes("startupinfo")
+                            ? "bg-blue-700 text-gray-100 border-blue-700 border shadow-md"
+                            : "bg-white shadow-md  text-gray-800"
+                        } hover:cursor-pointer relative top-2 normal-case hover:bg-blue-700 hover:border-r-indigo-50  hover:shadow-sm hover:border-blue-700 inline-flex items-center justify-center  sm:rounded-l-lg sm:rounded-r-none  rounded-l-lg rounded-r-none border py-[10px]  lg:px-[60px] sm:px-[20px] px-[10px] text-center sm:text-base text-sm font-semibold  transition-all hover:text-gray-100 sm:py-4`}
+                      >
+                        <span class="pr-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="sm:w-5 sm:h-5 w-4 h-4"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                            />
+                          </svg>
+                        </span>
+                        Mentor Info
+                      </a>
+                      <a
+                        onClick={() => {
+                          history.push(
+                            "/startupmentorship/yourstartup/meetings"
+                          );
+                        }}
+                        class={`${
+                          location.pathname.includes("meetings")
+                            ? "bg-blue-700 border-blue-700 text-gray-100 border shadow-md"
+                            : "bg-white shadow-md text-gray-800"
+                        } hover:cursor-pointer relative top-2 normal-case hover:bg-blue-700 hover:shadow-sm hover:border-l-indigo-50 hover:border-blue-700 active:border-blue-700 inline-flex items-center justify-center  sm:rounded-l-none sm:rounded-r-none rounded-r-lg rounded-l-none  border py-[10px]  lg:px-[60px] sm:px-[20px] px-[10px]  text-center sm:text-base text-sm font-semibold  transition-all hover:text-gray-100 sm:py-4 `}
+                      >
+                        <span class="pr-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="sm:w-5 sm:h-5 w-4 h-4"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
+                            />
+                          </svg>
+                        </span>
+                        Meetings
+                      </a>
+                      <br class="sm:hidden block" />
 
-                    <a
-                      onClick={() => {
-                        history.push(
-                          "/startupmentorship/yourstartup/tasksandresources"
-                        );
-                      }}
-                      class={`${
-                        location.pathname.includes("tasksandresources")
-                          ? "bg-blue-700 border-blue-700 text-gray-100 border shadow-md"
-                          : "bg-white shadow-md text-gray-800"
-                      } hover:cursor-pointer relative top-2 normal-case hover:bg-blue-700 hover:shadow-sm hover:border-l-indigo-50 hover:border-blue-700 active:border-blue-700 inline-flex items-center justify-center sm:rounded-tl-none sm:rounded-bl-none sm:rounded-r-lg rounded-t-none rounded-b-lg  border py-[10px] lg:px-[60px] sm:px-[20px] px-[10px]  text-center sm:text-base text-sm font-semibold  transition-all hover:text-gray-100 sm:py-4 `}
-                    >
-                      <span class="pr-2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                          class="sm:w-5 sm:h-5 w-4 h-4"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"
-                          />
-                        </svg>
-                      </span>
-                      Tasks & Resources
-                    </a>
-                  </div>
+                      <a
+                        onClick={() => {
+                          history.push(
+                            "/startupmentorship/yourstartup/tasksandresources"
+                          );
+                        }}
+                        class={`${
+                          location.pathname.includes("tasksandresources")
+                            ? "bg-blue-700 border-blue-700 text-gray-100 border shadow-md"
+                            : "bg-white shadow-md text-gray-800"
+                        } hover:cursor-pointer relative top-2 normal-case hover:bg-blue-700 hover:shadow-sm hover:border-l-indigo-50 hover:border-blue-700 active:border-blue-700 inline-flex items-center justify-center sm:rounded-tl-none sm:rounded-bl-none sm:rounded-r-lg rounded-t-none rounded-b-lg  border py-[10px] lg:px-[60px] sm:px-[20px] px-[10px]  text-center sm:text-base text-sm font-semibold  transition-all hover:text-gray-100 sm:py-4 `}
+                      >
+                        <span class="pr-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="sm:w-5 sm:h-5 w-4 h-4"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"
+                            />
+                          </svg>
+                        </span>
+                        Tasks & Resources
+                      </a>
+                    </div>
+                  )}
 
                   <Switch>
-                    <Route path={"/startupmentorship/yourstartup/startupinfo"}>
-                      <StartupInfo startup={currentMentees[index]} />
-                    </Route>
+                    {index !== null && currentMentees.length > 0 ? (
+                      currentMentees[index] &&
+                      currentMentees[index].currentMentorship
+                        .mentorshipCompleted == true ? (
+                        <>
+                          <Route
+                            path={
+                              "/startupmentorship/yourstartup/mentorshipCompleted"
+                            }
+                          >
+                            {currentMentees[index].currentMentorship
+                              .repeatRequested &&
+                            currentMentees[index].currentMentorship
+                              .repeatRequestApproved !== "yes" ? (
+                              <>
+                                <div class="relative right-2.5 w-full h-fit">
+                                  <h1 className="sm:text-2xl text-center w-full  mx-auto block text-1xl lg:text-3xl font-bold leading-tighter tracking-tighter md:-mt-2 sm:mt-1 sm:mb-8 -mt-3 mb-6">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke-width="1.5"
+                                      stroke="currentColor"
+                                      class="w-[33px] h-[33px] inline mr-1.5 relative bottom-[1.5px]"
+                                    >
+                                      <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                      />
+                                    </svg>
+                                    Another Meeting{" "}
+                                    <span className="bg-clip-text  text-transparent bg-gradient-to-r from-green-600 to-green-500">
+                                      Has Been Requested
+                                    </span>
+                                  </h1>
 
-                    <Route path={"/startupmentorship/yourstartup/meetings"}>
-                      <Meetings startup={currentMentees[index]} />
-                    </Route>
+                                  <h1 className="sm:text-3xl text-center mx-auto block text-2xl lg:text-4xl font-extrabold leading-tighter tracking-tighter md:-mt-4 sm:-mt-0 mb-3 -mt-4 ">
+                                    Do you wish to{" "}
+                                    <span className="bg-clip-text  text-transparent bg-gradient-to-r from-blue-500 to-indigo-400">
+                                      continue?
+                                    </span>
+                                  </h1>
+                                </div>
 
-                    <Route
-                      path={"/startupmentorship/yourstartup/tasksandresources"}
-                    >
-                      <TasksAndResources startup={currentMentees[index]} />
-                    </Route>
+                                <div class="h-[263px] w-[85%] mx-auto mt-[50px] mb-[62px] right-1.5 relative grid md:grid-cols-2 grid-cols-1 gap-8">
+                                  <div
+                                    onClick={() => {
+                                      acceptRepeatRequest();
+                                    }}
+                                    class="tracking-wide px-3 transition ease-in-out delay-75 hover:-translate-y-1 hover:scale-[1.02] duration-200 cursor-pointer hover:bg-gray-200 hover:border-indigo-500 relative  bg-gray-100 text-center rounded-md shadow-md border-2 border-gray-600"
+                                  >
+                                    <div class="ml-4 absolute -right-2 -top-2 text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-green-200 text-green-700 rounded-full">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        width="16"
+                                        height="16"
+                                        class="mr-1"
+                                      >
+                                        <path
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                        />
+                                      </svg>
+                                      Recommended
+                                    </div>
+                                    <i class="fas fa-check text-6xl mt-9 mb-2 mx-auto block"></i>
 
-                    <Route path={"/startupmentorship/yourstartup/"}>
-                      <Redirect
-                        to={"/startupmentorship/yourstartup/startupinfo"}
-                      />
-                    </Route>
+                                    <hr class="border-[1px] border-dashed border-gray-600 mx-auto my-2 mt-7 block w-[70%]" />
 
-                    <Route path={"/startupmentorship/yourstartup"}>
-                      <Redirect
-                        to={"/startupmentorship/yourstartup/startupinfo"}
-                      />
-                    </Route>
+                                    <h2 class="text-xl mt-4 block font-bold">
+                                      Yes, continue.
+                                    </h2>
+                                    <h2 class="text-base mt-3 block text-gray-600 font-semibold px-4">
+                                      This will repeat the mentorship and allow
+                                      you to meet this startup again.
+                                    </h2>
+                                  </div>
 
-                    {sessionStorage.getItem("index") ? (
-                      <Route path={"/startupmentorship/"}>
-                        <Redirect to={"/startupmentorship/yourstartup/"} />
-                      </Route>
+                                  <div
+                                    onClick={() => {
+                                      denyRepeatRequest();
+                                    }}
+                                    class="tracking-wide  px-3 transition ease-in-out delay-75 hover:-translate-y-1 hover:scale-[1.02] duration-200 cursor-pointer hover:bg-gray-200 hover:border-indigo-500 relative  bg-gray-100 text-center rounded-md shadow-md border-2 border-gray-600"
+                                  >
+                                    <i class="fas fa-times text-6xl mt-9 mb-2 mx-auto block"></i>
+
+                                    <hr class="border-[1px] border-dashed border-gray-600 mx-auto my-2 mt-7 block w-[70%]" />
+
+                                    <h2 class="text-xl mt-4 block font-bold">
+                                      No, deny request.
+                                    </h2>
+                                    <h2 class="text-base mt-3 block text-gray-600 font-semibold px-4">
+                                      This startup will not contact you unless
+                                      they request a mentorship from you again.
+                                    </h2>
+                                  </div>
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <div class="relative right-2.5 w-full h-fit">
+                                  <h1 className="sm:text-2xl text-center w-full  mx-auto block text-1xl lg:text-3xl font-bold leading-tighter tracking-tighter md:-mt-2 sm:mt-1 sm:mb-8 -mt-3 mb-6">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke-width="1.5"
+                                      stroke="currentColor"
+                                      class="w-[33px] h-[33px] inline mr-1.5 relative bottom-[1.5px]"
+                                    >
+                                      <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                      />
+                                    </svg>
+                                    Mentorship{" "}
+                                    <span className="bg-clip-text  text-transparent bg-gradient-to-r from-green-600 to-green-500">
+                                      Completed
+                                    </span>
+                                  </h1>
+
+                                  <h1 className="sm:text-3xl text-center mx-auto block text-2xl lg:text-4xl font-extrabold leading-tighter tracking-tighter md:-mt-4 sm:-mt-0 mb-3 -mt-4 ">
+                                    Awaiting response from{" "}
+                                    <span className="bg-clip-text  text-transparent bg-gradient-to-r from-blue-500 to-indigo-400">
+                                      the startup team..
+                                    </span>
+                                  </h1>
+                                </div>
+
+                                <div class="w-full text-center mx-auto mt-[55px] mb-[83px] right-1.5 relative ">
+                                  <i class="fas fa-clock text-[135px] mx-auto block"></i>
+                                </div>
+                              </>
+                            )}
+                          </Route>
+
+                          <Route path={"/startupmentorship/yourstartup"}>
+                            <Redirect
+                              to={
+                                "/startupmentorship/yourstartup/mentorshipCompleted"
+                              }
+                            />
+                          </Route>
+
+                          <Route path={"/startupmentorship/yourstartup"}>
+                            <Redirect
+                              to={
+                                "/startupmentorship/yourstartup/mentorshipCompleted"
+                              }
+                            />
+                          </Route>
+                        </>
+                      ) : (
+                        <>
+                          <Route
+                            path={"/startupmentorship/yourstartup/startupinfo"}
+                          >
+                            <StartupInfo startup={currentMentees[index]} />
+                          </Route>
+
+                          <Route
+                            path={"/startupmentorship/yourstartup/meetings"}
+                          >
+                            <Meetings startup={currentMentees[index]} />
+                          </Route>
+
+                          <Route
+                            path={
+                              "/startupmentorship/yourstartup/tasksandresources"
+                            }
+                          >
+                            <TasksAndResources
+                              startup={currentMentees[index]}
+                            />
+                          </Route>
+
+                          <Route path={"/startupmentorship/yourstartup/"}>
+                            <Redirect
+                              to={"/startupmentorship/yourstartup/startupinfo"}
+                            />
+                          </Route>
+
+                          <Route path={"/startupmentorship/yourstartup"}>
+                            <Redirect
+                              to={"/startupmentorship/yourstartup/startupinfo"}
+                            />
+                          </Route>
+
+                          {/* {sessionStorage.getItem("index") ? (
+                            <Route path={"/startupmentorship/"}>
+                              <Redirect
+                                to={"/startupmentorship/yourstartup/"}
+                              />
+                            </Route>
+                          ) : (
+                            ""
+                          )} */}
+                        </>
+                      )
                     ) : (
                       ""
                     )}
@@ -946,7 +1208,7 @@ const StartupMentorship = () => {
           <div class="w-full sm:px-7 px-3">
             <hr class="border-t-[2px]  border-dashed border-indigo-600 -mt-2 mb-8 block w-[60%] mx-auto" />
             <h2 class="font-bold mx-auto text-center tracking-wide mb-6 sm:text-[27px] text-[24px]">
-              Mentorship Requests:{" "}
+              Meeting Requests:{" "}
             </h2>
 
             <div

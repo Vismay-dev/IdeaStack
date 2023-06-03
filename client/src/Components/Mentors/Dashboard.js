@@ -66,10 +66,52 @@ const Dashboard = () => {
   //   }
   // }, [location.pathname]);
 
+  const endMentorship = () => {
+    axios
+      .post(
+        process.env.NODE_ENV === "production"
+          ? "https://ideastack.herokuapp.com/api/user/endMentorship"
+          : "http://localhost:4000/api/user/endMentorship",
+        {
+          token: sessionStorage.getItem("token"),
+          mentorId: mentorCon.mentors[index].mentorId,
+        }
+      )
+      .then((res) => {
+        sessionStorage.removeItem("index");
+        setIndex(null);
+        history.push("/dashboard/yourmentor");
+        projCon.setProject(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const repeatMentorship = () => {
+    axios
+      .post(
+        process.env.NODE_ENV === "production"
+          ? "https://ideastack.herokuapp.com/api/user/repeatMentorship"
+          : "http://localhost:4000/api/user/repeatMentorship",
+        {
+          token: sessionStorage.getItem("token"),
+          mentorId: mentorCon.mentors[index].mentorId,
+        }
+      )
+      .then((res) => {
+        projCon.setProject(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     if (mentorCon.mentors && mentorsRequested && mentorsMatched) {
       setLoading(false);
     }
+
     if (project && (!mentorCon.mentors || !mentorsRequested)) {
       setLoading(true);
 
@@ -141,15 +183,14 @@ const Dashboard = () => {
     }
   }, [location.pathname, projCon.project]);
 
-  const [sessionsConfirmed, setSessionsConfirmed] = useState(false);
-
   return (
     <>
       {cancel ? <CancelModal close={() => setCancel(false)} /> : ""}
       <h2 class="text-center bg-no-repeat bg-center bg-cover py-7 pb-[35px] font-bold  xl:px-[365px] lg:px-[250px] md:px-[150px] sm:px-[100px] sm:w-fit sm:left-0 left-[0.1px] w-full mx-auto rounded-md right-0.5 text-gray-900 top-1 mt-[12px] -mb-[55px] relative">
         <p class="lg:text-5xl md:text-4xl text-3xl sm:mt-1 mt-3 px-6 tracking-wide">
-          Startup Mentorship
+          Mentorship
         </p>
+
         {!mentorCon.mentors ||
         mentorCon.mentors.length === 0 ||
         (sessionStorage.getItem("index") == null && !index) ||
@@ -158,8 +199,19 @@ const Dashboard = () => {
             Learn from Industry Leaders
           </p>
         ) : (
-          <p class=" md:text-2xl sm:text-xl text-lg bg-gradient-to-r lg:mt-6 -mt-2  lg:mb-1 mb-4 relative top-4 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit">
-            {mentorCon.mentors[index].name + " X " + project.name}
+          <p
+            class={`md:text-2xl sm:text-xl text-lg bg-gradient-to-r ${
+              index &&
+              mentorCon.mentors &&
+              mentorCon.mentors[index] &&
+              mentorCon.mentors[index].mentorshipCompleted === true
+                ? "lg:mt-[20px] -mt-2"
+                : "lg:mt-6 -mt-2"
+            }  lg:mb-1 mb-4 relative top-4 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit`}
+          >
+            {mentorCon.mentors[index]
+              ? mentorCon.mentors[index].name + " X " + project.name
+              : ""}
           </p>
         )}
       </h2>
@@ -190,100 +242,105 @@ const Dashboard = () => {
                   <p
                     data-aos={"fade-up"}
                     data-aos-once="true"
-                    class="font-bold sm:text-[27px] text-[24px] -mt-2 mb-1 xl:left-6 text-gray-800"
+                    class="font-bold sm:text-[27px] text-[24px] -mt-4 mb-1 xl:left-10 text-gray-800"
                   >
-                    Mentor <span class="text-blue-700">You've Been </span>{" "}
-                    Matched With: ({mentorCon.mentors.length})
+                    Approved{" "}
+                    <span class="text-blue-700"> mentorship meetings:</span> (
+                    {mentorCon.mentors.length})
                   </p>
                   <br />
-                  <div class=" w-full gap-5 mt-9 mb-14">
+                  <div
+                    class={` ${
+                      mentorCon.mentors.length > 1
+                        ? "lg:grid-cols-2 grid-cols-1 mb-10 w-full"
+                        : "grid-cols-1 mb-14 w-full"
+                    }  grid gap-6  mt-9 `}
+                  >
                     {mentorCon.mentors.map((mentor, i) => {
                       return (
                         <div
                           key={i}
-                          class="md:w-[600px] sm:w-[480px] w-full mx-auto  z-[75] "
-                        >
-                          <div
-                            data-aos={"zoom-in"}
-                            data-aos-once="true"
-                            class={`w-full  px-8 sm:py-4 pt-4 pb-5 mt-1 z-40 pointer-events-auto mr-32 relative right-2
+                          data-aos={"zoom-in"}
+                          data-aos-once="true"
+                          class={`w-full flex flex-col flex-1  px-8 sm:py-4 pt-4 pb-5 mt-1 z-40 pointer-events-auto mr-32 relative right-2
                              bg-white rounded-lg shadow-md `}
-                          >
-                            <div class="sm:flex items-center justify-between ">
-                              <span class="text-sm block sm:w-full w-fit -mt-6 uppercase -mb-2 relative sm:top-0 top-[22px] sm:left-0 -left-2 font-light text-gray-600 ">
-                                {mentor.duration + " week mentorship"}
-                              </span>
+                        >
+                          <div class="sm:flex items-center justify-between ">
+                            <span class="text-sm block sm:w-full w-fit -mt-6 uppercase -mb-2 relative sm:top-0 top-[22px] sm:left-0 -left-2 font-light text-gray-600 ">
+                              {mentor.duration == 1
+                                ? "1 Meeting Only"
+                                : mentor.duration + " week mentorship"}
+                            </span>
 
-                              <button
-                                type="button"
-                                class="text-white text-sm uppercase bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 font-semibold rounded-lg px-2.5 py-1.5 sm:-mr-2 mx-auto block sm:mb-2 mb-[72px] sm:top-0 top-[42px] sm:w-[130px] w-[110px] sm:mt-0 mt-[10px] sm:right-0  relative text-center"
-                                onClick={() => {
-                                  setIndex(i);
-                                  sessionStorage.setItem("index", i);
-                                }}
-                              >
-                                View More
-                              </button>
-                            </div>
+                            <button
+                              type="button"
+                              class="text-white text-sm uppercase bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 font-semibold rounded-lg px-2.5 py-1.5 sm:-mr-2 mx-auto block sm:mb-2 mb-[72px] sm:top-0 top-[42px] sm:w-[130px] w-[110px] sm:mt-0 mt-[10px] sm:right-0  relative text-center"
+                              onClick={() => {
+                                setIndex(i);
+                                sessionStorage.setItem("index", i);
+                              }}
+                            >
+                              View More
+                            </button>
+                          </div>
 
-                            <img
-                              src={
-                                mentor.pic
-                                  ? mentor.pic
-                                  : "https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80"
-                              }
-                              alt="expert"
-                              class={` 
+                          <img
+                            src={
+                              mentor.pic
+                                ? mentor.pic
+                                : "https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbGV8ZW58MHx8MHx8&w=1000&q=80"
+                            }
+                            alt="expert"
+                            class={` 
                                mx-auto 
                         rounded-full border-blue-700 border-dashed border sm:mb-3 mb-6 mt-1  w-[160px] h-[160px] shadow-md  object-center object-cover`}
-                            />
+                          />
 
-                            <div class="sm:mt-1 mt-3 block relative -top-0.5">
-                              <a
-                                href="#"
-                                class="text-2xl sm:mb-0 -mb-2 relative font-bold text-gray-700 hover:text-gray-600  hover:underline"
-                              >
-                                {mentor.name}
-                              </a>
-                              <p class="mt-4 pb-1 pt-1  md:text-md text-sm text-gray-600 ">
-                                {mentor.mentorshipProp}
-                              </p>
-                            </div>
+                          <div class="sm:mt-1 mt-3 block relative -top-0.5">
+                            <a
+                              href="#"
+                              class="text-2xl sm:mb-0 -mb-2 relative font-bold text-gray-700 hover:text-gray-600  hover:underline"
+                            >
+                              {mentor.name}
+                            </a>
+                            <p class="mt-4 pb-1 pt-1  md:text-md text-sm text-gray-600 ">
+                              {mentor.mentorshipProp}
+                            </p>
+                          </div>
 
-                            <div class="flex items-center justify-between mt-2 z-[100]">
-                              <div class="flex items-center relative ">
-                                {mentor.orgs &&
-                                  mentor.orgs.map((org, i) => {
-                                    return (
-                                      <span>
-                                        <img
-                                          class="object-cover sm:inline hidden w-6 h-6 mr-2 shadow-sm rounded-full "
-                                          src={
-                                            org.pic
-                                              ? org.pic
-                                              : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
-                                          }
-                                          alt="avatar"
-                                        />
-                                        <p class="font-semibold text-sm inline mr-6 text-gray-700 cursor-pointer ">
-                                          {org.name}
-                                        </p>
+                          <div class="flex items-center justify-between mt-2 z-[100]">
+                            <div class="flex items-center relative ">
+                              {mentor.orgs &&
+                                mentor.orgs.map((org, i) => {
+                                  return (
+                                    <span>
+                                      <img
+                                        class="object-cover sm:inline hidden w-6 h-6 mr-2 shadow-sm rounded-full "
+                                        src={
+                                          org.pic
+                                            ? org.pic
+                                            : "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
+                                        }
+                                        alt="avatar"
+                                      />
+                                      <p class="font-semibold text-sm inline mr-6 text-gray-700 cursor-pointer ">
+                                        {org.name}
+                                      </p>
 
-                                        {i == 4 ? (
-                                          <>
-                                            <br /> <div class="mb-2"></div>{" "}
-                                          </>
-                                        ) : i == mentor.orgs.length - 2 ? (
-                                          ""
-                                        ) : i == mentor.orgs.length - 1 ? (
-                                          ""
-                                        ) : (
-                                          ""
-                                        )}
-                                      </span>
-                                    );
-                                  })}
-                              </div>
+                                      {i == 4 ? (
+                                        <>
+                                          <br /> <div class="mb-2"></div>{" "}
+                                        </>
+                                      ) : i == mentor.orgs.length - 2 ? (
+                                        ""
+                                      ) : i == mentor.orgs.length - 1 ? (
+                                        ""
+                                      ) : (
+                                        ""
+                                      )}
+                                    </span>
+                                  );
+                                })}
                             </div>
                           </div>
                         </div>
@@ -293,14 +350,23 @@ const Dashboard = () => {
                 </>
               ) : (
                 <>
-                  <div class="mx-auto justify-center xl:left-40 lg:block hidden -top-32 absolute text-center">
+                  <div
+                    class={`mx-auto justify-center xl:left-40 lg:block hidden ${
+                      index &&
+                      mentorCon.mentors &&
+                      mentorCon.mentors[index] &&
+                      mentorCon.mentors[index].mentorshipCompleted === true
+                        ? "-top-24"
+                        : "-top-32"
+                    } absolute text-center`}
+                  >
                     <button
                       onClick={() => {
                         setIndex(null);
                         sessionStorage.removeItem("index");
-                        history.push("/mentorship");
+                        history.push("/dashboard/yourmentor");
                       }}
-                      class="w-32 p-2 rounded-md font-semibold tracking-wide shadow-md mt-3  bg-blue-700 hover:bg-blue-600 text-base hover:shadow-xl active:shadow-md text-white  uppercase "
+                      class="w-32 p-2 rounded-md font-semibold tracking-wide shadow-md mt-3  bg-blue-700 hover:bg-blue-800 text-base hover:shadow-xl active:shadow-md text-white "
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -325,9 +391,9 @@ const Dashboard = () => {
                       onClick={() => {
                         setIndex(null);
                         sessionStorage.removeItem("index");
-                        history.push("/mentorship");
+                        history.push("/dashboard/yourmentor");
                       }}
-                      class="w-[135px] px-3 py-2.5 rounded-md font-semibold tracking-wide shadow-md mt-8 mb-4   bg-blue-700 hover:bg-blue-600   sm:text-base text-sm hover:shadow-xl active:shadow-md text-white  uppercase "
+                      class="w-[135px] px-3 py-2.5 rounded-md font-semibold tracking-wide shadow-md mt-8 mb-4   bg-blue-700 hover:bg-blue-800   sm:text-base text-sm hover:shadow-xl active:shadow-md text-white  "
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -335,7 +401,7 @@ const Dashboard = () => {
                         viewBox="0 0 24 24"
                         stroke-width="1.5"
                         stroke="currentColor"
-                        class="relative mx-auto inline text-center text-lg mr-2 bottom-[2px] sm:w-5 sm:h-5 w-4 h-4"
+                        class="relative mx-auto inline text-center text-lg mr-2 bottom-[2px] w-4 h-4"
                       >
                         <path
                           stroke-linecap="round"
@@ -346,185 +412,433 @@ const Dashboard = () => {
                       Go Back
                     </button>
                   </div>
-
-                  <div class="block mx-auto text-center px-3 -mt-5 sm:right-3 right-1.5 lg:w-full w-fit relative mb-16 rounded-lg">
-                    <a
-                      onClick={() => {
-                        history.push(
-                          location.pathname.includes("mentorship")
-                            ? "/mentorship/yourmentor/mentorinfo"
-                            : "/dashboard/yourmentor/mentorinfo"
-                        );
-                      }}
-                      class={` ${
-                        location.pathname.includes("mentorinfo")
-                          ? "bg-blue-700 text-gray-100 border-blue-700 border shadow-md"
-                          : "bg-white shadow-md  text-gray-800"
-                      } hover:cursor-pointer relative top-2 normal-case hover:bg-blue-700 hover:border-r-indigo-50  hover:shadow-sm hover:border-blue-700 inline-flex items-center justify-center  sm:rounded-l-lg sm:rounded-r-none  rounded-l-lg rounded-r-none border py-[10px]  lg:px-[60px] sm:px-[20px] px-[10px] text-center sm:text-base text-sm font-semibold  transition-all hover:text-gray-100 sm:py-4`}
-                    >
-                      <span class="pr-2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                          class="sm:w-5 sm:h-5 w-4 h-4"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                          />
-                        </svg>
-                      </span>
-                      Mentor Info
-                    </a>
-                    <a
-                      onClick={() => {
-                        history.push(
-                          location.pathname.includes("mentorship")
-                            ? "/mentorship/yourmentor/meetings"
-                            : "/dashboard/yourmentor/meetings"
-                        );
-                      }}
-                      class={`${
-                        location.pathname.includes("meetings")
-                          ? "bg-blue-700 border-blue-700 text-gray-100 border shadow-md"
-                          : "bg-white shadow-md text-gray-800"
-                      } hover:cursor-pointer relative top-2 normal-case hover:bg-blue-700 hover:shadow-sm hover:border-l-indigo-50 hover:border-blue-700 active:border-blue-700 inline-flex items-center justify-center  sm:rounded-l-none sm:rounded-r-none rounded-r-lg rounded-l-none  border py-[10px]  lg:px-[60px] sm:px-[20px] px-[10px]  text-center sm:text-base text-sm font-semibold  transition-all hover:text-gray-100 sm:py-4 `}
-                    >
-                      <span class="pr-2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                          class="sm:w-5 sm:h-5 w-4 h-4"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
-                          />
-                        </svg>
-                      </span>
-                      1:1 Meetings
-                    </a>
-                    <br class="sm:hidden block" />
-                    <a
-                      onClick={() => {
-                        history.push(
-                          location.pathname.includes("mentorship")
-                            ? "/mentorship/yourmentor/tasksandresources"
-                            : "/dashboard/yourmentor/tasksandresources"
-                        );
-                      }}
-                      class={`${
-                        location.pathname.includes("tasksandresources")
-                          ? "bg-blue-700 border-blue-700 text-gray-100 border shadow-md"
-                          : "bg-white shadow-md text-gray-800"
-                      } hover:cursor-pointer relative top-2 normal-case hover:bg-blue-700 hover:shadow-sm hover:border-l-indigo-50 hover:border-blue-700 active:border-blue-700 inline-flex items-center justify-center sm:rounded-tl-none sm:rounded-bl-none sm:rounded-r-lg rounded-t-none rounded-b-lg  border py-[10px] lg:px-[60px] sm:px-[20px] px-[10px]  text-center sm:text-base text-sm font-semibold  transition-all hover:text-gray-100 sm:py-4 `}
-                    >
-                      <span class="pr-2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                          class=" sm:w-5 sm:h-5 w-4 h-4"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"
-                          />
-                        </svg>
-                      </span>
-                      Tasks & Resources
-                    </a>
-                  </div>
+                  {(index != null &&
+                    mentorCon.mentors[index] != null &&
+                    mentorCon.mentors[index].mentorshipCompleted == false) ||
+                  mentorCon.mentors[index].mentorshipCompleted == null ? (
+                    <div class="block mx-auto text-center px-3 -mt-5 sm:right-3 right-1.5 lg:w-full w-fit relative mb-16 rounded-lg">
+                      <a
+                        onClick={() => {
+                          history.push(
+                            location.pathname.includes("mentorship")
+                              ? "/mentorship/yourmentor/mentorinfo"
+                              : "/dashboard/yourmentor/mentorinfo"
+                          );
+                        }}
+                        class={` ${
+                          location.pathname.includes("mentorinfo")
+                            ? "bg-blue-700 text-gray-100 border-blue-700 border shadow-md"
+                            : "bg-white shadow-md  text-gray-800"
+                        } hover:cursor-pointer relative top-2 normal-case hover:bg-blue-700 hover:border-r-indigo-50  hover:shadow-sm hover:border-blue-700 inline-flex items-center justify-center  sm:rounded-l-lg sm:rounded-r-none  rounded-l-lg rounded-r-none border py-[10px]  lg:px-[60px] sm:px-[20px] px-[10px] text-center sm:text-base text-sm font-semibold  transition-all hover:text-gray-100 sm:py-4`}
+                      >
+                        <span class="pr-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="sm:w-5 sm:h-5 w-4 h-4"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                            />
+                          </svg>
+                        </span>
+                        Mentor Info
+                      </a>
+                      <a
+                        onClick={() => {
+                          history.push(
+                            location.pathname.includes("mentorship")
+                              ? "/mentorship/yourmentor/meetings"
+                              : "/dashboard/yourmentor/meetings"
+                          );
+                        }}
+                        class={`${
+                          location.pathname.includes("meetings")
+                            ? "bg-blue-700 border-blue-700 text-gray-100 border shadow-md"
+                            : "bg-white shadow-md text-gray-800"
+                        } hover:cursor-pointer relative top-2 normal-case hover:bg-blue-700 hover:shadow-sm hover:border-l-indigo-50 hover:border-blue-700 active:border-blue-700 inline-flex items-center justify-center  sm:rounded-l-none sm:rounded-r-none rounded-r-lg rounded-l-none  border py-[10px]  lg:px-[60px] sm:px-[20px] px-[10px]  text-center sm:text-base text-sm font-semibold  transition-all hover:text-gray-100 sm:py-4 `}
+                      >
+                        <span class="pr-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="sm:w-5 sm:h-5 w-4 h-4"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
+                            />
+                          </svg>
+                        </span>
+                        Meetings
+                      </a>
+                      <br class="sm:hidden block" />
+                      <a
+                        onClick={() => {
+                          history.push(
+                            location.pathname.includes("mentorship")
+                              ? "/mentorship/yourmentor/tasksandresources"
+                              : "/dashboard/yourmentor/tasksandresources"
+                          );
+                        }}
+                        class={`${
+                          location.pathname.includes("tasksandresources")
+                            ? "bg-blue-700 border-blue-700 text-gray-100 border shadow-md"
+                            : "bg-white shadow-md text-gray-800"
+                        } hover:cursor-pointer relative top-2 normal-case hover:bg-blue-700 hover:shadow-sm hover:border-l-indigo-50 hover:border-blue-700 active:border-blue-700 inline-flex items-center justify-center sm:rounded-tl-none sm:rounded-bl-none sm:rounded-r-lg rounded-t-none rounded-b-lg  border py-[10px] lg:px-[60px] sm:px-[20px] px-[10px]  text-center sm:text-base text-sm font-semibold  transition-all hover:text-gray-100 sm:py-4 `}
+                      >
+                        <span class="pr-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class=" sm:w-5 sm:h-5 w-4 h-4"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"
+                            />
+                          </svg>
+                        </span>
+                        Tasks & Resources
+                      </a>
+                    </div>
+                  ) : (
+                    ""
+                  )}
 
                   <Switch>
-                    <Route
-                      path={
-                        location.pathname.includes("mentorship")
-                          ? "/mentorship/yourmentor/mentorinfo"
-                          : "/dashboard/yourmentor/mentorinfo"
-                      }
-                    >
-                      <MentorInfo mentor={mentorCon.mentors[index]} />
-                    </Route>
+                    {index !== null && mentorCon.mentors.length > 0 ? (
+                      mentorCon.mentors[index] &&
+                      mentorCon.mentors[index].mentorshipCompleted === true ? (
+                        <>
+                          <Route
+                            path={"/dashboard/yourmentor/mentorshipCompleted"}
+                          >
+                            <>
+                              {mentorCon.mentors[index]
+                                .repeatRequestApproved === "no" ? (
+                                <div class="relative right-2.5 w-full h-fit">
+                                  <h1 className="sm:text-3xl text-center w-full  mx-auto block text-2xl lg:text-4xl font-bold leading-tighter tracking-tighter mt-5 sm:mb-8  mb-6">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke-width="1.5"
+                                      stroke="currentColor"
+                                      class="w-[36px] h-[36px] inline mr-1.5 relative bottom-[1.5px]"
+                                    >
+                                      <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5"
+                                      />
+                                    </svg>
+                                    You Request for Another Meeting{" "}
+                                    <span className="bg-clip-text  text-transparent bg-gradient-to-r from-orange-600 to-orange-500">
+                                      Was Denied
+                                    </span>
+                                  </h1>
+                                  <button
+                                    onClick={() => {
+                                      endMentorship();
+                                    }}
+                                    class="w-fit p-3 px-5 mt-[78px] mb-[110px] uppercase rounded-md block font-semibold tracking-wide shadow-md  mx-auto  bg-blue-700 hover:bg-blue-800 text-base hover:shadow-xl active:shadow-md text-white  "
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke-width="1.5"
+                                      stroke="currentColor"
+                                      class="relative mx-auto inline text-center text-lg mr-2 bottom-[2px] w-5 h-5"
+                                    >
+                                      <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+                                      />
+                                    </svg>
+                                    Okay, End Mentorship
+                                  </button>
+                                </div>
+                              ) : mentorCon.mentors[index].repeatRequested &&
+                                mentorCon.mentors[index]
+                                  .repeatRequestApproved !== "yes" ? (
+                                <>
+                                  <div class="relative right-2.5 w-full h-fit">
+                                    <h1 className="sm:text-2xl text-center w-full  mx-auto block text-1xl lg:text-3xl font-bold leading-tighter tracking-tighter md:-mt-2 sm:mt-1 sm:mb-8 -mt-3 mb-6">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="w-[33px] h-[33px] inline mr-1.5 relative bottom-[1.5px]"
+                                      >
+                                        <path
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"
+                                        />
+                                      </svg>
+                                      You Requested{" "}
+                                      <span className="bg-clip-text  text-transparent bg-gradient-to-r from-green-600 to-green-500">
+                                        Another Meeting
+                                      </span>
+                                    </h1>
 
-                    <Route
-                      path={
-                        location.pathname.includes("mentorship")
-                          ? "/mentorship/yourmentor/meetings"
-                          : "/dashboard/yourmentor/meetings"
-                      }
-                    >
-                      <Meetings mentor={mentorCon.mentors[index]} />
-                    </Route>
+                                    <h1 className="sm:text-3xl text-center mx-auto block text-2xl lg:text-4xl font-extrabold leading-tighter tracking-tighter md:-mt-4 sm:-mt-0 mb-3 -mt-4 ">
+                                      Awaiting Response from{" "}
+                                      <span className="bg-clip-text  text-transparent bg-gradient-to-r from-blue-500 to-indigo-400">
+                                        Mentor
+                                      </span>
+                                    </h1>
 
-                    <Route
-                      path={
-                        location.pathname.includes("mentorship")
-                          ? "/mentorship/yourmentor/tasksandresources"
-                          : "/dashboard/yourmentor/tasksandresources"
-                      }
-                    >
-                      <TasksAndResources mentor={mentorCon.mentors[index]} />
-                    </Route>
+                                    <div class="w-full text-center mx-auto mt-[60px] mb-[77px] right-1.5 relative ">
+                                      <i class="fas fa-clock text-[135px] mx-auto block"></i>
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  <div class="relative right-2.5 w-full h-fit">
+                                    <h1 className="sm:text-2xl text-center w-full  mx-auto block text-1xl lg:text-3xl font-bold leading-tighter tracking-tighter md:-mt-2 sm:mt-1 sm:mb-8 -mt-3 mb-6">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="w-[33px] h-[33px] inline mr-1.5 relative bottom-[1.5px]"
+                                      >
+                                        <path
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                        />
+                                      </svg>
+                                      Mentorship{" "}
+                                      <span className="bg-clip-text  text-transparent bg-gradient-to-r from-green-600 to-green-500">
+                                        Completed
+                                      </span>
+                                    </h1>
 
-                    <Route
-                      path={
-                        location.pathname.includes("mentorship")
-                          ? "/mentorship/yourmentor/"
-                          : "/dashboard/yourmentor/"
-                      }
-                    >
-                      <Redirect
-                        to={
-                          location.pathname.includes("mentorship")
-                            ? "/mentorship/yourmentor/mentorinfo"
-                            : "/dashboard/yourmentor/mentorinfo"
-                        }
-                      />
-                    </Route>
+                                    <h1 className="sm:text-3xl text-center mx-auto block text-2xl lg:text-4xl font-extrabold leading-tighter tracking-tighter md:-mt-4 sm:-mt-0 mb-3 -mt-4 ">
+                                      How do you want to{" "}
+                                      <span className="bg-clip-text  text-transparent bg-gradient-to-r from-blue-500 to-indigo-400">
+                                        move forward?
+                                      </span>
+                                    </h1>
+                                  </div>
 
-                    <Route
-                      path={
-                        location.pathname.includes("mentorship")
-                          ? "/mentorship/yourmentor"
-                          : "/dashboard/yourmentor"
-                      }
-                    >
-                      <Redirect
-                        to={
-                          location.pathname.includes("mentorship")
-                            ? "/mentorship/yourmentor/mentorinfo"
-                            : "/dashboard/yourmentor/mentorinfo"
-                        }
-                      />
-                    </Route>
+                                  <div class="h-[263px] w-[85%] mx-auto mt-[50px] mb-[50px] right-1.5 relative grid md:grid-cols-3 grid-cols-1 gap-8">
+                                    <div
+                                      onClick={() => {
+                                        endMentorship();
+                                      }}
+                                      class="tracking-wide  transition ease-in-out delay-75 hover:-translate-y-1 hover:scale-[1.02] duration-200 cursor-pointer hover:bg-gray-200 hover:border-indigo-500 relative  bg-gray-100 text-center rounded-md shadow-md border-2 border-gray-600"
+                                    >
+                                      <i class="fas fa-sign-out-alt text-6xl mt-9 mb-2 mx-auto block"></i>
 
-                    {sessionStorage.getItem("index") ? (
-                      <Route
-                        path={
-                          location.pathname.includes("mentorship")
-                            ? "/mentorship/"
-                            : "/dashboard/"
-                        }
-                      >
-                        <Redirect
-                          to={
-                            location.pathname.includes("mentorship")
-                              ? "/mentorship/yourmentor/"
-                              : "/dashboard/yourmentor/"
-                          }
-                        />
-                      </Route>
+                                      <hr class="border-[1px] border-dashed border-gray-600 mx-auto my-2 mt-7 block w-[70%]" />
+
+                                      <h2 class="text-xl mt-4 block font-bold">
+                                        End Mentorship
+                                      </h2>
+                                      <h2 class="text-base mt-3 block text-gray-600 font-semibold px-4">
+                                        You do not wish to continue with this
+                                        mentor.
+                                      </h2>
+                                    </div>
+
+                                    <div
+                                      onClick={() => {
+                                        repeatMentorship();
+                                      }}
+                                      class="tracking-wide transition ease-in-out delay-75 hover:-translate-y-1 hover:scale-[1.02] duration-200 cursor-pointer hover:bg-gray-200 hover:border-indigo-500 relative  bg-gray-100 text-center rounded-md shadow-md border-2 border-gray-600"
+                                    >
+                                      <div class="ml-4 absolute -right-2 -top-2 text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-green-200 text-green-700 rounded-full">
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          fill="none"
+                                          viewBox="0 0 24 24"
+                                          stroke-width="1.5"
+                                          stroke="currentColor"
+                                          width="16"
+                                          height="16"
+                                          class="mr-1"
+                                        >
+                                          <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                          />
+                                        </svg>
+                                        Recommended
+                                      </div>
+
+                                      <i class="fas fa-redo text-6xl mt-9 mb-2 mx-auto block"></i>
+
+                                      <hr class="border-[1px] border-dashed border-gray-600 mx-auto my-2 mt-7 block w-[70%]" />
+
+                                      <h2 class="text-xl mt-4 block font-bold">
+                                        1 more meeting
+                                      </h2>
+                                      <h2 class="text-base mt-3 block text-gray-600 font-semibold px-4">
+                                        You wish to sit on one more call with
+                                        this mentor.
+                                      </h2>
+                                    </div>
+
+                                    <div class="tracking-wide transition opacity-70 relative  bg-gray-100 text-center rounded-md shadow-md border-2 border-gray-600">
+                                      <div class="ml-4 absolute -right-2 -top-2 text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-orange-200 text-red-700 rounded-full">
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          fill="none"
+                                          viewBox="0 0 24 24"
+                                          stroke-width="1.5"
+                                          stroke="currentColor"
+                                          width="16"
+                                          height="16"
+                                          class="mr-1"
+                                        >
+                                          <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                          />
+                                        </svg>
+                                        Coming Soon.
+                                      </div>
+                                      <i class="fas fa-calendar-check  text-6xl mt-9 mb-2 mx-auto block"></i>
+
+                                      <hr class="border-[1px] border-dashed border-gray-600 mx-auto my-2 mt-7 block w-[70%]" />
+
+                                      <h2 class="text-xl mt-4 block font-bold">
+                                        4 week workshop
+                                      </h2>
+                                      <h2 class="text-base mt-3 block text-gray-600 font-semibold px-4">
+                                        You wish to retain this mentor for a
+                                        month-long period.
+                                      </h2>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
+                            </>
+                          </Route>
+
+                          <Route path={"/dashboard/yourmentor"}>
+                            <Redirect
+                              to={"/dashboard/yourmentor/mentorshipCompleted"}
+                            />
+                          </Route>
+
+                          <Route path={"/dashboard/yourmentor/"}>
+                            <Redirect
+                              to={"/dashboard/yourmentor/mentorshipCompleted"}
+                            />
+                          </Route>
+                        </>
+                      ) : (
+                        <>
+                          <Route
+                            path={
+                              location.pathname.includes("mentorship")
+                                ? "/mentorship/yourmentor/mentorinfo"
+                                : "/dashboard/yourmentor/mentorinfo"
+                            }
+                          >
+                            <MentorInfo mentor={mentorCon.mentors[index]} />
+                          </Route>
+
+                          <Route
+                            path={
+                              location.pathname.includes("mentorship")
+                                ? "/mentorship/yourmentor/meetings"
+                                : "/dashboard/yourmentor/meetings"
+                            }
+                          >
+                            <Meetings mentor={mentorCon.mentors[index]} />
+                          </Route>
+
+                          <Route
+                            path={
+                              location.pathname.includes("mentorship")
+                                ? "/mentorship/yourmentor/tasksandresources"
+                                : "/dashboard/yourmentor/tasksandresources"
+                            }
+                          >
+                            <TasksAndResources
+                              mentor={mentorCon.mentors[index]}
+                            />
+                          </Route>
+
+                          <Route
+                            path={
+                              location.pathname.includes("mentorship")
+                                ? "/mentorship/yourmentor/"
+                                : "/dashboard/yourmentor/"
+                            }
+                          >
+                            <Redirect
+                              to={
+                                location.pathname.includes("mentorship")
+                                  ? "/mentorship/yourmentor/mentorinfo"
+                                  : "/dashboard/yourmentor/mentorinfo"
+                              }
+                            />
+                          </Route>
+
+                          <Route
+                            path={
+                              location.pathname.includes("mentorship")
+                                ? "/mentorship/yourmentor"
+                                : "/dashboard/yourmentor"
+                            }
+                          >
+                            <Redirect
+                              to={
+                                location.pathname.includes("mentorship")
+                                  ? "/mentorship/yourmentor/mentorinfo"
+                                  : "/dashboard/yourmentor/mentorinfo"
+                              }
+                            />
+                          </Route>
+
+                          {/* {sessionStorage.getItem("index") ? (
+                            <Route
+                              path={
+                                location.pathname.includes("mentorship")
+                                  ? "/mentorship/"
+                                  : "/dashboard/"
+                              }
+                            >
+                              <Redirect
+                                to={
+                                  location.pathname.includes("mentorship")
+                                    ? "/mentorship/yourmentor/"
+                                    : "/dashboard/yourmentor/"
+                                }
+                              />
+                            </Route>
+                          ) : (
+                            ""
+                          )} */}
+                        </>
+                      )
                     ) : (
                       ""
                     )}

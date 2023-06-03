@@ -17,6 +17,8 @@ const Meetings = (props) => {
 
   const projCon = useContext(projectContext);
 
+  const [timelineCompleted, setTimelineCompleted] = useState(false);
+
   useEffect(() => {
     let startingDate = new Date(props.mentor.matchedDate);
     let endingDate = new Date(props.mentor.endDate);
@@ -37,6 +39,7 @@ const Meetings = (props) => {
 
     let availableDatesCopy;
     let selectedDateCopy;
+    let duration = props.mentor.duration;
 
     if (
       new Date() < checkPointsCopy2[0] ||
@@ -50,10 +53,11 @@ const Meetings = (props) => {
     }
 
     if (
-      (new Date() > checkPointsCopy2[1] && new Date() < checkPointsCopy2[2]) ||
-      (props.mentor.timeline.week1.selectedDate &&
-        new Date() > new Date(props.mentor.timeline.week1.selectedDate) &&
-        new Date() < checkPointsCopy2[2])
+      duration > 1 &&
+      ((new Date() > checkPointsCopy2[1] && new Date() < checkPointsCopy2[2]) ||
+        (props.mentor.timeline.week1.selectedDate &&
+          new Date() > new Date(props.mentor.timeline.week1.selectedDate) &&
+          new Date() < checkPointsCopy2[2]))
     ) {
       availableDatesCopy = props.mentor.timeline.week2.availableDates.filter(
         (date) => new Date(date) > new Date()
@@ -63,10 +67,11 @@ const Meetings = (props) => {
     }
 
     if (
-      (new Date() > checkPointsCopy2[2] && new Date() < checkPointsCopy2[3]) ||
-      (props.mentor.timeline.week2.selectedDate &&
-        new Date() > new Date(props.mentor.timeline.week2.selectedDate) &&
-        new Date() < checkPointsCopy2[3])
+      duration > 2 &&
+      ((new Date() > checkPointsCopy2[2] && new Date() < checkPointsCopy2[3]) ||
+        (props.mentor.timeline.week2.selectedDate &&
+          new Date() > new Date(props.mentor.timeline.week2.selectedDate) &&
+          new Date() < checkPointsCopy2[3]))
     ) {
       availableDatesCopy = props.mentor.timeline.week3.availableDates.filter(
         (date) => new Date(date) > new Date()
@@ -76,10 +81,11 @@ const Meetings = (props) => {
     }
 
     if (
-      (new Date() > checkPointsCopy2[3] && new Date() < checkPointsCopy2[4]) ||
-      (props.mentor.timeline.week3.selectedDate &&
-        new Date() > new Date(props.mentor.timeline.week3.selectedDate) &&
-        new Date() < checkPointsCopy2[4])
+      duration > 3 &&
+      ((new Date() > checkPointsCopy2[3] && new Date() < checkPointsCopy2[4]) ||
+        (props.mentor.timeline.week3.selectedDate &&
+          new Date() > new Date(props.mentor.timeline.week3.selectedDate) &&
+          new Date() < checkPointsCopy2[4]))
     ) {
       availableDatesCopy = props.mentor.timeline.week4.availableDates.filter(
         (date) => new Date(date) > new Date()
@@ -90,6 +96,16 @@ const Meetings = (props) => {
 
     if (new Date() > checkPointsCopy2[4]) {
       setWeekNum(5);
+    }
+
+    if (
+      (props.mentor.pastMeetings.length >= duration &&
+        new Date(
+          props.mentor.pastMeetings[props.mentor.pastMeetings.length - 1].date
+        ) < new Date()) ||
+      (new Date() > checkPointsCopy2[duration] && duration > 1)
+    ) {
+      setTimelineCompleted(true);
     }
 
     if (props.mentor.upcomingMeeting) {
@@ -147,7 +163,7 @@ const Meetings = (props) => {
       <div class="h-fit md:w-[100%] sm:w-[100%] w-[100%]  md:px-0 sm:px-7 px-0 mx-auto mt-1 md:mb-14 mb-11 right-1.5 relative grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
         <div class="bg-white rounded-md col-span-1 block h-[400px] border-blue-700 border shadow-md ">
           <p class="w-full text-xl tracking-wide bg-gray-200 border-b-1.5 py-3 text-center font-bold border-dashed border-gray-600">
-            Upcoming Meetings
+            Upcoming Meeting
           </p>
 
           {weekNum === 5 ? (
@@ -408,11 +424,29 @@ const Meetings = (props) => {
               <>All Meetings Completed</>
             ) : (
               <>
-                Meeting {weekNum} of {4}
+                Meeting {weekNum} of {props.mentor.duration}
               </>
             )}
           </p>
-          {weekNum === 5 ? (
+          {timelineCompleted ? (
+            <p class="text-green-600 relative top-[110px] text-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-[22px] h-[22px] inline mr-1.5 relative bottom-[1.5px]"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              Mentorship Completed
+            </p>
+          ) : weekNum === 5 ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -539,6 +573,72 @@ const Meetings = (props) => {
             Timeline
           </p>
 
+          <p class="text-red-500 relative top-[145px] text-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-[22px] h-[22px] inline mr-1.5 relative bottom-[1.5px]"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+              />
+            </svg>
+            Only 1 Meeting Included
+          </p>
+
+          {/* {checkPoints.length > 1 ? (
+            <ol class="relative border-l border-blue-700 block -left-[19px] justify-center text-center mx-auto w-fit pt-[22px] pb-[0.1px]">
+              {checkPoints
+                .filter((c, i) => i != checkPoints.length - 1)
+                .map((chkPoint, i) => {
+                  return (
+                    <li class="mb-[29px] ml-10 mx-auto">
+                      <div class="absolute w-3 h-3 bg-blue-700 rounded-full mt-1.5 -left-1.5 border border-white "></div>
+                      <time class="mb-1 text-sm font-bold leading-none text-blue-700 ">
+                        {chkPoint} - {checkPoints[i + 1]}
+                      </time>
+                      <h3 class="text-lg font-semibold text-gray-900   ">
+                        Week {i + 1}
+                      </h3>
+                    </li>
+                  );
+                })}
+            </ol>
+          ) : (
+            ""
+          )} */}
+        </div>
+      </div>
+
+      <div class="bg-white rounded-md lg:hidden md:block hidden w-[50%] -mt-7 mb-16 mx-auto h-[400px] border-blue-700 border shadow-md ">
+        <p class="w-full text-xl tracking-wide bg-gray-200 border-b-1.5 py-3 text-center font-bold border-dashed border-gray-600">
+          Timeline
+        </p>
+
+        <p class="text-red-500 relative top-[145px] text-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-[22px] h-[22px] inline mr-1.5 relative bottom-[1.5px]"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+            />
+          </svg>
+          Only 1 Meeting Included
+        </p>
+
+        {/* {checkPoints.length > 1 ? (
           <ol class="relative border-l border-blue-700 block -left-[19px] justify-center text-center mx-auto w-fit pt-[22px] pb-[0.1px]">
             {checkPoints
               .filter((c, i) => i != checkPoints.length - 1)
@@ -556,31 +656,9 @@ const Meetings = (props) => {
                 );
               })}
           </ol>
-        </div>
-      </div>
-
-      <div class="bg-white rounded-md lg:hidden md:block hidden w-[50%] -mt-7 mb-16 mx-auto h-[400px] border-blue-700 border shadow-md ">
-        <p class="w-full text-xl tracking-wide bg-gray-200 border-b-1.5 py-3 text-center font-bold border-dashed border-gray-600">
-          Timeline
-        </p>
-
-        <ol class="relative border-l border-blue-700 block -left-[19px] justify-center text-center mx-auto w-fit pt-[22px] pb-[0.1px]">
-          {checkPoints
-            .filter((c, i) => i != checkPoints.length - 1)
-            .map((chkPoint, i) => {
-              return (
-                <li class="mb-[29px] ml-10 mx-auto">
-                  <div class="absolute w-3 h-3 bg-blue-700 rounded-full mt-1.5 -left-1.5 border border-white "></div>
-                  <time class="mb-1 text-sm font-bold leading-none text-blue-700 ">
-                    {chkPoint} - {checkPoints[i + 1]}
-                  </time>
-                  <h3 class="text-lg font-semibold text-gray-900   ">
-                    Week {i + 1}
-                  </h3>
-                </li>
-              );
-            })}
-        </ol>
+        ) : (
+          ""
+        )} */}
       </div>
     </>
   );
