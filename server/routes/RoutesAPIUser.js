@@ -266,14 +266,14 @@ router.post("/register", async (req, res) => {
             }
           }
 
-          // sendOnboardedMail()
-          //   .then((result) => {
-          //     console.log(result);
-          //   })
-          //   .catch((err) => {
-          //     console.log(err);
-          //     res.status(400).send(err);
-          //   });
+          sendOnboardedMail()
+            .then((result) => {
+              console.log(result);
+            })
+            .catch((err) => {
+              console.log(err);
+              res.status(400).send(err);
+            });
 
           proj.markModified("team");
           await proj.save();
@@ -333,8 +333,8 @@ router.post("/register", async (req, res) => {
                     <p> Welcome to IdeaStack.org.<br/>
                     <h4>We hope to take you and your team ${
                       proj ? `@ ${proj.name} ` : ""
-                    }to new heights through mentorship!.</h4>
-                    Explore our portfolio of mentors and request a mentor based on your specific needs; our team will take your requests into consideration while matching you with a mentor.<br/> 
+                    }to new heights through mentorship!</h4>
+                    Explore our portfolio of mentors and request a mentor based on your specific needs; we will take your requests into consideration while matching you with a mentor.<br/> 
                     Contact us if you face any issues- our team prioritizes your experience above all else.
                     </p>
                     
@@ -605,7 +605,7 @@ router.post("/registerWithGoogle", async (req, res) => {
                     <h4>We hope to take you and your team ${
                       proj ? `@ ${proj.name} ` : ""
                     }to new heights through mentorship!.</h4>
-                    Explore our portfolio of mentors and request a mentor based on your specific needs; our team will take your requests into consideration while matching you with a mentor.<br/> 
+                    Explore our portfolio of mentors and request a mentor based on your specific needs; we will take your requests into consideration while matching you with a mentor.<br/> 
                     Contact us if you face any issues- our team prioritizes your experience above all else.
                     </p>
                     
@@ -1058,78 +1058,78 @@ router.post("/updateMentor", auth, async (req, res) => {
         ]
       );
 
-      // async function sendRequestAcceptedMail() {
-      //   try {
-      //     const transport = await nodemailer.createTransport({
-      //       host: "smtp.gmail.com",
-      //       port: 465,
-      //       auth: {
-      //         type: "OAuth2",
-      //         user: "ideastackapp@gmail.com",
-      //         clientId: process.env.CLIENT_ID,
-      //         clientSecret: process.env.CLIENT_SECRET,
-      //         accessToken: process.env.ACCESS_TOKEN,
-      //         refreshToken: process.env.REFRESH_TOKEN,
-      //       },
-      //     });
+      async function sendRequestAcceptedMail() {
+        try {
+          const transport = await nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            auth: {
+              type: "OAuth2",
+              user: "ideastackapp@gmail.com",
+              clientId: process.env.CLIENT_ID,
+              clientSecret: process.env.CLIENT_SECRET,
+              accessToken: process.env.ACCESS_TOKEN,
+              refreshToken: process.env.REFRESH_TOKEN,
+            },
+          });
 
-      //     const mailOptions = {
-      //       from: "IdeaStack <ideastackapp@gmail.com>",
-      //       to: [...proj.team.map((teamMember) => teamMember.email)],
-      //       bcc: [],
-      //       subject: `Mentorship Request Accepted - ${req.body.mentor.name} @ IdeaStack.org`,
-      //       text: `
-      //               Hey, Entrepreneurs @ ${proj.name}!
+          const mailOptions = {
+            from: "IdeaStack <ideastackapp@gmail.com>",
+            to: [...proj.team.map((teamMember) => teamMember.email)],
+            bcc: [],
+            subject: `Mentorship Request Accepted - ${req.body.mentor.name} @ IdeaStack.org`,
+            text: `
+                    Hey, Entrepreneurs @ ${proj.name}!
 
-      //               IdeaStack mentor ${req.body.mentor.name} has accepted your mentorship request.
+                    IdeaStack mentor ${req.body.mentor.name} has accepted your mentorship request.
 
-      //               We'll be taking this acceptance into consideration while matching you with a mentor!
-      //               Sign-in to IdeaStack.org, and make more requests to mentors that interest you- this will increase the likelihood that you're matched with a mentor that suits your preferences.
+                    We'll be taking this acceptance into consideration while matching you with a mentor!
+                    Sign-in to IdeaStack.org, and make more requests to mentors that interest you- this will increase the likelihood that you're matched with a mentor that suits your preferences.
 
-      //               Contact us if you face any issues- our team prioritizes your experience above all else.
+                    Contact us if you face any issues- our team prioritizes your experience above all else.
 
-      //               Best Regards,
-      //               Admin Team, IdeaStack`,
-      //       html: `
-      //               <p>Hey, Entrepreneurs @ ${proj.name}!</p>
+                    Best Regards,
+                    Admin Team, IdeaStack`,
+            html: `
+                    <p>Hey, Entrepreneurs @ ${proj.name}!</p>
 
-      //               <p> IdeaStack mentor ${req.body.mentor.name} has accepted your mentorship request.<br/>
-      //               <h4>We'll be taking this acceptance into consideration while matching you with a mentor! </h4>
-      //               Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and make more requests to mentors that interest you- this will increase the likelihood that you're matched with a mentor that suits your preferences.<br/>
-      //               Contact us if you face any issues- our team prioritizes your experience above all else.
-      //               </p>
+                    <p> IdeaStack mentor ${req.body.mentor.name} has accepted your request for a meeting.<br/>
+                    <h4>We'll be taking this acceptance into consideration while matching you with a mentor! </h4>
+                    Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and make more requests to mentors that interest you- this will increase the likelihood that you're matched with a mentor that suits your preferences.<br/>
+                    Contact us if you face any issues- our team prioritizes your experience above all else.
+                    </p>
 
-      //               <p>Best Regards,<br/>
-      //               Admin Team, IdeaStack</p>
-      //               <br/><br/>
-      //               <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
-      //               `,
-      //       attachments: [
-      //         {
-      //           fileName: "IdeaStack.jpg",
-      //           path: "server/routes/IdeaStack.jpg",
-      //           cid: "ideastack@orgae.ee",
-      //         },
-      //       ],
-      //     };
-      //     const result = await transport.sendMail(mailOptions);
-      //     return result;
-      //   } catch (err) {
-      //     return err;
-      //   }
-      // }
+                    <p>Best Regards,<br/>
+                    Admin Team, IdeaStack</p>
+                    <br/><br/>
+                    <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                    `,
+            attachments: [
+              {
+                fileName: "IdeaStack.jpg",
+                path: "server/routes/IdeaStack.jpg",
+                cid: "ideastack@orgae.ee",
+              },
+            ],
+          };
+          const result = await transport.sendMail(mailOptions);
+          return result;
+        } catch (err) {
+          return err;
+        }
+      }
 
-      // sendRequestAcceptedMail()
-      //   .then((result) => {
-      //     mixpanel.track("Mentor Request Acceptance", {
-      //       distinct_id: updatedMentor._id,
-      //     });
-      //     console.log(result);
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //     res.status(400).send(err);
-      //   });
+      sendRequestAcceptedMail()
+        .then((result) => {
+          mixpanel.track("Mentor Request Acceptance", {
+            distinct_id: updatedMentor._id,
+          });
+          console.log(result);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(400).send(err);
+        });
     }
 
     res.send({ ...updatedMentor, ...updateInfo });
@@ -1274,93 +1274,102 @@ router.post("/onboardTeam", auth, async (req, res) => {
     await currProject.save();
   }
 
-  // async function sendMail(teamMember, uniqueCodeParam) {
-  //   const transport = await nodemailer.createTransport({
-  //     host: "smtp.gmail.com",
-  //     port: 465,
-  //     auth: {
-  //       type: "OAuth2",
-  //       user: "ideastackapp@gmail.com",
-  //       clientId: process.env.CLIENT_ID,
-  //       clientSecret: process.env.CLIENT_SECRET,
-  //       accessToken: process.env.ACCESS_TOKEN,
-  //       refreshToken: process.env.REFRESH_TOKEN,
-  //     },
-  //   });
+  async function sendMail(teamMember, uniqueCodeParam) {
+    const transport = await nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      auth: {
+        type: "OAuth2",
+        user: "ideastackapp@gmail.com",
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        accessToken: process.env.ACCESS_TOKEN,
+        refreshToken: process.env.REFRESH_TOKEN,
+      },
+    });
 
-  //   const mailOptions = {
-  //     from: "IdeaStack <ideastackapp@gmail.com>",
-  //     to: teamMember.email,
-  //     cc: [user.email],
-  //     bcc: ["vismaysuramwar@gmail.com"],
-  //     subject: "IdeaStack Team Onboarding - " + user.firstName,
-  //     text: `
-  //               Hey ${teamMember.name}!
+    const mailOptions = {
+      from: "IdeaStack <ideastackapp@gmail.com>",
+      to: teamMember.email,
+      cc: [user.email],
+      bcc: ["vismaysuramwar@gmail.com"],
+      subject: "IdeaStack Team Onboarding - " + user.firstName,
+      text: `
+                Hey ${teamMember.name}!
 
-  //               ${
-  //                 user.firstName
-  //               }, from your startup, has registered you & your team for mentorship
-  //               on IdeaStack. You've been listed as a team-member with the role: ${
-  //                 teamMember.role
-  //               }
+                ${
+                  user.firstName
+                }, from your startup, has registered you & your team for mentorship
+                on IdeaStack. You've been listed as a team-member with the role: ${
+                  teamMember.role
+                }
 
-  //               Unique Registration Code: ${uniqueCodeParam}.
+                Unique Registration Code: ${uniqueCodeParam}.
 
-  //               Use the code above to access your team's mentorship dashboard & workspace.
+                Use the code above to access your team's mentorship dashboard & workspace.
 
-  //               Join using this link (unique link, will not work for any other user): https://ideastack.org/teamonboarding/${
-  //                 teamMember.name
-  //               }/${user.firstName + " " + user.lastName}/${currProject._id}
+                Join using this link (unique link, will not work for any other user): https://ideastack.org/teamonboarding/${
+                  teamMember.name
+                }/${user.firstName + " " + user.lastName}/${currProject._id}
 
-  //               Note: The link above is unique, and will not work for any other user. There are limited seats available for IdeaStack registration
+                Note: The link above is unique, and will not work for any other user. There are limited seats available for IdeaStack registration
 
-  //               Reply to this mail if you face any issues; we'll get back to you as soon as possible!
+                Reply to this mail if you face any issues; we'll get back to you as soon as possible!
 
-  //               Best Regards,
-  //               Admin, IdeaStack`,
-  //     html: `
-  //               <p>Hey ${teamMember.name}!</p>
+                Best Regards,
+                Admin, IdeaStack`,
+      html: `
+                <p>Hey ${teamMember.name}!</p>
 
-  //               <p> ${
-  //                 user.firstName
-  //               }, from your startup, has registered you & your team for mentorship<br/>
-  //               on IdeaStack. You've been listed as a team-member with the role: ${
-  //                 teamMember.role
-  //               }</p>
+                <p> ${
+                  user.firstName
+                }, from your startup, has registered you & your team for mentorship<br/>
+                on IdeaStack. You've been listed as a team-member with the role: ${
+                  teamMember.role
+                }</p>
 
-  //               <h4>Unique Registration Code: ${uniqueCodeParam}.</h4>
+                <h4>Unique Registration Code: ${uniqueCodeParam}.</h4>
 
-  //               <p>Use the code above to access your team's mentorship dashboard & workspace.</p>
-  //               <p>Join using this link: <a href = '${
-  //                 process.env.NODE_ENV === "production"
-  //                   ? "https://ideastack.org"
-  //                   : "http://localhost:3000"
-  //               }/teamonboarding/${teamMember.name}/${
-  //       user.firstName + " " + user.lastName
-  //     }/${currProject._id}'>https://ideastack.org/teamonboarding/${
-  //       teamMember.name
-  //     }/${user.firstName + " " + user.lastName}/${currProject._id}</a></p>
+                <p>Use the code above to access your team's mentorship dashboard & workspace.</p>
+                <p>Join using this link: <a href = '${
+                  process.env.NODE_ENV === "production"
+                    ? "https://ideastack.org"
+                    : "http://localhost:3000"
+                }/teamonboarding/${teamMember.name}/${
+        user.firstName + " " + user.lastName
+      }/${currProject._id}'>https://ideastack.org/teamonboarding/${
+        teamMember.name
+      }/${user.firstName + " " + user.lastName}/${currProject._id}</a></p>
 
-  //               <p> Note: The link above is unique, and will not work for any other user. There are limited seats available for IdeaStack registration, so sign-up soon! </p>
+                <p> Note: The link above is unique, and will not work for any other user. There are limited seats available for IdeaStack registration, so sign-up soon! </p>
 
-  //               <p> Reply to this mail if you face any issues; we'll get back to you as soon as possible! </p>
+                <p> Reply to this mail if you face any issues; we'll get back to you as soon as possible! </p>
 
-  //               <p>Best Regards,<br/>
-  //                Admin, IdeaStack</p>
-  //               <br/>
-  //               <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
-  //               `,
-  //     attachments: [
-  //       {
-  //         fileName: "IdeaStack.jpg",
-  //         path: "server/routes/IdeaStack.jpg",
-  //         cid: "ideastack@orgae.ee",
-  //       },
-  //     ],
-  //   };
-  //   const result = await transport.sendMail(mailOptions);
-  //   return result;
-  // }
+                <p>Best Regards,<br/>
+                 Admin, IdeaStack</p>
+                <br/>
+                <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                `,
+      attachments: [
+        {
+          fileName: "IdeaStack.jpg",
+          path: "server/routes/IdeaStack.jpg",
+          cid: "ideastack@orgae.ee",
+        },
+      ],
+    };
+    const result = await transport.sendMail(mailOptions);
+    return result;
+  }
+
+  sendMail()
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    });
 
   res.send(newUser);
 
@@ -1753,6 +1762,86 @@ router.post("/endMentorship", auth, async (req, res) => {
   mentor.markModified("currentMentees");
   await mentor.save();
 
+  async function sendEndMentorshipMail() {
+    try {
+      const transport = await nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        auth: {
+          type: "OAuth2",
+          user: "ideastackapp@gmail.com",
+          clientId: process.env.CLIENT_ID,
+          clientSecret: process.env.CLIENT_SECRET,
+          accessToken: process.env.ACCESS_TOKEN,
+          refreshToken: process.env.REFRESH_TOKEN,
+        },
+      });
+
+      const mailOptions = {
+        from: "IdeaStack <ideastackapp@gmail.com>",
+        to: [...proj.team.map((teamMember) => teamMember.email), mentor.email],
+        bcc: ["vismaysuramwar@gmail.com", "raghavbhatia0611@gmail.com"],
+        subject: `Mentorship Ended - ${mentor.name} @ IdeaStack.org`,
+        text: `
+                  Hey, Entrepreneurs @ ${proj.name}!
+
+                  This email is being sent to inform you that the mentorship between ${proj.name} and ${mentor.name} has ended! 
+
+                  Kindly request a meeting with this mentor again if you wish to meet.
+
+                  Feedback form to be filled by startup members: click here
+                  Feedback form to be filled by mentor: click here
+
+                  Sign-in to IdeaStack.org, and explore more mentor details.
+
+                  Contact us if you face any issues- our team prioritizes your experience above all else.
+
+                  Best Regards,
+                  Admin Team, IdeaStack`,
+        html: `
+                  <p>Hey, Entrepreneurs @ ${proj.name}!</p>
+
+                  <p> This email is being sent to inform you that the mentorship between ${proj.name} and ${mentor.name} has ended!
+    <br/>
+                  <p>Kindly request a meeting with this mentor again if you wish to meet.</p>
+
+                  <h4> Feedback form to be filled by startup members: <a href="https://forms.gle/yFQGRD8wVH8UxR2y6" target = "_blank">click here</a>
+                </h4>
+   <h4> Feedback form to be filled by mentor: <a href="https://forms.gle/vRZhPkB7VcTD11YbA" target = "_blank">click here</a>
+                    </h4><br/>
+                  Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and explore more mentor details.<br/>
+                  Contact us if you face any issues- our team prioritizes your experience above all else.
+                  </p>
+
+                  <p>Best Regards,<br/>
+                  Admin Team, IdeaStack</p>
+                  <br/><br/>
+                  <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                  `,
+        attachments: [
+          {
+            fileName: "IdeaStack.jpg",
+            path: "server/routes/IdeaStack.jpg",
+            cid: "ideastack@orgae.ee",
+          },
+        ],
+      };
+      const result = await transport.sendMail(mailOptions);
+      return result;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  sendEndMentorshipMail()
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    });
+
   res.send(proj);
 });
 
@@ -1781,6 +1870,90 @@ router.post("/repeatMentorship", auth, async (req, res) => {
   proj.markModified("mentorsMatched");
   await proj.save();
 
+  const mentor = await workshop.findById(mentorMatched.mentorId);
+
+  async function sendRepeatRequestMail() {
+    try {
+      const transport = await nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        auth: {
+          type: "OAuth2",
+          user: "ideastackapp@gmail.com",
+          clientId: process.env.CLIENT_ID,
+          clientSecret: process.env.CLIENT_SECRET,
+          accessToken: process.env.ACCESS_TOKEN,
+          refreshToken: process.env.REFRESH_TOKEN,
+        },
+      });
+
+      const mailOptions = {
+        from: "IdeaStack <ideastackapp@gmail.com>",
+        to: [mentor.email],
+        bcc: ["vismaysuramwar@gmail.com", "raghavbhatia0611@gmail.com"],
+        subject: `Mentorship Continuation Request - ${proj.name} @ IdeaStack.org`,
+        text: `
+                  Hey, ${mentor.name}!
+
+                  This email is being sent to inform you that ${proj.name} has requested to continue with your mentorship!
+
+                  If you accept, you will be required to select two date slots again, after which a meeting date will be fixed.
+
+                  If you deny this request, this startup team will be unable to contact you unless it requests for mentorship again.
+
+                  Kindly sign-in to IdeaStack.org, and take a decision regarding the same.
+
+                  Contact us if you face any issues- our team prioritizes your experience above all else.
+
+                  Best Regards,
+                  Admin Team, IdeaStack`,
+        html: `
+                  <p> Hey, ${mentor.name}!</p>
+
+                  <p> This email is being sent to inform you that ${proj.name} has requested to continue with your mentorship!
+    <br/>
+                  <p>If you accept, you will be required to select two date slots again, after which a meeting date will be fixed.</p>
+                  <br/>
+
+                  <p>If you deny this request, this startup team will be unable to contact you unless it requests for mentorship again.</p>
+
+
+                  Kindly sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and take a decision regarding the same.<br/>
+
+                  <h4> Feedback form: <a href="https://forms.gle/vRZhPkB7VcTD11YbA" target = "_blank">click here</a><br/>
+
+                  Contact us if you face any issues- our team prioritizes your experience above all else.
+                  </p>
+
+                  <p>Best Regards,<br/>
+                  Admin Team, IdeaStack</p>
+                  <br/><br/>
+                  <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                  `,
+        attachments: [
+          {
+            fileName: "IdeaStack.jpg",
+            path: "server/routes/IdeaStack.jpg",
+            cid: "ideastack@orgae.ee",
+          },
+        ],
+      };
+      const result = await transport.sendMail(mailOptions);
+      return result;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  sendRepeatRequestMail()
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    });
+
   res.send(proj);
 });
 
@@ -1805,10 +1978,82 @@ router.post("/denyRepeatRequest", async (req, res) => {
     repeatRequestApproved: "no",
   };
 
-  console.log(proj.mentorsMatched[index]);
-
   proj.markModified("mentorsMatched");
   await proj.save();
+
+  const mentor = await workshop.findById(mentorMatched.mentorId);
+
+  async function sendDenyRepeatMail() {
+    try {
+      const transport = await nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        auth: {
+          type: "OAuth2",
+          user: "ideastackapp@gmail.com",
+          clientId: process.env.CLIENT_ID,
+          clientSecret: process.env.CLIENT_SECRET,
+          accessToken: process.env.ACCESS_TOKEN,
+          refreshToken: process.env.REFRESH_TOKEN,
+        },
+      });
+
+      const mailOptions = {
+        from: "IdeaStack <ideastackapp@gmail.com>",
+        to: [...proj.team.map((teamMember) => teamMember.email)],
+        subject: `Mentorship Request Denied - ${mentor.name} @ IdeaStack.org`,
+        text: `
+                  Hey, Entrepreneurs @ ${proj.name}!
+
+                  This email is being sent to inform you that ${mentor.name} has denied your request for another meeting.
+
+                  This may be due to time-constraints, commitment issues or personal problems.
+
+                  Sign-in to IdeaStack.org, and officially end the mentorship.
+
+                  Contact us if you face any issues- our team prioritizes your experience above all else.
+
+                  Best Regards,
+                  Admin Team, IdeaStack`,
+        html: `
+                  <p>Hey, Entrepreneurs @ ${proj.name}!</p>
+
+                  <p> This email is being sent to inform you that ${mentor.name} has denied your request for another meeting.
+    <br/>
+                  <p>This may be due to time-constraints, commitment issues or personal problems.</p>
+
+                  Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and officially end the mentorship..<br/>
+                  Contact us if you face any issues- our team prioritizes your experience above all else.
+                  </p>
+
+                  <p>Best Regards,<br/>
+                  Admin Team, IdeaStack</p>
+                  <br/><br/>
+                  <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                  `,
+        attachments: [
+          {
+            fileName: "IdeaStack.jpg",
+            path: "server/routes/IdeaStack.jpg",
+            cid: "ideastack@orgae.ee",
+          },
+        ],
+      };
+      const result = await transport.sendMail(mailOptions);
+      return result;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  sendDenyRepeatMail()
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    });
 
   res.send(proj);
 });
@@ -1849,6 +2094,81 @@ router.post("/acceptRepeatRequest", async (req, res) => {
   proj.markModified("mentorsMatched");
   await proj.save();
 
+  const mentor = await workshop.findById(mentorMatched.mentorId);
+
+  async function sendAcceptRepeatMail() {
+    try {
+      const transport = await nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        auth: {
+          type: "OAuth2",
+          user: "ideastackapp@gmail.com",
+          clientId: process.env.CLIENT_ID,
+          clientSecret: process.env.CLIENT_SECRET,
+          accessToken: process.env.ACCESS_TOKEN,
+          refreshToken: process.env.REFRESH_TOKEN,
+        },
+      });
+
+      const mailOptions = {
+        from: "IdeaStack <ideastackapp@gmail.com>",
+        to: [...proj.team.map((teamMember) => teamMember.email)],
+        bcc: ["vismaysuramwar@gmail.com", "raghavbhatia0611@gmail.com"],
+        subject: `Mentorship Request Accepted - ${mentor.name} @ IdeaStack.org`,
+        text: `
+                  Hey, Entrepreneurs @ ${proj.name}!
+
+                  This email is being sent to inform you that ${mentor.name} has accepted your request for another meeting!
+
+                  Your mentor will select two date slots again, after which you're expected to fix a meeting date.
+
+                  Sign-in to IdeaStack.org, and explore more options for mentorship.
+
+                  Contact us if you face any issues- our team prioritizes your experience above all else.
+
+                  Best Regards,
+                  Admin Team, IdeaStack`,
+        html: `
+                  <p>Hey, Entrepreneurs @ ${proj.name}!</p>
+
+                  <p> This email is being sent to inform you that ${mentor.name} has accepted your request for another meeting!
+    <br/>
+                  <p>Your mentor will select two date slots again, after which you're expected to fix a meeting date..</p>
+
+                  Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and and explore more options for mentorship.<br/>
+                  Contact us if you face any issues- our team prioritizes your experience above all else.
+                  </p>
+
+                  <p>Best Regards,<br/>
+                  Admin Team, IdeaStack</p>
+                  <br/><br/>
+                  <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                  `,
+        attachments: [
+          {
+            fileName: "IdeaStack.jpg",
+            path: "server/routes/IdeaStack.jpg",
+            cid: "ideastack@orgae.ee",
+          },
+        ],
+      };
+      const result = await transport.sendMail(mailOptions);
+      return result;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  sendAcceptRepeatMail()
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    });
+
   res.send(proj);
 });
 
@@ -1878,102 +2198,102 @@ router.post("/updateInstructions", auth, async (req, res) => {
 
   const mentor = await workshop.findById(proj.mentorsMatched[index].mentorId);
 
-  // async function sendInstructionsMail() {
-  //   try {
-  //     const transport = await nodemailer.createTransport({
-  //       host: "smtp.gmail.com",
-  //       port: 465,
-  //       auth: {
-  //         type: "OAuth2",
-  //         user: "ideastackapp@gmail.com",
-  //         clientId: process.env.CLIENT_ID,
-  //         clientSecret: process.env.CLIENT_SECRET,
-  //         accessToken: process.env.ACCESS_TOKEN,
-  //         refreshToken: process.env.REFRESH_TOKEN,
-  //       },
-  //     });
+  async function sendInstructionsMail() {
+    try {
+      const transport = await nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        auth: {
+          type: "OAuth2",
+          user: "ideastackapp@gmail.com",
+          clientId: process.env.CLIENT_ID,
+          clientSecret: process.env.CLIENT_SECRET,
+          accessToken: process.env.ACCESS_TOKEN,
+          refreshToken: process.env.REFRESH_TOKEN,
+        },
+      });
 
-  //     const mailOptions = {
-  //       from: "IdeaStack <ideastackapp@gmail.com>",
-  //       to: [...proj.team.map((teamMember) => teamMember.email)],
-  //       bcc: [],
-  //       subject: `Mentorship Instructions Updated - ${mentor.name} @ IdeaStack.org`,
-  //       text: `
-  //               Hey, Entrepreneurs @ ${proj.name}!
+      const mailOptions = {
+        from: "IdeaStack <ideastackapp@gmail.com>",
+        to: [...proj.team.map((teamMember) => teamMember.email)],
+        bcc: [],
+        subject: `Mentorship Instructions Updated - ${mentor.name} @ IdeaStack.org`,
+        text: `
+                Hey, Entrepreneurs @ ${proj.name}!
 
-  //               IdeaStack mentor ${
-  //                 mentor.name
-  //               } has set new instructions for week no. ${
-  //         req.body.week
-  //       } of mentorship:
+                IdeaStack mentor ${
+                  mentor.name
+                } has set new instructions for week no. ${
+          req.body.week
+        } of mentorship:
 
-  //               Date: ${new Date(
-  //                 proj.mentorsMatched[index].upcomingMeeting.date
-  //               )
-  //                 .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
-  //                 .substring(12, 17)} (GST),
-  //               Instructions: "${req.body.instructions}"
+                Date: ${new Date(
+                  proj.mentorsMatched[index].upcomingMeeting.date
+                )
+                  .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+                  .substring(12, 17)} (GST),
+                Instructions: "${req.body.instructions}"
 
-  //               Kindly pay heed to the above instructions as you prepare for this week's mentorship meeting with ${
-  //                 mentor.name
-  //               }.
-  //               Sign-in to IdeaStack.org, and explore more mentor details.
+                Kindly pay heed to the above instructions as you prepare for this week's mentorship meeting with ${
+                  mentor.name
+                }.
+                Sign-in to IdeaStack.org, and explore more mentor details.
 
-  //               Contact us if you face any issues- our team prioritizes your experience above all else.
+                Contact us if you face any issues- our team prioritizes your experience above all else.
 
-  //               Best Regards,
-  //               Admin Team, IdeaStack`,
-  //       html: `
-  //               <p>Hey, Entrepreneurs @ ${proj.name}!</p>
+                Best Regards,
+                Admin Team, IdeaStack`,
+        html: `
+                <p>Hey, Entrepreneurs @ ${proj.name}!</p>
 
-  //               <p> IdeaStack mentor ${
-  //                 mentor.name
-  //               } has set new instructions for week no. ${
-  //         req.body.week
-  //       } of mentorship:<br/>
+                <p> IdeaStack mentor ${
+                  mentor.name
+                } has set new instructions for week no. ${
+          req.body.week
+        } of mentorship:<br/>
 
-  //               <p>Date: ${new Date(
-  //                 proj.mentorsMatched[index].upcomingMeeting.date
-  //               )
-  //                 .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
-  //                 .substring(12, 17)} (GST),</p>
-  //               <p>Instructions: "${req.body.instructions}"</p>
+                <p>Date: ${new Date(
+                  proj.mentorsMatched[index].upcomingMeeting.date
+                )
+                  .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+                  .substring(12, 17)} (GST),</p>
+                <p>Instructions: "${req.body.instructions}"</p>
 
-  //               <h4> Kindly pay heed to the above instructions as you prepare for this week's mentorship meeting with ${
-  //                 mentor.name
-  //               }.</h4>
-  //               Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and and explore more mentor details.<br/>
-  //               Contact us if you face any issues- our team prioritizes your experience above all else.
-  //               </p>
+                <h4> Kindly pay heed to the above instructions as you prepare for this week's mentorship meeting with ${
+                  mentor.name
+                }.</h4>
+                Sign-in to <a href = "https://IdeaStack.org" target = "_blank">IdeaStack.org</a>, and and explore more mentor details.<br/>
+                Contact us if you face any issues- our team prioritizes your experience above all else.
+                </p>
 
-  //               <p>Best Regards,<br/>
-  //               Admin Team, IdeaStack</p>
-  //               <br/><br/>
-  //               <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
-  //               `,
-  //       attachments: [
-  //         {
-  //           fileName: "IdeaStack.jpg",
-  //           path: "server/routes/IdeaStack.jpg",
-  //           cid: "ideastack@orgae.ee",
-  //         },
-  //       ],
-  //     };
-  //     // const result = await transport.sendMail(mailOptions);
-  //     return result;
-  //   } catch (err) {
-  //     return err;
-  //   }
-  // }
+                <p>Best Regards,<br/>
+                Admin Team, IdeaStack</p>
+                <br/><br/>
+                <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                `,
+        attachments: [
+          {
+            fileName: "IdeaStack.jpg",
+            path: "server/routes/IdeaStack.jpg",
+            cid: "ideastack@orgae.ee",
+          },
+        ],
+      };
+      const result = await transport.sendMail(mailOptions);
+      return result;
+    } catch (err) {
+      return err;
+    }
+  }
 
-  // sendInstructionsMail()
-  //   .then((result) => {
-  //     console.log(result);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //     res.status(400).send(err);
-  //   });
+  sendInstructionsMail()
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    });
 
   proj.markModified("mentorsMatched");
   await proj.save();
@@ -2095,14 +2415,14 @@ router.post("/confirmMeetingSlots", auth, async (req, res) => {
     }
   }
 
-  // sendSlotsSetMail()
-  //   .then((result) => {
-  //     console.log(result);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //     res.status(400).send(err);
-  //   });
+  sendSlotsSetMail()
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    });
 
   proj.markModified("mentorsMatched");
   await proj.save();
@@ -2251,17 +2571,17 @@ router.post("/pickMentorshipDate", auth, async (req, res) => {
     }
   }
 
-  // sendDatePickedMail()
-  //   .then((result) => {
-  //     mixpanel.track("Meeting Confirmation", {
-  //       distinct_id: user._id,
-  //     });
-  //     console.log(result);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //     res.status(400).send(err);
-  //   });
+  sendDatePickedMail()
+    .then((result) => {
+      mixpanel.track("Meeting Confirmation", {
+        distinct_id: user._id,
+      });
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    });
 
   function findSecondsDifference(date1, date2) {
     var oneSecond_ms = 1000;
@@ -2915,75 +3235,75 @@ router.post("/requestMentor", auth, async (req, res) => {
     proj.mentorsRequested = [req.body.workshop._id];
   }
 
-  // async function sendRequestCreatedMail() {
-  //   try {
-  //     const transport = await nodemailer.createTransport({
-  //       host: "smtp.gmail.com",
-  //       port: 465,
-  //       auth: {
-  //         type: "OAuth2",
-  //         user: "ideastackapp@gmail.com",
-  //         clientId: process.env.CLIENT_ID,
-  //         clientSecret: process.env.CLIENT_SECRET,
-  //         accessToken: process.env.ACCESS_TOKEN,
-  //         refreshToken: process.env.REFRESH_TOKEN,
-  //       },
-  //     });
+  async function sendRequestCreatedMail() {
+    try {
+      const transport = await nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        auth: {
+          type: "OAuth2",
+          user: "ideastackapp@gmail.com",
+          clientId: process.env.CLIENT_ID,
+          clientSecret: process.env.CLIENT_SECRET,
+          accessToken: process.env.ACCESS_TOKEN,
+          refreshToken: process.env.REFRESH_TOKEN,
+        },
+      });
 
-  //     const mailOptions = {
-  //       from: "IdeaStack <ideastackapp@gmail.com>",
-  //       to: [mentor.email],
-  //       bcc: ["vismaysuramwar@gmail.com", "raghavbhatia0611@gmail.com"],
-  //       subject: `Mentorship Request - ${proj.name} @ IdeaStack.org`,
-  //       text: `
-  //               Hey ${mentor.name}!
+      const mailOptions = {
+        from: "IdeaStack <ideastackapp@gmail.com>",
+        to: [mentor.email],
+        bcc: ["vismaysuramwar@gmail.com", "raghavbhatia0611@gmail.com"],
+        subject: `Mentorship Request - ${proj.name} @ IdeaStack.org`,
+        text: `
+                Hey ${mentor.name}!
 
-  //               IdeaStack's student-users of ${proj.name} (venture) have requested your mentorship.
+                IdeaStack's student-users of ${proj.name} (venture) have requested your mentorship.
 
-  //               We'll be taking this request into consideration while matching you with a mentee startup.
-  //               Sign-in to IdeaStack.org/mentor, and approve a request that interests you- this will increase the likelihood that you're matched with a startup that suits your preferences.
+                We'll be taking this request into consideration while matching you with a mentee startup.
+                Sign-in to IdeaStack.org/mentor, and approve a request that interests you- this will increase the likelihood that you're matched with a startup that suits your preferences.
 
-  //               Contact us if you face any issues- our team prioritizes your experience above all else.
+                Contact us if you face any issues- our team prioritizes your experience above all else.
 
-  //               Best Regards,
-  //               Admin Team, IdeaStack`,
-  //       html: `
-  //               <p>Hey ${mentor.name}!</p>
+                Best Regards,
+                Admin Team, IdeaStack`,
+        html: `
+                <p>Hey ${mentor.name}!</p>
 
-  //               <p> IdeaStack's student-users of ${proj.name} (venture) have requested your mentorship.<br/>
-  //               <h4>We'll be taking this request into consideration while matching you with a mentee startup.</h4>
-  //               Sign-in to <a href = "https://IdeaStack.org/mentor" target = "_blank">IdeaStack.org/mentor</a>, and approve a request that interests you- this will increase the likelihood that you're matched with a startup that suits your preferences.<br/>
-  //               Contact us if you face any issues- our team prioritizes your experience above all else.
-  //               </p>
+                <p> IdeaStack's student-users of ${proj.name} (venture) have requested your mentorship.<br/>
+                <h4>We'll be taking this request into consideration while matching you with a mentee startup.</h4>
+                Sign-in to <a href = "https://IdeaStack.org/mentor" target = "_blank">IdeaStack.org/mentor</a>, and approve a request that interests you- this will increase the likelihood that you're matched with a startup that suits your preferences.<br/>
+                Contact us if you face any issues- our team prioritizes your experience above all else.
+                </p>
 
-  //               <p>Best Regards,<br/>
-  //               Admin Team, IdeaStack</p>
-  //               <br/><br/>
-  //               <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
-  //               `,
-  //       attachments: [
-  //         {
-  //           fileName: "IdeaStack.jpg",
-  //           path: "server/routes/IdeaStack.jpg",
-  //           cid: "ideastack@orgae.ee",
-  //         },
-  //       ],
-  //     };
-  //     const result = await transport.sendMail(mailOptions);
-  //     return result;
-  //   } catch (err) {
-  //     return err;
-  //   }
-  // }
+                <p>Best Regards,<br/>
+                Admin Team, IdeaStack</p>
+                <br/><br/>
+                <img style = "width:152px; position:relative; margin:auto;" src="cid:ideastack@orgae.ee"/>
+                `,
+        attachments: [
+          {
+            fileName: "IdeaStack.jpg",
+            path: "server/routes/IdeaStack.jpg",
+            cid: "ideastack@orgae.ee",
+          },
+        ],
+      };
+      const result = await transport.sendMail(mailOptions);
+      return result;
+    } catch (err) {
+      return err;
+    }
+  }
 
-  // sendRequestCreatedMail()
-  //   .then((result) => {
-  //     console.log(result);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //     res.status(400).send(err);
-  //   });
+  sendRequestCreatedMail()
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    });
 
   await proj.markModified("mentorsRequested");
   await proj.save();
