@@ -37,8 +37,6 @@ mongoose.connection.on("error", function (err) {
   console.log(err);
 });
 
-// app.use(compression());
-
 app.use(express.json());
 let linkUrl =
   process.env.NODE_ENV === "production"
@@ -84,11 +82,13 @@ app.use(
   })
 );
 
-app.get("*.js", function (req, res, next) {
-  req.url = req.url + ".gz";
-  res.set("Content-Encoding", "gzip");
-  next();
-});
+// app.use(compression());
+
+// app.get("*.js", function (req, res, next) {
+//   req.url = req.url + ".gz";
+//   res.set("Content-Encoding", "gzip");
+//   next();
+// });
 
 app.use("/api/user", RoutesAPIUser);
 app.use("/api/project", RoutesAPIProject);
