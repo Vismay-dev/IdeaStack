@@ -158,7 +158,7 @@ export default function BrowseMentors() {
           class="text-center bg-cover z-40 bg-gradient-to-br from-cyan-400 to-cyan-600   text-gray-100 top-1   rounded-md shadow-md mb-[81px] relative"
         >
           <div class="bg-gray-900 bg-opacity-40 py-8 pb-9">
-            <p class="md:text-4xl text-3xl tracking-wide md:normal-case uppercase   font-bold">
+            <p class="md:text-4xl sm:text-3xl text-2xl tracking-wide md:normal-case uppercase   font-bold">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="md:h-11 sm:h-10 h-8 bottom-[4px] md:left-0.5  -ml-1 relative md:w-14 sm:w-10 w-8 sm:inline hidden"
