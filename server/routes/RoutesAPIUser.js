@@ -1670,6 +1670,55 @@ router.post("/acknowledgeMeetingCompletion", auth, async (req, res) => {
   res.send(proj);
 });
 
+router.post("/acknowledgeMeetingCompletionMentor", async (req, res) => {
+  const proj = await project.findById(req.body.projectId);
+
+  let mentorMatched;
+  let index;
+
+  for (let i = 0; i < proj.mentorsMatched.length; i++) {
+    if (
+      JSON.stringify(proj.mentorsMatched[i].mentorId) ===
+      JSON.stringify(req.body.mentorId)
+    ) {
+      mentorMatched = proj.mentorsMatched[i];
+      index = i;
+    }
+  }
+
+  proj.mentorsMatched[index] = {
+    ...proj.mentorsMatched[index],
+    pastMeetings: [
+      ...proj.mentorsMatched[index].pastMeetings,
+      { ...proj.mentorsMatched[index].upcomingMeeting, completed: true },
+    ],
+    upcomingMeeting: {
+      ...proj.mentorsMatched[index].upcomingMeeting,
+      completed: true,
+    },
+  };
+
+  if (
+    proj.mentorsMatched[index].pastMeetings.length >=
+      proj.mentorsMatched[index].duration &&
+    new Date(
+      proj.mentorsMatched[index].pastMeetings[
+        proj.mentorsMatched[index].pastMeetings.length - 1
+      ].date
+    ) < new Date()
+  ) {
+    proj.mentorsMatched[index] = {
+      ...proj.mentorsMatched[index],
+      mentorshipCompleted: true,
+    };
+  }
+
+  proj.markModified("mentorsMatched");
+  await proj.save();
+
+  res.send(proj);
+});
+
 router.post("/endMentorship", auth, async (req, res) => {
   const user = await studentUser.findById(req.user._id);
   const proj = await project.findById(user.projectId);
@@ -1796,55 +1845,6 @@ router.post("/acceptRepeatRequest", async (req, res) => {
     pastMeetings: [],
     upcomingMeeting: {},
   };
-
-  proj.markModified("mentorsMatched");
-  await proj.save();
-
-  res.send(proj);
-});
-
-router.post("/acknowledgeMeetingCompletionMentor", async (req, res) => {
-  const proj = await project.findById(req.body.projectId);
-
-  let mentorMatched;
-  let index;
-
-  for (let i = 0; i < proj.mentorsMatched.length; i++) {
-    if (
-      JSON.stringify(proj.mentorsMatched[i].mentorId) ===
-      JSON.stringify(req.body.mentorId)
-    ) {
-      mentorMatched = proj.mentorsMatched[i];
-      index = i;
-    }
-  }
-
-  proj.mentorsMatched[index] = {
-    ...proj.mentorsMatched[index],
-    pastMeetings: [
-      ...proj.mentorsMatched[index].pastMeetings,
-      { ...proj.mentorsMatched[index].upcomingMeeting, completed: true },
-    ],
-    upcomingMeeting: {
-      ...proj.mentorsMatched[index].upcomingMeeting,
-      completed: true,
-    },
-  };
-
-  if (
-    proj.mentorsMatched[index].pastMeetings.length >=
-      proj.mentorsMatched[index].duration &&
-    new Date(
-      proj.mentorsMatched[index].pastMeetings[
-        proj.mentorsMatched[index].pastMeetings.length - 1
-      ].date
-    ) < new Date()
-  ) {
-    proj.mentorsMatched[index] = {
-      ...proj.mentorsMatched[index],
-      mentorshipCompleted: true,
-    };
-  }
 
   proj.markModified("mentorsMatched");
   await proj.save();

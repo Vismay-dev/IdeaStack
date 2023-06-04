@@ -48,11 +48,11 @@ const ExitModal = (props) => {
         >
           <div ref={myRef} class="bg-white  px-1 pt-2 pb-2 sm:p-6 sm:pb-4 z-50">
             <div class="sm:flex sm:items-start">
-              <div class=" text-center sm:mt-0 ml-8  sm:text-left">
+              <div class=" text-center  sm:mt-0 ml-8  sm:text-left">
                 <div>
                   <p class="text-lg text-gray-500">
                     {/* form starts here */}
-                    <div class="right-2 min-h-full flex items-center justify-center py-3 px-5 sm:px-6 lg:px-5">
+                    <div class=" min-h-full  sm:left-2 relative  sm:ml-1 lg:ml-2 flex items-center justify-center py-3 px-5 sm:px-6 lg:px-5">
                       <div class="max-w-md w-full space-y-8">
                         <div>
                           <img

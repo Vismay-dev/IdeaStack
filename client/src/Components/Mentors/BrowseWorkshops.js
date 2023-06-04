@@ -296,7 +296,7 @@ export default function BrowseMentors() {
               onClick={() => {
                 history.push("/dashboard/yourmentor");
               }}
-              class="block sm:-mt-7 -mt-9 sm:mb-[53px] mb-[47px] text-white text-sm uppercase bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 font-semibold rounded-md px-4 py-2 pt-2.5  mx-auto"
+              class="block relative md:top-1.5 sm:-mt-7 -mt-9 sm:mb-[53px] mb-[47px] text-white text-sm uppercase bg-gradient-to-l from-blue-600 to-blue-500 shadow-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 font-semibold rounded-md px-4 py-2 pt-2.5  mx-auto"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -353,7 +353,10 @@ export default function BrowseMentors() {
               ""
             )}
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 xl:px-12 xl:gap-x-5 gap-x-7 xl:gap-y-9 sm:gap-y-10 gap-y-12 xl:max-w-[1500px] lg:max-w-[1250px] lg:px-12 md:max-w-[740px] max-w-[500px] mx-auto -mt-2  z-30 pointer-events-none  relative top-[4px]  md:px-1 sm:px-7 px-7">
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 xl:px-12 xl:gap-x-5 gap-x-7 xl:gap-y-9 sm:gap-y-10 gap-y-12 xl:max-w-[1500px] lg:max-w-[1250px] lg:px-12 md:max-w-[740px] max-w-[500px] mx-auto -mt-2 lg:mb-0
+            z-30 pointer-events-none  relative md:top-[16px] top-[0px]  md:px-1 sm:px-7 px-7"
+            >
               {[...workshops].map((workshop, i) => (
                 <a
                   data-aos={"fade-up"}

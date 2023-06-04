@@ -81,7 +81,7 @@ const Dashboard = () => {
         sessionStorage.removeItem("index");
         setIndex(null);
         history.push("/dashboard/yourmentor");
-        projCon.setProject(res.data);
+        projCon.setProject({ ...res.data, changeFlagged: true });
       })
       .catch((err) => {
         console.log(err);
@@ -100,7 +100,11 @@ const Dashboard = () => {
         }
       )
       .then((res) => {
-        projCon.setProject(res.data);
+        projCon.setProject({
+          ...res.data,
+          changeFlagged: true,
+          repeatFlagged: true,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -110,10 +114,22 @@ const Dashboard = () => {
   useEffect(() => {
     if (mentorCon.mentors && mentorsRequested && mentorsMatched) {
       setLoading(false);
+      console.log("here1");
     }
 
-    if (project && (!mentorCon.mentors || !mentorsRequested)) {
+    if (location.pathname === "/dashboard/yourmentor/mentorinfo") {
+      if (projCon.project.meetingFlagged) {
+        history.push("/dashboard/yourmentor/meetings");
+        projCon.setProject({ ...projCon.project, meetingFlagged: false });
+      }
+    }
+
+    if (
+      project &&
+      (!mentorCon.mentors || !mentorsRequested || project.changeFlagged)
+    ) {
       setLoading(true);
+      console.log("here2");
 
       let mentorsMatchedInput = project.mentorsMatched
         ? project.mentorsMatched
@@ -178,6 +194,7 @@ const Dashboard = () => {
       setMentorsRequested(mentorsRequestedCopy);
 
       setTimeout(() => {
+        projCon.setProject({ ...project, changeFlagged: false });
         setLoading(false);
       }, 1000);
     }
@@ -186,8 +203,8 @@ const Dashboard = () => {
   return (
     <>
       {cancel ? <CancelModal close={() => setCancel(false)} /> : ""}
-      <h2 class="text-center bg-no-repeat bg-center bg-cover py-7 pb-[35px] font-bold  xl:px-[365px] lg:px-[250px] md:px-[150px] sm:px-[100px] sm:w-fit sm:left-0 left-[0.1px] w-full mx-auto rounded-md right-0.5 text-gray-900 top-1 mt-[12px] -mb-[55px] relative">
-        <p class="lg:text-5xl md:text-4xl text-3xl sm:mt-1 mt-3 px-6 tracking-wide">
+      <h2 class="text-center bg-no-repeat bg-center bg-cover py-7 pb-[35px] font-bold  xl:px-[365px] lg:px-[250px] md:px-[150px] sm:px-[100px] sm:w-fit sm:left-0 left-[0.1px] w-full mx-auto rounded-md right-0.5 text-gray-900 sm:top-1 sm:mt-[12px] -mb-[55px] relative">
+        <p class="lg:text-5xl md:text-4xl text-3xl md:mt-1 sm:mt-0 mt-3 px-6 tracking-wide">
           Mentorship
         </p>
 
@@ -205,7 +222,7 @@ const Dashboard = () => {
               mentorCon.mentors &&
               mentorCon.mentors[index] &&
               mentorCon.mentors[index].mentorshipCompleted === true
-                ? "lg:mt-[20px] -mt-2"
+                ? "lg:-mt-[5px] -mt-2"
                 : "lg:mt-6 -mt-2"
             }  lg:mb-1 mb-4 relative top-4 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit`}
           >
@@ -366,7 +383,7 @@ const Dashboard = () => {
                         sessionStorage.removeItem("index");
                         history.push("/dashboard/yourmentor");
                       }}
-                      class="w-32 p-2 rounded-md font-semibold tracking-wide shadow-md mt-3  bg-blue-700 hover:bg-blue-800 text-base hover:shadow-xl active:shadow-md text-white "
+                      class="w-32 p-2 sm:-mb-2 -mb-3 sm:mt-3 mt-1 rounded-md font-semibold tracking-wide shadow-md   bg-blue-700 hover:bg-blue-800 text-base hover:shadow-xl active:shadow-md text-white "
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -386,7 +403,7 @@ const Dashboard = () => {
                     </button>
                   </div>
 
-                  <div class="mx-auto w-full -mt-12 mb-12 sm:right-0 right-1.5 lg:hidden block  relative text-center">
+                  <div class="mx-auto w-full sm:-mt-12 -mt-14 sm:mb-9 mb-9 lg:right-0 right-1 lg:mr-0 mr-1 lg:hidden block  relative text-center">
                     <button
                       onClick={() => {
                         setIndex(null);
@@ -537,7 +554,7 @@ const Dashboard = () => {
                                       viewBox="0 0 24 24"
                                       stroke-width="1.5"
                                       stroke="currentColor"
-                                      class="w-[36px] h-[36px] inline mr-1.5 relative bottom-[1.5px]"
+                                      class="you  inline mr-1.5 relative bottom-[1.5px]"
                                     >
                                       <path
                                         stroke-linecap="round"
@@ -545,7 +562,7 @@ const Dashboard = () => {
                                         d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5"
                                       />
                                     </svg>
-                                    You Request for Another Meeting{" "}
+                                    Your Request for Another Meeting{" "}
                                     <span className="bg-clip-text  text-transparent bg-gradient-to-r from-orange-600 to-orange-500">
                                       Was Denied
                                     </span>
@@ -578,14 +595,14 @@ const Dashboard = () => {
                                   .repeatRequestApproved !== "yes" ? (
                                 <>
                                   <div class="relative right-2.5 w-full h-fit">
-                                    <h1 className="sm:text-2xl text-center w-full  mx-auto block text-1xl lg:text-3xl font-bold leading-tighter tracking-tighter md:-mt-2 sm:mt-1 sm:mb-8 -mt-3 mb-6">
+                                    <h1 className="sm:text-2xl text-center w-full  mx-auto block text-1xl lg:text-3xl font-bold leading-tighter tracking-tighter md:-mt-4 sm:-mt-4 md:mb-5 sm:mb-3 -mt-3 mb-6">
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke-width="1.5"
                                         stroke="currentColor"
-                                        class="w-[33px] h-[33px] inline mr-1.5 relative bottom-[1.5px]"
+                                        class="lg:w-[33px] lg:h-[33px] sm:h-[27px] sm:w-[27px] w-[18px] h-[18px] inline mr-1.5 relative bottom-[1.5px]"
                                       >
                                         <path
                                           stroke-linecap="round"
@@ -606,8 +623,8 @@ const Dashboard = () => {
                                       </span>
                                     </h1>
 
-                                    <div class="w-full text-center mx-auto mt-[60px] mb-[77px] right-1.5 relative ">
-                                      <i class="fas fa-clock text-[135px] mx-auto block"></i>
+                                    <div class="w-full text-center mx-auto lg:mt-[60px] mt-[40px] lg:mb-[83px] mb-[57px]  relative ">
+                                      <i class="fas fa-clock lg:text-[135px] text-[110px] mx-auto block"></i>
                                     </div>
                                   </div>
                                 </>
@@ -621,7 +638,7 @@ const Dashboard = () => {
                                         viewBox="0 0 24 24"
                                         stroke-width="1.5"
                                         stroke="currentColor"
-                                        class="w-[33px] h-[33px] inline mr-1.5 relative bottom-[1.5px]"
+                                        class="lg:w-[33px] lg:h-[33px] sm:h-[28px] sm:w-[28px] w-[18px] h-[18px] inline mr-1.5 relative bottom-[1.5px]"
                                       >
                                         <path
                                           stroke-linecap="round"
@@ -635,7 +652,7 @@ const Dashboard = () => {
                                       </span>
                                     </h1>
 
-                                    <h1 className="sm:text-3xl text-center mx-auto block text-2xl lg:text-4xl font-extrabold leading-tighter tracking-tighter md:-mt-4 sm:-mt-0 mb-3 -mt-4 ">
+                                    <h1 className="sm:text-3xl text-center mx-auto block text-2xl lg:text-4xl font-extrabold leading-tighter tracking-tighter md:-mt-4 sm:-mt-0 xl:mb-3 sm:mb-2 -mb-3 -mt-4 ">
                                       How do you want to{" "}
                                       <span className="bg-clip-text  text-transparent bg-gradient-to-r from-blue-500 to-indigo-400">
                                         move forward?
@@ -643,7 +660,7 @@ const Dashboard = () => {
                                     </h1>
                                   </div>
 
-                                  <div class="h-[263px] w-[85%] mx-auto mt-[50px] mb-[50px] right-1.5 relative grid md:grid-cols-3 grid-cols-1 gap-8">
+                                  <div class="sm:h-[263px] h-fit  lg:w-full sm:w-[80%] md:w-[70%] w-[90%] mx-auto mt-[50px] lg:mb-[50px] sm:mb-[540px] mb-[50px] right-1.5 relative grid lg:grid-cols-3 grid-cols-1 xl:gap-8 gap-5">
                                     <div
                                       onClick={() => {
                                         endMentorship();
@@ -657,7 +674,7 @@ const Dashboard = () => {
                                       <h2 class="text-xl mt-4 block font-bold">
                                         End Mentorship
                                       </h2>
-                                      <h2 class="text-base mt-3 block text-gray-600 font-semibold px-4">
+                                      <h2 class="text-base lg:pb-0 pb-7 mt-3 block text-gray-600 font-semibold px-4">
                                         You do not wish to continue with this
                                         mentor.
                                       </h2>
@@ -696,7 +713,7 @@ const Dashboard = () => {
                                       <h2 class="text-xl mt-4 block font-bold">
                                         1 more meeting
                                       </h2>
-                                      <h2 class="text-base mt-3 block text-gray-600 font-semibold px-4">
+                                      <h2 class="text-base mt-3 lg:pb-0 pb-7  block text-gray-600 font-semibold px-4">
                                         You wish to sit on one more call with
                                         this mentor.
                                       </h2>
@@ -729,7 +746,7 @@ const Dashboard = () => {
                                       <h2 class="text-xl mt-4 block font-bold">
                                         4 week workshop
                                       </h2>
-                                      <h2 class="text-base mt-3 block text-gray-600 font-semibold px-4">
+                                      <h2 class="text-base mt-3 lg:pb-0 pb-7 block text-gray-600 font-semibold px-4">
                                         You wish to retain this mentor for a
                                         month-long period.
                                       </h2>

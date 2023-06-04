@@ -130,7 +130,7 @@ const Meetings = (props) => {
         }
       )
       .then((res) => {
-        projCon.setProject(res.data);
+        projCon.setProject({ ...res.data, changeFlagged: true });
       })
       .catch((err) => {
         console.log(err);

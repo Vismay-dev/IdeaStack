@@ -147,9 +147,12 @@ const DateConfirm = (props) => {
                                     )
                                     .then((res) => {
                                       console.log(res.data);
-                                      projCon.setProject(res.data);
+                                      projCon.setProject({
+                                        ...res.data,
+                                        changeFlagged: true,
+                                        meetingFlagged: true,
+                                      });
                                       setLoading(false);
-
                                       props.close();
                                     })
                                     .catch((err) => {

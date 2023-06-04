@@ -72,25 +72,15 @@ export default function Mentors() {
         </a>
       </div> */}
 
-      <>
-        <Switch>
-          {/* <Route path="/mentorship/yourmentor">
-            <Dashboard />
-          </Route> */}
+      <Switch>
+        <Route path="/networks/mentorship">
+          <BrowseWorkshops />
+        </Route>
 
-          <Route path="/networks/mentorship">
-            <BrowseWorkshops />
-          </Route>
-
-          {/* <Route path="/mentorship">
-            <Redirect to="/mentorship/bookworkshops" />
-          </Route>
- */}
-          <Route path="/networks/mentorship/">
-            <Redirect to="/networks/mentorship" />
-          </Route>
-        </Switch>
-      </>
+        <Route path="/networks/mentorship/">
+          <Redirect to="/networks/mentorship" />
+        </Route>
+      </Switch>
     </>
   );
 }

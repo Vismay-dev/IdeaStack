@@ -8,6 +8,7 @@ import projectContext from "../../../context/projectContext";
 import DateTimePicker from "react-datetime-picker";
 import mentorAccContext from "../../../context/mentorAccContext";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useHistory } from "react-router-dom";
 
 const Meetings = (props) => {
   const [checkPoints, setCheckPoints] = useState([]);
@@ -34,6 +35,8 @@ const Meetings = (props) => {
 
   const [type, setType] = useState();
 
+  const history = useHistory();
+
   useEffect(() => {
     setError("");
   }, [date1, date2]);
@@ -44,8 +47,6 @@ const Meetings = (props) => {
   }
 
   const subDates = () => {
-    setLoading(true);
-
     setError("");
     if (date1.getDay() === date2.getDay()) {
       setError("datesSame");
@@ -79,8 +80,11 @@ const Meetings = (props) => {
         }
       )
       .then((res) => {
-        projCon.setProject(res.data);
-        setLoading(false);
+        projCon.setProject({
+          ...res.data,
+          changeFlagged: true,
+          meetingFlagged: true,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -115,8 +119,8 @@ const Meetings = (props) => {
         }
       )
       .then((res) => {
-        console.log("here");
-        projCon.setProject(res.data);
+        console.log(res.data);
+        projCon.setProject({ ...res.data, changeFlagged: true });
       })
       .catch((err) => {
         console.log(err);

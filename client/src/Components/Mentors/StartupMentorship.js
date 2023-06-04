@@ -209,8 +209,6 @@ const StartupMentorship = () => {
   };
 
   useEffect(() => {
-    console.log(currentMentees);
-    console.log(!currentMentees == true);
     if (
       (sessionStorage.getItem("index") &&
         index &&
@@ -220,13 +218,15 @@ const StartupMentorship = () => {
           JSON.stringify(
             currentMentees[sessionStorage.getItem("index")]._id
           )) ||
-      !currentMentees
+      !currentMentees ||
+      projCon.project.changeFlagged === true
     ) {
       setLoading(true);
       effectFunc();
       setTimeout(() => {
+        projCon.setProject({ ...projCon.project, changeFlagged: false });
         setLoading(false);
-      }, 1000);
+      }, 500);
     }
   }, [location.pathname, projCon.project]); // removed mentorCon.mentor from here
 
@@ -238,6 +238,13 @@ const StartupMentorship = () => {
         JSON.stringify(currentMentees[sessionStorage.getItem("index")]._id)
     ) {
       projCon.setProject(currentMentees[sessionStorage.getItem("index")]);
+    }
+
+    if (location.pathname === "/startupmentorship/yourstartup/startupinfo") {
+      if (projCon.project.meetingFlagged) {
+        history.push("/startupmentorship/yourstartup/meetings");
+        projCon.setProject({ ...projCon.project, meetingFlagged: false });
+      }
     }
   }, [index, location.pathname]);
 
@@ -254,7 +261,7 @@ const StartupMentorship = () => {
         }
       )
       .then((res) => {
-        projCon.setProject(res.data);
+        projCon.setProject({ ...res.data, changeFlagged: true });
       })
       .catch((err) => {
         console.log(err);
@@ -277,7 +284,7 @@ const StartupMentorship = () => {
         sessionStorage.removeItem("index");
         setIndex(null);
         history.push("/startupmentorship/");
-        projCon.setProject(res.data);
+        projCon.setProject({ ...res.data, changeFlagged: true });
       })
       .catch((err) => {
         console.log(err);
@@ -295,8 +302,8 @@ const StartupMentorship = () => {
       ) : (
         ""
       )}
-      <h2 class="text-center bg-no-repeat bg-center bg-cover py-7 lg:pt-20 md:pt-24 sm:pt-28 pt-14 pb-[35px] font-bold  xl:px-[365px] lg:px-[250px] md:px-[150px] sm:px-[100px] sm:w-fit sm:left-0 left-[0.1px] w-full mx-auto rounded-md right-0.5 text-gray-900 -top-2 -mb-[55px] relative">
-        <p class="lg:text-5xl md:text-4xl text-3xl sm:mt-0 mt-3 px-6 tracking-wide">
+      <h2 class="text-center bg-no-repeat bg-center bg-cover py-7 lg:pt-[70px] md:pt-24 sm:pt-28 pt-14 pb-[35px] font-bold  xl:px-[365px] lg:px-[250px] md:px-[150px] sm:px-[100px] sm:w-fit sm:left-0 left-[0.1px] w-full mx-auto rounded-md right-0.5 text-gray-900 -top-2 -mb-[55px] relative">
+        <p class="lg:text-5xl md:text-4xl text-3xl sm:mt-0 mt-1 px-6 tracking-wide">
           Startup Mentorship
         </p>
 
@@ -312,8 +319,8 @@ const StartupMentorship = () => {
               index &&
               currentMentees[index].currentMentorship.mentorshipCompleted ===
                 true
-                ? "lg:mt-[20px] -mt-2"
-                : "lg:mt-6 -mt-2"
+                ? "lg:-mt-[20px] -mt-2"
+                : "lg:mt-2 -mt-2"
             }   lg:mb-1 mb-4 relative top-4 font-semibold text-center bg-clip-text mx-auto text-transparent from-blue-500 to-indigo-600 w-fit`}
           >
             {currentMentees[index].name + " X " + mentorCon.mentor.name}
@@ -479,7 +486,7 @@ const StartupMentorship = () => {
                       onClick={() => {
                         setIndex(null);
                         sessionStorage.removeItem("index");
-                        history.push("/dashboard/yourmentor");
+                        history.push("/startupmentorship");
                         projCon.setProject({});
                       }}
                       class="w-32 p-2 rounded-md font-semibold tracking-wide shadow-md mt-3  bg-blue-700 hover:bg-blue-800 text-base hover:shadow-xl active:shadow-md text-white  "
@@ -502,12 +509,12 @@ const StartupMentorship = () => {
                     </button>
                   </div>
 
-                  <div class="mx-auto w-full -mt-12 mb-12 sm:right-0 right-1.5 lg:hidden block  relative text-center">
+                  <div class="mx-auto w-full sm:-mt-14 -mt-16 md:mb-10 sm:mb-6 mb-8 sm:right-0 right-1.5 lg:hidden block  relative text-center">
                     <button
                       onClick={() => {
                         setIndex(null);
                         sessionStorage.removeItem("index");
-                        history.push("/dashboard/yourmentor");
+                        history.push("/startupmentorship");
                       }}
                       class="w-[135px] px-3 py-2.5 rounded-md font-semibold tracking-wide shadow-md mt-8 mb-4   bg-blue-700 hover:bg-blue-800   sm:text-base text-sm hover:shadow-xl active:shadow-md text-white  "
                     >
@@ -668,7 +675,7 @@ const StartupMentorship = () => {
                                     </span>
                                   </h1>
 
-                                  <h1 className="sm:text-3xl text-center mx-auto block text-2xl lg:text-4xl font-extrabold leading-tighter tracking-tighter md:-mt-4 sm:-mt-0 mb-3 -mt-4 ">
+                                  <h1 className="sm:text-3xl text-center mx-auto block text-2xl lg:text-4xl font-extrabold leading-tighter tracking-tighter lg:-mt-4 md:-mt-6 sm:-mt-4 lg:mb-3 sm:mb-1 -mb-2 -mt-4 ">
                                     Do you wish to{" "}
                                     <span className="bg-clip-text  text-transparent bg-gradient-to-r from-blue-500 to-indigo-400">
                                       continue?
@@ -676,7 +683,7 @@ const StartupMentorship = () => {
                                   </h1>
                                 </div>
 
-                                <div class="h-[263px] w-[85%] mx-auto mt-[50px] mb-[62px] right-1.5 relative grid md:grid-cols-2 grid-cols-1 gap-8">
+                                <div class="lg:h-[263px] h-fit lg:w-[90%] md:w-[70%] sm:w-[80%] w-[90%] mx-auto lg:mt-[50px] mt-[47px] lg:mb-[62px] md:mb-[75px] sm:mb-[70px] mb-[65px] right-1.5 relative grid lg:grid-cols-2 grid-cols-1 lg:gap-8 gap-5">
                                   <div
                                     onClick={() => {
                                       acceptRepeatRequest();
@@ -709,7 +716,7 @@ const StartupMentorship = () => {
                                     <h2 class="text-xl mt-4 block font-bold">
                                       Yes, continue.
                                     </h2>
-                                    <h2 class="text-base mt-3 block text-gray-600 font-semibold px-4">
+                                    <h2 class="text-base mt-3 lg:pb-0 pb-7 block text-gray-600 font-semibold px-4">
                                       This will repeat the mentorship and allow
                                       you to meet this startup again.
                                     </h2>
@@ -728,7 +735,7 @@ const StartupMentorship = () => {
                                     <h2 class="text-xl mt-4 block font-bold">
                                       No, deny request.
                                     </h2>
-                                    <h2 class="text-base mt-3 block text-gray-600 font-semibold px-4">
+                                    <h2 class="text-base mt-3 lg:pb-0 pb-7 block text-gray-600 font-semibold px-4">
                                       This startup will not contact you unless
                                       they request a mentorship from you again.
                                     </h2>
@@ -745,7 +752,7 @@ const StartupMentorship = () => {
                                       viewBox="0 0 24 24"
                                       stroke-width="1.5"
                                       stroke="currentColor"
-                                      class="w-[33px] h-[33px] inline mr-1.5 relative bottom-[1.5px]"
+                                      class="lg:w-[33px] lg:h-[33px] sm:h-[28px] sm:w-[28px] w-[18px] h-[18px] inline mr-1.5 relative bottom-[1.5px]"
                                     >
                                       <path
                                         stroke-linecap="round"
@@ -759,7 +766,7 @@ const StartupMentorship = () => {
                                     </span>
                                   </h1>
 
-                                  <h1 className="sm:text-3xl text-center mx-auto block text-2xl lg:text-4xl font-extrabold leading-tighter tracking-tighter md:-mt-4 sm:-mt-0 mb-3 -mt-4 ">
+                                  <h1 className="sm:text-3xl text-center mx-auto block text-2xl lg:text-4xl font-extrabold leading-tighter tracking-tighter md:-mt-4 sm:-mt-4 mb-3 -mt-4 ">
                                     Awaiting response from{" "}
                                     <span className="bg-clip-text  text-transparent bg-gradient-to-r from-blue-500 to-indigo-400">
                                       the startup team..
@@ -767,8 +774,8 @@ const StartupMentorship = () => {
                                   </h1>
                                 </div>
 
-                                <div class="w-full text-center mx-auto mt-[55px] mb-[83px] right-1.5 relative ">
-                                  <i class="fas fa-clock text-[135px] mx-auto block"></i>
+                                <div class="w-full text-center mx-auto lg:mt-[55px] mt-[35px] lg:mb-[83px] mb-[73px] right-1.5 relative ">
+                                  <i class="fas fa-clock lg:text-[135px] text-[110px] mx-auto block"></i>
                                 </div>
                               </>
                             )}
@@ -811,12 +818,6 @@ const StartupMentorship = () => {
                           >
                             <TasksAndResources
                               startup={currentMentees[index]}
-                            />
-                          </Route>
-
-                          <Route path={"/startupmentorship/yourstartup/"}>
-                            <Redirect
-                              to={"/startupmentorship/yourstartup/startupinfo"}
                             />
                           </Route>
 

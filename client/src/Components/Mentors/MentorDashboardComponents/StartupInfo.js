@@ -14,11 +14,14 @@ const MentorInfo = (props) => {
             class={`
                   
                    bg-indigo-50 border-indigo-500 text-indigo-700
-                 w-fit block text-base lg:ml-20 sm:ml-12 ml-6  rounded-md border-l-4 -mt-2 mb-7 shadow-md relative left-1.5  p-4 pt-3 pb-[13px]
+                 w-fit block text-base lg:ml-20 sm:ml-12 ml-6  rounded-md border-l-4 -mt-2 sm:mb-7 mb-8 shadow-md relative left-1.5  p-4 sm:pt-3 pt-[8px] sm:pb-[13px] pb-[9px]
                             `}
             role="alert"
           >
-            <p class="text-sm">This mentorship only includes 1 meeting.</p>
+            <p class="text-sm">
+              <span class="sm:inline hidden">This mentorship</span> only
+              includes 1 meeting.
+            </p>
           </div>
         ) : (
           ""
@@ -88,7 +91,6 @@ const MentorInfo = (props) => {
             class={`grid lg:grid-cols-4 sm:text-base text-sm md:grid-cols-3 grid-cols-2  w-fit top-2 mt-3 pb-2 relative`}
           >
             {props.startup.team.map((member, i) => {
-              console.log(member);
               return (
                 <>
                   <span class="block mb-3">
