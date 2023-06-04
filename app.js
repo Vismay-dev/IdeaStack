@@ -37,7 +37,7 @@ mongoose.connection.on("error", function (err) {
   console.log(err);
 });
 
-app.use(compression());
+// app.use(compression());
 
 app.use(express.json());
 let linkUrl =
