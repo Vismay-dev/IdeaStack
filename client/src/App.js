@@ -61,7 +61,7 @@ function App() {
     setLoading(true);
     setTimeout(() => {
       loadFunc();
-    }, 1200);
+    }, 1500);
   }, []);
 
   const [mentors, setMentors] = useState();
