@@ -10,6 +10,10 @@ import mentorAccContext from "../../../context/mentorAccContext";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useHistory } from "react-router-dom";
 
+import "react-datetime-picker/dist/DateTimePicker.css";
+import "react-calendar/dist/Calendar.css";
+import "react-clock/dist/Clock.css";
+
 const Meetings = (props) => {
   const [checkPoints, setCheckPoints] = useState([]);
   const [availableDates, setAvailableDates] = useState([]);
@@ -794,7 +798,7 @@ const Meetings = (props) => {
                     : "mt-7 mb-7 bg-gray-200"
                 }  text-center py-3 justify-center mx-auto`}
               >
-                <span class="font-semibold mr-2">1) </span>
+                <span class="font-semibold mr-2 ">1) </span>
                 <DateTimePicker
                   maxDate={maxDate}
                   minDate={minDate}
@@ -809,7 +813,7 @@ const Meetings = (props) => {
                   error === "datesSame" || error === "date2Range"
                     ? "bg-orange-100"
                     : "bg-gray-200"
-                }  py-3 justify-center mx-auto`}
+                }  py-3 text-center justify-center mx-auto`}
               >
                 <span class="font-semibold mr-2">2) </span>
                 <DateTimePicker
