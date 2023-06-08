@@ -334,12 +334,12 @@ const Landing = () => {
               <span class="sm:inline hidden">The</span> Growth-Hub for{" "}
               <br class="lg:hidden sm:block hidden" />
               <span class=" from-indigo-500 to-blue-500 bg-clip-text text-transparent bg-gradient-to-r">
-                Student Ventures.
+                Youth-led Ventures.
               </span>
             </h1>
             <p class="leading-normal font-medium  lg:mx-0 xl:ml-0.5 mx-auto xl:-right-3 lg:-right-2 md:right-0  sm:-right-[100px]  xl:left-[-10px] lg:left-[-40px] md:left-[-35px] sm:left-20     right-0   md:w-3/4  lg:w-fit md:text-lg sm:text-lg xl:w-fit sm:w-72 w-fit text-base mb-12 sm:mt-5 mt-2 relative lg:text-left text-center">
-              We connect student-entrepreneurs with established founders,
-              mentors and advisors.
+              We connect youth-entrepreneurs with seasoned mentors, investors
+              and research-partners.
             </p>
             <a
               href="#about"
@@ -698,10 +698,8 @@ const Landing = () => {
           <p class="text-gray-600 my-2 text-center">
             Serious about growth & impact? We provide you with an
             accessible-to-all pool of{" "}
-            <span class="sm:inline hidden">
-              business operators, startup founders
-            </span>{" "}
-            and leaders that drive success at the world's leading startups.
+            <span class="sm:inline hidden">startup mentors, investors</span> and
+            researchers that drive success at the world's leading startups.
           </p>
         </div>
         <div
