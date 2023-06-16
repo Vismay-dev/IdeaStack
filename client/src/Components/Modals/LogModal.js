@@ -289,7 +289,7 @@ const LogModal = (props) => {
           data-aos={"fade-up"}
           data-aos-once="true"
           ref={myRef}
-          class="pr-6 relative top-9 inline-block align-bottom bg-white rounded-lg sm:text-left text-center overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mb-28 mb-32 sm:align-middle sm:max-w-md sm:w-12/12 w-10/12"
+          class="pr-6 relative top-9 inline-block align-bottom  bg-white rounded-lg sm:text-left text-center overflow-hidden shadow-xl transform transition-all sm:my-8 sm:mb-28 mb-32 sm:align-middle sm:max-w-md sm:w-12/12 w-10/12"
         >
           <div class="bg-white px-1 pt-5 pb-2 sm:p-6 sm:px-1 sm:pb-4 w-4/4 mx-auto relative">
             <div class="sm:flex sm:left-0 left-[2px] relative sm:items-start">
@@ -750,9 +750,13 @@ const LogModal = (props) => {
                                 id="remember"
                               />
                               <div class="rounded-md sm:shadow-sm relative sm:mb-0 sm:w-full w-[117%] sm:right-0 right-[6%] -mb-4 block -space-y-px ">
-                                {error === "User not found" ? (
+                                {error === "User not found - google" ? (
                                   <p class="text-red-500 text-center text-md relative bottom-3 mt-4 pt-3 pb-2 mb-2">
-                                    Login Failed: User Not Found
+                                    Login Failed: Create an Account
+                                  </p>
+                                ) : error === "User not found" ? (
+                                  <p class="text-red-500 text-center text-md relative bottom-3 mt-4 pt-3 pb-2 mb-2">
+                                    Login Failed: Create an Account
                                   </p>
                                 ) : error === "Incorrect password" ? (
                                   <p class="text-red-500 text-center text-md relative bottom-3 mt-4 pt-3 pb-2 mb-2">

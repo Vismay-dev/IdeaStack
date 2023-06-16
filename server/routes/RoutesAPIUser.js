@@ -769,7 +769,7 @@ router.post("/googleLogin", async (req, res) => {
     });
     if (!user) {
       console.log("- User not found");
-      res.status(401).send("User not found");
+      res.status(401).send("User not found - google");
       return;
     } else {
       const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {

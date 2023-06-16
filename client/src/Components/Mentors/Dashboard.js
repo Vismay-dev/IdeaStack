@@ -125,11 +125,12 @@ const Dashboard = () => {
     }
 
     if (
+      !project.doneOnce &&
       project &&
-      (!mentorCon.mentors || !mentorsRequested || project.changeFlagged)
+      (!mentorCon.mentors || !mentorsRequested || !project.changeFlagged)
     ) {
+      console.log("here");
       setLoading(true);
-      console.log("here2");
 
       let mentorsMatchedInput = project.mentorsMatched
         ? project.mentorsMatched
@@ -153,12 +154,13 @@ const Dashboard = () => {
               ...mentorsMatchedInput[j],
               ...res.data,
             });
-            mentorCon.setMentors(mentorsMatchedCopy);
           })
           .catch((err) => {
             console.log(err.response);
           });
       }
+
+      mentorCon.setMentors(mentorsMatchedCopy);
 
       setMentorsMatched(mentorsMatchedCopy);
 
@@ -194,7 +196,13 @@ const Dashboard = () => {
       setMentorsRequested(mentorsRequestedCopy);
 
       setTimeout(() => {
-        projCon.setProject({ ...project, changeFlagged: false });
+        projCon.setProject({
+          ...project,
+          changeFlagged: false,
+          doneOnce:
+            mentorsRequestedCopy.length === 0 ||
+            mentorsMatchedCopy.length === 0,
+        });
         setLoading(false);
       }, 1000);
     }
