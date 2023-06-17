@@ -547,7 +547,7 @@ router.post("/registerWithGoogle", async (req, res) => {
           proj.markModified("team");
           await proj.save();
         }
-      } else if (proj && proj.team.length === 1) {
+      } else if (proj && proj.team && proj.team.length === 1) {
         proj.teamOnboarded = true;
         proj.markModified("teamOnboarded");
         await proj.save();
@@ -1024,6 +1024,9 @@ router.post("/updateUser", auth, async (req, res) => {
       if (currTeamMember && currTeamMember.initialized === false) {
         teamChk = false;
       }
+      if (currTeamMember == null) {
+        teamChk = false;
+      }
     }
 
     if (teamChk === true) {
@@ -1242,14 +1245,14 @@ router.post("/onboardTeam", auth, async (req, res) => {
       return res.status(400).send(err);
     });
 
-    // sendMail(req.body.team[i], uniqueCode)
-    //   .then(async (result) => {
-    //     console.log(result);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     return;
-    //   });
+    sendMail(req.body.team[i], uniqueCode)
+      .then(async (result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+        return;
+      });
   }
 
   let updateInfo = {
@@ -1361,15 +1364,6 @@ router.post("/onboardTeam", auth, async (req, res) => {
     const result = await transport.sendMail(mailOptions);
     return result;
   }
-
-  sendMail()
-    .then((result) => {
-      console.log(result);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(400).send(err);
-    });
 
   res.send(newUser);
 
