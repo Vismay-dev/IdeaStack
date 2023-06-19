@@ -177,7 +177,7 @@ const Onboarding = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
+    // setLoading(true);
     if (currentUser.user.initializationStep === "pi") {
       let userData = {
         ...currentUser.user,
@@ -211,7 +211,7 @@ const Onboarding = () => {
             currentUser.user.isAdditionalMember &&
             res.data.initialized
           ) {
-            history.push("/profile");
+            history.push("/dashboard/overview");
             currentUser.setUser(res.data);
           } else {
             currentUser.setUser(res.data);
@@ -259,9 +259,13 @@ const Onboarding = () => {
         });
     } else if (currentUser.user.initializationStep === "otm") {
       let chk = true;
+
       if (team && team.length > 0) {
         for (let i = 0; i < team.length; i++) {
-          if (String(team[i].email) === String(currentUser.user.email)) {
+          if (
+            String(team[i].email).toLowerCase().trim() ==
+            String(currentUser.user.email).toLowerCase().trim()
+          ) {
             setError("Do not include your own account.");
             chk = false;
             setLoading(false);
@@ -269,10 +273,13 @@ const Onboarding = () => {
             break;
           }
         }
+        setLoading(false);
         for (let i = 0; i < team.length; i++) {
           if (
-            String(team[i].name) ===
+            String(team[i].name).toLowerCase().strip() ==
             String(currentUser.user.firstName + " " + currentUser.user.lastName)
+              .toLowerCase()
+              .strip()
           ) {
             setError("Do not include your own name.");
             chk = false;
@@ -305,6 +312,7 @@ const Onboarding = () => {
               setOnboardingLoader(false);
               currentUser.setUser({ ...res.data, initialized: true });
             }, 2500);
+            history.push("/networks/main");
           })
           .catch((err) => {
             console.log(err.response);
@@ -955,7 +963,7 @@ const Onboarding = () => {
                         <textarea
                           type="text"
                           minLength={140}
-                          maxLength={190}
+                          maxLength={200}
                           name="problem"
                           id="problem"
                           onChange={changeHandler}
@@ -964,10 +972,11 @@ const Onboarding = () => {
                           required={true}
                         />
                         <label class="absolute text-sm left-0 text-gray-500 duration-300 transform -top-4 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  ">
-                          Startup Description (Minimum 140 Characters)
+                          Startup Description (Min 140 Chars - Max 200 Chars)
                         </label>
                       </div>
                       <br />
+
                       <div
                         class={`grid xl:grid-cols-2 ${
                           image !== null && image !== ""
@@ -1091,7 +1100,7 @@ const Onboarding = () => {
                         Onboarding Your Team
                       </p>
                       <p class="sm:text-sm text-xs">
-                        Enter your team-members'/cofounders' details here.{" "}
+                        Enter your <strong>team-members' details</strong> here.{" "}
                         <br /> We'll send them an exclusive code to join your
                         startup workspace (IdeaStack Team Dashboard).
                       </p>
@@ -1120,7 +1129,7 @@ const Onboarding = () => {
                           } `}
                         >
                           No. of Additional Seats/Accounts You Wish to Register
-                          (Team Size)
+                          (<strong>Do not include yourself!</strong>)
                         </label>
                       </div>
                       <br />
@@ -1136,7 +1145,7 @@ const Onboarding = () => {
                         ) : (
                           <div
                             class={`flex items-center ${
-                              error ? "bg-red-600" : "bg-indigo-500"
+                              error ? "bg-red-600" : "bg-red-500"
                             }  text-white text-sm font-bold px-4 py-1.5 pt-[7px]  mb-8`}
                             role="alert"
                           >
