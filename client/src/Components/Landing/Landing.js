@@ -696,9 +696,8 @@ const Landing = () => {
           </h2>
           <p class="text-gray-600 my-2 text-center">
             Through our smart match technology, we provide you with an
-            accessible-to-all pool of{" "}
-            <span class="sm:inline hidden"> advisors, investors</span> and
-            media-partners that drive growth at the world's leading companies.
+            accessible-to-all pool of advisors, investors and media-partners
+            that drive growth at the world's leading companies.
           </p>
         </div>
         <div
@@ -798,8 +797,7 @@ const Landing = () => {
             The IdeaStack community is growing. Join now, and reap the benefits
             of a{" "}
             <span class="font-semibold text-blue-700">
-              talented pool of the region's leading startup founders, mentors
-              and advisors{" "}
+              talented pool of startup founders, mentors and advisors{" "}
               <span class="sm:hidden text-gray-600 inline">
                 from diverse backgrounds and interests.
               </span>
