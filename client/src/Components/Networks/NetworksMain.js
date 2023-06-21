@@ -33,10 +33,10 @@ const Networks = () => {
       />
 
       <h3 class="tracking-wide text-sm lg:my-6 md:my-4 my-2 mb-2 md:w-[65%] sm:w-[75%] w-[85%] mx-auto block text-center text-gray-700 relative top-3">
-        Market strategy, investment opportunities and cutting-edge
-        research/knowledge in the deep sciences (tech, climate, agri, pharma
-        etc.)- brought to you by a world-class network of founder-type
-        individuals who specialize in creating high-value ventures.
+        Strategic mentorship, potential investment and PR opportunities with
+        media outlets- brought to you by a world-class network of high-value
+        individuals from the world's leading startup ecosystems (USA, Canada,
+        India, UAE).
       </h3>
       <div class="h-fit lg:w-[90%] md:w-[70%] sm:w-[80%] w-[90%] mx-auto mt-[60px] -mb-[222px] lg:right-1.5 relative grid lg:grid-cols-3 grid-cols-1 xl:gap-8 gap-5">
         <div
@@ -208,8 +208,10 @@ const Networks = () => {
 
           <hr class="border-[1px] border-dashed border-gray-600 mx-auto my-2 mt-5 block w-[70%]" />
 
-          <h2 class="text-xl mt-4 block font-bold">Strategic Mentorship</h2>
-          <h2 class="md:text-base pb-7 text-sm mt-3 block text-gray-600 font-semibold px-4">
+          <h2 class="text-xl mt-4 relative top-1 block font-bold">
+            Strategic Mentorship
+          </h2>
+          <h2 class="md:text-base pb-7 text-sm mt-3 block text-gray-600 relative top-0.5 font-semibold px-4">
             Executive Coaching & Growth Strategy
           </h2>
         </div>
@@ -575,8 +577,10 @@ const Networks = () => {
 
           <hr class="border-[1px] border-dashed border-gray-600 mx-auto my-2 mt-5 block w-[70%]" />
 
-          <h2 class="text-xl mt-4 block font-bold">Funding Opportunities</h2>
-          <h2 class="md:text-base pb-7 text-sm mt-3 block text-gray-600 font-semibold px-4">
+          <h2 class="text-xl mt-4 relative top-1 block font-bold">
+            Potential Investors
+          </h2>
+          <h2 class="md:text-base pb-7 text-sm mt-3 block text-gray-600 relative top-0.5 font-semibold px-4">
             Investment for High Potential Ventures.
           </h2>
         </div>
@@ -601,190 +605,73 @@ const Networks = () => {
             </svg>
             Coming Soon
           </div>
-          <div class="w-52 h-52 lg:mb-4 sm:-mb-6 -mb-14 lg:mt-1 sm:mt-2 mt-3  mx-auto block">
+          <div class="w-52 h-52 lg:-mb-[16px] sm:-mb-[36px] -mb-[74px] lg:mt-1 sm:mt-2 mt-3  mx-auto block">
             <svg
-              xmlns="http://www.w3.org/2000/svg"
+              class="lg:w-[186px] lg:h-[186px] sm:w-[166px] sm:h-[166px] w-[126px] h-[126px] -mb-6 mt-6  mx-auto block"
               version="1.1"
-              viewBox="0 0 64 64"
-              class="lg:w-full lg:h-full  sm:w-[180px] sm:h-[180px] w-[145px] h-[145px] mx-auto block"
+              id="Layer_1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"
+              fill="#000000"
             >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
               <g
-                transform="translate(-728 -1783.871)"
-                fill="#000000"
-                class="text-black"
-              >
-                <circle
-                  cx="741.514"
-                  cy="1833.383"
-                  r="1"
-                  fill="#79a1d5"
-                  class="text-blue-500"
-                ></circle>
-                <circle
-                  cx="779.5"
-                  cy="1821.377"
-                  r="1"
-                  fill="#79a1d5"
-                  class="text-blue-500"
-                ></circle>
-                <circle
-                  cx="765.514"
-                  cy="1791.383"
-                  r="1"
-                  fill="#79a1d5"
-                  class="text-blue-500"
-                ></circle>
-                <path fill="#b4cbea" d="M755.5 1839.369h11v2.004h-11"></path>
-                <path
-                  fill="#79a1d5"
-                  d="M769.5 1837.558v1.815h-17v-10h17v5.988"
-                ></path>
-                <path
-                  fill="#f4f8f8"
-                  d="M767.767 1829.365v-5.672a14.504 14.504 0 0 0 7.733-12.817c0-8.01-6.492-14.503-14.5-14.503s-14.5 6.493-14.5 14.503a14.504 14.504 0 0 0 7.733 12.817v5.672"
-                ></path>
-                <path
-                  fill="#dbe7f6"
-                  d="m774.43 1805.41-20.198 20.198v3.756h13.536v-5.67a14.505 14.505 0 0 0 7.732-12.818c0-1.935-.382-3.779-1.07-5.465"
-                ></path>
-                <path
-                  fill="none"
-                  stroke="#4574ba"
-                  d="M767.767 1829.365v-5.672a14.504 14.504 0 0 0 7.733-12.817c0-8.01-6.492-14.503-14.5-14.503s-14.5 6.493-14.5 14.503a14.504 14.504 0 0 0 7.733 12.817v5.672m4.267-13.488v14m5-14v14"
-                ></path>
-                <path
-                  fill="none"
-                  stroke="#4574ba"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M755.5 1839.369h11v2.004h-11"
-                ></path>
-                <rect
-                  width="19"
-                  height="2"
-                  x="751.5"
-                  y="1831.373"
-                  fill="#b4cbea"
-                  rx="1.056"
-                  ry="1"
-                ></rect>
-                <path
-                  fill="none"
-                  stroke="#4574ba"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M752.5 1835.301v-1.907m0-2.085v-1.936h17v1.925m0 2.103v1.96m0 2.197v1.815h-17v-1.948"
-                ></path>
-                <rect
-                  width="19"
-                  height="2"
-                  x="751.5"
-                  y="1835.373"
-                  fill="#b4cbea"
-                  rx="1.056"
-                  ry="1"
-                ></rect>
-                <rect
-                  width="19"
-                  height="2"
-                  x="751.5"
-                  y="1831.373"
-                  fill="none"
-                  stroke="#4574ba"
-                  rx="1.056"
-                  ry="1"
-                ></rect>
-                <rect
-                  width="19"
-                  height="2"
-                  x="751.5"
-                  y="1835.373"
-                  fill="none"
-                  stroke="#4574ba"
-                  rx="1.056"
-                  ry="1"
-                ></rect>
-                <path
-                  fill="none"
-                  stroke="#4574ba"
-                  d="M766 1815.377h-10m-7.5-4.5a12.5 12.5 0 0 1 12.5-12.5"
-                ></path>
-                <path
-                  fill="none"
-                  stroke="#4574ba"
-                  stroke-width="1.149"
-                  d="M-796.315 2404.306a5.57 21.86 0 0 1-7.778 4.66 5.57 21.86 0 0 1-1.207-30.511 5.57 21.86 0 0 1 7.772-4.812"
-                  transform="matrix(1 0 .6531 .75727 0 0)"
-                ></path>
-                <path
-                  fill="none"
-                  stroke="#4574ba"
-                  stroke-width="1.149"
-                  d="M-2318.316 2404.306a5.57 21.86 0 0 1-7.777 4.66 5.57 21.86 0 0 1-1.207-30.511 5.57 21.86 0 0 1 7.772-4.812"
-                  transform="skewX(40.776) scale(1 -.75727)"
-                ></path>
-                <path
-                  fill="none"
-                  stroke="#4574ba"
-                  d="M-1785.162-746.03a5.57 18.916 0 0 1-7.327-3.436 5.57 18.916 0 0 1 .137-25.114 5.57 18.916 0 0 1 7.36-2.509"
-                  transform="matrix(0 -1 -.99952 -.03086 0 0)"
-                ></path>
-                <circle
-                  cx="741.514"
-                  cy="1833.383"
-                  r="1"
-                  fill="none"
-                  stroke="#4574ba"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="text-blue-500"
-                ></circle>
-                <circle
-                  cx="779.5"
-                  cy="1821.377"
-                  r="1"
-                  fill="none"
-                  stroke="#4574ba"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="text-blue-500"
-                ></circle>
-                <circle
-                  cx="765.514"
-                  cy="1791.383"
-                  r="1"
-                  fill="none"
-                  stroke="#4574ba"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="text-blue-500"
-                ></circle>
-                <path
-                  fill="none"
-                  stroke="#4574ba"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M769.5 1837.558v1.815h-17v-10h17v5.988"
-                ></path>
-                <path
-                  fill="none"
-                  stroke="#4574ba"
-                  d="M767.767 1829.365v-5.672a14.504 14.504 0 0 0 7.733-12.817c0-8.01-6.492-14.503-14.5-14.503s-14.5 6.493-14.5 14.503a14.504 14.504 0 0 0 7.733 12.817v5.672"
-                ></path>
-                <path
-                  fill="none"
-                  stroke="#4574ba"
-                  d="m774.43 1805.41-20.198 20.198v3.756h13.536v-5.67a14.505 14.505 0 0 0 7.732-12.818c0-1.935-.382-3.779-1.07-5.465"
-                ></path>
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <g transform="translate(1)">
+                  <path
+                    class="fill-current text-[#b4cbea]"
+                    d="M7.533,173.973v162.133H101.4L219.16,444.48c11.947,6.827,27.307-1.707,27.307-16.213V90.347 c0-14.507-15.36-23.04-27.307-16.213l-117.76,99.84H7.533z"
+                  ></path>
+                  <path
+                    class="fill-current text-[#79a1d5]"
+                    d="M101.4,336.107L219.16,444.48c11.947,6.827,27.307-1.707,27.307-16.213V90.347 c0-14.507-15.36-23.04-27.307-16.213l-117.76,99.84V336.107z"
+                  ></path>
+                  <path
+                    class="fill-current text-[#dbe7f6]"
+                    d="M33.133,173.973v162.133H101.4l92.16,85.333c11.947,6.827,27.307,21.333,27.307,6.827V90.347 c0-14.507-15.36,0-27.307,6.827l-92.16,76.8H33.133z"
+                  ></path>
+                  <g>
+                    <path
+                      class="fill-current text-[#437abe]"
+                      d="M228.547,455.573c-4.267,0-9.387-0.853-13.653-3.413c-0.853,0-0.853-0.853-1.707-0.853 L97.987,344.64H7.533l0,0c-2.56,0-4.267-0.853-5.973-2.56c-1.707-1.707-2.56-3.413-2.56-5.973V173.973 c0-5.12,3.413-8.533,8.533-8.533h90.453L214.04,67.307l0.853-0.853c8.533-5.12,17.92-5.12,26.453,0 C249.88,71.573,255,80.107,255,90.347V429.12c0,10.24-5.12,18.773-13.653,23.893C237.08,454.72,232.813,455.573,228.547,455.573z M224.28,437.653c3.413,1.707,6.827,0.853,8.533,0c3.413-1.707,5.12-5.12,5.12-8.533V90.347c0-3.413-1.707-6.827-5.12-8.533 c-1.707-0.853-5.12-2.56-8.533,0L106.52,180.8c-0.853,0.853-3.413,1.707-5.12,1.707H16.067v145.067H101.4l0,0 c2.56,0,4.267,0.853,5.973,2.56L224.28,437.653z"
+                    ></path>
+                    <path
+                      class="fill-[#437abe]"
+                      d="M101.4,225.173c-5.12,0-8.533-3.413-8.533-8.533v-42.667c0-5.12,3.413-8.533,8.533-8.533 c5.12,0,8.533,3.413,8.533,8.533v42.667C109.933,221.76,106.52,225.173,101.4,225.173z"
+                    ></path>
+                    <path
+                      class="fill-[#437abe]"
+                      d="M101.4,344.64c-5.12,0-8.533-3.413-8.533-8.533V293.44c0-5.12,3.413-8.533,8.533-8.533 c5.12,0,8.533,3.413,8.533,8.533v42.667C109.933,341.227,106.52,344.64,101.4,344.64z"
+                    ></path>
+                    <path
+                      class="fill-[#437abe]"
+                      d="M327.533,412.907c-3.413,0-6.827-2.56-7.68-5.973c-1.707-4.267,0.853-9.387,5.12-11.093 c60.587-20.48,100.693-76.8,100.693-140.8S385.56,134.72,324.973,113.387c-4.267-1.707-6.827-5.973-5.12-11.093 c1.707-4.267,5.973-6.827,11.093-5.12c66.56,23.04,111.787,87.04,111.787,157.867s-45.227,134.827-112.64,157.013 C329.24,412.907,328.387,412.907,327.533,412.907z"
+                    ></path>
+                    <path
+                      class="fill-[#437abe]"
+                      d="M368.493,458.133c-3.413,0-6.827-1.707-7.68-5.12c-1.707-4.267,0.853-9.387,5.12-11.093 c77.653-29.867,128-103.253,128-186.88c0-81.067-47.787-152.747-122.027-184.32c-4.267-1.707-5.973-6.827-4.267-11.093 c1.707-5.12,5.973-6.827,11.093-5.12C458.947,88.64,511,167.147,511,255.04c0,90.453-54.613,169.813-139.093,203.093 C371.053,458.133,370.2,458.133,368.493,458.133z"
+                    ></path>
+                    <path
+                      class="fill-[#437abe]"
+                      d="M280.6,365.973c-3.413,0-6.827-2.56-8.533-5.973c-1.707-4.267,1.707-9.387,5.973-10.24 c41.813-11.947,70.827-51.2,70.827-93.867c0-43.52-29.013-81.92-70.827-93.867c-4.267-1.707-6.827-5.973-5.973-10.24 c1.707-4.267,5.973-6.827,10.24-5.973c48.64,14.507,83.627,59.733,83.627,110.933S331.8,353.173,282.307,367.68 C282.307,365.973,281.453,365.973,280.6,365.973z"
+                    ></path>
+                  </g>
+                </g>
               </g>
             </svg>
           </div>
 
           <hr class="border-[1px] border-dashed border-gray-600 mx-auto my-2 w-[70%]" />
 
-          <h2 class="text-xl mt-4 block font-bold">Knowledge Partners</h2>
-          <h2 class="md:text-base pb-7 text-sm mt-3 block text-gray-600 font-semibold">
-            Cutting edge technology, expertise & research.
+          <h2 class="text-xl mt-4 relative top-1 block font-bold">
+            Media Partners
+          </h2>
+          <h2 class="md:text-base pb-7 px-3 text-sm mt-3 block text-gray-600 relative top-0.5 font-semibold">
+            Public Accouncements & Relations (PR)
           </h2>
         </div>
       </div>

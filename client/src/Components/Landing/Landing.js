@@ -6,8 +6,8 @@ import atp from "./images/atplogo.png";
 import miscible from "./images/miscible-mono.png";
 
 import meeting from "./images/meeting.png";
-import management from "./images/management.png";
-import networking from "./images/networking.png";
+import investor from "./images/investor.png";
+import media from "./images/media.png";
 
 import steps from "./images/steps.jpg";
 
@@ -327,8 +327,7 @@ const Landing = () => {
         <div class="  sm:left-14 left-16 xl:px-14 sm:px-20 px-12 xl:left-12 xl:bottom-0 bottom-4 relative container mx-auto flex lg:pt-0 pt-2 flex-wrap flex-col md:flex-row items-center">
           <div class="flex tracking-[0.015em] flex-col  xl:w-[43%] lg:w-[46%] relative xl:right-[365px] xl:-bottom-2 lg:-mt-14 lg:-bottom-5 lg:right-[280px] md:right-6 sm:right-40 right-16 bottom-5 md:pl-0 sm:pl-8 pl-0 sm:w-full w-full mx-auto justify-center items-start lg:text-left text-center">
             <p class="uppercase font-medium  text-sm  lg:text-left text-center xl:right-0 lg:right-5 md:right-20 sm:-right-12 sm:left-20 md:-left-[42px] lg:-left-8 xl:left-[-1px] right-0 mx-auto  top-5 -mt-10   relative md:w-full w-fit">
-              Mentorship & Networking{" "}
-              <span class="sm:inline hidden">Platform</span>
+              Startup Networking <span class="sm:inline hidden">Platform</span>
             </p>
             <h1 class="relative font-sans my-4 mb-7  lg:text-left text-center mx-auto xl:text-6xl md:text-5xl  sm:text-5xl text-4xl  xl:-ml-[105px] top-[15px] lg:-ml-[135px] md:-ml-[50px] sm:left-20 left-1 px-3 font-bold leading-tight">
               <span class="sm:inline hidden">The</span> Growth-Hub for{" "}
@@ -338,8 +337,8 @@ const Landing = () => {
               </span>
             </h1>
             <p class="leading-normal font-medium  lg:mx-0 xl:ml-0.5 mx-auto xl:-right-3 lg:-right-2 md:right-0  sm:-right-[100px]  xl:left-[-10px] lg:left-[-40px] md:left-[-35px] sm:left-20     right-0   md:w-3/4  lg:w-fit md:text-lg sm:text-lg xl:w-fit sm:w-72 w-fit text-base mb-12 sm:mt-5 mt-2 relative lg:text-left text-center">
-              We connect youth-entrepreneurs with seasoned mentors, investors
-              and research-partners.
+              We connect youth-entrepreneurs with seasoned advisors, investors
+              and media-partners.
             </p>
             <a
               href="#about"
@@ -672,7 +671,7 @@ const Landing = () => {
       <p class="relative bottom-14 " id="features" />
       <div
         id="features"
-        class="bg-white relative lg:pt-14 sm:pt-10 pt-14 xl:pt-8 xl:pb-[99px] pb-[80px] px-12 border-b-2 border-dashed border-blue-700"
+        class="bg-white relative lg:pt-16 sm:pt-10 pt-14 xl:pt-[38px] xl:pb-[80px] pb-[80px] px-12 border-b-2 border-dashed border-blue-700"
       >
         <div
           data-aos={"fade-up"}
@@ -693,22 +692,22 @@ const Landing = () => {
           </svg>
 
           <h2 class="my-8 text-3xl text-center  font-bold text-gray-700 md:text-4xl">
-            Our Features & Services
+            Make Meaningful Connections
           </h2>
           <p class="text-gray-600 my-2 text-center">
-            Serious about growth & impact? We provide you with an
+            Through our smart match technology, we provide you with an
             accessible-to-all pool of{" "}
-            <span class="sm:inline hidden">startup mentors, investors</span> and
-            researchers that drive success at the world's leading startups.
+            <span class="sm:inline hidden"> advisors, investors</span> and
+            media-partners that drive growth at the world's leading companies.
           </p>
         </div>
         <div
           data-aos={"fade-up"}
           data-aos-once="true"
           delay={100}
-          class="mt-12  grid divide-x divide-y divide-blue-700  overflow-hidden rounded-3xl mx-auto container border border-blue-700 text-gray-600  sm:grid-cols-1 lg:grid-cols-3 lg:divide-y-0 xl:grid-cols-3"
+          class="mt-[43px]  grid divide-x divide-y divide-blue-700  overflow-hidden rounded-3xl mx-auto container border border-blue-700 text-gray-600  sm:grid-cols-1 lg:grid-cols-3 lg:divide-y-0 xl:grid-cols-3"
         >
-          <div class="group relative bg-gradient-to-r from-indigo-100 to-blue-50  transition z-[1] shadow-2xl shadow-gray-600/10">
+          <div class="group relative bg-gradient-to-r from-indigo-100 to-blue-50 -mb-[20px]  transition z-[1] shadow-2xl shadow-gray-600/10">
             <div class="relative space-y-8 py-12 p-8">
               <img
                 src={meeting}
@@ -720,12 +719,12 @@ const Landing = () => {
 
               <div class="space-y-2 text-center">
                 <h5 class="text-xl font-semibold  text-gray-700  transition ">
-                  1:1 startup mentorship
+                  1:1 Strategic Mentorship
                 </h5>
-                <p class="text-gray-600 ">
-                  Student teams are matched with a startup mentor every month,
-                  based on mentor expertise requirements and business
-                  objectives.
+                <p class="text-gray-600 relative top-1.5">
+                  Request a meeting with a strategic mentor of your choice.
+                  Access suitable pro-bono advisors that will help your company
+                  grow.
                 </p>
               </div>
             </div>
@@ -733,7 +732,7 @@ const Landing = () => {
           <div class="group relative bg-gradient-to-r from-blue-50 to-indigo-100  transition z-[2] shadow-2xl shadow-gray-600/10">
             <div class="relative space-y-8 py-12 p-8">
               <img
-                src={networking}
+                src={investor}
                 class="w-16 mx-auto"
                 width="512"
                 height="512"
@@ -742,13 +741,11 @@ const Landing = () => {
 
               <div class="space-y-2 text-center">
                 <h5 class="text-xl font-semibold text-gray-700 transition ">
-                  A smart, supportive network.
+                  Potential Investment
                 </h5>
-                <p class="text-gray-600 ">
-                  Build new contacts with influential, experienced and
-                  knowledgable individuals across our diverse pool of successful
-                  <span class="xl:inline hidden">entrepreneurs and</span>{" "}
-                  mentors.
+                <p class="text-gray-600 relative top-1.5 ">
+                  Pitching opportunities within a curated community of active
+                  angel investors, crowdfunding platforms & VC funds.
                 </p>
               </div>
             </div>
@@ -756,7 +753,7 @@ const Landing = () => {
           <div class="group relative  bg-gradient-to-r from-indigo-100 to-blue-100  transition z-[2] shadow-2xl shadow-gray-600/10">
             <div class="relative space-y-8 py-12 p-8 transition duration-300 ">
               <img
-                src={management}
+                src={media}
                 class="w-16 mx-auto"
                 width="512"
                 height="512"
@@ -765,12 +762,11 @@ const Landing = () => {
 
               <div class="space-y-2 text-center">
                 <h5 class="text-xl font-semibold text-gray-700  transition ">
-                  Easy team-management.
+                  Media Partnerships (PR)
                 </h5>
-                <p class="text-gray-600 ">
-                  Enable collaboration. Documents, execution-work and other such
-                  paperwork to complete assignments that will accelerate your
-                  business.
+                <p class="text-gray-600 relative top-1.5">
+                  Meet membership requirements- and gain a potential opportunity
+                  of having your company's story published as a media interview.
                 </p>
               </div>
             </div>
@@ -985,11 +981,11 @@ const Landing = () => {
                   <div className="w-px h-full bg-gray-300" />
                 </div>
                 <div className="pt-1 pb-8">
-                  <p className="mb-2 text-lg font-bold">Step 1</p>
+                  <p className="mb-2 text-lg font-bold">Step 1 - Signing Up</p>
                   <p className="text-gray-700">
-                    Building an Venture? Finding it difficult to make your
-                    solution come true? Sign Up on IdeaStack and learn from the
-                    people who've been in your shoes!
+                    Building a Venture? Sign up on IdeaStack and onboard members
+                    from your core-team! Access a network of mentors, investors
+                    and media-partners.
                   </p>
                 </div>
               </div>
@@ -1024,10 +1020,10 @@ const Landing = () => {
                   <div className="w-px h-full bg-gray-300" />
                 </div>
                 <div className="pt-1 pb-8">
-                  <p className="mb-2 text-lg font-bold">Step 2</p>
+                  <p className="mb-2 text-lg font-bold">Strategic Mentorship</p>
                   <p className="text-gray-700">
-                    Enter information on your startup and team-members. Your
-                    team will be screened and onboarded onto IdeaStack.
+                    Request a meeting with a strategic mentor. If you're
+                    satisfied, book your mentor for a month.
                   </p>
                 </div>
               </div>
@@ -1062,11 +1058,11 @@ const Landing = () => {
                   <div className="w-px h-full bg-gray-300" />
                 </div>
                 <div className="pt-1 pb-8">
-                  <p className="mb-2 text-lg font-bold">Step 3</p>
+                  <p className="mb-2 text-lg font-bold">Potential Investment</p>
                   <p className="text-gray-700">
-                    Browse our pool of experts, mentors and advisors. Request a
-                    mentor that fits your expertise requirements, and we'll
-                    consider your request in the matching process.
+                    Apply for potential funding opportunities. We'll shortlist
+                    your team and startup project- and connect you with a vetted
+                    investor from our curated global network.
                   </p>
                 </div>
               </div>
@@ -1101,11 +1097,12 @@ const Landing = () => {
                   <div className="w-px h-full bg-gray-300" />
                 </div>
                 <div className="pt-1 pb-8">
-                  <p className="mb-2 text-lg font-bold">Step 4</p>
+                  <p className="mb-2 text-lg font-bold">Media PR</p>
                   <p className="text-gray-700">
-                    Done! We match your team with a mentor, and provide you with
-                    a dashboard to undertake that mentorship. Weekly meetings,
-                    assignments, and doubt-clearing sessions, all for a month!
+                    Once you've met our membership requirements (minimum
+                    mentorship requests, project & details etc.), we'll provide
+                    you with an exclusive discount to have your interview posted
+                    on nationally recognized media outlets.
                   </p>
                 </div>
               </div>
@@ -1149,7 +1146,7 @@ const Landing = () => {
         </div>
       </div>
 
-      <div class="bg-gradient-to-r tracking-[0.015em] border-t-2 border-blue-700 border-dashed from-gray-200 to-blue-200 sm:pt-[25px] pt-[20px] xl:pb-[50px] lg:pb-[75px] md:pb-[345px] sm:pb-[553px] pb-[545px]  ">
+      <div class="bg-gradient-to-r tracking-[0.015em] border-t-2 border-blue-700 border-dashed from-gray-200 to-blue-200 sm:pt-[25px] pt-[20px] xl:pb-[40px] lg:pb-[75px] md:pb-[345px] sm:pb-[553px] pb-[545px]  ">
         <div class="h-auto  sm:px-[30px]  px-[15px]">
           <span class="block mb-4 lg:mt-10 mt-12  text-center text-blue-700 text-sm uppercase text-primary font-semibold">
             Reach Out for Partnership
@@ -1161,10 +1158,10 @@ const Landing = () => {
           <div
             data-aos={"fade-up"}
             data-aos-once="true"
-            className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:mt-0 md:-mt-8 lg:w-[900px]  md:w-[650px] sm:w-[350px] w-[250px] xl:bottom-16 relative sm:top-0 xl:-top-8 -top-2 mx-auto  h-64 gap-12 xl:gap-14"
+            className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:mt-0 md:-mt-8 lg:w-[900px]  md:w-[650px] sm:w-[350px] w-[250px] xl:bottom-16 relative sm:top-0 xl:-top-8 -top-2 mx-auto  h-[240px] gap-12 xl:gap-14"
           >
             {/* ::Partner 1 -> ALL */}
-            <div
+            {/* <div
               onClick={() => {
                 window.open("https://atpstem.com", "_blank");
               }}
@@ -1175,9 +1172,9 @@ const Landing = () => {
                 alt=""
                 className="md:max-h-[110px] md:w-auto w-[270px]  bottom-1 relative"
               />
-            </div>
+            </div> */}
 
-            <div
+            {/* <div
               onClick={() => {
                 window.open("https://uniqueworldrobotics.com", "_blank");
               }}
@@ -1190,13 +1187,13 @@ const Landing = () => {
                 alt=""
                 className="md:max-h-40 md:w-auto w-[200px] bottom-1 relative"
               />
-            </div>
+            </div> */}
 
             <div
               onClick={() => {
                 window.open("https://miscible.co", "_blank");
               }}
-              className="col-span-1 sm:col-span-1 lg:col-span-1 lg:py-12 md:py-[90px] md:pb-[100px] py-[80px] pb-[90px] px-8 flex hover:cursor-pointer hover:shadow-xl justify-center items-center bg-white shadow-md rounded-md border-t-2 border-gray-300"
+              className="col-span-1  sm:col-span-1 lg:col-span-1 lg:py-12 md:py-[90px] md:pb-[100px] py-[80px] pb-[90px] px-9 flex hover:cursor-pointer hover:shadow-xl justify-center items-center bg-white shadow-md rounded-md border-t-2 border-gray-300"
             >
               <img
                 src={miscible}
