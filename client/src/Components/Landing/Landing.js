@@ -1144,9 +1144,9 @@ const Landing = () => {
         </div>
       </div>
 
-      <div class="bg-gradient-to-r tracking-[0.015em] border-t-2 border-blue-700 border-dashed from-gray-200 to-blue-200 sm:pt-[25px] pt-[20px] xl:pb-[40px] lg:pb-[75px] md:pb-[345px] sm:pb-[553px] pb-[545px]  ">
+      <div class="bg-gradient-to-r tracking-[0.015em] border-t-2 border-blue-700 border-dashed from-gray-200 to-blue-200 sm:pt-[25px] pt-[20px] xl:pb-[40px] lg:pb-[75px] md:pb-[75px] sm:pb-[75px] pb-[75px]">
         <div class="h-auto  sm:px-[30px]  px-[15px]">
-          <span class="block mb-4 lg:mt-10 mt-12  text-center text-blue-700 text-sm uppercase text-primary font-semibold">
+          <span class="block mb-4 lg:mt-10 mt-10  text-center text-blue-700 text-sm uppercase text-primary font-semibold">
             Reach Out for Partnership
           </span>
           <h1 class="w-full lg:mb-[90px] sm:px-0 px-[5px] md:mb-[96px] mb-[60px] lg:normal-case uppercase  relative  md:text-5xl sm:text-[40px] text-[32px] font-bold  leading-tight  text-center text-gray-800">
@@ -1191,7 +1191,7 @@ const Landing = () => {
               onClick={() => {
                 window.open("https://miscible.co", "_blank");
               }}
-              className="col-span-1  sm:col-span-1 lg:col-span-1 lg:py-12 md:py-[90px] md:pb-[100px] py-[80px] pb-[90px] px-9 flex hover:cursor-pointer hover:shadow-xl justify-center items-center bg-white shadow-md rounded-md border-t-2 border-gray-300"
+              className="col-span-1 lg:col-start-2 sm:col-span-1 lg:col-span-1 lg:py-12 md:py-[90px] md:pb-[100px] py-[80px] pb-[90px] px-9 flex hover:cursor-pointer hover:shadow-xl justify-center items-center bg-white shadow-md rounded-md border-t-2 border-gray-300"
             >
               <img
                 src={miscible}
