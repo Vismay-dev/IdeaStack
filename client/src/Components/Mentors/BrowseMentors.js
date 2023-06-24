@@ -34,8 +34,13 @@ export default function BrowseMentors() {
         { token: sessionStorage.getItem("token") }
       )
       .then((res) => {
-        setExperts(res.data);
-        setOrigExperts(res.data);
+        let arr = res.data.filter(
+          (expert) => expert.name.toLowerCase() != "jessica avedikian"
+        );
+        console.log(arr);
+
+        setExperts(arr);
+        setOrigExperts(arr);
         setTimeout(() => {
           setLoading(false);
         }, 1000);
@@ -228,10 +233,7 @@ export default function BrowseMentors() {
         ) : (
           <div class="grid grid-cols-1 z-30 pointer-events-none md:mb-8 mb-20 md:-mt-3 sm:mt-1 -mt-1 relative top-[8px] md:px-1 sm:px-7 px-7 left-[4px]   sm:gap-y-12 gap-y-14 sm:grid-cols-2 gap-x-12 lg:grid-cols-3 xl:grid-cols-4 ">
             {[...experts]
-              .filter(
-                (expert) =>
-                  expert.org == null && expert.name !== "Jessica Avedikian"
-              )
+              .filter((expert) => expert.org == null)
               .map((expert, i) => (
                 <a
                   data-aos={"fade-up"}
@@ -269,6 +271,7 @@ export default function BrowseMentors() {
                   </p>
                 </a>
               ))}
+
             {experts.filter((exp) => exp.org === "UWR").length > 0 ? (
               <>
                 {experts.filter((exp) => exp.org !== "UWR").length === 0 ? (

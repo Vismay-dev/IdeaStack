@@ -42,9 +42,13 @@ export default function BrowseMentors() {
         { token: sessionStorage.getItem("token") }
       )
       .then((res) => {
-        setWorkshops(res.data);
-        console.log(workshops);
-        setOrigWorkshops(res.data);
+        let arr = res.data.filter(
+          (expert) =>
+            expert.name.toLowerCase() != "jessica avedikian" &&
+            expert.name.toLowerCase() != "adi sinha"
+        );
+        setWorkshops(arr);
+        setOrigWorkshops(arr);
         setTimeout(() => {
           setLoading(false);
         }, 1000);
