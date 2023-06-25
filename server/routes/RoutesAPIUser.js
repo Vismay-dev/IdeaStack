@@ -1133,17 +1133,17 @@ router.post("/updateMentor", auth, async (req, res) => {
         }
       }
 
-      // sendRequestAcceptedMail()
-      //   .then((result) => {
-      //     mixpanel.track("Mentor Request Acceptance", {
-      //       distinct_id: updatedMentor._id,
-      //     });
-      //     console.log(result);
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //     res.status(400).send(err);
-      //   });
+      sendRequestAcceptedMail()
+        .then((result) => {
+          mixpanel.track("Mentor Request Acceptance", {
+            distinct_id: updatedMentor._id,
+          });
+          console.log(result);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(400).send(err);
+        });
 
       currDate = new Date();
       currDate.setMonth(currDate.getMonth() + 1);
@@ -1192,7 +1192,6 @@ router.post("/updateMentor", auth, async (req, res) => {
       updatedMentor = await newMentor2.save();
     }
 
-    console.log({ ...updatedMentor, ...updateInfoMentor });
     res.send({ ...updatedMentor, ...updateInfoMentor });
   } catch (err) {
     console.log(err);
