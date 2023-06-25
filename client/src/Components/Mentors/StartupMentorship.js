@@ -29,7 +29,7 @@ import "aos/dist/aos.css";
 
 import userContext from "../../context/userContext";
 import { useHistory } from "react-router-dom";
-import mentorContext from "../../context/mentorContext.js";
+// import mentorContext from "../../context/mentorContext.js";
 import mentorAccContext from "../../context/mentorAccContext.js";
 
 import RequestInfo from "../Modals/RequestInfo.js";
@@ -59,6 +59,7 @@ const StartupMentorship = () => {
   const [loading, setLoading] = useState(true);
 
   const acceptRequest = (index) => {
+    setLoading(true);
     let acceptedRequests = mentorCon.mentor.acceptedRequests;
     acceptedRequests.push(mentorshipRequests.map((req) => req._id)[index]);
     let mentor = { ...mentorCon.mentor, acceptedRequests };
@@ -71,11 +72,13 @@ const StartupMentorship = () => {
           mentor,
           token: sessionStorage.getItem("mentorToken"),
           acceptRequest: true,
+          acceptRequestIndex: index,
         }
       )
       .then((res) => {
         mentorCon.setMentor(res.data);
-        effectFunc();
+        effectFunc(res.data, true);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -90,13 +93,22 @@ const StartupMentorship = () => {
     setShowProjInfo(true);
   };
 
-  let effectFunc = async () => {
-    let currentMenteesInput = mentorCon.mentor.currentMentees
-      ? mentorCon.mentor.currentMentees
+  let effectFunc = async (obj = {}, bool = false) => {
+    let mentorObj = {};
+    if (bool) {
+      mentorCon.setMentor(obj);
+      mentorObj = obj;
+    } else {
+      mentorObj = mentorCon.mentor;
+    }
+
+    let currentMenteesInput = mentorObj.currentMentees
+      ? mentorObj.currentMentees
       : [];
-    let mentorshipRequestsInput = mentorCon.mentor.mentorshipRequests
-      ? mentorCon.mentor.mentorshipRequests.filter(
-          (request) => !mentorCon.mentor.currentMentees.includes(request)
+
+    let mentorshipRequestsInput = mentorObj.mentorshipRequests
+      ? mentorObj.mentorshipRequests.filter(
+          (request) => !mentorObj.currentMentees.includes(request)
         )
       : [];
 
@@ -201,9 +213,12 @@ const StartupMentorship = () => {
     }
 
     setCurrentMentees(
-      currentMenteesCopy.filter(
-        (mentee) => mentee.currentMentorship.repeatRequestApproved !== "no"
-      )
+      currentMenteesCopy.filter((mentee) => {
+        return (
+          mentee.currentMentorship &&
+          mentee.currentMentorship.repeatRequestApproved !== "no"
+        );
+      })
     );
     setMentorshipRequests(mentorshipRequestsCopy);
   };

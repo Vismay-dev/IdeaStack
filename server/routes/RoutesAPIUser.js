@@ -975,7 +975,17 @@ router.post("/getUserByMail", auth, async (req, res) => {
 
 router.post("/getUserForMentor", auth, async (req, res) => {
   try {
-    const user = await studentUser.findById(JSON.parse(req.body.teamMember));
+    idString = "";
+    if (
+      req.body.teamMember.firstName !== null ||
+      req.body.teamMember.lastName !== null
+    ) {
+      idString = req.body.teamMember._id;
+    } else {
+      idString = req.body.teamMember;
+    }
+
+    const user = await studentUser.findById(idString);
     res.send(user);
   } catch (err) {
     console.log(err);
@@ -1044,21 +1054,22 @@ router.post("/updateUser", auth, async (req, res) => {
 router.post("/updateMentor", auth, async (req, res) => {
   try {
     const userPrev = await workshop.findById(req.user._id);
-    updateInfo = { ...req.body.mentor, uniqueCode: userPrev.uniqueCode };
+    let updateInfoMentor = {
+      ...req.body.mentor,
+      uniqueCode: userPrev.uniqueCode,
+    };
 
     const newMentor = await workshop.findByIdAndUpdate(
       req.user._id,
-      updateInfo
+      updateInfoMentor
     );
-    const updatedMentor = await newMentor.save();
+    let updatedMentor = await newMentor.save();
 
     if (req.body.acceptRequest && req.body.acceptRequest === true) {
-      // project id: latest index in req.body.acceptedRequests[req.body.acceptedRequests.length-1]
+      // project id: latest index in req.body.mentor.acceptedRequests[req.body.acceptRequestIndex]
 
       const proj = await project.findById(
-        req.body.mentor.acceptedRequests[
-          req.body.mentor.acceptedRequests.length - 1
-        ]
+        req.body.mentor.acceptedRequests[req.body.acceptRequestIndex]
       );
 
       async function sendRequestAcceptedMail() {
@@ -1122,20 +1133,67 @@ router.post("/updateMentor", auth, async (req, res) => {
         }
       }
 
-      sendRequestAcceptedMail()
-        .then((result) => {
-          mixpanel.track("Mentor Request Acceptance", {
-            distinct_id: updatedMentor._id,
-          });
-          console.log(result);
-        })
-        .catch((err) => {
-          console.log(err);
-          res.status(400).send(err);
-        });
+      // sendRequestAcceptedMail()
+      //   .then((result) => {
+      //     mixpanel.track("Mentor Request Acceptance", {
+      //       distinct_id: updatedMentor._id,
+      //     });
+      //     console.log(result);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //     res.status(400).send(err);
+      //   });
+
+      currDate = new Date();
+      currDate.setMonth(currDate.getMonth() + 1);
+
+      const updateInfoProj = {
+        mentorsRequested: [
+          ...proj.mentorsRequested.filter((mentor) => mentor !== req.user._id),
+        ],
+        mentorsMatched: [
+          ...proj.mentorsMatched,
+          {
+            mentorId: req.user._id,
+            timeline: { week1: { availableDates: [] } },
+            duration: 1,
+            matchedDate: new Date(),
+            endDate: currDate,
+            materials: {
+              otherDocs: [],
+              taskRefs: [],
+              uploads: [],
+            },
+            pastMeetings: [],
+            upcomingMeeting: null,
+          },
+        ],
+      };
+      const newProj = await project.findByIdAndUpdate(proj._id, updateInfoProj);
+      await newProj.save();
+
+      updateInfoMentor = {
+        ...updateInfoMentor,
+        currentMentees: [...updatedMentor.currentMentees, proj._id],
+        acceptedRequests: [
+          ...updatedMentor.acceptedRequests.filter((req) => req != proj._id),
+        ],
+        mentorshipRequests: [
+          ...newMentor.mentorshipRequests.filter(
+            (req) => JSON.stringify(req) != JSON.stringify(proj._id)
+          ),
+        ],
+      };
+      const newMentor2 = await workshop.findByIdAndUpdate(
+        req.user._id,
+        updateInfoMentor
+      );
+      updatedMentor = await newMentor2.save();
     }
 
-    res.send({ ...updatedMentor, ...updateInfo });
+    console.log({ ...updatedMentor, ...updateInfoMentor });
+    res.send({ ...updatedMentor, ...updateInfoMentor });
   } catch (err) {
     console.log(err);
     res.status(400).send(err);
@@ -3137,11 +3195,11 @@ router.post("/getProject", async (req, res) => {
   //   mentorsMatched: [
   //     ...proj.mentorsMatched,
   //     {
-  //       mentorId: "642302959f5fdae7ba07b265",
+  //       mentorId: "6423038d9f5fdae7ba07b267",
   //       timeline: { week1: { availableDates: [] } },
   //       duration: 1,
-  //       matchedDate: new Date("2023-06-03T15:02:51.972+00:00"),
-  //       endDate: new Date("2023-07-02T15:02:51.972+00:00"),
+  //       matchedDate: new Date("2023-06-25T15:02:51.972+00:00"),
+  //       endDate: new Date("2023-07-26T15:02:51.972+00:00"),
   //       materials: {
   //         otherDocs: [],
   //         taskRefs: [],
@@ -3152,7 +3210,7 @@ router.post("/getProject", async (req, res) => {
   //     },
   //   ],
   // };
-  // const newProj = await project.findByIdAndUpdate(proj._id, updateInfo);
+  // const newProj = await project.findByIdAndUpdate('648edf5a639b97283b0a9043', updateInfo);
   // newProj.save();
 
   res.send(proj);
