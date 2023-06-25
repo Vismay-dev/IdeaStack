@@ -2413,10 +2413,14 @@ router.post("/confirmMeetingSlots", auth, async (req, res) => {
 
                 1. ${new Date(req.body.meetingSlots[0])
                   .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
-                  .substring(12, 17)} (GST), 
+                  .substring(0, 5)} ${new Date(req.body.meetingSlots[0])
+          .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+          .substring(12, 17)} (GST)
                 2. ${new Date(req.body.meetingSlots[1])
                   .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
-                  .substring(12, 17)} (GST)
+                  .substring(0, 5)} ${new Date(req.body.meetingSlots[1])
+          .toLocaleString("en-GB", { timeZone: "Asia/Dubai" })
+          .substring(12, 17)} (GST)
                 
                 These are the only 2 available meeting slots for this week; you've been asked to confirm one of the slots within 2 days. 
                 Sign-in to IdeaStack.org, and select one of the slots. This is to finalize and schedule a meeting with your mentor.
