@@ -36,7 +36,7 @@ const Networks = () => {
         Strategic mentorship, potential investment and PR opportunities with
         media outlets- brought to you by a world-class network of high-value
         individuals from the world's leading startup ecosystems (USA, Canada,
-        India, UAE).
+        India, UAE, Africa).
       </h3>
       <div class="h-fit lg:w-[90%] md:w-[70%] sm:w-[80%] w-[90%] mx-auto mt-[60px] -mb-[222px] lg:right-1.5 relative grid lg:grid-cols-3 grid-cols-1 xl:gap-8 gap-5">
         <div
