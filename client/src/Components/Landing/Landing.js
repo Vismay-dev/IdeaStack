@@ -17,6 +17,8 @@ import { GrNetwork, GrUserExpert } from "react-icons/gr";
 import { GiArchiveResearch } from "react-icons/gi";
 import { FaUserTie } from "react-icons/fa";
 
+import WhyUs from "../WhyUs/WhyUs";
+
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -1145,7 +1147,9 @@ const Landing = () => {
       </div>
 
       <div class="bg-gradient-to-r tracking-[0.015em] border-t-2 border-blue-700 border-dashed from-gray-200 to-blue-200 sm:pt-[25px] pt-[20px] xl:pb-[40px] lg:pb-[75px] md:pb-[75px] sm:pb-[75px] pb-[75px]">
-        <div class="h-auto  sm:px-[30px]  px-[15px]">
+        <WhyUs />
+
+        {/* <div class="h-auto  sm:px-[30px]  px-[15px]">
           <span class="block mb-4 lg:mt-10 mt-10  text-center text-blue-700 text-sm uppercase text-primary font-semibold">
             Reach Out for Partnership
           </span>
@@ -1158,8 +1162,8 @@ const Landing = () => {
             data-aos-once="true"
             className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:mt-0 md:-mt-8 lg:w-[900px]  md:w-[650px] sm:w-[350px] w-[250px] xl:bottom-16 relative sm:top-0 xl:-top-8 -top-2 mx-auto  h-[240px] gap-12 xl:gap-14"
           >
-            {/* ::Partner 1 -> ALL */}
-            {/* <div
+            { ::Partner 1 -> ALL 
+             <div
               onClick={() => {
                 window.open("https://atpstem.com", "_blank");
               }}
@@ -1170,9 +1174,9 @@ const Landing = () => {
                 alt=""
                 className="md:max-h-[110px] md:w-auto w-[270px]  bottom-1 relative"
               />
-            </div> */}
+            </div> 
 
-            {/* <div
+             <div
               onClick={() => {
                 window.open("https://uniqueworldrobotics.com", "_blank");
               }}
@@ -1185,7 +1189,7 @@ const Landing = () => {
                 alt=""
                 className="md:max-h-40 md:w-auto w-[200px] bottom-1 relative"
               />
-            </div> */}
+            </div>
 
             <div
               onClick={() => {
@@ -1200,7 +1204,7 @@ const Landing = () => {
               />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* <Suspense> */}

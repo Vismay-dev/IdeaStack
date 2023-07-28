@@ -460,7 +460,7 @@ const NavBar = (props) => {
                   Team
                 </a>
               </li> */}
-                <li
+                {/* <li
                   data-aos={"fade-left"}
                   data-aos-once="true"
                   data-aos-delay="400"
@@ -479,7 +479,7 @@ const NavBar = (props) => {
                   >
                     Why Us
                   </a>
-                </li>
+                </li> */}
               </ul>
             )
           ) : (
@@ -1134,7 +1134,7 @@ const NavBar = (props) => {
                           </Popover>
                         </Popover.Group>
 
-                        <li class="text-center">
+                        {/* <li class="text-center">
                           <a
                             onClick={() => {
                               setIsMenuOpen(false);
@@ -1150,7 +1150,7 @@ const NavBar = (props) => {
                           >
                             Why Us
                           </a>
-                        </li>
+                        </li> */}
                       </ul>
                       <div className="align-middle justify-items-center justify-center mt-7 mb-3.5 bottom-[2px] mx-auto relative">
                         {sessionStorage.getItem("token") === null &&

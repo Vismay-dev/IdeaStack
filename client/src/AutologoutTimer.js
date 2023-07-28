@@ -15,8 +15,10 @@ const AutoLogoutTimer = (props) => {
     // SHOW YOUR MODAL HERE AND LAGOUT
     console.log("user is idle", event);
     console.log("last active", getLastActiveTime());
-    history.push("/");
-    setExpired(true);
+    if (sessionStorage.getItem("token")) {
+      history.push("/");
+      setExpired(true);
+    }
   };
 
   const { getLastActiveTime } = useIdleTimer({

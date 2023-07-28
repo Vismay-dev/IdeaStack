@@ -14,9 +14,9 @@ const SignUp = () => {
   return (
     <>
       {regModalShow ? <RegModal close={closeFuncReg} /> : ""}{" "}
-      <div class=" -mb-32 block bg-gradient-to-r from-gray-200 to-blue-200">
+      <div class=" -mb-32 block w-[100%] bg-gradient-to-r from-gray-200 to-blue-200">
         <div
-          className="absolute left-1/2 transform -translate-x-1/2 bottom-0 pointer-events-none"
+          className="xl:absolute hidden left-1/2 transform -translate-x-1/2 bottom-0 pointer-events-none"
           aria-hidden="true"
         >
           <svg
@@ -45,12 +45,12 @@ const SignUp = () => {
           </svg>
         </div>
 
-        <div className="max-w-6xl mx-auto px-8  md:px-6">
+        <div className="max-w-6xl  mx-auto px-8  md:px-6">
           {/* Hero content */}
-          <div className="pt-20 pb-12 md:pt-28 md:pb-20">
+          <div className="pt-20 pb-12 md:pt-24 md:pb-20">
             {/* Section header */}
             <div className="text-center pb-12 md:pb-16">
-              <h1 className="text-5xl lg:text-6xl font-extrabold leading-tighter tracking-tighter md:-mt-4 -mt-1 mb-11">
+              <h1 className="sm:text-5xl text-4xl lg:text-6xl font-extrabold leading-tighter tracking-tighter md:-mt-4 sm:-mt-1 -mt-6 sm:mb-11 mb-7">
                 Levelling-Up Your{" "}
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-indigo-400">
                   Venture

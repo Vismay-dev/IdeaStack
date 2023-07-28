@@ -23,7 +23,7 @@ const WhyUs = () => {
       <section
         data-aos={"zoom-out"}
         data-aos-once="true"
-        class="pt-20 lg:pt-[63px] pb-12 lg:pb-[90px] -mb-[305px] overflow-hidden"
+        class="sm:pt-9 pt-11 lg:pt-[30px] pb-0 lg:pb-[60px] xl:pb-[90px] -mb-[65px] overflow-hidden"
       >
         <div class="container relative mx-auto md:left-4 left-2">
           <div class="justify-between items-center mx-auto">
